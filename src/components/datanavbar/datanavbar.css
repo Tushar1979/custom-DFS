@@ -1,0 +1,82 @@
+.group-buttons{
+    display: flex;
+    overflow-x: auto;
+    margin: 30px 0;
+    white-space: nowrap;
+}
+
+/* width */
+.group-buttons::-webkit-scrollbar {
+    height: 12px;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+/* Track */
+.group-buttons::-webkit-scrollbar-track {
+    background: #5d5d5d;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+/* Handle */
+.group-buttons::-webkit-scrollbar-thumb {
+    background: #183b6c;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+/* Handle on hover */
+.group-buttons::-webkit-scrollbar-thumb:hover {
+    background: #123C6C;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+
+.common-button{
+    margin-left: 12px;
+}
+.btn-primary{
+    color: #123C6C;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    font-size: 20px;
+    text-transform: uppercase;
+}
+
+.btn-primary:hover{
+    color: #fff;
+    background-color: #123C6C;
+}
+.btn-primary.focus, .btn-primary:focus{
+    color: #fff;
+    background-color: #123C6C;
+}
+.ad-group-btn{
+    display: table;
+    min-height: 60px;
+}
+.ad-group-btn input{
+    display: none;
+}
+.ad-group-btn .btn-img-logo{
+    width: 40px;
+    margin-right: 10px;
+}
+.ad-group-btn .btn-text{
+    display: table-cell;
+    vertical-align: middle;
+    text-transform: uppercase;
+}
+.ad-group-btn .btn-img{
+        display: table-cell;
+    vertical-align: middle;
+}
+.btn-primary:not(:disabled):not(.disabled).active,
+.btn-primary:not(:disabled):not(.disabled):active,
+.show>.btn-primary.dropdown-toggle{
+    color: #fff;
+    background-color: #123C6C;
+    border-color: #123C6C;
+}

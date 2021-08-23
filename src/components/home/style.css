@@ -1,0 +1,18 @@
+.ad-table thead>tr>th{
+    border-color: #123c6c;
+}
+.ad-table thead>tr>th{
+    text-transform: uppercase;
+    background: #123c6c;
+    color: #fff;
+    /*border: none;*/
+
+}
+.ad-table thead.main-head>tr>th{
+    border: 1px solid #fff;
+}.ad-table tbody.main-body>tr>td{
+    padding: 0;
+}
+ .sub-table{
+     border-right: 1px solid #fff;
+ }
