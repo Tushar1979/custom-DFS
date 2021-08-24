@@ -16,3 +16,25 @@
  .sub-table{
      border-right: 1px solid #fff;
  }
+ .table{
+     margin: 0;
+ }
+
+
+ .data_table thead>tr>th{
+     text-transform: uppercase;
+     background: #123c6c;
+     color: #fff !important;
+     padding: 14px 0px;
+     font-weight: bold;
+     font-size: 16px;
+     text-align: center;
+ }
+.data_table tbody>tr>td{
+    text-transform: uppercase;
+    padding: 14px 0px;
+    text-align: center;
+}
+.MuiTableSortLabel-root.MuiTableSortLabel-active{
+    color: #fff !important;
+}

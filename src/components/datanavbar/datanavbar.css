@@ -3,6 +3,7 @@
     overflow-x: auto;
     margin: 30px 0;
     white-space: nowrap;
+    justify-content: space-between;
 }
 
 /* width */
@@ -37,6 +38,13 @@
 .common-button{
     margin-left: 12px;
 }
+.common-button:first-child{
+    margin-left: 0;
+}
+.common-button:last-child{
+    margin-right: 0;
+}
+
 .btn-primary{
     color: #123C6C;
     background-color: #fff;

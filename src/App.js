@@ -3,6 +3,7 @@ import './App.css';
 import NavBar from "./components/navbar/navbar"
 import DataNavBar from "./components/datanavbar/datanavbar";
 import Home from "./components/home/index"
+// import AdDataTable from "./components/home/dataTable"
 import ReportBog from "./components/reportBug";
 import {
     BrowserRouter as Router,
@@ -20,6 +21,7 @@ function App() {
                 <Switch>
                     <Route path="/">
                         <Home />
+                        {/*<AdDataTable/>*/}
                     </Route>
                     <Route path="/report-bug">
                         <ReportBog />
