@@ -20,27 +20,13 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 import DeleteIcon from '@material-ui/icons/Delete';
 import FilterListIcon from '@material-ui/icons/FilterList';
-import style from './style.css'
+import {Input} from "@material-ui/core";
+import TextField from "@material-ui/core/TextField";
 
-function createData(name, calories, fat, carbs, protein) {
-    return { name, calories, fat, carbs, protein };
-}
+const  rows = [
 
-let rows = [
-    createData('Cupcake', 305, 3.7, 67, 4.3),
-    createData('Donut', 452, 25.0, 51, 4.9),
-    createData('Eclair', 262, 16.0, 24, 6.0),
-    createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-    createData('Gingerbread', 356, 16.0, 49, 3.9),
-    createData('Honeycomb', 408, 3.2, 87, 6.5),
-    createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-    createData('Jelly Bean', 375, 0.0, 94, 0.0),
-    createData('KitKat', 518, 26.0, 65, 7.0),
-    createData('Lollipop', 392, 0.2, 98, 0.0),
-    createData('Marshmallow', 318, 0, 81, 2.0),
-    createData('Nougat', 360, 19.0, 9, 37.0),
-    createData('Oreo', 437, 18.0, 63, 4.0),
-];
+]
+let update_data = true
 
 function descendingComparator(a, b, orderBy) {
     if (b[orderBy] < a[orderBy]) {
@@ -69,28 +55,22 @@ function stableSort(array, comparator) {
 }
 
 const headCells = [
-    { id: 'name', numeric: false, disablePadding: true, label: 'name' },
-    { id: 'pos', numeric: true, disablePadding: false, label: 'Pos' },
-    { id: 'team', numeric: true, disablePadding: false, label: 'Team' },
-    { id: 'opp', numeric: true, disablePadding: false, label: 'opp' },
-    { id: 'salary', numeric: true, disablePadding: false, label: 'salary' },
-    { id: 'completion', numeric: true, disablePadding: false, label: 'Completion' },
-    { id: 'attempts', numeric: true, disablePadding: false, label: 'Attempts' },
-    { id: 'yards', numeric: true, disablePadding: false, label: 'Yards' },
-    { id: 'td', numeric: true, disablePadding: false, label: 'TD' },
-    { id: 'attempts', numeric: true, disablePadding: false, label: 'Attempts' },
-    { id: 'yards', numeric: true, disablePadding: false, label: 'Yards' },
-    { id: 'td', numeric: true, disablePadding: false, label: 'TD' },
-    { id: 'reception', numeric: true, disablePadding: false, label: 'Reception' },
-    { id: 'yards', numeric: true, disablePadding: false, label: 'Yards' },
-    { id: 'td', numeric: true, disablePadding: false, label: 'TD' },
-    { id: 'fgm', numeric: true, disablePadding: false, label: 'Fgm' },
-    { id: 'fga', numeric: true, disablePadding: false, label: 'fga' },
-    { id: 'fpts', numeric: true, disablePadding: false, label: 'fpts' },
-    { id: 'ceiling', numeric: true, disablePadding: false, label: 'ceiling' },
-    { id: 'floor', numeric: true, disablePadding: false, label: 'floor' },
-    { id: 'fptsp', numeric: true, disablePadding: false, label: 'fpts/$1' },
-
+    { id: 'name', numeric: false, disablePadding: true, label: 'Name' },
+    { id: 'pos', numeric: false, disablePadding: false, label: 'pos' },
+    { id: 'team', numeric: false, disablePadding: false, label: 'team' },
+    { id: 'oop', numeric: false, disablePadding: false, label: 'opp' },
+    { id: 'salary', numeric: false, disablePadding: false, label: 'salary' },
+    { id: 'minus', numeric: false, disablePadding: false, label: 'min' },
+    { id: 'points', numeric: false, disablePadding: false, label: 'pts' },
+    { id: 'rebound', numeric: false, disablePadding: false, label: 'reb' },
+    { id: 'assists', numeric: false, disablePadding: false, label: 'ast' },
+    { id: 'steals', numeric: false, disablePadding: false, label: 'stl' },
+    { id: 'blockedShots', numeric: false, disablePadding: false, label: 'blk' },
+    { id: 'to', numeric: false, disablePadding: false, label: 'to' },
+    { id: 'fpts', numeric: false, disablePadding: false, label: 'fpts' },
+    { id: 'ceiling', numeric: false, disablePadding: false, label: 'ceiling' },
+    { id: 'floor', numeric: false, disablePadding: false, label: 'floor' },
+    { id: 'fpts$', numeric: false, disablePadding: false, label: 'fpts/$1' },
 ];
 
 function EnhancedTableHead(props) {
@@ -98,10 +78,27 @@ function EnhancedTableHead(props) {
     const createSortHandler = (property) => (event) => {
         onRequestSort(event, property);
     };
+// console.log(props.data_props)
 
     return (
         <TableHead>
-            <TableRow>
+            {/*<TableRow className="top_table_head">*/}
+            {/*    <TableCell colSpan={5}>Players data</TableCell>*/}
+            {/*    <TableCell colSpan={4}>Passing</TableCell>*/}
+            {/*    <TableCell colSpan={3}>Rushing</TableCell>*/}
+            {/*    <TableCell colSpan={3}>Receiving</TableCell>*/}
+            {/*    <TableCell colSpan={2}>Kicking</TableCell>*/}
+            {/*    <TableCell colSpan={4}>Simulation Result</TableCell>*/}
+            {/*</TableRow>*/}
+            <TableRow className="middle_table_head">
+                {/*<TableCell padding="checkbox">*/}
+                {/*    <Checkbox*/}
+                {/*        indeterminate={numSelected > 0 && numSelected < rowCount}*/}
+                {/*        checked={rowCount > 0 && numSelected === rowCount}*/}
+                {/*        onChange={onSelectAllClick}*/}
+                {/*        inputProps={{ 'aria-label': 'select all desserts' }}*/}
+                {/*    />*/}
+                {/*</TableCell>*/}
                 {headCells.map((headCell) => (
                     <TableCell
                         key={headCell.id}
@@ -164,6 +161,35 @@ const EnhancedTableToolbar = (props) => {
 
     return (
         <></>
+        // <Toolbar
+        //     className={clsx(classes.root, {
+        //         [classes.highlight]: numSelected > 0,
+        //     })}
+        // >
+        //     {numSelected > 0 ? (
+        //         <Typography className={classes.title} color="inherit" variant="subtitle1" component="div">
+        //             {numSelected} selected
+        //         </Typography>
+        //     ) : (
+        //         <Typography className={classes.title} variant="h6" id="tableTitle" component="div">
+        //             Nutrition
+        //         </Typography>
+        //     )}
+        //
+        //     {numSelected > 0 ? (
+        //         <Tooltip title="Delete">
+        //             <IconButton aria-label="delete">
+        //                 <DeleteIcon />
+        //             </IconButton>
+        //         </Tooltip>
+        //     ) : (
+        //         <Tooltip title="Filter list">
+        //             <IconButton aria-label="filter list">
+        //                 <FilterListIcon />
+        //             </IconButton>
+        //         </Tooltip>
+        //     )}
+        // </Toolbar>
     );
 };
 
@@ -179,10 +205,9 @@ const useStyles = makeStyles((theme) => ({
         width: '100%',
         marginBottom: theme.spacing(2),
     },
-    data_table: {
+    table: {
         minWidth: 750,
     },
-
     visuallyHidden: {
         border: 0,
         clip: 'rect(0 0 0 0)',
@@ -196,18 +221,139 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
+//
+// {
+//     "InjuryStatus":"Scrambled",
+//     "ThreePointersPercentage":30.7,
+//     "Rebounds":4,
+//     "Season":2021,
+//     "FantasyPointsFanDuel":13.1,
+//     "FD_Proj":"0.0",
+//     "FD_Floor":"0.0",
+//     "DK_Floor":"0.0",
+//     "GlobalTeamID":20000015,
+//     "FantasyPointsFantasyDraft":13.1,
+//     "Games":1,
+//     "DoubleDoubles":0,
+//     "Minutes":27,
+//     "SeasonType":3,
+//     "FieldGoalsAttempted":3.6,
+//     "FD_Value":"0.0",
+//     "Opponent":"PHO",
+//     "DK_Value":"0.0",
+//     "ThreePointersAttempted":2.3,
+//     "YahooPosition":"PF",
+//     "Name":"P.J. Tucker",
+//     "YahooSalary":8,
+//     "FantasyDataSalary":3500,
+//     "EffectiveFieldGoalsPercentage":46,
+//     "TotalReboundsPercentage":null,
+//     "DefensiveReboundsPercentage":null,
+//     "HomeOrAway":"HOME",
+//     "IsClosed":false,
+//     "Seconds":20,
+//     "TwoPointersMade":0.6,
+//     "BlockedShots":0.2,
+//     "DraftKingsPosition":"SF/PF",
+//     "OffensiveReboundsPercentage":null,
+//     "ThreePointersMade":0.7,
+//     "GlobalGameID":20016690,
+//     "Started":0,
+//     "DateTime":"2021-07-20T21:00:00",
+//     "StatID":894250,
+//     "StealsPercentage":null,
+//     "Team":"MIL",
+//     "OpponentRank":2,
+//     "PersonalFouls":2.5,
+//     "TripleDoubles":0,
+//     "FantasyPointsDraftKings":13.1,
+//     "FantasyPointsYahoo":13.1,
+//     "FanDuelPosition":"PF",
+//     "DefensiveRebounds":2.6,
+//     "InjuryStartDate":null,
+//     "OpponentID":29,
+//     "OpponentPositionRank":4,
+//     "Updated":"2021-07-20T23:57:10",
+//     "AssistsPercentage":null,
+//     "Day":"2021-07-20T00:00:00",
+//     "TrueShootingAttempts":3.7,
+//     "FreeThrowsMade":0.3,
+//     "FD_Ceil":"0.0",
+//     "FreeThrowsAttempted":0.4,
+//     "FantasyDraftSalary":null,
+//     "FieldGoalsMade":1.3,
+//     "TeamID":15,
+//     "DK_Ceil":"0.0",
+//     "PlayerEfficiencyRating":null,
+//     "FanDuelSalary":7500,
+//     "FieldGoalsPercentage":46,
+//     "TwoPointersPercentage":46,
+//     "OffensiveRebounds":1.4,
+//     "BlocksPercentage":null,
+//     "IsGameOver":false,
+//     "TrueShootingPercentage":40.9,
+//     "GlobalOpponentID":20000029,
+//     "FantasyPoints":12.1,
+//     "Assists":1.1,
+//     "TwoPointersAttempted":1.3,
+//     "LineupStatus":"Scrambled",
+//     "InjuryBodyPart":"Scrambled",
+//     "DK_Proj":"0.0",
+//     "Points":3.6,
+//     "LineupConfirmed":false,
+//     "DraftKingsSalary":3400,
+//     "GameID":16690,
+//     "Turnovers":0.7,
+//     "FantasyDraftPosition":"Scrambled",
+//     "TurnOversPercentage":null,
+//     "PlusMinus":0,
+//     "FreeThrowsPercentage":0,
+//     "Position":"SF",
+//     "Id":"894250",
+//     "UsageRatePercentage":null,
+//     "PlayerID":20000856,
+//     "Steals":0.7,
+//     "InjuryNotes":"Scrambled"
+// },
+
+
+
 export default function EnhancedTable(props) {
-    console.log(props.data)
-    // console.log(rows)
-    rows = props.data
-    console.log(rows)
+    let user_data=props.data
+    // console.log(user_data[1].Points, "#################")
+    if(update_data) {
+        for (let data = 0; data < user_data.length; data++) {
+            rows.push(
+                {name:user_data[data].Name,pos:user_data[data].DraftKingsPosition,
+                    team:user_data[data].Team,oop:user_data[data].Opponent,
+                salary:user_data[data].DraftKingsSalary,
+                    minus:user_data[data].PlusMinus,
+                    points:user_data[data].Points,
+                    rebound:user_data[data].Rebounds,
+                    assists:user_data[data].Assists,
+                    steals:user_data[data].Steals,
+                    blockedShots:user_data[data].BlockedShots,
+                    to:user_data[data].Turnovers,
+                    fantasyPoints:user_data[data].FantasyPoints,
+                    ceiling:user_data[data].DK_Ceil,
+                    floor:user_data[data].DK_Floor,
+                    fpts$:user_data[data].FantasyPointsDraftKings,
+                    // fga:user_data[data].FantasyPointsFanDuel,
+                    // fpts:user_data[data].FantasyPointsFanDuel,
+                    // ceiling:user_data[data].FantasyPointsFanDuel,
+                    // floor:user_data[data].FantasyPointsFanDuel,
+                    // fpts$:user_data[data].FantasyPointsFanDuel,
+                    })
+            update_data = false
+        }
+    }
     const classes = useStyles();
     const [order, setOrder] = React.useState('asc');
-    const [orderBy, setOrderBy] = React.useState('calories');
+    const [orderBy, setOrderBy] = React.useState('pos');
     const [selected, setSelected] = React.useState([]);
     const [page, setPage] = React.useState(0);
     const [dense, setDense] = React.useState(false);
-    const [rowsPerPage, setRowsPerPage] = React.useState(5);
+    const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
     const handleRequestSort = (event, property) => {
         const isAsc = orderBy === property && order === 'asc';
@@ -263,8 +409,9 @@ export default function EnhancedTable(props) {
 
     return (
         <div className={classes.root}>
+
             <Paper className={classes.paper}>
-                <EnhancedTableToolbar numSelected={selected.length} />
+                {/*<EnhancedTableToolbar numSelected={selected.length} />*/}
                 <TableContainer>
                     <Table
                         className="data_table"
@@ -272,6 +419,7 @@ export default function EnhancedTable(props) {
                         size={dense ? 'small' : 'medium'}
                         aria-label="enhanced table"
                     >
+
                         <EnhancedTableHead
                             classes={classes}
                             numSelected={selected.length}
@@ -280,6 +428,7 @@ export default function EnhancedTable(props) {
                             onSelectAllClick={handleSelectAllClick}
                             onRequestSort={handleRequestSort}
                             rowCount={rows.length}
+                            // data_props={user_data}
                         />
                         <TableBody>
                             {stableSort(rows, getComparator(order, orderBy))
@@ -291,49 +440,130 @@ export default function EnhancedTable(props) {
                                     return (
                                         <TableRow
                                             hover
-                                            onClick={(event) => handleClick(event, row.Name)}
+                                            onClick={(event) => handleClick(event, row.name)}
                                             role="checkbox"
                                             aria-checked={isItemSelected}
                                             tabIndex={-1}
-                                            key={row.Name}
+                                            key={row.name}
                                             selected={isItemSelected}
                                         >
-                                            <TableCell component="th" id={labelId} scope="row" padding="none">
-                                                {row.Name}
+                                            <TableCell  id={labelId} scope="row" padding="none">
+                                                {row.name}
                                             </TableCell>
-                                            <TableCell align="center">{row.Position}</TableCell>
-                                            <TableCell align="center">{row.Team}</TableCell>
-                                            <TableCell align="center">{row.Opponent}</TableCell>
-                                            <TableCell align="center">{row.Team}</TableCell>
-                                            <TableCell align="center">{row.Position}</TableCell>
-                                            <TableCell align="center">{row.Team}</TableCell>
-                                            <TableCell align="center">{row.Opponent}</TableCell>
-                                            <TableCell align="center">{row.Team}</TableCell>
-                                            <TableCell align="center">{row.Team}</TableCell>
-                                            <TableCell align="center">{row.Opponent}</TableCell>
-                                            <TableCell align="center">{row.Team}</TableCell>
-                                            <TableCell align="center">{row.Team}</TableCell>
-                                            <TableCell align="center">{row.Opponent}</TableCell>
-                                            <TableCell align="center">{row.Team}</TableCell>
-                                            <TableCell align="center">{row.Team}</TableCell>
-                                            <TableCell align="center">{row.Opponent}</TableCell>
-                                            <TableCell align="center">{row.Team}</TableCell>
-                                            <TableCell align="center">{row.Team}</TableCell>
-                                            <TableCell align="center">{row.Opponent}</TableCell>
-                                            <TableCell align="center">{row.Team}</TableCell>
+                                            <TableCell align="center">{row.pos}</TableCell>
+                                            <TableCell align="center">{row.team}</TableCell>
+                                            <TableCell align="center">{row.oop}</TableCell>
+                                            <TableCell align="center">${row.salary}</TableCell>
+                                            {props.inputActive ? <TableCell align="center">
+                                                    <TextField
+                                                        type="number"
+                                                        InputProps={{
+                                                            inputProps: {
+                                                               min: 0
+                                                            }
+                                                        }}
+                                                        defaultValue={row.minus}
+                                                        className="table_input"
+                                                    />
+                                            </TableCell> :
+                                                <TableCell align="center">{row.minus}</TableCell>
+                                            }
+                                            {props.inputActive ? <TableCell align="center">
+                                                    <TextField
+                                                        type="number"
+                                                        InputProps={{
+                                                            inputProps: {
+                                                                min: 0
+                                                            }
+                                                        }}
+                                                        defaultValue={row.points}
+                                                        className="table_input"
+                                                    />
+                                                </TableCell> :
+                                                <TableCell align="center">{row.points}</TableCell>
+                                            }
+                                            {props.inputActive ? <TableCell align="center">
+                                                <TextField
+                                                    type="number"
+                                                    InputProps={{
+                                                        inputProps: {
+                                                            min: 0
+                                                        }
+                                                    }}
+                                                    defaultValue={row.rebound}
+                                                    className="table_input"
+                                                />
+                                            </TableCell> :
+                                            <TableCell align="center">{row.rebound}</TableCell>
+                                        }
+                                            {props.inputActive ? <TableCell align="center">
+                                                    <TextField
+                                                        type="number"
+                                                        InputProps={{
+                                                            inputProps: {
+                                                                min: 0
+                                                            }
+                                                        }}
+                                                        defaultValue={row.assists}
+                                                        className="table_input"
+                                                    />
+                                                </TableCell> :
+                                                <TableCell align="center">{row.assists}</TableCell>
+                                            }
+                                            {props.inputActive ? <TableCell align="center">
+                                                    <TextField
+                                                        type="number"
+                                                        InputProps={{
+                                                            inputProps: {
+                                                                min: 0
+                                                            }
+                                                        }}
+                                                        defaultValue={row.steals}
+                                                        className="table_input"
+                                                    />
+                                                </TableCell> :
+                                                <TableCell align="center">{row.steals}</TableCell>
+                                            }
+                                            {props.inputActive ? <TableCell align="center">
+                                                    <TextField
+                                                        type="number"
+                                                        InputProps={{
+                                                            inputProps: {
+                                                                min: 0
+                                                            }
+                                                        }}
+                                                        defaultValue={row.blockedShots}
+                                                        className="table_input"
+                                                    />
+                                                </TableCell> :
+                                                <TableCell align="center">{row.blockedShots}</TableCell>
+                                            }
+                                            {props.inputActive ? <TableCell align="center">
+                                                    <TextField
+                                                        type="number"
+                                                        InputProps={{
+                                                            inputProps: {
+                                                                min: 0
+                                                            }
+                                                        }}
+                                                        defaultValue={row.to}
+                                                        className="table_input"
+                                                    />
+                                                </TableCell> :
+                                                <TableCell align="center">{row.to}</TableCell>
+                                            }
+                                            <TableCell align="center">{row.fantasyPoints}</TableCell>
+                                            <TableCell align="center">{row.ceiling}</TableCell>
+                                            <TableCell align="center">{row.floor}</TableCell>
+                                            <TableCell align="center">{row.fpts$}</TableCell>
                                         </TableRow>
                                     );
                                 })}
-                            {emptyRows > 0 && (
-                                <TableRow style={{ height: (dense ? 33 : 53) * emptyRows }}>
-                                    <TableCell colSpan={6} />
-                                </TableRow>
-                            )}
                         </TableBody>
                     </Table>
                 </TableContainer>
                 <TablePagination
-                    rowsPerPageOptions={[5, 10, 25]}
+                    rowsPerPageOptions={[10, 25, 50]}
                     component="div"
                     count={rows.length}
                     rowsPerPage={rowsPerPage}

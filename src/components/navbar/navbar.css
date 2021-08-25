@@ -6,11 +6,11 @@
     justify-content: flex-end;
 }
 .right-nav .navbar-nav .nav-item .nav-link{
-    font-size: 20px;
+    font-size: 15px;
     text-transform: uppercase;
 }
 .nav-logo{
-    width: 250px;
+    width: 180px;
 }
 .nav-link{
     border-bottom: 1px solid transparent;
@@ -24,7 +24,7 @@
     display: -webkit-flex; /* Safari */
     display: flex; /* Standard syntax */
     margin-left: 2vw;
-    min-width: 190px;
+    min-width: 160px;
 }
 .nav-capsule .column{
     padding: 7px 5px;
@@ -46,6 +46,7 @@ border-bottom-right-radius: 5px;
 .left-capsule-text{
 display: inline-block;
 margin-left: 5px;
+    font-size: 12px;
 }
 .mr-0{
 margin: 0;
@@ -67,6 +68,7 @@ width: 20px;
 .right-capsule-text{
     margin-left: 5px;
     color: #333;
+    font-size: 12px;
 }
 
 @media only screen and (max-width: 600px) {

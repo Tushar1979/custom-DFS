@@ -17,7 +17,7 @@ function App() {
         <Router>
             <div>
                 <NavBar/>
-                <DataNavBar />
+                {/*<DataNavBar />*/}
                 <Switch>
                     <Route path="/">
                         <Home />
