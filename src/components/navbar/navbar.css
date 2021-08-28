@@ -70,7 +70,12 @@ width: 20px;
     color: #333;
     font-size: 12px;
 }
-
+.nav-common-btn{
+    margin: 10px 5px;
+}
+.nav-common-btn .ad-group-btn .btn-img-logo{
+    width: 17px !important;
+}
 @media only screen and (max-width: 600px) {
     .nav-logo {
         width: 120px;

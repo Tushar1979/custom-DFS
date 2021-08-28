@@ -25,14 +25,14 @@
      text-transform: uppercase;
      background: #123c6c;
      color: #fff !important;
-     padding: 14px 0px;
+     padding: 10px 0px;
      font-weight: 600;
      font-size: 12px;
      text-align: center;
  }
 .data_table tbody>tr>td{
     text-transform: uppercase;
-    padding: 14px 0px;
+    padding: 10px 0px;
     text-align: center !important;
     font-size: 12px;
 }

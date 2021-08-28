@@ -7,9 +7,12 @@
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
     "bootstrap": "^5.1.0",
+    "keycode": "^2.2.0",
+    "material-ui": "^0.20.2",
     "react": "^17.0.2",
     "react-bootstrap": "^2.0.0-beta.5",
     "react-dom": "^17.0.2",
+    "react-loader-spinner": "^4.0.0",
     "react-scripts": "4.0.3",
     "web-vitals": "^1.0.1"
   },
@@ -42,8 +45,11 @@
     "@material-ui/icons": "^4.11.2",
     "axios": "^0.21.1",
     "clsx": "^1.1.1",
+    "material-ui-icons": "^1.0.0-beta.36",
     "prop-types": "^15.7.2",
     "react-data-table-component": "^6.11.8",
-    "react-router-dom": "^5.2.0"
+    "react-html-table-to-excel": "^2.0.0",
+    "react-router-dom": "^5.2.0",
+    "react-toastify": "^7.0.4"
   }
 }

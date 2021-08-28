@@ -3,7 +3,7 @@ import axios from 'axios';
 
 
 export default class API {
-    baseUrl = 'https://o2ygn3a3h3.execute-api.us-east-2.amazonaws.com/Prod/get-player-stats'
+    baseUrl = ''
 
     async setToken(token) {
         try {
@@ -13,20 +13,13 @@ export default class API {
         }
     }
 
-
-
-
-    async GetWithParamsApi(url, params) {
+    async GetApi(url, payload) {
         // let token = localStorage.getItem('token')
         try {
-            let response = axios.get(
+            let response = axios.post(
                 this.baseUrl + url,
-                {
-                    // headers: {
-                    //     Authorization: 'Bearer ' + token
-                    // },
-                    params:params
-                }
+                 payload
+
             )
                 .then((res) => {
                     return res
@@ -37,6 +30,25 @@ export default class API {
             return response
         } catch (error) {
             console.log(error);
+        }
+    }
+
+    async PostApi(data, url) {
+        console.log('react')
+        try {
+            let response = axios.post(
+                this.baseUrl + url,
+                data
+            )
+                .then((res) => {
+                    return res
+                })
+                .catch((error) => {
+                    return error
+                })
+            return response
+        } catch (error) {
+            return error
         }
     }
 

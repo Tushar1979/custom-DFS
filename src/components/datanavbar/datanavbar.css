@@ -1,7 +1,7 @@
 .group-buttons{
     display: flex;
     overflow-x: auto;
-    padding: 30px 0;
+    padding: 15px 0;
     white-space: nowrap;
     justify-content: space-between;
 }
@@ -65,6 +65,7 @@
     display: table;
     min-height: 40px;
     padding: 3px 10px;
+    font-size: 14px;
 }
 .multiple-btn .ad-group-btn{
     padding: 0;
@@ -100,4 +101,22 @@
 .search_input .MuiOutlinedInput-input{
     padding: 11.5px 14px;
     min-width: 90px;
+}
+.toasterStyle{
+    width: 180px;
+}
+
+.toasterStyle .Toastify__toast--default{
+    background: #3498db;
+    color: #fff;
+}
+.toasterStyle .Toastify__progress-bar--default{
+    background: rgba(255, 255, 255, 0.7);
+}
+.toasterStyle .Toastify__toast-body{
+    font-size: 12px;
+    padding: 6px;
+}
+.btn-primary:not(:disabled):not(.disabled).active:focus, .btn-primary:not(:disabled):not(.disabled):active:focus, .show>.btn-primary.dropdown-toggle:focus{
+    box-shadow: none;
 }
