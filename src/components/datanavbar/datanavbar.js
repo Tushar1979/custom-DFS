@@ -10,6 +10,7 @@ import Loader from "../../loader/loader"
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ReactHTMLTableToExcel from "react-html-table-to-excel";
+import CustomizedMenus from "../dropdownBtn/btnDropdown"
 
 let filter_list = []
 let pgActive = false
@@ -37,7 +38,9 @@ class DataNavBar extends React.Component {
                 filter: "",
                 salary: 'dk',
                 update_data:true,
+                search_player_data: []
             }
+
         this.myData = this.myData.bind(this)
         this.customDfs = this.customDfs.bind(this)
         this.getCustomDfsData = this.getCustomDfsData.bind(this)
@@ -50,6 +53,7 @@ class DataNavBar extends React.Component {
         this.filterObj = this.filterObj.bind(this)
         this.allClearFilter = this.allClearFilter.bind(this)
         this.resetData = this.resetData.bind(this)
+        this.handleChange = this.handleChange.bind(this)
 
 
     }
@@ -59,6 +63,13 @@ class DataNavBar extends React.Component {
     componentDidUpdate(prevProps) {
         if (this.props.triggerChildFunc !== prevProps.triggerChildFunc) {
             this.onParentTrigger(this.props.triggerChildFunc[0]);
+            // console.log(this.props.triggerChildFunc, "$$$$$$$$$$$")
+            if(this.props.triggerChildFunc[0].sportView === 'NFL'){
+                this.setState({filter_player: null})
+            }
+            if(this.props.triggerChildFunc[0].sportView === 'NBA'){
+                this.setState({filter_player: null})
+            }
         }
     }
     onParentTrigger(data) {
@@ -98,13 +109,14 @@ class DataNavBar extends React.Component {
             .then((res) => {
                 let response_data = JSON.parse(res.request.response)
                 if (res.status === 200 ) {
-                    console.log((response_data.body).length, "######################")
                     if(data.sportView === "NBA"){
                         this.setState({players_data: response_data.body})
+                        this.setState({search_player_data: response_data.body})
                         this.setState({nfl_player_data:[]})
                     }
                     if(data.sportView === "NFL"){
                         this.setState({nfl_player_data: response_data.body})
+                        this.setState({search_player_data: response_data.body})
                         this.setState({players_data: []})
                     }
                     this.setState({loader:false})
@@ -248,10 +260,9 @@ class DataNavBar extends React.Component {
     resetData(){
         this.allClearFilter()
     }
-    handleChange = event => {
+    handleChange (event) {
         this.setState({ filter: event.target.value });
-        let searching_data = this.state.players_data
-
+        let searching_data = this.state.search_player_data
         function filterByValue(searching_data, term) {
             let ans = searching_data.filter(function(v,i) {
                 if(v.Name.toLowerCase().indexOf(term) >=0) {
@@ -279,7 +290,6 @@ class DataNavBar extends React.Component {
         //     return <Loader/>
         // }
         // else {
-
             return (
                 <>
                     <div className="container-fluid">
@@ -324,9 +334,11 @@ class DataNavBar extends React.Component {
                                 </div>
                             </div>
                             <div className="common-button">
-                                <button className="btn btn-primary ad-group-btn">
-                                    <span className="btn-text">Game Data</span>
-                                </button>
+
+                                <CustomizedMenus
+                                    nfl_game_data={this.state.game_data}
+                                    inputActive={this.state.inputActive}
+                                />
                             </div>
                             <div className="common-button multiple-btn">
                                 <div className="btn-group btn-group-toggle" data-toggle="buttons">
@@ -394,6 +406,7 @@ class DataNavBar extends React.Component {
                                 </label>
                             </div>
                         </div>
+
                     </div>
                     <div className="container-fluid">
                         <EnhancedTableHead
