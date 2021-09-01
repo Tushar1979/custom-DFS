@@ -221,16 +221,23 @@ ul>li{
     list-style: none;
 }
 .MuiAccordionSummary-root.Mui-expanded{
+    min-height: 40px !important;
     max-height: 40px !important;
 }
 .MuiAccordionSummary-root{
     padding: 0 !important;
+    min-height: 40px !important;
+    max-height: 40px !important;
 }
 .collapse_container>.collapse_single .text{
     font-size: 12px;
     text-transform: capitalize;
     display: inline-block;
     min-width: 67px;
+    flex: 1;
+}
+.collapse_container>.collapse_single .input{
+    flex: 1;
 }
 .MuiAccordionDetails-root {
     padding: 0px 7px 5px !important;
@@ -253,7 +260,33 @@ ul>li{
 }
 .collapse_container .collapse_single{
     margin-bottom: 10px;
+    display: flex;
 }
-.MuiAccordionSummary-content.Mui-expanded{
+.MuiAccordionSummary-content.Mui-expanded, .MuiAccordionSummary-content{
     display: initial;
+}
+.overflow_list{
+    max-height: 60vh;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+.listFooterContainer{
+    display: flex;
+    background: #fff;
+    padding: 10px;
+}
+.MuiButton-containedPrimary{
+    background: #123C6C !important;
+    color: #fff;
+}
+.listFooterContainer .MuiButton-containedPrimary{
+    margin: 0 5px !important;
+    flex: 1;
+}
+.collapse_container{
+    flex: 1;
+}
+.MuiCollapse-wrapper{
+    border-top: 1px solid #ddd;
+    padding-top: 15px;
 }

@@ -24,10 +24,13 @@ import ToggleButton from '@material-ui/lab/ToggleButton';
 
 import '../datanavbar/datanavbar.css'
 import TextField from "@material-ui/core/TextField";
+import {toast, ToastContainer} from "react-toastify";
 
 const StyledMenu = withStyles({
     paper: {
         border: '1px solid #d3d4d5',
+        maxHeight:'auto',
+        overflow: 'none'
     },
 })((props) => (
     <Menu
@@ -52,13 +55,12 @@ const StyledMenuItem = withStyles((theme) => ({
 }))(MenuItem);
 
 export default function CustomizedMenus(props) {
+    const classes = useStyles();
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [allGameData, setAllGameData] = React.useState([])
-    console.log(props.nfl_game_data)
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
     };
-
     const handleClose = () => {
         setAnchorEl(null);
     };
@@ -70,7 +72,7 @@ export default function CustomizedMenus(props) {
             allGameData[i]['IsHomeTeamActive']=true
             allGameData[i]['IsBothTeamActive']=true
         }
-        console.log(props.inputActive,"##############")
+        // sorting function
         allGameData.sort(function(a, b) {
             return a.DateTime - b.DateTime;
         });
@@ -93,13 +95,13 @@ export default function CustomizedMenus(props) {
                  game_id['IsAwayTeamActive'] = !game_id.IsAwayTeamActive
                  game_id['IsBothTeamActive'] = game_id.IsAwayTeamActive === game_id.IsHomeTeamActive
 
-                if(leftElement.className === 'left_team active col-md-4 col-sm-4 col-xs-4'){
-                    leftElement.className = 'left_team col-md-4 col-sm-4 col-xs-4'
+                if(leftElement.className === 'left_team active col-md-5 col-sm-5 col-xs-5'){
+                    leftElement.className = 'left_team col-md-5 col-sm-5 col-xs-5'
                 }else{
-                    leftElement.className = 'left_team active col-md-4 col-sm-4 col-xs-4'
+                    leftElement.className = 'left_team active col-md-5 col-sm-5 col-xs-5'
                 }
-                if(leftElement.className === 'left_team active col-md-4 col-sm-4 col-xs-4' && rightElement.className === 'right_team active col-md-4 col-sm-4 col-xs-4'){
-                    middleElement.className = 'middle_team active'
+                if(leftElement.className === 'left_team active col-md-5 col-sm-5 col-xs-5' && rightElement.className === 'right_team active col-md-5 col-sm-5 col-xs-5'){
+                    middleElement.className = 'middle_team active col-md-2 col-sm-2 col-xs-2'
                 }else{
                     middleElement.className = 'middle_team col-md-2 col-sm-2 col-xs-2'
                 }
@@ -109,12 +111,12 @@ export default function CustomizedMenus(props) {
                 game_id['IsAwayTeamActive'] = !game_id.IsHomeTeamActive
                 game_id['IsBothTeamActive'] = game_id.IsAwayTeamActive === game_id.IsHomeTeamActive
 
-                if(rightElement.className === 'right_team active col-md-4 col-sm-4 col-xs-4'){
-                    rightElement.className = 'right_team col-md-4 col-sm-4 col-xs-4'
+                if(rightElement.className === 'right_team active col-md-5 col-sm-5 col-xs-5'){
+                    rightElement.className = 'right_team col-md-5 col-sm-5 col-xs-5'
                 }else{
-                    rightElement.className = 'right_team active col-md-4 col-sm-4 col-xs-4'
+                    rightElement.className = 'right_team active col-md-5 col-sm-5 col-xs-5'
                 }
-                if(leftElement.className === 'left_team active col-md-4 col-sm-4 col-xs-4' && rightElement.className === 'right_team active col-md-4 col-sm-4 col-xs-4'){
+                if(leftElement.className === 'left_team active col-md-5 col-sm-5 col-xs-5' && rightElement.className === 'right_team active col-md-5 col-sm-5 col-xs-5'){
                     middleElement.className = 'middle_team active col-md-2 col-sm-2 col-xs-2'
                 }else{
                     middleElement.className = 'middle_team col-md-2 col-sm-2 col-xs-2'
@@ -124,38 +126,70 @@ export default function CustomizedMenus(props) {
                 game_id['IsBothTeamActive'] = !game_id.IsBothTeamActive
                 if(middleElement.className === 'middle_team active col-md-2 col-sm-2 col-xs-2'){
                     middleElement.className = 'middle_team col-md-2 col-sm-2 col-xs-2'
-                    leftElement.className = 'left_team col-md-4 col-sm-4 col-xs-4'
-                    rightElement.className = 'right_team col-md-4 col-sm-4 col-xs-4'
+                    leftElement.className = 'left_team col-md-5 col-sm-5 col-xs-5'
+                    rightElement.className = 'right_team col-md-5 col-sm-5 col-xs-5'
                 }else{
                     middleElement.className = 'middle_team active col-md-2 col-sm-2 col-xs-2'
-                    leftElement.className = 'left_team active col-md-4 col-sm-4 col-xs-4'
-                    rightElement.className = 'right_team active col-md-4 col-sm-4 col-xs-4'
+                    leftElement.className = 'left_team active col-md-5 col-sm-5 col-xs-5'
+                    rightElement.className = 'right_team active col-md-5 col-sm-5 col-xs-5'
                 }
             }
         });
+    }
+    const selectAllTeam = () => {
+        toast("⭐ All teams Selected...");
+        let leftElement = '';
+        let middleElement = '';
+        let rightElement = '';
+        for(let i=0; i<allGameData.length; i++){
+            allGameData[i]['IsAwayTeamActive']=true
+            allGameData[i]['IsHomeTeamActive']=true
+            allGameData[i]['IsBothTeamActive']=true
+
+            leftElement = document.getElementById('left'+allGameData[i].Id);
+            middleElement = document.getElementById('middle'+allGameData[i].Id);
+            rightElement = document.getElementById('right'+allGameData[i].Id);
+
+            leftElement.className = 'left_team active col-md-5 col-sm-5 col-xs-5'
+            rightElement.className = 'right_team active col-md-5 col-sm-5 col-xs-5'
+            middleElement.className = 'middle_team active col-md-2 col-sm-2 col-xs-2'
+        }
+    }
+    const clearAllTeam = () =>{
+        toast.error("⭐ Clear All Teams...");
+        let leftElement = '';
+        let middleElement = '';
+        let rightElement = '';
+        for(let i=0; i<allGameData.length; i++){
+            allGameData[i]['IsAwayTeamActive']=false
+            allGameData[i]['IsHomeTeamActive']=false
+            allGameData[i]['IsBothTeamActive']=false
+
+            leftElement = document.getElementById('left'+allGameData[i].Id);
+            middleElement = document.getElementById('middle'+allGameData[i].Id);
+            rightElement = document.getElementById('right'+allGameData[i].Id);
+
+            leftElement.className = 'left_team col-md-5 col-sm-5 col-xs-5'
+            rightElement.className = 'right_team col-md-5 col-sm-5 col-xs-5'
+            middleElement.className = 'middle_team col-md-2 col-sm-2 col-xs-2'
+        }
+    }
+    const applyTeam = () =>{
+        toast.success("⭐ Apply to All Teams...");
     }
 
     const dropdownMenu = allGameData.map((gameData) => (
         <StyledMenuItem>
             <div className="menu_list_head">
-                <div className="team_container row mr-0">
-                    <div data-awayName={`left${gameData.Id}`} id={`left${gameData.Id}`}  className="left_team active col-md-4 col-sm-4 col-xs-4"  onClick={activeDeactive}>
+                <div className="team_container row">
+                    <div data-awayName={`left${gameData.Id}`} id={`left${gameData.Id}`}  className="left_team active col-md-5 col-sm-5 col-xs-5"  onClick={activeDeactive}>
                         {gameData.AwayTeam}
                     </div>
                     <div data-middleName={`middle${gameData.Id}`} id={`middle${gameData.Id}`}  className="middle_team active  col-md-2 col-sm-2 col-xs-2" onClick={activeDeactive}>@</div>
-                    <div data-homeName={`right${gameData.Id}`} id={`right${gameData.Id}`}  className="right_team active  col-md-4 col-sm-4 col-xs-4" onClick={activeDeactive}>
+                    <div data-homeName={`right${gameData.Id}`} id={`right${gameData.Id}`}  className="right_team active  col-md-5 col-sm-5 col-xs-5" onClick={activeDeactive}>
                        {gameData.HomeTeam}
                     </div>
                 </div>
-                {/*<div className="row mr-0">*/}
-                {/*    <div className="left_des  col-md-4 col-sm-4 col-xs-4">*/}
-                {/*        <span className="">Over/under {gameData.OverUnder}</span>*/}
-                {/*    </div>*/}
-                {/*    <div className="middle_des  col-md-2 col-sm-2 col-xs-2"></div>*/}
-                {/*    <div className="right_des  col-md-4 col-sm-4 col-xs-4">*/}
-                {/*        <span className="">car {gameData.PointSpread}</span>*/}
-                {/*    </div>*/}
-                {/*</div>*/}
                 <div className="row">
                     <div className="col-md-12">
                         <DetailedAccordion
@@ -164,10 +198,12 @@ export default function CustomizedMenus(props) {
                             AwayTeam={gameData.AwayTeam}
                             HomeTeam={gameData.HomeTeam}
                             gameData={allGameData}
+                            collapse={props.inputActive}
                         />
                     </div>
                 </div>
             </div>
+
         </StyledMenuItem>
 
 
@@ -182,6 +218,7 @@ export default function CustomizedMenus(props) {
             >
                 game data
             </Button>
+            <div className="class_head">
             <StyledMenu
                 id="customized-menu"
                 anchorEl={anchorEl}
@@ -189,9 +226,58 @@ export default function CustomizedMenus(props) {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
             >
+                <div className="overflow_list">
                 {dropdownMenu}
-                <div>sdjkasjljia</div>
+                </div>
+                <div className="listFooterContainer">
+                    <Button size="small" variant="contained" color="primary" onClick={selectAllTeam}>
+                        <ToastContainer
+                            position="bottom-right"
+                            autoClose={5000}
+                            hideProgressBar={false}
+                            newestOnTop={false}
+                            closeOnClick
+                            rtl={false}
+                            pauseOnFocusLoss
+                            draggable
+                            pauseOnHover
+                            className='toasterStyle'
+                        />
+                        All
+                    </Button>
+                    <Button size="small" variant="contained" color="primary" onClick={clearAllTeam}>
+                        <ToastContainer
+                            position="bottom-right"
+                            autoClose={5000}
+                            hideProgressBar={false}
+                            newestOnTop={false}
+                            closeOnClick
+                            rtl={false}
+                            pauseOnFocusLoss
+                            draggable
+                            pauseOnHover
+                            className='toasterStyle'
+                        />
+                        Clear
+                    </Button>
+                    <Button size="small" variant="contained" color="primary" onClick={applyTeam}>
+                        <ToastContainer
+                            position="bottom-right"
+                            autoClose={5000}
+                            hideProgressBar={false}
+                            newestOnTop={false}
+                            closeOnClick
+                            rtl={false}
+                            pauseOnFocusLoss
+                            draggable
+                            pauseOnHover
+                            className='toasterStyle'
+                        />
+                        Apply
+                    </Button>
+                </div>
             </StyledMenu>
+            </div>
         </div>
     );
 }
@@ -208,7 +294,6 @@ const useStyles = makeStyles((theme) => ({
 
 function DetailedAccordion(props) {
     const classes = useStyles();
-
     return (
         <div className={classes.root}>
             <Accordion >
@@ -227,58 +312,60 @@ function DetailedAccordion(props) {
                         </div>
                     </div>
                 </AccordionSummary>
-                <AccordionDetails>
-                            <ul className="collapse_container">
-                                <li className="collapse_single">
-                                    <span className="text">Winner </span>
-                                    <span className="input">
-                                        <StandaloneToggleButton
-                                            gameData={props.gameData}
-                                            spread={props.spread}
-                                            TeamName={props.AwayTeam}
-                                            HomeTeam={props.HomeTeam}
-                                        />
-                                    </span>
-                                    <span className="input">
-                                        <StandaloneToggleButton
-                                            gameData={props.gameData}
-                                            spread={props.spread}
-                                            TeamName={props.HomeTeam}
-                                        />
-                                    </span>
-                                </li>
-                                <li className="collapse_single">
-                                    <span className="text">Spread</span>
-                                    <span className="input">
-                                        <StandaloneToggleButton
-                                            gameData={props.gameData}
-                                            TeamName={-(props.spread)}
-                                        />
-                                    </span>
-                                    <span className="input">
-                                        <StandaloneToggleButton
-                                            gameData={props.gameData}
-                                            TeamName={-(props.spread)}
-                                        />
-                                    </span>
-                                </li>
-                                <li className="collapse_single">
-                                    <span className="text">over/under</span>
-                                    <span className="input">
-                                        <StandaloneToggleButton
-                                            gameData={props.gameData}
-                                            TeamName={"OVER " + props.overUnder}
-                                        />
-                                    </span>
-                                    <span className="input">
-                                        <StandaloneToggleButton
-                                            gameData={props.gameData}
-                                            TeamName={"UNDER "+props.overUnder}
-                                        />
-                                    </span>
-                                </li>
-                            </ul>
-                </AccordionDetails>
+                {props.collapse ?
+                    <AccordionDetails>
+                        <ul className="collapse_container">
+                                    <li className="collapse_single">
+                                        <span className="text">Winner </span>
+                                        <span className="input">
+                                            <StandaloneToggleButton
+                                                gameData={props.gameData}
+                                                spread={props.spread}
+                                                TeamName={props.AwayTeam}
+                                                HomeTeam={props.HomeTeam}
+                                            />
+                                        </span>
+                                        <span className="input">
+                                            <StandaloneToggleButton
+                                                gameData={props.gameData}
+                                                spread={props.spread}
+                                                TeamName={props.HomeTeam}
+                                            />
+                                        </span>
+                                    </li>
+                                    <li className="collapse_single">
+                                        <span className="text">Spread</span>
+                                        <span className="input">
+                                            <StandaloneToggleButton
+                                                gameData={props.gameData}
+                                                TeamName={-(props.spread)}
+                                            />
+                                        </span>
+                                        <span className="input">
+                                            <StandaloneToggleButton
+                                                gameData={props.gameData}
+                                                TeamName={-(props.spread)}
+                                            />
+                                        </span>
+                                    </li>
+                                    <li className="collapse_single">
+                                        <span className="text">over/under</span>
+                                        <span className="input">
+                                            <StandaloneToggleButton
+                                                gameData={props.gameData}
+                                                TeamName={"OVER " + props.overUnder}
+                                            />
+                                        </span>
+                                        <span className="input">
+                                            <StandaloneToggleButton
+                                                gameData={props.gameData}
+                                                TeamName={"UNDER "+props.overUnder}
+                                            />
+                                        </span>
+                                    </li>
+                                </ul>
+                    </AccordionDetails>
+                    : null }
                 <Divider />
             </Accordion>
         </div>

@@ -150,7 +150,6 @@ const useStyles = makeStyles((theme) => ({
 
 export default function EnhancedTable(props) {
     let user_data = props.data
-    console.log(props.inputActive, "%%%%%%%%%%%%%%%%%")
     if (props.nfl_player_data.length > 0) {
         update_data = true
         nft_header = true

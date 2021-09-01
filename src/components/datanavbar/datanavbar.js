@@ -82,6 +82,7 @@ class DataNavBar extends React.Component {
     }
 
     myData(){
+        toast("⭐ Populating fields...");
         this.setState({
             inputActive:true
         })
@@ -314,6 +315,18 @@ class DataNavBar extends React.Component {
                                         <span className="btn-text">CustomDFS Data</span>
                                     </label>
                                     <label className="btn btn-primary ad-group-btn">
+                                        <ToastContainer
+                                            position="bottom-right"
+                                            autoClose={5000}
+                                            hideProgressBar={false}
+                                            newestOnTop={false}
+                                            closeOnClick
+                                            rtl={false}
+                                            pauseOnFocusLoss
+                                            draggable
+                                            pauseOnHover
+                                            className='toasterStyle'
+                                        />
                                         <input type="radio" name="options" autoComplete="off" onClick={this.myData}/>
                                         <span className="btn-text">My Data</span>
                                     </label>
