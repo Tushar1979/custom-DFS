@@ -6,12 +6,24 @@ import left_capsule from '../../images/capsule-img.png'
 import right_capsule from '../../images/right-capsule.png'
 import {Link} from "react-router-dom";
 import data_table from "../datanavbar/datanavbar"
+import { CognitoUserPool, CognitoUserAttribute } from 'amazon-cognito-identity-js'
+import { Auth } from "aws-amplify";
+
 class NavBar extends React.Component {
     constructor() {
         super();
         this.nbaActive = this.nbaActive.bind(this);
         this.nflActive = this.nflActive.bind(this);
     }
+
+    logOut = () => {
+    try{
+        Auth.signOut();
+    }
+    catch{
+    }
+    }
+
 
     nbaActive() {
         this.props.onCallNba({payload_data:{user:{id:'Master'}, sportView:"NBA"}, nbaNfl_active:true})
@@ -59,7 +71,7 @@ class NavBar extends React.Component {
                                     <a className="nav-link" href="#">Leave Feedback</a>
                                 </li>
                                 <li className="nav-item">
-                                    <a className="nav-link" href="#">Contact Us</a>
+                                    <a className="nav-link" onClick={this.logOut}>SignOut</a>
                                 </li>
                                 <li className="nav-item">
                                     <Link class="nav-link" to="/signin">Sign In</Link>

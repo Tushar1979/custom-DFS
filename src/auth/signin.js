@@ -2,13 +2,37 @@ import React, {Component} from 'react';
 import {BrowserRouter as Router, Switch, Route, Redirect, Link} from 'react-router-dom';
 import authLogo from "../images/login_logo.png"
 import './style.css';
+import { Auth } from "aws-amplify";
+import { CognitoUserPool, CognitoUserAttribute } from 'amazon-cognito-identity-js'
+
 
 class SignIn extends Component {
     constructor(props) {
         super(props);
+        console.log("##########################")
     }
-    // https://cognito-idp.us-east-1.amazonaws.com/
+//     https://cognito-idp.us-east-1.amazonaws.com/
 
+
+
+signUpBtn = () =>{
+
+//    const poolData = {
+//        UserPoolId: 'us-east-1_y4ICPLoWJ',
+//        ClientId: '7ob8ngt7d1efjhrudc524qlqsn',
+//    };
+
+//    const UserPool = new CognitoUserPool(poolData);
+//
+//    UserPool.signUp('customdfs99@gmail.com' ,'Password1', [], null, (err, data)=>{
+//        if (err) console.error(err);
+//        console.log(data);
+//    })
+    Auth.signUp({
+        username: 'sanket.sanglikar@cubexo.io',
+        password:   'Sanket@123',
+    });
+  };
     render() {
 
         return (
@@ -33,7 +57,7 @@ class SignIn extends Component {
                                    className="fadeIn second" name="login" placeholder="Email Address"/>
                             <input value="" type="text" id="password"
                                    className="fadeIn third" name="password" placeholder="password"/>
-                            <input type="submit" className="fadeIn forth" value="Log In"/>
+                            <button  className="fadeIn forth sadas"  onClick={this.signUpBtn}> Sign Up </button>
                             <span className="button-google fadeIn forth">Forgot Password</span>
                         </div>
 
