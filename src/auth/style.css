@@ -273,3 +273,11 @@ input[type=text]:placeholder {
     margin-top: 5px;
     margin-bottom: 5px;
 }
+.authLink{
+    color: #333;
+}
+.authLink:hover, .authLink:active, .authLink:focus{
+    color: #333;
+    border: none;
+    text-decoration: none;
+}

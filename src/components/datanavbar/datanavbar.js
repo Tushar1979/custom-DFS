@@ -38,7 +38,9 @@ class DataNavBar extends React.Component {
                 filter: "",
                 salary: 'dk',
                 update_data:true,
-                search_player_data: []
+                search_player_data: [],
+                allBtn:true,
+                allClear:false,
             }
 
         this.myData = this.myData.bind(this)
@@ -353,13 +355,13 @@ class DataNavBar extends React.Component {
                                     inputActive={this.state.inputActive}
                                 />
                             </div>
-                            <div className="common-button multiple-btn">
-                                <div className="btn-group btn-group-toggle" data-toggle="buttons">
+                            <div className="common-button ">
+                                <div className="btn-group" >
                                     <label className="btn btn-primary active ad-group-btn" onClick={this.allClearFilter}>
                                         {/*<input type="radio" name="options" autoComplete="off" checked/>*/}
                                         <span className="btn-text"> All</span>
                                     </label>
-                                    <label className="btn btn-primary  ad-group-btn" onClick={this.allClearFilter}>
+                                    <label className="btn btn-primary ad-group-btn" onClick={this.allClearFilter}>
                                         {/*<input type="radio" name="options" autoComplete="off" checked/>*/}
                                         <span className="btn-text"> Clear</span>
                                     </label>

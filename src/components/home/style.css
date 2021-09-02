@@ -27,7 +27,7 @@
      color: #fff !important;
      padding: 10px 0px;
      font-weight: 600;
-     font-size: 9px;
+     font-size: 12px;
      text-align: center;
  }
 .data_table tbody>tr>td{
@@ -47,6 +47,7 @@
 }
 .middle_table_head>th:first-child{
     padding-left: 10px;
+    width: 120px;
 }
 .middle_table_head>th:nth-child(5),.middle_table_head>th:nth-child(12){
     border-right: 1px solid #fff;

@@ -4,6 +4,7 @@ import NavBar from "./components/navbar/navbar"
 import Home from "./components/home/index"
 import ReportBog from "./components/reportBug/index";
 import SignIn from "./auth/signin";
+import SignUp from "./auth/signup"
 import {
     BrowserRouter as Router,
     Switch,
@@ -23,6 +24,7 @@ function App() {
                     <Route path="/report-bug" component={ReportBog}>
                     </Route>
                     <Route path="/signin" component={SignIn} />
+                    <Route path="/signup" component={SignUp} />
                 </Switch>
             </div>
         </Router>
