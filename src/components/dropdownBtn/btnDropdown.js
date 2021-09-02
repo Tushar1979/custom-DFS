@@ -3,27 +3,16 @@ import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import DraftsIcon from '@material-ui/icons/Drafts';
-import SendIcon from '@material-ui/icons/Send';
 
 import { makeStyles } from '@material-ui/core/styles';
-import clsx from 'clsx';
 import Accordion from '@material-ui/core/Accordion';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
-import AccordionActions from '@material-ui/core/AccordionActions';
-import Typography from '@material-ui/core/Typography';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import Chip from '@material-ui/core/Chip';
 import Divider from '@material-ui/core/Divider';
 
 import ToggleButton from '@material-ui/lab/ToggleButton';
 
 import '../datanavbar/datanavbar.css'
-import TextField from "@material-ui/core/TextField";
 import {toast, ToastContainer} from "react-toastify";
 
 const StyledMenu = withStyles({
@@ -206,79 +195,84 @@ export default function CustomizedMenus(props) {
 
         </StyledMenuItem>
 
-
     ))
     return (
-        <div>
-            <Button
-                aria-controls="customized-menu"
-                aria-haspopup="true"
-                onClick={handleClick}
-                className="ad-group-btn btn-primary dropdownBtn"
-            >
-                game data
-            </Button>
-            <div className="class_head">
-            <StyledMenu
-                id="customized-menu"
-                anchorEl={anchorEl}
-                keepMounted
-                open={Boolean(anchorEl)}
-                onClose={handleClose}
-            >
-                <div className="overflow_list">
-                {dropdownMenu}
+            <div>
+                <Button
+                    aria-controls="customized-menu"
+                    aria-haspopup="true"
+                    onClick={handleClick}
+                    className="ad-group-btn btn-primary dropdownBtn"
+                >
+                    game data
+                </Button>
+
+                {allGameData.length>0 ?
+                <div className="class_head">
+                <StyledMenu
+                    id="customized-menu"
+                    anchorEl={anchorEl}
+                    keepMounted
+                    open={Boolean(anchorEl)}
+                    onClose={handleClose}
+                >
+                    <div className="overflow_list">
+                    {dropdownMenu}
+                    </div>
+                    <div className="listFooterContainer">
+                        <Button size="small" variant="contained" color="primary" onClick={selectAllTeam}>
+                            <ToastContainer
+                                position="bottom-right"
+                                autoClose={5000}
+                                hideProgressBar={false}
+                                newestOnTop={false}
+                                closeOnClick
+                                rtl={false}
+                                pauseOnFocusLoss
+                                draggable
+                                pauseOnHover
+                                className='toasterStyle'
+                            />
+                            All
+                        </Button>
+                        <Button size="small" variant="contained" color="primary" onClick={clearAllTeam}>
+                            <ToastContainer
+                                position="bottom-right"
+                                autoClose={5000}
+                                hideProgressBar={false}
+                                newestOnTop={false}
+                                closeOnClick
+                                rtl={false}
+                                pauseOnFocusLoss
+                                draggable
+                                pauseOnHover
+                                className='toasterStyle'
+                            />
+                            Clear
+                        </Button>
+                        <Button size="small" variant="contained" color="primary" onClick={applyTeam}>
+                            <ToastContainer
+                                position="bottom-right"
+                                autoClose={5000}
+                                hideProgressBar={false}
+                                newestOnTop={false}
+                                closeOnClick
+                                rtl={false}
+                                pauseOnFocusLoss
+                                draggable
+                                pauseOnHover
+                                className='toasterStyle'
+                            />
+                            Apply
+                        </Button>
+                    </div>
+                </StyledMenu>
                 </div>
-                <div className="listFooterContainer">
-                    <Button size="small" variant="contained" color="primary" onClick={selectAllTeam}>
-                        <ToastContainer
-                            position="bottom-right"
-                            autoClose={5000}
-                            hideProgressBar={false}
-                            newestOnTop={false}
-                            closeOnClick
-                            rtl={false}
-                            pauseOnFocusLoss
-                            draggable
-                            pauseOnHover
-                            className='toasterStyle'
-                        />
-                        All
-                    </Button>
-                    <Button size="small" variant="contained" color="primary" onClick={clearAllTeam}>
-                        <ToastContainer
-                            position="bottom-right"
-                            autoClose={5000}
-                            hideProgressBar={false}
-                            newestOnTop={false}
-                            closeOnClick
-                            rtl={false}
-                            pauseOnFocusLoss
-                            draggable
-                            pauseOnHover
-                            className='toasterStyle'
-                        />
-                        Clear
-                    </Button>
-                    <Button size="small" variant="contained" color="primary" onClick={applyTeam}>
-                        <ToastContainer
-                            position="bottom-right"
-                            autoClose={5000}
-                            hideProgressBar={false}
-                            newestOnTop={false}
-                            closeOnClick
-                            rtl={false}
-                            pauseOnFocusLoss
-                            draggable
-                            pauseOnHover
-                            className='toasterStyle'
-                        />
-                        Apply
-                    </Button>
-                </div>
-            </StyledMenu>
+
+                    : null}
+
             </div>
-        </div>
+
     );
 }
 

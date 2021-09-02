@@ -290,3 +290,6 @@ ul>li{
     border-top: 1px solid #ddd;
     padding-top: 15px;
 }
+.search_input .MuiFormLabel-root{
+    line-height: 0 !important;
+}

@@ -79,7 +79,7 @@ h2.active {
 
 /* FORM TYPOGRAPHY*/
 
-input[type=button], input[type=submit], input[type=reset], .button-google  {
+input[type=button], input[type=submit], input[type=reset], .button-google, .loginBtn  {
     background-color: #56baed;
     border: none;
     color: white;

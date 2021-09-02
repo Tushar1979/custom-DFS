@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import {BrowserRouter as Router, Switch, Route, Redirect, Link} from 'react-router-dom';
 import authLogo from "../images/login_logo.png"
 import './style.css';
+import {Amplify} from "aws-amplify";
+import Auth from "./auth";
 
 class SignIn extends Component {
     constructor(props) {
@@ -33,7 +35,7 @@ class SignIn extends Component {
                                    className="fadeIn second" name="login" placeholder="Email Address"/>
                             <input value="" type="text" id="password"
                                    className="fadeIn third" name="password" placeholder="password"/>
-                            <input type="submit" className="fadeIn forth" value="Log In"/>
+                            <div className="fadeIn forth loginBtn">Log In</div>
                             <span className="button-google fadeIn forth">Forgot Password</span>
                         </div>
 

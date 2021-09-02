@@ -40,7 +40,12 @@ class DataNavBar extends React.Component {
                 update_data:true,
                 search_player_data: [],
                 allBtn:true,
-                allClear:false,
+                allClearBtn:false,
+                pgBtn:true,
+                sgBtn:true,
+                sfBtn:true,
+                pfBtn:true,
+                cBtn:true,
             }
 
         this.myData = this.myData.bind(this)
@@ -54,6 +59,7 @@ class DataNavBar extends React.Component {
         this.removeArray = this.removeArray.bind(this)
         this.filterObj = this.filterObj.bind(this)
         this.allClearFilter = this.allClearFilter.bind(this)
+        this.allSelectFilter = this.allSelectFilter.bind(this)
         this.resetData = this.resetData.bind(this)
         this.handleChange = this.handleChange.bind(this)
 
@@ -122,10 +128,10 @@ class DataNavBar extends React.Component {
                         this.setState({search_player_data: response_data.body})
                         this.setState({players_data: []})
                     }
-                    this.setState({loader:false})
                     // console.log('+++++----++++', response_data.body)
                 } else if (res.request.status === 401) {
                     console.log("login")
+                    this.setState({loader:false})
                 } else {
                     console.log(res)
                 }
@@ -146,6 +152,7 @@ class DataNavBar extends React.Component {
                     // console.log('+++++----++++', response_data.body)
                 } else if (res.request.status === 401) {
                     console.log("login")
+                    this.setState({loader:false})
                 } else {
                     console.log(res)
                 }
@@ -207,6 +214,11 @@ class DataNavBar extends React.Component {
         }
         let filter_data = this.filterObj(filter_list)
         this.setState({filter_player:filter_data})
+        this.setState({
+            allBtn:false,
+            allClearBtn:false,
+            pgBtn:!this.state.pgBtn,
+        })
 
     }
 
@@ -220,6 +232,11 @@ class DataNavBar extends React.Component {
         }
         let filter_data = this.filterObj(filter_list)
         this.setState({filter_player:filter_data})
+        this.setState({
+            allBtn:false,
+            allClearBtn:false,
+            sgBtn:!this.state.sgBtn,
+        })
     }
 
     sfFilters(){
@@ -232,6 +249,11 @@ class DataNavBar extends React.Component {
         }
         let filter_data = this.filterObj(filter_list)
         this.setState({filter_player:filter_data})
+        this.setState({
+            allBtn:false,
+            allClearBtn:false,
+            sfBtn:!this.state.sfBtn,
+        })
     }
     pfFilters(){
         pfActive = !pfActive
@@ -243,6 +265,11 @@ class DataNavBar extends React.Component {
         }
         let filter_data = this.filterObj(filter_list)
         this.setState({filter_player:filter_data})
+        this.setState({
+            allBtn:false,
+            allClearBtn:false,
+            pfBtn:!this.state.pfBtn,
+        })
 
     }
     cFilters(){
@@ -255,11 +282,38 @@ class DataNavBar extends React.Component {
         }
         let filter_data = this.filterObj(filter_list)
         this.setState({filter_player:filter_data})
+        this.setState({
+            allBtn:false,
+            allClearBtn:false,
+            cBtn:!this.state.cBtn,
+        })
     }
 
+    allSelectFilter(){
+        this.setState({filter_player:this.state.players_data})
+        this.setState({
+            allBtn:true,
+            allClearBtn:false,
+            pgBtn:true,
+            sgBtn:true,
+            sfBtn:true,
+            pfBtn:true,
+            cBtn:true,
+        })
+    }
     allClearFilter(){
         this.setState({filter_player:this.state.players_data})
+        this.setState({
+            allBtn:false,
+            allClearBtn:true,
+            pgBtn:false,
+            sgBtn:false,
+            sfBtn:false,
+            pfBtn:false,
+            cBtn:false,
+        })
     }
+
     resetData(){
         this.allClearFilter()
     }
@@ -288,11 +342,13 @@ class DataNavBar extends React.Component {
         this.setState({salary:'fd'})
     }
 
+
+
     render() {
-        // if(this.state.loader){
-        //     return <Loader/>
-        // }
-        // else {
+        if(this.state.loader){
+            return <Loader/>
+        }
+        else {
             return (
                 <>
                     <div className="container-fluid">
@@ -357,31 +413,31 @@ class DataNavBar extends React.Component {
                             </div>
                             <div className="common-button ">
                                 <div className="btn-group" >
-                                    <label className="btn btn-primary active ad-group-btn" onClick={this.allClearFilter}>
+                                    <label className={`${this.state.allBtn ? 'btn btn-primary active ad-group-btn' : 'btn btn-primary ad-group-btn'}`} onClick={this.allSelectFilter}>
                                         {/*<input type="radio" name="options" autoComplete="off" checked/>*/}
                                         <span className="btn-text"> All</span>
                                     </label>
-                                    <label className="btn btn-primary ad-group-btn" onClick={this.allClearFilter}>
+                                    <label className={`${this.state.allClearBtn ? 'btn btn-primary active ad-group-btn' : 'btn btn-primary ad-group-btn'}`} onClick={this.allClearFilter}>
                                         {/*<input type="radio" name="options" autoComplete="off" checked/>*/}
                                         <span className="btn-text"> Clear</span>
                                     </label>
-                                    <label className="btn btn-primary ad-group-btn" onClick={this.pgFilters}>
+                                    <label className={`${this.state.pgBtn ? 'btn btn-primary active ad-group-btn' : 'btn btn-primary ad-group-btn'}`} onClick={this.pgFilters}>
                                         {/*<input type="radio" name="options" autoComplete="off"/>*/}
                                         <span className="btn-text"> pg</span>
                                     </label>
-                                    <label className="btn btn-primary ad-group-btn" onClick={this.sgFilters}>
+                                    <label className={`${this.state.sgBtn ? 'btn btn-primary active ad-group-btn' : 'btn btn-primary ad-group-btn'}`} onClick={this.sgFilters}>
                                         {/*<input type="radio" name="options" autoComplete="off"/>*/}
                                         <span className="btn-text"> sg</span>
                                     </label>
-                                    <label className="btn btn-primary ad-group-btn" onClick={this.sfFilters}>
+                                    <label className={`${this.state.sfBtn ? 'btn btn-primary active ad-group-btn' : 'btn btn-primary ad-group-btn'}`} onClick={this.sfFilters}>
                                         {/*<input type="radio" name="options" autoComplete="off"/>*/}
                                         <span className="btn-text" > sf</span>
                                     </label>
-                                    <label className="btn btn-primary ad-group-btn" onClick={this.pfFilters}>
+                                    <label className={`${this.state.pfBtn ? 'btn btn-primary active ad-group-btn' : 'btn btn-primary ad-group-btn'}`} onClick={this.pfFilters}>
                                         {/*<input type="radio" name="options" autoComplete="off"/>*/}
                                         <span className="btn-text"> pf</span>
                                     </label>
-                                    <label className="btn btn-primary ad-group-btn" onClick={this.cFilters}>
+                                    <label className={`${this.state.cBtn ? 'btn btn-primary active ad-group-btn' : 'btn btn-primary ad-group-btn'}`} onClick={this.cFilters}>
                                         {/*<input type="radio" name="options" autoComplete="off"/>*/}
                                         <span className="btn-text"> c</span>
                                     </label>
@@ -436,7 +492,7 @@ class DataNavBar extends React.Component {
                     </div>
                 </>
             )
-        // }
+        }
     }
 }
 export default DataNavBar
