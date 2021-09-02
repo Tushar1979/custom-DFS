@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
-import { lighten, makeStyles } from '@material-ui/core/styles';
+import {lighten, makeStyles} from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -10,37 +10,13 @@ import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
-import Checkbox from '@material-ui/core/Checkbox';
-import IconButton from '@material-ui/core/IconButton';
-import Tooltip from '@material-ui/core/Tooltip';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Switch from '@material-ui/core/Switch';
-import DeleteIcon from '@material-ui/icons/Delete';
-import FilterListIcon from '@material-ui/icons/FilterList';
-import style from './style.css'
+import TextField from "@material-ui/core/TextField";
 
-function createData(name, calories, fat, carbs, protein) {
-    return { name, calories, fat, carbs, protein };
-}
 
-let rows = [
-    createData('Cupcake', 305, 3.7, 67, 4.3),
-    createData('Donut', 452, 25.0, 51, 4.9),
-    createData('Eclair', 262, 16.0, 24, 6.0),
-    createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-    createData('Gingerbread', 356, 16.0, 49, 3.9),
-    createData('Honeycomb', 408, 3.2, 87, 6.5),
-    createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-    createData('Jelly Bean', 375, 0.0, 94, 0.0),
-    createData('KitKat', 518, 26.0, 65, 7.0),
-    createData('Lollipop', 392, 0.2, 98, 0.0),
-    createData('Marshmallow', 318, 0, 81, 2.0),
-    createData('Nougat', 360, 19.0, 9, 37.0),
-    createData('Oreo', 437, 18.0, 63, 4.0),
-];
+let rows = []
+let nft_header = false
+let update_data = true
 
 function descendingComparator(a, b, orderBy) {
     if (b[orderBy] < a[orderBy]) {
@@ -68,40 +44,28 @@ function stableSort(array, comparator) {
     return stabilizedThis.map((el) => el[0]);
 }
 
-const headCells = [
-    { id: 'name', numeric: false, disablePadding: true, label: 'name' },
-    { id: 'pos', numeric: true, disablePadding: false, label: 'Pos' },
-    { id: 'team', numeric: true, disablePadding: false, label: 'Team' },
-    { id: 'opp', numeric: true, disablePadding: false, label: 'opp' },
-    { id: 'salary', numeric: true, disablePadding: false, label: 'salary' },
-    { id: 'completion', numeric: true, disablePadding: false, label: 'Completion' },
-    { id: 'attempts', numeric: true, disablePadding: false, label: 'Attempts' },
-    { id: 'yards', numeric: true, disablePadding: false, label: 'Yards' },
-    { id: 'td', numeric: true, disablePadding: false, label: 'TD' },
-    { id: 'attempts', numeric: true, disablePadding: false, label: 'Attempts' },
-    { id: 'yards', numeric: true, disablePadding: false, label: 'Yards' },
-    { id: 'td', numeric: true, disablePadding: false, label: 'TD' },
-    { id: 'reception', numeric: true, disablePadding: false, label: 'Reception' },
-    { id: 'yards', numeric: true, disablePadding: false, label: 'Yards' },
-    { id: 'td', numeric: true, disablePadding: false, label: 'TD' },
-    { id: 'fgm', numeric: true, disablePadding: false, label: 'Fgm' },
-    { id: 'fga', numeric: true, disablePadding: false, label: 'fga' },
-    { id: 'fpts', numeric: true, disablePadding: false, label: 'fpts' },
-    { id: 'ceiling', numeric: true, disablePadding: false, label: 'ceiling' },
-    { id: 'floor', numeric: true, disablePadding: false, label: 'floor' },
-    { id: 'fptsp', numeric: true, disablePadding: false, label: 'fpts/$1' },
-
-];
+let headCells = []
 
 function EnhancedTableHead(props) {
-    const { classes, onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } = props;
+    const {classes, onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort} = props;
     const createSortHandler = (property) => (event) => {
         onRequestSort(event, property);
     };
 
     return (
         <TableHead>
-            <TableRow>
+
+            {nft_header ?
+                <TableRow className="top_table_head">
+                    <TableCell colSpan={5}>Players data</TableCell>
+                    <TableCell colSpan={4}>Passing</TableCell>
+                    <TableCell colSpan={3}>Rushing</TableCell>
+                    <TableCell colSpan={3}>Receiving</TableCell>
+                    <TableCell colSpan={2}>Kicking</TableCell>
+                    <TableCell colSpan={4}>Simulation Result</TableCell>
+                </TableRow>
+                : null}
+            <TableRow className="middle_table_head">
                 {headCells.map((headCell) => (
                     <TableCell
                         key={headCell.id}
@@ -158,18 +122,6 @@ const useToolbarStyles = makeStyles((theme) => ({
     },
 }));
 
-const EnhancedTableToolbar = (props) => {
-    const classes = useToolbarStyles();
-    const { numSelected } = props;
-
-    return (
-        <></>
-    );
-};
-
-EnhancedTableToolbar.propTypes = {
-    numSelected: PropTypes.number.isRequired,
-};
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -179,10 +131,9 @@ const useStyles = makeStyles((theme) => ({
         width: '100%',
         marginBottom: theme.spacing(2),
     },
-    data_table: {
+    table: {
         minWidth: 750,
     },
-
     visuallyHidden: {
         border: 0,
         clip: 'rect(0 0 0 0)',
@@ -196,18 +147,121 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
+
 export default function EnhancedTable(props) {
-    console.log(props.data)
-    // console.log(rows)
-    rows = props.data
-    console.log(rows)
+    let user_data = props.data
+    if (props.nfl_player_data.length > 0) {
+        update_data = true
+        nft_header = true
+        user_data = props.nfl_player_data
+        rows = []
+        headCells = [
+            {id: 'name', numeric: false, disablePadding: true, label: 'Name'},
+            {id: 'pos', numeric: false, disablePadding: false, label: 'pos'},
+            {id: 'team', numeric: false, disablePadding: false, label: 'team'},
+            {id: 'oop', numeric: false, disablePadding: false, label: 'opp'},
+            {id: 'salary', numeric: false, disablePadding: false, label: 'salary'},
+
+
+            {id: 'completion', numeric: false, disablePadding: true, label: 'Completions'},
+            {id: 'passingattempts', numeric: false, disablePadding: true, label: 'Attempts'},
+            {id: 'passingyards', numeric: false, disablePadding: true, label: 'Yards'},
+            {id: 'passingtouchdowns', numeric: false, disablePadding: true, label: 'TD'},
+            {id: 'rushingattempts', numeric: false, disablePadding: true, label: 'Attempts'},
+            {id: 'rushingyards', numeric: false, disablePadding: true, label: 'Yards'},
+            {id: 'rushingtouchdowns', numeric: false, disablePadding: true, label: 'TD'},
+            {id: 'receptions', numeric: false, disablePadding: true, label: 'Receptions'},
+            {id: 'receivingyards', numeric: false, disablePadding: true, label: 'yard'},
+            {id: 'receivingtouchdowns', numeric: false, disablePadding: true, label: 'TD'},
+            {id: 'fieldgoalsmade', numeric: false, disablePadding: true, label: 'fgm'},
+            {id: 'fieldgoalsattempted', numeric: false, disablePadding: true, label: 'fga'},
+
+            {id: 'fpts', numeric: false, disablePadding: false, label: 'fpts'},
+            {id: 'ceiling', numeric: false, disablePadding: false, label: 'ceiling'},
+            {id: 'floor', numeric: false, disablePadding: false, label: 'floor'},
+            {id: 'fpts$', numeric: false, disablePadding: false, label: 'fpts/$1'},
+
+        ];
+    }
+    if (props.data.length > 0) {
+        update_data = true
+        user_data = props.data
+        rows = []
+        nft_header = false
+        headCells = [
+            {id: 'name', numeric: false, disablePadding: true, label: 'Name'},
+            {id: 'pos', numeric: false, disablePadding: false, label: 'pos'},
+            {id: 'team', numeric: false, disablePadding: false, label: 'team'},
+            {id: 'oop', numeric: false, disablePadding: false, label: 'opp'},
+            {id: 'salary', numeric: false, disablePadding: false, label: 'salary'},
+
+            {id: 'minus', numeric: false, disablePadding: false, label: 'min'},
+            {id: 'points', numeric: false, disablePadding: false, label: 'pts'},
+            {id: 'rebound', numeric: false, disablePadding: false, label: 'reb'},
+            {id: 'assists', numeric: false, disablePadding: false, label: 'ast'},
+            {id: 'steals', numeric: false, disablePadding: false, label: 'stl'},
+            {id: 'blockedShots', numeric: false, disablePadding: false, label: 'blk'},
+            {id: 'to', numeric: false, disablePadding: false, label: 'to'},
+
+            {id: 'fpts', numeric: false, disablePadding: false, label: 'fpts'},
+            {id: 'ceiling', numeric: false, disablePadding: false, label: 'ceiling'},
+            {id: 'floor', numeric: false, disablePadding: false, label: 'floor'},
+            {id: 'fpts$', numeric: false, disablePadding: false, label: 'fpts/$1'},
+        ]
+    }
+
+    if (props.new_array != null) {
+        update_data = true
+        user_data = props.new_array
+    }
+    // update_data=props.update_data
+    if (update_data) {
+        for (let data = 0; data < user_data.length; data++) {
+            rows.push(
+                {
+                    name: user_data[data].Name,
+                    pos: user_data[data].DraftKingsPosition,
+                    fdPos: user_data[data].FanDuelPosition,
+                    team: user_data[data].Team,
+                    oop: user_data[data].Opponent,
+                    salary: user_data[data].DraftKingsSalary,
+                    fdSalary: user_data[data].FanDuelSalary,
+                    minus: user_data[data].PlusMinus,
+                    points: user_data[data].Points,
+                    rebound: user_data[data].Rebounds,
+                    assists: user_data[data].Assists,
+                    steals: user_data[data].Steals,
+                    blockedShots: user_data[data].BlockedShots,
+                    to: user_data[data].Turnovers,
+                    fantasyPoints: user_data[data].FantasyPoints,
+                    ceiling: user_data[data].DK_Ceil,
+                    floor: user_data[data].DK_Floor,
+                    fpts$: user_data[data].DK_Value,
+
+                    completion: user_data[data].PassingCompletions,
+                    passingattempts: user_data[data].PassingAttempts,
+                    passingyards: user_data[data].PassingYards,
+                    passingtouchdowns: user_data[data].PassingTouchdowns,
+                    rushingattempts: user_data[data].RushingAttempts,
+                    rushingyards: user_data[data].RushingYards,
+                    rushingtouchdowns: user_data[data].RushingTouchdowns,
+                    receptions: user_data[data].Receptions,
+                    receivingyards: user_data[data].ReceivingYards,
+                    receivingtouchdowns: user_data[data].ReceivingTouchdowns,
+                    fieldgoalsmade: user_data[data].FieldGoalsMade,
+                    fieldgoalsattempted: user_data[data].FieldGoalsAttempted,
+                })
+            update_data = false
+        }
+    }
+
     const classes = useStyles();
     const [order, setOrder] = React.useState('asc');
-    const [orderBy, setOrderBy] = React.useState('calories');
+    const [orderBy, setOrderBy] = React.useState('pos');
     const [selected, setSelected] = React.useState([]);
     const [page, setPage] = React.useState(0);
     const [dense, setDense] = React.useState(false);
-    const [rowsPerPage, setRowsPerPage] = React.useState(5);
+    const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
     const handleRequestSort = (event, property) => {
         const isAsc = orderBy === property && order === 'asc';
@@ -246,11 +300,13 @@ export default function EnhancedTable(props) {
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
+        user_data = false
     };
 
     const handleChangeRowsPerPage = (event) => {
         setRowsPerPage(parseInt(event.target.value, 10));
         setPage(0);
+        user_data = false
     };
 
     const handleChangeDense = (event) => {
@@ -263,15 +319,17 @@ export default function EnhancedTable(props) {
 
     return (
         <div className={classes.root}>
+
             <Paper className={classes.paper}>
-                <EnhancedTableToolbar numSelected={selected.length} />
                 <TableContainer>
                     <Table
                         className="data_table"
                         aria-labelledby="tableTitle"
                         size={dense ? 'small' : 'medium'}
                         aria-label="enhanced table"
+                        id="data_table"
                     >
+
                         <EnhancedTableHead
                             classes={classes}
                             numSelected={selected.length}
@@ -280,6 +338,7 @@ export default function EnhancedTable(props) {
                             onSelectAllClick={handleSelectAllClick}
                             onRequestSort={handleRequestSort}
                             rowCount={rows.length}
+                            // data_props={user_data}
                         />
                         <TableBody>
                             {stableSort(rows, getComparator(order, orderBy))
@@ -291,49 +350,311 @@ export default function EnhancedTable(props) {
                                     return (
                                         <TableRow
                                             hover
-                                            onClick={(event) => handleClick(event, row.Name)}
+                                            onClick={(event) => handleClick(event, row.name)}
                                             role="checkbox"
                                             aria-checked={isItemSelected}
                                             tabIndex={-1}
-                                            key={row.Name}
+                                            key={row.name}
                                             selected={isItemSelected}
                                         >
-                                            <TableCell component="th" id={labelId} scope="row" padding="none">
-                                                {row.Name}
+                                            <TableCell id={labelId} scope="row" padding="none">
+                                                {row.name}
                                             </TableCell>
-                                            <TableCell align="center">{row.Position}</TableCell>
-                                            <TableCell align="center">{row.Team}</TableCell>
-                                            <TableCell align="center">{row.Opponent}</TableCell>
-                                            <TableCell align="center">{row.Team}</TableCell>
-                                            <TableCell align="center">{row.Position}</TableCell>
-                                            <TableCell align="center">{row.Team}</TableCell>
-                                            <TableCell align="center">{row.Opponent}</TableCell>
-                                            <TableCell align="center">{row.Team}</TableCell>
-                                            <TableCell align="center">{row.Team}</TableCell>
-                                            <TableCell align="center">{row.Opponent}</TableCell>
-                                            <TableCell align="center">{row.Team}</TableCell>
-                                            <TableCell align="center">{row.Team}</TableCell>
-                                            <TableCell align="center">{row.Opponent}</TableCell>
-                                            <TableCell align="center">{row.Team}</TableCell>
-                                            <TableCell align="center">{row.Team}</TableCell>
-                                            <TableCell align="center">{row.Opponent}</TableCell>
-                                            <TableCell align="center">{row.Team}</TableCell>
-                                            <TableCell align="center">{row.Team}</TableCell>
-                                            <TableCell align="center">{row.Opponent}</TableCell>
-                                            <TableCell align="center">{row.Team}</TableCell>
+                                            {props.salary === 'dk' ?
+                                                <TableCell align="center">{row.pos}  </TableCell> :
+                                                <TableCell align="center">{row.fdPos}</TableCell>
+                                            }
+
+                                            <TableCell align="center">{row.team} </TableCell>
+                                            <TableCell align="center">{row.oop} </TableCell>
+                                            {props.salary === 'dk' ?
+                                                <TableCell align="center">${row.salary} </TableCell> :
+                                                <TableCell align="center">${row.fdSalary}  </TableCell>
+                                            }
+
+                                            {nft_header ?
+                                                (props.inputActive ? <>
+                                                            <TableCell align="center">
+                                                                <TextField
+                                                                    type="number"
+                                                                    InputProps={{
+                                                                        inputProps: {
+                                                                            min: 0
+                                                                        }
+                                                                    }}
+                                                                    defaultValue={row.completion}
+                                                                    className="table_input"
+                                                                />
+                                                            </TableCell>
+                                                            <TableCell align="center">
+                                                                <TextField
+                                                                    type="number"
+                                                                    InputProps={{
+                                                                        inputProps: {
+                                                                            min: 0
+                                                                        }
+                                                                    }}
+                                                                    defaultValue={row.passingattempts}
+                                                                    className="table_input"
+                                                                />
+                                                            </TableCell>
+                                                            <TableCell align="center">
+                                                                <TextField
+                                                                    type="number"
+                                                                    InputProps={{
+                                                                        inputProps: {
+                                                                            min: 0
+                                                                        }
+                                                                    }}
+                                                                    defaultValue={row.passingyards}
+                                                                    className="table_input"
+                                                                />
+                                                            </TableCell>
+                                                            <TableCell align="center">
+                                                                <TextField
+                                                                    type="number"
+                                                                    InputProps={{
+                                                                        inputProps: {
+                                                                            min: 0
+                                                                        }
+                                                                    }}
+                                                                    defaultValue={row.passingtouchdowns}
+                                                                    className="table_input"
+                                                                />
+                                                            </TableCell>
+                                                            <TableCell align="center">
+                                                                <TextField
+                                                                    type="number"
+                                                                    InputProps={{
+                                                                        inputProps: {
+                                                                            min: 0
+                                                                        }
+                                                                    }}
+                                                                    defaultValue={row.rushingattempts}
+                                                                    className="table_input"
+                                                                />
+                                                            </TableCell>
+                                                            <TableCell align="center">
+                                                                <TextField
+                                                                    type="number"
+                                                                    InputProps={{
+                                                                        inputProps: {
+                                                                            min: 0
+                                                                        }
+                                                                    }}
+                                                                    defaultValue={row.rushingyards}
+                                                                    className="table_input"
+                                                                />
+                                                            </TableCell>
+                                                            <TableCell align="center">
+                                                                <TextField
+                                                                    type="number"
+                                                                    InputProps={{
+                                                                        inputProps: {
+                                                                            min: 0
+                                                                        }
+                                                                    }}
+                                                                    defaultValue={row.rushingtouchdowns}
+                                                                    className="table_input"
+                                                                />
+                                                            </TableCell>
+                                                            <TableCell align="center">
+                                                                <TextField
+                                                                    type="number"
+                                                                    InputProps={{
+                                                                        inputProps: {
+                                                                            min: 0
+                                                                        }
+                                                                    }}
+                                                                    defaultValue={row.receptions}
+                                                                    className="table_input"
+                                                                />
+                                                            </TableCell>
+                                                            <TableCell align="center">
+                                                                <TextField
+                                                                    type="number"
+                                                                    InputProps={{
+                                                                        inputProps: {
+                                                                            min: 0
+                                                                        }
+                                                                    }}
+                                                                    defaultValue={row.receivingyards}
+                                                                    className="table_input"
+                                                                />
+                                                            </TableCell>
+                                                            <TableCell align="center">
+                                                                <TextField
+                                                                    type="number"
+                                                                    InputProps={{
+                                                                        inputProps: {
+                                                                            min: 0
+                                                                        }
+                                                                    }}
+                                                                    defaultValue={row.receivingtouchdowns}
+                                                                    className="table_input"
+                                                                />
+                                                            </TableCell>
+                                                            <TableCell align="center">
+                                                                <TextField
+                                                                    type="number"
+                                                                    InputProps={{
+                                                                        inputProps: {
+                                                                            min: 0
+                                                                        }
+                                                                    }}
+                                                                    defaultValue={row.fieldgoalsmade}
+                                                                    className="table_input"
+                                                                />
+                                                            </TableCell>
+                                                            <TableCell align="center">
+                                                                <TextField
+                                                                    type="number"
+                                                                    InputProps={{
+                                                                        inputProps: {
+                                                                            min: 0
+                                                                        }
+                                                                    }}
+                                                                    defaultValue={row.fieldgoalsattempted}
+                                                                    className="table_input"
+                                                                />
+                                                            </TableCell>
+                                                        </> :
+                                                        <>
+                                                            <TableCell align="center">{row.completion} </TableCell>
+                                                            <TableCell
+                                                                align="center">{row.passingattempts}</TableCell>
+                                                            <TableCell align="center">{row.passingyards}</TableCell>
+                                                            <TableCell
+                                                                align="center">{row.passingtouchdowns}</TableCell>
+                                                            <TableCell
+                                                                align="center">{row.rushingattempts}</TableCell>
+                                                            <TableCell align="center">{row.rushingyards}</TableCell>
+                                                            <TableCell
+                                                                align="center">{row.rushingtouchdowns}</TableCell>
+                                                            <TableCell align="center">{row.receptions}</TableCell>
+                                                            <TableCell align="center">{row.receivingyards}</TableCell>
+                                                            <TableCell
+                                                                align="center">{row.receivingtouchdowns}</TableCell>
+                                                            <TableCell
+                                                                align="center">{row.fieldgoalsmade}</TableCell>
+                                                            <TableCell
+                                                                align="center">{row.fieldgoalsattempted}</TableCell>
+                                                        </>
+                                                )
+
+                                                :
+                                                (props.inputActive ?
+                                                        <>
+                                                            <TableCell align="center">
+                                                                <TextField
+                                                                    type="number"
+                                                                    InputProps={{
+                                                                        inputProps: {
+                                                                            min: 0
+                                                                        }
+                                                                    }}
+                                                                    defaultValue={row.minus}
+                                                                    className="table_input"
+                                                                />
+                                                            </TableCell>
+                                                            <TableCell align="center">
+                                                                <TextField
+                                                                    type="number"
+                                                                    InputProps={{
+                                                                        inputProps: {
+                                                                            min: 0
+                                                                        }
+                                                                    }}
+                                                                    defaultValue={row.points}
+                                                                    className="table_input"
+                                                                />
+                                                            </TableCell>
+                                                            <TableCell align="center">
+                                                                <TextField
+                                                                    type="number"
+                                                                    InputProps={{
+                                                                        inputProps: {
+                                                                            min: 0
+                                                                        }
+                                                                    }}
+                                                                    defaultValue={row.rebound}
+                                                                    className="table_input"
+                                                                />
+                                                            </TableCell>
+                                                            <TableCell align="center">
+                                                                <TextField
+                                                                    type="number"
+                                                                    InputProps={{
+                                                                        inputProps: {
+                                                                            min: 0
+                                                                        }
+                                                                    }}
+                                                                    defaultValue={row.assists}
+                                                                    className="table_input"
+                                                                />
+                                                            </TableCell>
+                                                            <TableCell align="center">
+                                                                <TextField
+                                                                    type="number"
+                                                                    InputProps={{
+                                                                        inputProps: {
+                                                                            min: 0
+                                                                        }
+                                                                    }}
+                                                                    defaultValue={row.steals}
+                                                                    className="table_input"
+                                                                />
+                                                            </TableCell>
+                                                            <TableCell align="center">
+                                                                <TextField
+                                                                    type="number"
+                                                                    InputProps={{
+                                                                        inputProps: {
+                                                                            min: 0
+                                                                        }
+                                                                    }}
+                                                                    defaultValue={row.blockedShots}
+                                                                    className="table_input"
+                                                                />
+                                                            </TableCell>
+                                                            <TableCell align="center">
+                                                                <TextField
+                                                                    type="number"
+                                                                    InputProps={{
+                                                                        inputProps: {
+                                                                            min: 0
+                                                                        }
+                                                                    }}
+                                                                    defaultValue={row.to}
+                                                                    className="table_input"
+                                                                />
+                                                            </TableCell>
+
+                                                        </>
+                                                        :
+                                                        <>
+                                                            <TableCell align="center">{row.minus} </TableCell>
+                                                            <TableCell align="center">{row.points} </TableCell>
+                                                            <TableCell align="center">{row.rebound} </TableCell>
+                                                            <TableCell align="center">{row.assists} </TableCell>
+                                                            <TableCell align="center">{row.steals} </TableCell>
+                                                            <TableCell align="center">{row.blockedShots} </TableCell>
+                                                            <TableCell align="center">{row.to}</TableCell>
+                                                        </>
+                                                )
+                                            }
+                                            <TableCell align="center">{row.fantasyPoints}</TableCell>
+                                            <TableCell align="center">{row.ceiling} </TableCell>
+                                            <TableCell align="center">{row.floor} </TableCell>
+                                            <TableCell align="center">{row.fpts$}</TableCell>
                                         </TableRow>
                                     );
                                 })}
-                            {emptyRows > 0 && (
-                                <TableRow style={{ height: (dense ? 33 : 53) * emptyRows }}>
-                                    <TableCell colSpan={6} />
-                                </TableRow>
-                            )}
                         </TableBody>
                     </Table>
                 </TableContainer>
                 <TablePagination
-                    rowsPerPageOptions={[5, 10, 25]}
+                    rowsPerPageOptions={[10, 25, 50]}
                     component="div"
                     count={rows.length}
                     rowsPerPage={rowsPerPage}
