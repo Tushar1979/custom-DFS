@@ -28,10 +28,16 @@ signUpBtn = () =>{
 //        if (err) console.error(err);
 //        console.log(data);
 //    })
-    Auth.signUp({
+    const usersignUp = Auth.signUp({
         username: 'sanket.sanglikar@cubexo.io',
         password:   'Sanket@123',
     });
+
+    usersignUp.then((data) => {
+        console.log(data);
+    }).catch((message)=> {
+        console.log(message);
+    })
   };
     render() {
 

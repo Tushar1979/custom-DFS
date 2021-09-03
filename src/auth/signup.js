@@ -24,16 +24,19 @@ class SignUp extends Component {
 //        console.log(data);
 //    })
 
-try {
-    const usersignup = Auth.signIn('sanket.sanglikar@cubexo.io','Sanket@123');
-    console.log(usersignup);
+    const usersignIn = Auth.signIn('sanket.sanglikar@cubexo.io','Sanket@123');
+    usersignIn.then((data) => {
+        console.log(data);
+    }).catch((message) => {
+        console.log(message)
+    })
 
-}
-catch(error){
-    let err = null;
-    !error.message ? err = {"Message": error}: err = error;
-}
 };
+//catch(error){
+//    let err = null;
+//    !error.message ? err = {"Message": error}: err = error;
+//}
+
 
 
     render() {

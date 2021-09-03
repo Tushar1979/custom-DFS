@@ -17,12 +17,14 @@ class NavBar extends React.Component {
     }
 
     logOut = () => {
-    try{
-        Auth.signOut();
-    }
-    catch{
-    }
-    }
+        const userLogout = Auth.signOut();
+        console.log(userLogout);
+        userLogout.then((data) => {
+            console.log(data);
+        }).catch((message) => {
+            console.log(message);
+        })
+    };
 
 
     nbaActive() {
