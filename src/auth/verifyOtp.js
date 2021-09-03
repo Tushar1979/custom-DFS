@@ -5,6 +5,7 @@ import './style.css';
 import {Amplify} from "aws-amplify";
 
 import { Auth } from "aws-amplify";
+import {TextField} from "@material-ui/core";
 
 class VerifyOtp extends Component {
     constructor(props) {
@@ -26,9 +27,7 @@ class VerifyOtp extends Component {
                                  alt="User Icon"/>
                         </div>
                         <div>
-                            <input value="" type="text" id="login"
-                                   className="fadeIn second" name="login" placeholder="Verify OTP"/>
-
+                            <TextField id="standard-basic" label="OTP" className="input_field fadeIn second" />
                             <button  className="fadeIn forth loginBtn"  onClick={this.verifyOtpBtn}> Verify Otp </button>
 
                         </div>

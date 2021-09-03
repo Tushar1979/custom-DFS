@@ -3,17 +3,32 @@ import { Auth } from "aws-amplify";
 import {BrowserRouter as Router, Switch, Route, Redirect, Link} from 'react-router-dom';
 import authLogo from "../images/login_logo.png"
 import './style.css';
+import {TextField} from "@material-ui/core";
 
 
 class SignUp extends Component {
     constructor(props) {
         super(props);
-    }
+        this.state={
+            email:'',
+            password:''
 
+        }
+    }
+    emailField = (e) =>{
+        this.setState({
+            email: e.target.value
+        })
+    }
+    passwordField = (e) =>{
+        this.setState({
+            password: e.target.value
+        })
+    }
     signUpBtn = () =>{
         const usersignUp = Auth.signUp({
-            username: 'sanket.sanglikar@cubexo.io',
-            password:   'Sanket@123',
+            username: this.state.email,
+            password:   this.state.password,
         });
 
         usersignUp.then((data) => {
@@ -22,6 +37,7 @@ class SignUp extends Component {
 
         }).catch((message)=> {
             console.log(message);
+            this.props.history.push('/verify_otp');
         })
     };
 
@@ -45,11 +61,23 @@ class SignUp extends Component {
 
 
                         <div>
-                            <input value="" type="text" id="login"
-                                   className="fadeIn second" name="login" placeholder="Email Address"/>
-                            <input value="" type="text" id="password"
-                                   className="fadeIn third" name="password" placeholder="password"/>
-                            <button type="submit" className="fadeIn forth" onClick={this.signUpBtn} value="Log In" >Login</button>
+                            <TextField
+                            label="Email Address"
+                            className="input_field fadeIn second"
+                            onChange={this.emailField}
+                            hintText="Password"
+                            floatingLabelText="Email"
+                            type="email"
+                        />
+                            <TextField
+                                label="password"
+                                className="input_field fadeIn third"
+                                onChange={this.passwordField}
+                                hintText="Password"
+                                floatingLabelText="Password"
+                                type="password"
+                            />
+                            <button type="submit" className="fadeIn forth loginBtn" onClick={this.signUpBtn} value="Log In" >Sign Up</button>
                             <span className="button-google fadeIn forth">Forgot Password</span>
                         </div>
 
