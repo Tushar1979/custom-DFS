@@ -15,6 +15,7 @@ import {
 import React, { useState } from "react";
 import Amplify from "aws-amplify";
 import Auth from "./auth/auth";
+import VerifyOtp from "./auth/verifyOtp";
 
 
 
@@ -31,6 +32,7 @@ function App() {
                     </Route>
                     <Route path="/signin" component={SignIn} />
                     <Route path="/signup" component={SignUp} />
+                    <Route path="/verify_otp" component={VerifyOtp} />
                 </Switch>
             </div>
         </Router>

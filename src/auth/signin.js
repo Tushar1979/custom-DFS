@@ -5,27 +5,40 @@ import './style.css';
 import {Amplify} from "aws-amplify";
 
 import { Auth } from "aws-amplify";
+import {TextField} from "@material-ui/core";
 
 class SignIn extends Component {
     constructor(props) {
         super(props);
+        this.state={
+            email:'',
+            password:''
+
+        }
     }
-//     https://cognito-idp.us-east-1.amazonaws.com/
+    emailField = (e) =>{
+        this.setState({
+            email: e.target.value
+        })
+    }
+    passwordField = (e) =>{
+        this.setState({
+            password: e.target.value
+        })
+    }
 
 
+    loginBtn = () => {
+        // const usersignIn = Auth.signIn('sanket.sanglikar@cubexo.io', 'Sanket@123');
+        const usersignIn = Auth.signIn(this.state.email, this.state.password);
+        usersignIn.then((data) => {
+            console.log(data);
+            this.props.history.push('/');
+        }).catch((message) => {
+            console.log(message)
+        })
+    }
 
-signUpBtn = () =>{
-    const usersignUp = Auth.signUp({
-        username: 'sanket.sanglikar@cubexo.io',
-        password:   'Sanket@123',
-    });
-
-    usersignUp.then((data) => {
-        console.log(data);
-    }).catch((message)=> {
-        console.log(message);
-    })
-  };
     render() {
 
         return (
@@ -37,22 +50,33 @@ signUpBtn = () =>{
                         <h2 className="inactive underlineHover">
                             <Link class="authLink" to="/signup">Sign Up</Link>
                         </h2>
-
-
                         <div className="fadeIn first">
                             <img src={authLogo} id="icon"
                                  alt="User Icon"/>
                         </div>
-
-
                         <div>
-                            <input value="" type="text" id="login"
-                                   className="fadeIn second" name="login" placeholder="Email Address"/>
-                            <input value="" type="text" id="password"
-                                   className="fadeIn third" name="password" placeholder="password"/>
+                            {/*<input value="" type="text" id="login"*/}
+                            {/*       className="fadeIn second input_field" name="login" placeholder="Email Address"/>*/}
+                            <TextField
+                                label="Email Address"
+                                className="input_field fadeIn second"
+                                onChange={this.emailField}
+                                hintText="Password"
+                                floatingLabelText="Email"
+                                type="email"
+                            />
+                            <TextField
+                                label="password"
+                                className="input_field fadeIn third"
+                                onChange={this.passwordField}
+                                hintText="Password"
+                                floatingLabelText="Password"
+                                type="password"
+                            />
+                            {/*<input value="" type="text" id="password"*/}
+                            {/*       className="fadeIn third" name="password" placeholder="password"/>*/}
 
-                            <button  className="fadeIn forth loginBtn"  onClick={this.signUpBtn}> Sign Up </button>
-
+                            <button  className="fadeIn forth loginBtn"  onClick={this.loginBtn}> Login </button>
                             <span className="button-google fadeIn forth">Forgot Password</span>
                         </div>
 
