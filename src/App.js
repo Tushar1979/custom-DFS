@@ -6,6 +6,7 @@ import ReportBog from "./components/reportBug/index";
 import SignIn from "./auth/signin";
 import SignUp from "./auth/signup"
 import { CognitoUserPool } from 'amazon-cognito-identity-js'
+
 import {
     BrowserRouter as Router,
     Switch,
@@ -16,8 +17,8 @@ import React, { useState } from "react";
 import Amplify from "aws-amplify";
 import Auth from "./auth/auth";
 import VerifyOtp from "./auth/verifyOtp";
-
-
+import Forget from "./auth/Forget";
+import ForgetPassOtp from './auth/forgetPassOtp'
 
 function App() {
 
@@ -33,6 +34,8 @@ function App() {
                     <Route path="/signin" component={SignIn} />
                     <Route path="/signup" component={SignUp} />
                     <Route path="/verify_otp" component={VerifyOtp} />
+                    <Route path="/Forget" component={Forget} />
+                    <Route path="/ForgetPasswordOtp" component={ForgetPassOtp} />
                 </Switch>
             </div>
         </Router>

@@ -27,6 +27,9 @@ class SignIn extends Component {
         })
     }
 
+    forgotBtn = () => {
+        this.props.history.push('/Forget')
+    }
 
     loginBtn = () => {
         // const usersignIn = Auth.signIn('sanket.sanglikar@cubexo.io', 'Sanket@123');
@@ -77,7 +80,7 @@ class SignIn extends Component {
                             {/*       className="fadeIn third" name="password" placeholder="password"/>*/}
 
                             <button  className="fadeIn forth loginBtn"  onClick={this.loginBtn}> Login </button>
-                            <span className="button-google fadeIn forth">Forgot Password</span>
+                            <span className="button-google fadeIn forth" onClick={this.forgotBtn}>Forgot Password</span>
                         </div>
 
                     </div>
