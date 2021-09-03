@@ -3,25 +3,27 @@ import { Auth } from "aws-amplify";
 import {BrowserRouter as Router, Switch, Route, Redirect, Link} from 'react-router-dom';
 import authLogo from "../images/login_logo.png"
 import './style.css';
-import { CognitoUserPool, CognitoUserAttribute } from 'amazon-cognito-identity-js'
+
 
 class SignUp extends Component {
     constructor(props) {
         super(props);
     }
 
-    loginBtn = () =>{
-    const usersignIn = Auth.signIn('sanket.sanglikar@cubexo.io','Sanket@123');
-    usersignIn.then((data) => {
-        console.log(data);
-    }).catch((message) => {
-        console.log(message)
-    })
+    signUpBtn = () =>{
+        const usersignUp = Auth.signUp({
+            username: 'sanket.sanglikar@cubexo.io',
+            password:   'Sanket@123',
+        });
 
-};
+        usersignUp.then((data) => {
+            console.log(data,);
+            this.props.history.push('/verify_otp');
 
-
-
+        }).catch((message)=> {
+            console.log(message);
+        })
+    };
 
     render() {
 
@@ -47,7 +49,7 @@ class SignUp extends Component {
                                    className="fadeIn second" name="login" placeholder="Email Address"/>
                             <input value="" type="text" id="password"
                                    className="fadeIn third" name="password" placeholder="password"/>
-                            <button type="submit" className="fadeIn forth" onClick={this.loginBtn} value="Log In" >Login</button>
+                            <button type="submit" className="fadeIn forth" onClick={this.signUpBtn} value="Log In" >Login</button>
                             <span className="button-google fadeIn forth">Forgot Password</span>
                         </div>
 

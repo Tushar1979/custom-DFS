@@ -10,22 +10,17 @@ class SignIn extends Component {
     constructor(props) {
         super(props);
     }
-//     https://cognito-idp.us-east-1.amazonaws.com/
 
 
+    loginBtn = () => {
+        const usersignIn = Auth.signIn('sanket.sanglikar@cubexo.io', 'Sanket@123');
+        usersignIn.then((data) => {
+            console.log(data);
+        }).catch((message) => {
+            console.log(message)
+        })
+    }
 
-signUpBtn = () =>{
-    const usersignUp = Auth.signUp({
-        username: 'sanket.sanglikar@cubexo.io',
-        password:   'Sanket@123',
-    });
-
-    usersignUp.then((data) => {
-        console.log(data);
-    }).catch((message)=> {
-        console.log(message);
-    })
-  };
     render() {
 
         return (
@@ -51,7 +46,7 @@ signUpBtn = () =>{
                             <input value="" type="text" id="password"
                                    className="fadeIn third" name="password" placeholder="password"/>
 
-                            <button  className="fadeIn forth loginBtn"  onClick={this.signUpBtn}> Sign Up </button>
+                            <button  className="fadeIn forth loginBtn"  onClick={this.loginBtn}> Sign Up </button>
 
                             <span className="button-google fadeIn forth">Forgot Password</span>
                         </div>
