@@ -3,14 +3,29 @@ import {BrowserRouter as Router, Switch, Route, Redirect, Link} from 'react-rout
 import authLogo from "../images/login_logo.png"
 import './style.css';
 import {Amplify} from "aws-amplify";
-import Auth from "./auth";
+
+import { Auth } from "aws-amplify";
 
 class SignIn extends Component {
     constructor(props) {
         super(props);
     }
-    // https://cognito-idp.us-east-1.amazonaws.com/
+//     https://cognito-idp.us-east-1.amazonaws.com/
 
+
+
+signUpBtn = () =>{
+    const usersignUp = Auth.signUp({
+        username: 'sanket.sanglikar@cubexo.io',
+        password:   'Sanket@123',
+    });
+
+    usersignUp.then((data) => {
+        console.log(data);
+    }).catch((message)=> {
+        console.log(message);
+    })
+  };
     render() {
 
         return (
@@ -35,7 +50,9 @@ class SignIn extends Component {
                                    className="fadeIn second" name="login" placeholder="Email Address"/>
                             <input value="" type="text" id="password"
                                    className="fadeIn third" name="password" placeholder="password"/>
-                            <div className="fadeIn forth loginBtn">Log In</div>
+
+                            <button  className="fadeIn forth loginBtn"  onClick={this.signUpBtn}> Sign Up </button>
+
                             <span className="button-google fadeIn forth">Forgot Password</span>
                         </div>
 
