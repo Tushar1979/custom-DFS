@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import {lighten, makeStyles} from '@material-ui/core/styles';
@@ -12,6 +12,7 @@ import TableRow from '@material-ui/core/TableRow';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
 import Paper from '@material-ui/core/Paper';
 import TextField from "@material-ui/core/TextField";
+import Loader from "../../loader/loader"
 
 
 let rows = []
@@ -149,7 +150,194 @@ const useStyles = makeStyles((theme) => ({
 
 
 export default function EnhancedTable(props) {
+    const [loader, setLoader] = React.useState(true);
+    const [NbaMinus, setNbaMinus] = React.useState('');
+    const [nbaUpdate, setNbaUpdate] = React.useState([]);
+    const [updateGameList, setUpdateGameList] = React.useState([]);
+
     let user_data = props.data
+    useEffect(() => {
+        setUpdateGameList(props.data)
+    })
+
+    const handleChangeMinus = (e) =>{
+        let rowId = e.target.id
+        let nbaMinus = e.target.value
+        for(let i = 0; i<updateGameList.length; i++){
+            if(updateGameList[i].Id === rowId){
+                updateGameList[i]['Minutes'] = nbaMinus
+            }
+        }
+    }
+    const handleChangePoints = (e) => {
+        let rowId = e.target.id
+        let nbaPoints = e.target.value
+        for(let i = 0; i<updateGameList.length; i++){
+            if(updateGameList[i].Id === rowId){
+                updateGameList[i]['Points'] = nbaPoints
+            }
+        }
+    }
+    // Rebounds
+    // handleChangeAssists
+    const handleChangeRebounds = (e) => {
+        let rowId = e.target.id
+        let nbaRebounds = e.target.value
+        for(let i = 0; i<updateGameList.length; i++){
+            if(updateGameList[i].Id === rowId){
+                updateGameList[i]['Rebounds'] = nbaRebounds
+            }
+        }
+    }
+    const handleChangeAssists = (e) => {
+        let rowId = e.target.id
+        let nbaAssists  = e.target.value
+        for(let i = 0; i<updateGameList.length; i++){
+            if(updateGameList[i].Id === rowId){
+                updateGameList[i]['Assists'] = nbaAssists
+            }
+        }
+    }
+    const handleChangeBlockedShots = (e) => {
+        let rowId = e.target.id
+        let nbaBlockedShots   = e.target.value
+        for(let i = 0; i<updateGameList.length; i++){
+            if(updateGameList[i].Id === rowId){
+                updateGameList[i]['BlockedShots'] = nbaBlockedShots
+            }
+        }
+    }
+    const handleChangeSteals = (e) => {
+        let rowId = e.target.id
+        let nbaSteals = e.target.value
+        for(let i = 0; i<updateGameList.length; i++){
+            if(updateGameList[i].Id === rowId){
+                updateGameList[i]['Steals'] = nbaSteals
+            }
+        }
+    }
+    const handleChangeTurnovers = (e) => {
+        let rowId = e.target.id
+        let nbaTurnovers = e.target.value
+        for(let i = 0; i<updateGameList.length; i++){
+            if(updateGameList[i].Id === rowId){
+                updateGameList[i]['Turnovers'] = nbaTurnovers
+            }
+        }
+    }
+
+    const handleChangeCompletion = (e) =>{
+        let rowId = e.target.id
+        let nflPassingCompletions  = e.target.value
+        for(let i = 0; i<updateGameList.length; i++){
+            if(updateGameList[i].Id === rowId){
+                updateGameList[i]['PassingCompletions'] = nflPassingCompletions
+            }
+        }
+    }
+
+    const handleChangePassingAttempts = (e) =>{
+        let rowId = e.target.id
+        let nflPassingAttempts = e.target.value
+        for(let i = 0; i<updateGameList.length; i++){
+            if(updateGameList[i].Id === rowId){
+                updateGameList[i]['PassingAttempts'] = nflPassingAttempts
+            }
+        }
+    }
+    const handleChangePassingYards = (e) =>{
+        let rowId = e.target.id
+        let nflPassingYards = e.target.value
+        for(let i = 0; i<updateGameList.length; i++){
+            if(updateGameList[i].Id === rowId){
+                updateGameList[i]['PassingYards'] = nflPassingYards
+            }
+        }
+    }
+    const handleChangePassingTouchdowns = (e) =>{
+        let rowId = e.target.id
+        let nflPassingTouchdowns = e.target.value
+        for(let i = 0; i<updateGameList.length; i++){
+            if(updateGameList[i].Id === rowId){
+                updateGameList[i]['PassingTouchdowns'] = nflPassingTouchdowns
+            }
+        }
+    }
+
+    const handleChangeRushingAttempts = (e) =>{
+        let rowId = e.target.id
+        let nflRushingAttempts = e.target.value
+        for(let i = 0; i<updateGameList.length; i++){
+            if(updateGameList[i].Id === rowId){
+                updateGameList[i]['RushingAttempts'] = nflRushingAttempts
+            }
+        }
+    }
+    const handleChangeRushingYards = (e) =>{
+        let rowId = e.target.id
+        let nflRushingYards = e.target.value
+        for(let i = 0; i<updateGameList.length; i++){
+            if(updateGameList[i].Id === rowId){
+                updateGameList[i]['RushingYards'] = nflRushingYards
+            }
+        }
+    }
+    const handleChangeRushingTouchdowns = (e) =>{
+        let rowId = e.target.id
+        let nflRushingTouchdowns = e.target.value
+        for(let i = 0; i<updateGameList.length; i++){
+            if(updateGameList[i].Id === rowId){
+                updateGameList[i]['RushingTouchdowns'] = nflRushingTouchdowns
+            }
+        }
+    }
+    const handleChangeReceptions = (e) =>{
+        let rowId = e.target.id
+        let nflReceptions = e.target.value
+        for(let i = 0; i<updateGameList.length; i++){
+            if(updateGameList[i].Id === rowId){
+                updateGameList[i]['Receptions'] = nflReceptions
+            }
+        }
+    }
+    const handleChangeReceivingYards = (e) =>{
+        let rowId = e.target.id
+        let nflReceivingYards = e.target.value
+        for(let i = 0; i<updateGameList.length; i++){
+            if(updateGameList[i].Id === rowId){
+                updateGameList[i]['ReceivingYards'] = nflReceivingYards
+            }
+        }
+    }
+    const handleChangeReceivingTouchdowns = (e) =>{
+        let rowId = e.target.id
+        let nflReceivingTouchdowns = e.target.value
+        for(let i = 0; i<updateGameList.length; i++){
+            if(updateGameList[i].Id === rowId){
+                updateGameList[i]['ReceivingTouchdowns'] = nflReceivingTouchdowns
+            }
+        }
+    }
+    const handleChangeFieldGoalsMade= (e) =>{
+        let rowId = e.target.id
+        let nflFieldGoalsMade = e.target.value
+        for(let i = 0; i<updateGameList.length; i++){
+            if(updateGameList[i].Id === rowId){
+                updateGameList[i]['FieldGoalsMade'] = nflFieldGoalsMade
+            }
+        }
+    }
+    const handleChangeFieldGoalsAttempted = (e) =>{
+        let rowId = e.target.id
+        let nflFieldGoalsAttempted = e.target.value
+        for(let i = 0; i<updateGameList.length; i++){
+            if(updateGameList[i].Id === rowId){
+                updateGameList[i]['FieldGoalsAttempted'] = nflFieldGoalsAttempted
+            }
+        }
+    }
+// console.log(updateGameList, "############")
+
     if (props.nfl_player_data.length > 0) {
         update_data = true
         nft_header = true
@@ -215,10 +403,14 @@ export default function EnhancedTable(props) {
         user_data = props.new_array
     }
     // update_data=props.update_data
+    const sleep = (milliseconds) => {
+        return new Promise(resolve => setTimeout(resolve, milliseconds))
+    }
     if (update_data) {
         for (let data = 0; data < user_data.length; data++) {
             rows.push(
                 {
+                    id:user_data[data].Id,
                     name: user_data[data].Name,
                     pos: user_data[data].DraftKingsPosition,
                     fdPos: user_data[data].FanDuelPosition,
@@ -252,6 +444,12 @@ export default function EnhancedTable(props) {
                     fieldgoalsattempted: user_data[data].FieldGoalsAttempted,
                 })
             update_data = false
+        }
+
+        if(loader) {
+            sleep(3000).then(r => {
+                setLoader(false);
+            })
         }
     }
 
@@ -309,360 +507,417 @@ export default function EnhancedTable(props) {
         user_data = false
     };
 
-    const handleChangeDense = (event) => {
-        setDense(event.target.checked);
-    };
-
     const isSelected = (name) => selected.indexOf(name) !== -1;
 
-    const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
     return (
-        <div className={classes.root}>
+        <>
+            {loader ? <Loader/>
+                :
+                <div className={classes.root}>
 
-            <Paper className={classes.paper}>
-                <TableContainer>
-                    <Table
-                        className="data_table"
-                        aria-labelledby="tableTitle"
-                        size={dense ? 'small' : 'medium'}
-                        aria-label="enhanced table"
-                        id="data_table"
-                    >
+                    <Paper className={classes.paper}>
+                        <TableContainer>
+                            <Table
+                                className="data_table"
+                                aria-labelledby="tableTitle"
+                                size={dense ? 'small' : 'medium'}
+                                aria-label="enhanced table"
+                                id="data_table"
+                            >
 
-                        <EnhancedTableHead
-                            classes={classes}
-                            numSelected={selected.length}
-                            order={order}
-                            orderBy={orderBy}
-                            onSelectAllClick={handleSelectAllClick}
-                            onRequestSort={handleRequestSort}
-                            rowCount={rows.length}
-                            // data_props={user_data}
-                        />
-                        <TableBody>
-                            {stableSort(rows, getComparator(order, orderBy))
-                                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                                .map((row, index) => {
-                                    const isItemSelected = isSelected(row.name);
-                                    const labelId = `enhanced-table-checkbox-${index}`;
+                                <EnhancedTableHead
+                                    classes={classes}
+                                    numSelected={selected.length}
+                                    order={order}
+                                    orderBy={orderBy}
+                                    onSelectAllClick={handleSelectAllClick}
+                                    onRequestSort={handleRequestSort}
+                                    rowCount={rows.length}
+                                    // data_props={user_data}
+                                />
+                                <TableBody>
+                                    {stableSort(rows, getComparator(order, orderBy))
+                                        .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                                        .map((row, index) => {
+                                            const isItemSelected = isSelected(row.name);
+                                            const labelId = `enhanced-table-checkbox-${index}`;
 
-                                    return (
-                                        <TableRow
-                                            hover
-                                            onClick={(event) => handleClick(event, row.name)}
-                                            role="checkbox"
-                                            aria-checked={isItemSelected}
-                                            tabIndex={-1}
-                                            key={row.name}
-                                            selected={isItemSelected}
-                                        >
-                                            <TableCell id={labelId} scope="row" padding="none">
-                                                {row.name}
-                                            </TableCell>
-                                            {props.salary === 'dk' ?
-                                                <TableCell align="center">{row.pos}  </TableCell> :
-                                                <TableCell align="center">{row.fdPos}</TableCell>
-                                            }
+                                            return (
+                                                <TableRow
+                                                    hover
+                                                    onClick={(event) => handleClick(event, row.name)}
+                                                    role="checkbox"
+                                                    aria-checked={isItemSelected}
+                                                    tabIndex={-1}
+                                                    key={row.name}
+                                                    selected={isItemSelected}
+                                                >
+                                                    <TableCell id={labelId} scope="row" padding="none">
+                                                        {row.name}
+                                                    </TableCell>
+                                                    {props.salary === 'dk' ?
+                                                        <TableCell align="center">{row.pos}  </TableCell> :
+                                                        <TableCell align="center">{row.fdPos}</TableCell>
+                                                    }
 
-                                            <TableCell align="center">{row.team} </TableCell>
-                                            <TableCell align="center">{row.oop} </TableCell>
-                                            {props.salary === 'dk' ?
-                                                <TableCell align="center">${row.salary} </TableCell> :
-                                                <TableCell align="center">${row.fdSalary}  </TableCell>
-                                            }
+                                                    <TableCell align="center">{row.team} </TableCell>
+                                                    <TableCell align="center">{row.oop} </TableCell>
+                                                    {props.salary === 'dk' ?
+                                                        <TableCell align="center">${row.salary} </TableCell> :
+                                                        <TableCell align="center">${row.fdSalary}  </TableCell>
+                                                    }
 
-                                            {nft_header ?
-                                                (props.inputActive ? <>
-                                                            <TableCell align="center">
-                                                                <TextField
-                                                                    type="number"
-                                                                    InputProps={{
-                                                                        inputProps: {
-                                                                            min: 0
-                                                                        }
-                                                                    }}
-                                                                    defaultValue={row.completion}
-                                                                    className="table_input"
-                                                                />
-                                                            </TableCell>
-                                                            <TableCell align="center">
-                                                                <TextField
-                                                                    type="number"
-                                                                    InputProps={{
-                                                                        inputProps: {
-                                                                            min: 0
-                                                                        }
-                                                                    }}
-                                                                    defaultValue={row.passingattempts}
-                                                                    className="table_input"
-                                                                />
-                                                            </TableCell>
-                                                            <TableCell align="center">
-                                                                <TextField
-                                                                    type="number"
-                                                                    InputProps={{
-                                                                        inputProps: {
-                                                                            min: 0
-                                                                        }
-                                                                    }}
-                                                                    defaultValue={row.passingyards}
-                                                                    className="table_input"
-                                                                />
-                                                            </TableCell>
-                                                            <TableCell align="center">
-                                                                <TextField
-                                                                    type="number"
-                                                                    InputProps={{
-                                                                        inputProps: {
-                                                                            min: 0
-                                                                        }
-                                                                    }}
-                                                                    defaultValue={row.passingtouchdowns}
-                                                                    className="table_input"
-                                                                />
-                                                            </TableCell>
-                                                            <TableCell align="center">
-                                                                <TextField
-                                                                    type="number"
-                                                                    InputProps={{
-                                                                        inputProps: {
-                                                                            min: 0
-                                                                        }
-                                                                    }}
-                                                                    defaultValue={row.rushingattempts}
-                                                                    className="table_input"
-                                                                />
-                                                            </TableCell>
-                                                            <TableCell align="center">
-                                                                <TextField
-                                                                    type="number"
-                                                                    InputProps={{
-                                                                        inputProps: {
-                                                                            min: 0
-                                                                        }
-                                                                    }}
-                                                                    defaultValue={row.rushingyards}
-                                                                    className="table_input"
-                                                                />
-                                                            </TableCell>
-                                                            <TableCell align="center">
-                                                                <TextField
-                                                                    type="number"
-                                                                    InputProps={{
-                                                                        inputProps: {
-                                                                            min: 0
-                                                                        }
-                                                                    }}
-                                                                    defaultValue={row.rushingtouchdowns}
-                                                                    className="table_input"
-                                                                />
-                                                            </TableCell>
-                                                            <TableCell align="center">
-                                                                <TextField
-                                                                    type="number"
-                                                                    InputProps={{
-                                                                        inputProps: {
-                                                                            min: 0
-                                                                        }
-                                                                    }}
-                                                                    defaultValue={row.receptions}
-                                                                    className="table_input"
-                                                                />
-                                                            </TableCell>
-                                                            <TableCell align="center">
-                                                                <TextField
-                                                                    type="number"
-                                                                    InputProps={{
-                                                                        inputProps: {
-                                                                            min: 0
-                                                                        }
-                                                                    }}
-                                                                    defaultValue={row.receivingyards}
-                                                                    className="table_input"
-                                                                />
-                                                            </TableCell>
-                                                            <TableCell align="center">
-                                                                <TextField
-                                                                    type="number"
-                                                                    InputProps={{
-                                                                        inputProps: {
-                                                                            min: 0
-                                                                        }
-                                                                    }}
-                                                                    defaultValue={row.receivingtouchdowns}
-                                                                    className="table_input"
-                                                                />
-                                                            </TableCell>
-                                                            <TableCell align="center">
-                                                                <TextField
-                                                                    type="number"
-                                                                    InputProps={{
-                                                                        inputProps: {
-                                                                            min: 0
-                                                                        }
-                                                                    }}
-                                                                    defaultValue={row.fieldgoalsmade}
-                                                                    className="table_input"
-                                                                />
-                                                            </TableCell>
-                                                            <TableCell align="center">
-                                                                <TextField
-                                                                    type="number"
-                                                                    InputProps={{
-                                                                        inputProps: {
-                                                                            min: 0
-                                                                        }
-                                                                    }}
-                                                                    defaultValue={row.fieldgoalsattempted}
-                                                                    className="table_input"
-                                                                />
-                                                            </TableCell>
-                                                        </> :
-                                                        <>
-                                                            <TableCell align="center">{row.completion} </TableCell>
-                                                            <TableCell
-                                                                align="center">{row.passingattempts}</TableCell>
-                                                            <TableCell align="center">{row.passingyards}</TableCell>
-                                                            <TableCell
-                                                                align="center">{row.passingtouchdowns}</TableCell>
-                                                            <TableCell
-                                                                align="center">{row.rushingattempts}</TableCell>
-                                                            <TableCell align="center">{row.rushingyards}</TableCell>
-                                                            <TableCell
-                                                                align="center">{row.rushingtouchdowns}</TableCell>
-                                                            <TableCell align="center">{row.receptions}</TableCell>
-                                                            <TableCell align="center">{row.receivingyards}</TableCell>
-                                                            <TableCell
-                                                                align="center">{row.receivingtouchdowns}</TableCell>
-                                                            <TableCell
-                                                                align="center">{row.fieldgoalsmade}</TableCell>
-                                                            <TableCell
-                                                                align="center">{row.fieldgoalsattempted}</TableCell>
-                                                        </>
-                                                )
+                                                    {nft_header ?
+                                                        (props.inputActive ? <>
+                                                                    <TableCell align="center">
+                                                                        <TextField
+                                                                            type="number"
+                                                                            id={rows.id}
+                                                                            InputProps={{
+                                                                                inputProps: {
+                                                                                    min: 2
+                                                                                }
+                                                                            }}
+                                                                            defaultValue={row.completion}
+                                                                            // defaultValue='232'
+                                                                            className="table_input"
+                                                                            id={row.id}
+                                                                            onChange={handleChangeCompletion}
+                                                                        />
+                                                                    </TableCell>
+                                                                    <TableCell align="center">
+                                                                        <TextField
+                                                                            type="number"
+                                                                            InputProps={{
+                                                                                inputProps: {
+                                                                                    min: 0
+                                                                                }
+                                                                            }}
+                                                                            defaultValue={row.passingattempts}
+                                                                            className="table_input"
+                                                                            id={row.id}
+                                                                            onChange={handleChangePassingAttempts}
+                                                                        />
+                                                                    </TableCell>
+                                                                    <TableCell align="center">
+                                                                        <TextField
+                                                                            type="number"
+                                                                            InputProps={{
+                                                                                inputProps: {
+                                                                                    min: 0
+                                                                                }
+                                                                            }}
+                                                                            defaultValue={row.passingyards}
+                                                                            className="table_input"
+                                                                            // PassingYards
+                                                                            id={row.id}
+                                                                            onChange={handleChangePassingYards}
+                                                                        />
+                                                                    </TableCell>
+                                                                    <TableCell align="center">
+                                                                        <TextField
+                                                                            type="number"
+                                                                            InputProps={{
+                                                                                inputProps: {
+                                                                                    min: 0
+                                                                                }
+                                                                            }}
+                                                                            defaultValue={row.passingtouchdowns}
+                                                                            className="table_input"
+                                                                            // PassingTouchdowns
+                                                                            id={row.id}
+                                                                            onChange={handleChangePassingTouchdowns}
+                                                                        />
+                                                                    </TableCell>
+                                                                    <TableCell align="center">
+                                                                        <TextField
+                                                                            type="number"
+                                                                            InputProps={{
+                                                                                inputProps: {
+                                                                                    min: 0
+                                                                                }
+                                                                            }}
+                                                                            defaultValue={row.rushingattempts}
+                                                                            className="table_input"
+                                                                            // handleChangeRushingAttempts
+                                                                            id={row.id}
+                                                                            onChange={handleChangeRushingAttempts}
+                                                                        />
+                                                                    </TableCell>
+                                                                    <TableCell align="center">
+                                                                        <TextField
+                                                                            type="number"
+                                                                            InputProps={{
+                                                                                inputProps: {
+                                                                                    min: 0
+                                                                                }
+                                                                            }}
+                                                                            defaultValue={row.rushingyards}
+                                                                            className="table_input"
+                                                                            // handleChangeRushingYards
+                                                                            id={row.id}
+                                                                            onChange={handleChangeRushingYards}
+                                                                        />
+                                                                    </TableCell>
+                                                                    <TableCell align="center">
+                                                                        <TextField
+                                                                            type="number"
+                                                                            InputProps={{
+                                                                                inputProps: {
+                                                                                    min: 0
+                                                                                }
+                                                                            }}
+                                                                            defaultValue={row.rushingtouchdowns}
+                                                                            className="table_input"
+                                                                            // handleChangeRushingTouchdowns
+                                                                            id={row.id}
+                                                                            onChange={handleChangeRushingTouchdowns}
+                                                                        />
+                                                                    </TableCell>
+                                                                    <TableCell align="center">
+                                                                        <TextField
+                                                                            type="number"
+                                                                            InputProps={{
+                                                                                inputProps: {
+                                                                                    min: 0
+                                                                                }
+                                                                            }}
+                                                                            defaultValue={row.receptions}
+                                                                            className="table_input"
+                                                                            // handleChangeReceptions
+                                                                            id={row.id}
+                                                                            onChange={handleChangeReceptions}
+                                                                        />
+                                                                    </TableCell>
+                                                                    <TableCell align="center">
+                                                                        <TextField
+                                                                            type="number"
+                                                                            InputProps={{
+                                                                                inputProps: {
+                                                                                    min: 0
+                                                                                }
+                                                                            }}
+                                                                            defaultValue={row.receivingyards}
+                                                                            className="table_input"
+                                                                            // handleChangeReceivingYards
+                                                                            id={row.id}
+                                                                            onChange={handleChangeReceivingYards}
+                                                                        />
+                                                                    </TableCell>
+                                                                    <TableCell align="center">
+                                                                        <TextField
+                                                                            type="number"
+                                                                            InputProps={{
+                                                                                inputProps: {
+                                                                                    min: 0
+                                                                                }
+                                                                            }}
+                                                                            defaultValue={row.receivingtouchdowns}
+                                                                            className="table_input"
+                                                                            // handleChangeReceivingTouchdowns
+                                                                            id={row.id}
+                                                                            onChange={handleChangeReceivingTouchdowns}
+                                                                        />
+                                                                    </TableCell>
+                                                                    <TableCell align="center">
+                                                                        <TextField
+                                                                            type="number"
+                                                                            InputProps={{
+                                                                                inputProps: {
+                                                                                    min: 0
+                                                                                }
+                                                                            }}
+                                                                            defaultValue={row.fieldgoalsmade}
+                                                                            className="table_input"
+                                                                            // handleChangeFieldGoalsMade
+                                                                            id={row.id}
+                                                                            onChange={handleChangeFieldGoalsMade}
+                                                                        />
+                                                                    </TableCell>
+                                                                    <TableCell align="center">
+                                                                        <TextField
+                                                                            type="number"
+                                                                            InputProps={{
+                                                                                inputProps: {
+                                                                                    min: 0
+                                                                                }
+                                                                            }}
+                                                                            defaultValue={row.fieldgoalsattempted}
+                                                                            className="table_input"
+                                                                            // handleChangeFieldGoalsAttempted
+                                                                            id={row.id}
+                                                                            onChange={handleChangeFieldGoalsAttempted}
+                                                                        />
+                                                                    </TableCell>
+                                                                </> :
+                                                                <>
+                                                                    <TableCell
+                                                                        align="center">{row.completion} </TableCell>
+                                                                    <TableCell
+                                                                        align="center">{row.passingattempts}</TableCell>
+                                                                    <TableCell
+                                                                        align="center">{row.passingyards}</TableCell>
+                                                                    <TableCell
+                                                                        align="center">{row.passingtouchdowns}</TableCell>
+                                                                    <TableCell
+                                                                        align="center">{row.rushingattempts}</TableCell>
+                                                                    <TableCell
+                                                                        align="center">{row.rushingyards}</TableCell>
+                                                                    <TableCell
+                                                                        align="center">{row.rushingtouchdowns}</TableCell>
+                                                                    <TableCell
+                                                                        align="center">{row.receptions}</TableCell>
+                                                                    <TableCell
+                                                                        align="center">{row.receivingyards}</TableCell>
+                                                                    <TableCell
+                                                                        align="center">{row.receivingtouchdowns}</TableCell>
+                                                                    <TableCell
+                                                                        align="center">{row.fieldgoalsmade}</TableCell>
+                                                                    <TableCell
+                                                                        align="center">{row.fieldgoalsattempted}</TableCell>
+                                                                </>
+                                                        )
 
-                                                :
-                                                (props.inputActive ?
-                                                        <>
-                                                            <TableCell align="center">
-                                                                <TextField
-                                                                    type="number"
-                                                                    InputProps={{
-                                                                        inputProps: {
-                                                                            min: 0
-                                                                        }
-                                                                    }}
-                                                                    defaultValue={row.minus}
-                                                                    className="table_input"
-                                                                />
-                                                            </TableCell>
-                                                            <TableCell align="center">
-                                                                <TextField
-                                                                    type="number"
-                                                                    InputProps={{
-                                                                        inputProps: {
-                                                                            min: 0
-                                                                        }
-                                                                    }}
-                                                                    defaultValue={row.points}
-                                                                    className="table_input"
-                                                                />
-                                                            </TableCell>
-                                                            <TableCell align="center">
-                                                                <TextField
-                                                                    type="number"
-                                                                    InputProps={{
-                                                                        inputProps: {
-                                                                            min: 0
-                                                                        }
-                                                                    }}
-                                                                    defaultValue={row.rebound}
-                                                                    className="table_input"
-                                                                />
-                                                            </TableCell>
-                                                            <TableCell align="center">
-                                                                <TextField
-                                                                    type="number"
-                                                                    InputProps={{
-                                                                        inputProps: {
-                                                                            min: 0
-                                                                        }
-                                                                    }}
-                                                                    defaultValue={row.assists}
-                                                                    className="table_input"
-                                                                />
-                                                            </TableCell>
-                                                            <TableCell align="center">
-                                                                <TextField
-                                                                    type="number"
-                                                                    InputProps={{
-                                                                        inputProps: {
-                                                                            min: 0
-                                                                        }
-                                                                    }}
-                                                                    defaultValue={row.steals}
-                                                                    className="table_input"
-                                                                />
-                                                            </TableCell>
-                                                            <TableCell align="center">
-                                                                <TextField
-                                                                    type="number"
-                                                                    InputProps={{
-                                                                        inputProps: {
-                                                                            min: 0
-                                                                        }
-                                                                    }}
-                                                                    defaultValue={row.blockedShots}
-                                                                    className="table_input"
-                                                                />
-                                                            </TableCell>
-                                                            <TableCell align="center">
-                                                                <TextField
-                                                                    type="number"
-                                                                    InputProps={{
-                                                                        inputProps: {
-                                                                            min: 0
-                                                                        }
-                                                                    }}
-                                                                    defaultValue={row.to}
-                                                                    className="table_input"
-                                                                />
-                                                            </TableCell>
-
-                                                        </>
                                                         :
-                                                        <>
-                                                            <TableCell align="center">{row.minus} </TableCell>
-                                                            <TableCell align="center">{row.points} </TableCell>
-                                                            <TableCell align="center">{row.rebound} </TableCell>
-                                                            <TableCell align="center">{row.assists} </TableCell>
-                                                            <TableCell align="center">{row.steals} </TableCell>
-                                                            <TableCell align="center">{row.blockedShots} </TableCell>
-                                                            <TableCell align="center">{row.to}</TableCell>
-                                                        </>
-                                                )
-                                            }
-                                            <TableCell align="center">{row.fantasyPoints}</TableCell>
-                                            <TableCell align="center">{row.ceiling} </TableCell>
-                                            <TableCell align="center">{row.floor} </TableCell>
-                                            <TableCell align="center">{row.fpts$}</TableCell>
-                                        </TableRow>
-                                    );
-                                })}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
-                <TablePagination
-                    rowsPerPageOptions={[10, 25, 50]}
-                    component="div"
-                    count={rows.length}
-                    rowsPerPage={rowsPerPage}
-                    page={page}
-                    onPageChange={handleChangePage}
-                    onRowsPerPageChange={handleChangeRowsPerPage}
-                />
-            </Paper>
-        </div>
+                                                        (props.inputActive ?
+                                                                <>
+                                                                    <TableCell align="center">
+                                                                        <TextField
+                                                                            type="number"
+                                                                            InputProps={{
+                                                                                inputProps: {
+                                                                                    min: 3
+                                                                                }
+                                                                            }}
+                                                                            defaultValue={row.minus}
+                                                                            className="table_input"
+                                                                            id={row.id}
+                                                                            onChange={handleChangeMinus}
+                                                                        />
+                                                                    </TableCell>
+                                                                    <TableCell align="center">
+                                                                        <TextField
+                                                                            type="number"
+                                                                            InputProps={{
+                                                                                inputProps: {
+                                                                                    min: 0
+                                                                                }
+                                                                            }}
+                                                                            defaultValue={row.points}
+                                                                            className="table_input"
+                                                                            id={row.id}
+                                                                            onChange={handleChangePoints}
+                                                                        />
+                                                                    </TableCell>
+                                                                    <TableCell align="center">
+                                                                        <TextField
+                                                                            type="number"
+                                                                            InputProps={{
+                                                                                inputProps: {
+                                                                                    min: 0
+                                                                                }
+                                                                            }}
+                                                                            defaultValue={row.rebound}
+                                                                            className="table_input"
+
+                                                                            id={row.id}
+                                                                            onChange={handleChangeRebounds}
+                                                                        />
+                                                                    </TableCell>
+                                                                    <TableCell align="center">
+                                                                        <TextField
+                                                                            type="number"
+                                                                            InputProps={{
+                                                                                inputProps: {
+                                                                                    min: 0
+                                                                                }
+                                                                            }}
+                                                                            defaultValue={row.assists}
+                                                                            className="table_input"
+                                                                            id={row.id}
+                                                                            onChange={handleChangeAssists}
+                                                                        />
+                                                                    </TableCell>
+                                                                    <TableCell align="center">
+                                                                        <TextField
+                                                                            type="number"
+                                                                            InputProps={{
+                                                                                inputProps: {
+                                                                                    min: 0
+                                                                                }
+                                                                            }}
+                                                                            defaultValue={row.steals}
+                                                                            className="table_input"
+                                                                            id={row.id}
+                                                                            onChange={handleChangeSteals}
+                                                                        />
+                                                                    </TableCell>
+                                                                    <TableCell align="center">
+                                                                        <TextField
+                                                                            type="number"
+                                                                            InputProps={{
+                                                                                inputProps: {
+                                                                                    min: 0
+                                                                                }
+                                                                            }}
+                                                                            defaultValue={row.blockedShots}
+                                                                            className="table_input"
+                                                                            id={row.id}
+                                                                            onChange={handleChangeBlockedShots}
+                                                                        />
+                                                                    </TableCell>
+                                                                    <TableCell align="center">
+                                                                        <TextField
+                                                                            type="number"
+                                                                            InputProps={{
+                                                                                inputProps: {
+                                                                                    min: 0
+                                                                                }
+                                                                            }}
+                                                                            defaultValue={row.to}
+                                                                            className="table_input"
+                                                                            id={row.id}
+                                                                            onChange={handleChangeTurnovers}
+                                                                        />
+                                                                    </TableCell>
+
+                                                                </>
+                                                                :
+                                                                <>
+                                                                    <TableCell align="center">{row.minus} </TableCell>
+                                                                    <TableCell align="center">{row.points} </TableCell>
+                                                                    <TableCell align="center">{row.rebound} </TableCell>
+                                                                    <TableCell align="center">{row.assists} </TableCell>
+                                                                    <TableCell align="center">{row.steals} </TableCell>
+                                                                    <TableCell
+                                                                        align="center">{row.blockedShots} </TableCell>
+                                                                    <TableCell align="center">{row.to}</TableCell>
+                                                                </>
+                                                        )
+                                                    }
+                                                    <TableCell align="center">{row.fantasyPoints}</TableCell>
+                                                    <TableCell align="center">{row.ceiling} </TableCell>
+                                                    <TableCell align="center">{row.floor} </TableCell>
+                                                    <TableCell align="center">{row.fpts$}</TableCell>
+                                                </TableRow>
+                                            );
+                                        })}
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
+                        <TablePagination
+                            rowsPerPageOptions={[10, 25, 50]}
+                            component="div"
+                            count={rows.length}
+                            rowsPerPage={rowsPerPage}
+                            page={page}
+                            onPageChange={handleChangePage}
+                            onRowsPerPageChange={handleChangeRowsPerPage}
+                        />
+                    </Paper>
+                </div>
+            }
+        </>
     );
 }

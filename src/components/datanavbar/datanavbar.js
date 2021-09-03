@@ -13,17 +13,26 @@ import ReactHTMLTableToExcel from "react-html-table-to-excel";
 import CustomizedMenus from "../dropdownBtn/btnDropdown"
 
 let filter_list = []
+let nflFilter_list = []
 let pgActive = false
 let sgActive = false
 let sfActive = false
 let pfActive = false
 let cActive = false
+
+let qbActive = false
+let rbActive = false
+let wrActive = false
+let teActive = false
+let kActive = false
+let dstActive = false
 let update_salary = 'dk'
 class DataNavBar extends React.Component {
 
     api = new API()
     constructor(props) {
         super(props);
+        console.log(props)
         this.state =
             {
                 players_data:[
@@ -39,8 +48,20 @@ class DataNavBar extends React.Component {
                 salary: 'dk',
                 update_data:true,
                 search_player_data: [],
-                allBtn:true,
-                allClear:false,
+                allBtn:false,
+                allClearBtn:false,
+                pgBtn:false,
+                sgBtn:false,
+                sfBtn:false,
+                pfBtn:false,
+                cBtn:false,
+                nflAction:false,
+                qbBtn:false,
+                rbBtn:false,
+                wrBtn:false,
+                teBtn:false,
+                kBtn:false,
+                dstBtn:false,
             }
 
         this.myData = this.myData.bind(this)
@@ -54,8 +75,10 @@ class DataNavBar extends React.Component {
         this.removeArray = this.removeArray.bind(this)
         this.filterObj = this.filterObj.bind(this)
         this.allClearFilter = this.allClearFilter.bind(this)
+        this.allSelectFilter = this.allSelectFilter.bind(this)
         this.resetData = this.resetData.bind(this)
         this.handleChange = this.handleChange.bind(this)
+        this.nflFilterObj = this.nflFilterObj.bind(this)
 
 
     }
@@ -68,9 +91,11 @@ class DataNavBar extends React.Component {
             // console.log(this.props.triggerChildFunc, "$$$$$$$$$$$")
             if(this.props.triggerChildFunc[0].sportView === 'NFL'){
                 this.setState({filter_player: null})
+                this.setState({nflAction: true})
             }
             if(this.props.triggerChildFunc[0].sportView === 'NBA'){
                 this.setState({filter_player: null})
+                this.setState({nflAction: false})
             }
         }
     }
@@ -122,10 +147,10 @@ class DataNavBar extends React.Component {
                         this.setState({search_player_data: response_data.body})
                         this.setState({players_data: []})
                     }
-                    this.setState({loader:false})
                     // console.log('+++++----++++', response_data.body)
                 } else if (res.request.status === 401) {
                     console.log("login")
+                    this.setState({loader:false})
                 } else {
                     console.log(res)
                 }
@@ -146,6 +171,7 @@ class DataNavBar extends React.Component {
                     // console.log('+++++----++++', response_data.body)
                 } else if (res.request.status === 401) {
                     console.log("login")
+                    this.setState({loader:false})
                 } else {
                     console.log(res)
                 }
@@ -167,8 +193,9 @@ class DataNavBar extends React.Component {
         let pfArray = []
         let cArray = []
         let player_obj= {
-            'players':this.state.players_data
-        }
+                'players':this.state.players_data
+            }
+
         for(let i = 0; i<keyList.length; i++){
             if(keyList[i] === 'pg'){
                  pgArray = (player_obj.players.filter(function (el){
@@ -197,6 +224,50 @@ class DataNavBar extends React.Component {
         return newArray
     }
 
+
+    nflFilterObj(keyList){
+        let newArray = []
+        let qbArray = []
+        let rbArray = []
+        let wrArray = []
+        let teArray = []
+        let kArray = []
+        let dstArray = []
+        let player_obj
+            player_obj= {
+                'players':this.state.nfl_player_data
+            }
+        for(let i = 0; i<keyList.length; i++){
+            if(keyList[i] === 'qb'){
+                qbArray = (player_obj.players.filter(function (el){
+                    return el.DraftKingsPosition === 'QB' || el.DraftKingsPosition === 'qb'  ;
+                }));
+            } if(keyList[i] === 'rb'){
+                rbArray = (player_obj.players.filter(function (el){
+                    return el.DraftKingsPosition === 'RB' || el.DraftKingsPosition === 'rb'  ;
+                }));
+            } if(keyList[i] === 'wr'){
+                wrArray = (player_obj.players.filter(function (el){
+                    return el.DraftKingsPosition === 'WR' || el.DraftKingsPosition === 'wr'  ;
+                }));
+            } if(keyList[i] === 'te'){
+                teArray = (player_obj.players.filter(function (el){
+                    return el.DraftKingsPosition === 'TE' || el.DraftKingsPosition === 'te'  ;
+                }));
+            } if(keyList[i] === 'k'){
+                kArray = (player_obj.players.filter(function (el){
+                    return el.DraftKingsPosition === 'K' || el.DraftKingsPosition === 'k'  ;
+                }));
+            } if(keyList[i] === 'dst'){
+                dstArray = (player_obj.players.filter(function (el){
+                    return el.DraftKingsPosition === 'DST' || el.DraftKingsPosition === 'dst'  ;
+                }));
+            }
+        }
+
+        newArray = newArray.concat(qbArray, rbArray,wrArray, teArray, kArray, dstArray);
+        return newArray
+    }
     pgFilters(){
         pgActive = !pgActive
         if(pgActive){
@@ -206,9 +277,151 @@ class DataNavBar extends React.Component {
             filter_list=this.removeArray(filter_list, 'pg');
         }
         let filter_data = this.filterObj(filter_list)
-        this.setState({filter_player:filter_data})
+        if(filter_data.length > 0){
+            this.setState({filter_player:filter_data})
+        }
+        else{
+            this.setState({filter_player:this.state.players_data})
+        }
+        this.setState({
+            allBtn:false,
+            allClearBtn:false,
+            pgBtn:!this.state.pgBtn,
+        })
 
     }
+
+
+
+    qbFilters = () =>{
+        qbActive = !qbActive
+        if(qbActive){
+            nflFilter_list.push('qb')
+        }
+        if(!qbActive) {
+            nflFilter_list=this.removeArray(nflFilter_list, 'qb');
+        }
+        let filter_data = this.nflFilterObj(nflFilter_list)
+        if(filter_data.length > 0){
+            this.setState({filter_player:filter_data})
+        }
+        else{
+            this.setState({filter_player:this.state.nfl_player_data})
+        }
+        this.setState({
+            allBtn:false,
+            allClearBtn:false,
+            qbBtn:!this.state.qbBtn,
+        })
+
+    }
+    rbFilters = () =>{
+        rbActive = !rbActive
+        if(rbActive){
+            nflFilter_list.push('rb')
+        }
+        if(!rbActive) {
+            nflFilter_list=this.removeArray(nflFilter_list, 'rb');
+        }
+        let filter_data = this.nflFilterObj(nflFilter_list)
+        if(filter_data.length > 0){
+            this.setState({filter_player:filter_data})
+        }
+        else{
+            this.setState({filter_player:this.state.nfl_player_data})
+        }
+        this.setState({
+            allBtn:false,
+            allClearBtn:false,
+            rbBtn:!this.state.rbBtn,
+        })
+    }
+    wrFilters = () =>{
+        wrActive = !wrActive
+        if(wrActive){
+            nflFilter_list.push('wr')
+        }
+        if(!wrActive) {
+            nflFilter_list=this.removeArray(nflFilter_list, 'wr');
+        }
+        let filter_data = this.nflFilterObj(nflFilter_list)
+        if(filter_data.length > 0){
+            this.setState({filter_player:filter_data})
+        }
+        else{
+            this.setState({filter_player:this.state.nfl_player_data})
+        }
+        this.setState({
+            allBtn:false,
+            allClearBtn:false,
+            wrBtn:!this.state.wrBtn,
+        })
+    }
+
+    teFilters = () =>{
+        teActive = !teActive
+        if(teActive){
+            nflFilter_list.push('te')
+        }
+        if(!teActive) {
+            nflFilter_list=this.removeArray(nflFilter_list, 'te');
+        }
+        let filter_data = this.nflFilterObj(nflFilter_list)
+        if(filter_data.length > 0){
+            this.setState({filter_player:filter_data})
+        }
+        else{
+            this.setState({filter_player:this.state.nfl_player_data})
+        }
+        this.setState({
+            allBtn:false,
+            allClearBtn:false,
+            teBtn:!this.state.teBtn,
+        })
+    }
+    kFilters = () =>{
+        kActive = !kActive
+        if(kActive){
+            nflFilter_list.push('k')
+        }
+        if(!kActive) {
+            nflFilter_list=this.removeArray(nflFilter_list, 'k');
+        }
+        let filter_data = this.nflFilterObj(nflFilter_list)
+        if(filter_data.length > 0){
+            this.setState({filter_player:filter_data})
+        }
+        else{
+            this.setState({filter_player:this.state.nfl_player_data})
+        }
+        this.setState({
+            allBtn:false,
+            allClearBtn:false,
+            kBtn:!this.state.kBtn,
+        })
+    }
+    dstFilters = () =>{
+        dstActive = !dstActive
+        if(kActive){
+            nflFilter_list.push('dst')
+        }
+        if(!dstActive) {
+            nflFilter_list=this.removeArray(nflFilter_list, 'dst');
+        }
+        let filter_data = this.nflFilterObj(nflFilter_list)
+        if(filter_data.length > 0){
+            this.setState({filter_player:filter_data})
+        }
+        else{
+            this.setState({filter_player:this.state.nfl_player_data})
+        }
+        this.setState({
+            allBtn:false,
+            allClearBtn:false,
+            dstBtn:!this.state.dstBtn,
+        })
+    }
+
 
     sgFilters(){
         sgActive = !sgActive
@@ -219,7 +432,17 @@ class DataNavBar extends React.Component {
             filter_list=this.removeArray(filter_list, 'sg');
         }
         let filter_data = this.filterObj(filter_list)
-        this.setState({filter_player:filter_data})
+        if(filter_data.length > 0){
+            this.setState({filter_player:filter_data})
+        }
+        else{
+            this.setState({filter_player:this.state.players_data})
+        }
+        this.setState({
+            allBtn:false,
+            allClearBtn:false,
+            sgBtn:!this.state.sgBtn,
+        })
     }
 
     sfFilters(){
@@ -231,7 +454,17 @@ class DataNavBar extends React.Component {
             filter_list=this.removeArray(filter_list, 'sf');
         }
         let filter_data = this.filterObj(filter_list)
-        this.setState({filter_player:filter_data})
+        if(filter_data.length > 0){
+            this.setState({filter_player:filter_data})
+        }
+        else{
+            this.setState({filter_player:this.state.players_data})
+        }
+        this.setState({
+            allBtn:false,
+            allClearBtn:false,
+            sfBtn:!this.state.sfBtn,
+        })
     }
     pfFilters(){
         pfActive = !pfActive
@@ -242,7 +475,17 @@ class DataNavBar extends React.Component {
             filter_list=this.removeArray(filter_list, 'pf');
         }
         let filter_data = this.filterObj(filter_list)
-        this.setState({filter_player:filter_data})
+        if(filter_data.length > 0){
+            this.setState({filter_player:filter_data})
+        }
+        else{
+            this.setState({filter_player:this.state.players_data})
+        }
+        this.setState({
+            allBtn:false,
+            allClearBtn:false,
+            pfBtn:!this.state.pfBtn,
+        })
 
     }
     cFilters(){
@@ -254,12 +497,54 @@ class DataNavBar extends React.Component {
             filter_list=this.removeArray(filter_list, 'c');
         }
         let filter_data = this.filterObj(filter_list)
-        this.setState({filter_player:filter_data})
+        if(filter_data.length > 0){
+            this.setState({filter_player:filter_data})
+        }
+        else{
+            this.setState({filter_player:this.state.players_data})
+        }
+        this.setState({
+            allBtn:false,
+            allClearBtn:false,
+            cBtn:!this.state.cBtn,
+        })
     }
 
-    allClearFilter(){
-        this.setState({filter_player:this.state.players_data})
+    allSelectFilter(){
+        if(this.state.nflAction){
+            this.setState({filter_player:this.state.nfl_player_data})
+        }
+        else{
+            this.setState({filter_player:this.state.players_data})
+        }
+        this.setState({
+            allBtn:true,
+            allClearBtn:false,
+            pgBtn:true,
+            sgBtn:true,
+            sfBtn:true,
+            pfBtn:true,
+            cBtn:true,
+        })
     }
+    allClearFilter(){
+        if(this.state.nflAction){
+            this.setState({filter_player:this.state.nfl_player_data})
+        }
+        else{
+            this.setState({filter_player:this.state.players_data})
+        }
+        this.setState({
+            allBtn:false,
+            allClearBtn:true,
+            pgBtn:false,
+            sgBtn:false,
+            sfBtn:false,
+            pfBtn:false,
+            cBtn:false,
+        })
+    }
+
     resetData(){
         this.allClearFilter()
     }
@@ -288,11 +573,13 @@ class DataNavBar extends React.Component {
         this.setState({salary:'fd'})
     }
 
+
+
     render() {
-        // if(this.state.loader){
-        //     return <Loader/>
-        // }
-        // else {
+        if(this.state.loader){
+            return <Loader/>
+        }
+        else {
             return (
                 <>
                     <div className="container-fluid">
@@ -357,34 +644,63 @@ class DataNavBar extends React.Component {
                             </div>
                             <div className="common-button ">
                                 <div className="btn-group" >
-                                    <label className="btn btn-primary active ad-group-btn" onClick={this.allClearFilter}>
+                                    <label className={`${this.state.allBtn ? 'btn btn-primary active ad-group-btn' : 'btn btn-primary ad-group-btn'}`} onClick={()=>{this.allSelectFilter('nfl')}}>
                                         {/*<input type="radio" name="options" autoComplete="off" checked/>*/}
                                         <span className="btn-text"> All</span>
                                     </label>
-                                    <label className="btn btn-primary ad-group-btn" onClick={this.allClearFilter}>
+                                    <label className={`${this.state.allClearBtn ? 'btn btn-primary active ad-group-btn' : 'btn btn-primary ad-group-btn'}`} onClick={this.allClearFilter}>
                                         {/*<input type="radio" name="options" autoComplete="off" checked/>*/}
                                         <span className="btn-text"> Clear</span>
                                     </label>
-                                    <label className="btn btn-primary ad-group-btn" onClick={this.pgFilters}>
-                                        {/*<input type="radio" name="options" autoComplete="off"/>*/}
-                                        <span className="btn-text"> pg</span>
-                                    </label>
-                                    <label className="btn btn-primary ad-group-btn" onClick={this.sgFilters}>
-                                        {/*<input type="radio" name="options" autoComplete="off"/>*/}
+                                    {this.state.nflAction ?
+                                        <>
+                                        <label
+                                            className={`${this.state.qbBtn ? 'btn btn-primary active ad-group-btn' : 'btn btn-primary ad-group-btn'}`}
+                                            onClick={this.qbFilters}>
+                                            <span className="btn-text"> qb</span>
+                                        </label>
+                                            <label
+                                                className={`${this.state.rbBtn ? 'btn btn-primary active ad-group-btn' : 'btn btn-primary ad-group-btn'}`}
+                                                onClick={this.rbFilters}>
+                                                <span className="btn-text"> rb</span>
+                                            </label>
+                                            <label
+                                                className={`${this.state.wrBtn ? 'btn btn-primary active ad-group-btn' : 'btn btn-primary ad-group-btn'}`}
+                                                onClick={this.wrFilters}>
+                                                <span className="btn-text"> wr</span>
+                                            </label>
+                                            <label
+                                                className={`${this.state.teBtn ? 'btn btn-primary active ad-group-btn' : 'btn btn-primary ad-group-btn'}`}
+                                                onClick={this.teFilters}>
+                                                <span className="btn-text"> te</span>
+                                            </label>
+                                            <label
+                                                className={`${this.state.kBtn ? 'btn btn-primary active ad-group-btn' : 'btn btn-primary ad-group-btn'}`}
+                                                onClick={this.kFilters}>
+                                                <span className="btn-text"> k</span>
+                                            </label>
+                                        </>
+                                        :
+                                        <>
+                                        <label
+                                            className={`${this.state.pgBtn ? 'btn btn-primary active ad-group-btn' : 'btn btn-primary ad-group-btn'}`}
+                                            onClick={this.pgFilters}>
+                                            <span className="btn-text"> pg</span>
+                                        </label>
+                                        <label className={`${this.state.sgBtn ? 'btn btn-primary active ad-group-btn' : 'btn btn-primary ad-group-btn'}`} onClick={this.sgFilters}>
                                         <span className="btn-text"> sg</span>
-                                    </label>
-                                    <label className="btn btn-primary ad-group-btn" onClick={this.sfFilters}>
-                                        {/*<input type="radio" name="options" autoComplete="off"/>*/}
+                                        </label>
+                                        <label className={`${this.state.sfBtn ? 'btn btn-primary active ad-group-btn' : 'btn btn-primary ad-group-btn'}`} onClick={this.sfFilters}>
                                         <span className="btn-text" > sf</span>
-                                    </label>
-                                    <label className="btn btn-primary ad-group-btn" onClick={this.pfFilters}>
-                                        {/*<input type="radio" name="options" autoComplete="off"/>*/}
+                                        </label>
+                                        <label className={`${this.state.pfBtn ? 'btn btn-primary active ad-group-btn' : 'btn btn-primary ad-group-btn'}`} onClick={this.pfFilters}>
                                         <span className="btn-text"> pf</span>
-                                    </label>
-                                    <label className="btn btn-primary ad-group-btn" onClick={this.cFilters}>
-                                        {/*<input type="radio" name="options" autoComplete="off"/>*/}
+                                        </label>
+                                        <label className={`${this.state.cBtn ? 'btn btn-primary active ad-group-btn' : 'btn btn-primary ad-group-btn'}`} onClick={this.cFilters}>
                                         <span className="btn-text"> c</span>
-                                    </label>
+                                        </label>
+                                        </>
+                                    }
                                 </div>
                             </div>
 
@@ -436,7 +752,7 @@ class DataNavBar extends React.Component {
                     </div>
                 </>
             )
-        // }
+        }
     }
 }
 export default DataNavBar
