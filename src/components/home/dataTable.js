@@ -226,6 +226,118 @@ export default function EnhancedTable(props) {
         }
     }
 
+    const handleChangeCompletion = (e) =>{
+        let rowId = e.target.id
+        let nflPassingCompletions  = e.target.value
+        for(let i = 0; i<updateGameList.length; i++){
+            if(updateGameList[i].Id === rowId){
+                updateGameList[i]['PassingCompletions'] = nflPassingCompletions
+            }
+        }
+    }
+
+    const handleChangePassingAttempts = (e) =>{
+        let rowId = e.target.id
+        let nflPassingAttempts = e.target.value
+        for(let i = 0; i<updateGameList.length; i++){
+            if(updateGameList[i].Id === rowId){
+                updateGameList[i]['PassingAttempts'] = nflPassingAttempts
+            }
+        }
+    }
+    const handleChangePassingYards = (e) =>{
+        let rowId = e.target.id
+        let nflPassingYards = e.target.value
+        for(let i = 0; i<updateGameList.length; i++){
+            if(updateGameList[i].Id === rowId){
+                updateGameList[i]['PassingYards'] = nflPassingYards
+            }
+        }
+    }
+    const handleChangePassingTouchdowns = (e) =>{
+        let rowId = e.target.id
+        let nflPassingTouchdowns = e.target.value
+        for(let i = 0; i<updateGameList.length; i++){
+            if(updateGameList[i].Id === rowId){
+                updateGameList[i]['PassingTouchdowns'] = nflPassingTouchdowns
+            }
+        }
+    }
+
+    const handleChangeRushingAttempts = (e) =>{
+        let rowId = e.target.id
+        let nflRushingAttempts = e.target.value
+        for(let i = 0; i<updateGameList.length; i++){
+            if(updateGameList[i].Id === rowId){
+                updateGameList[i]['RushingAttempts'] = nflRushingAttempts
+            }
+        }
+    }
+    const handleChangeRushingYards = (e) =>{
+        let rowId = e.target.id
+        let nflRushingYards = e.target.value
+        for(let i = 0; i<updateGameList.length; i++){
+            if(updateGameList[i].Id === rowId){
+                updateGameList[i]['RushingYards'] = nflRushingYards
+            }
+        }
+    }
+    const handleChangeRushingTouchdowns = (e) =>{
+        let rowId = e.target.id
+        let nflRushingTouchdowns = e.target.value
+        for(let i = 0; i<updateGameList.length; i++){
+            if(updateGameList[i].Id === rowId){
+                updateGameList[i]['RushingTouchdowns'] = nflRushingTouchdowns
+            }
+        }
+    }
+    const handleChangeReceptions = (e) =>{
+        let rowId = e.target.id
+        let nflReceptions = e.target.value
+        for(let i = 0; i<updateGameList.length; i++){
+            if(updateGameList[i].Id === rowId){
+                updateGameList[i]['Receptions'] = nflReceptions
+            }
+        }
+    }
+    const handleChangeReceivingYards = (e) =>{
+        let rowId = e.target.id
+        let nflReceivingYards = e.target.value
+        for(let i = 0; i<updateGameList.length; i++){
+            if(updateGameList[i].Id === rowId){
+                updateGameList[i]['ReceivingYards'] = nflReceivingYards
+            }
+        }
+    }
+    const handleChangeReceivingTouchdowns = (e) =>{
+        let rowId = e.target.id
+        let nflReceivingTouchdowns = e.target.value
+        for(let i = 0; i<updateGameList.length; i++){
+            if(updateGameList[i].Id === rowId){
+                updateGameList[i]['ReceivingTouchdowns'] = nflReceivingTouchdowns
+            }
+        }
+    }
+    const handleChangeFieldGoalsMade= (e) =>{
+        let rowId = e.target.id
+        let nflFieldGoalsMade = e.target.value
+        for(let i = 0; i<updateGameList.length; i++){
+            if(updateGameList[i].Id === rowId){
+                updateGameList[i]['FieldGoalsMade'] = nflFieldGoalsMade
+            }
+        }
+    }
+    const handleChangeFieldGoalsAttempted = (e) =>{
+        let rowId = e.target.id
+        let nflFieldGoalsAttempted = e.target.value
+        for(let i = 0; i<updateGameList.length; i++){
+            if(updateGameList[i].Id === rowId){
+                updateGameList[i]['FieldGoalsAttempted'] = nflFieldGoalsAttempted
+            }
+        }
+    }
+// console.log(updateGameList, "############")
+
     if (props.nfl_player_data.length > 0) {
         update_data = true
         nft_header = true
@@ -470,6 +582,8 @@ export default function EnhancedTable(props) {
                                                                             defaultValue={row.completion}
                                                                             // defaultValue='232'
                                                                             className="table_input"
+                                                                            id={row.id}
+                                                                            onChange={handleChangeCompletion}
                                                                         />
                                                                     </TableCell>
                                                                     <TableCell align="center">
@@ -482,6 +596,8 @@ export default function EnhancedTable(props) {
                                                                             }}
                                                                             defaultValue={row.passingattempts}
                                                                             className="table_input"
+                                                                            id={row.id}
+                                                                            onChange={handleChangePassingAttempts}
                                                                         />
                                                                     </TableCell>
                                                                     <TableCell align="center">
@@ -494,6 +610,9 @@ export default function EnhancedTable(props) {
                                                                             }}
                                                                             defaultValue={row.passingyards}
                                                                             className="table_input"
+                                                                            // PassingYards
+                                                                            id={row.id}
+                                                                            onChange={handleChangePassingYards}
                                                                         />
                                                                     </TableCell>
                                                                     <TableCell align="center">
@@ -506,6 +625,9 @@ export default function EnhancedTable(props) {
                                                                             }}
                                                                             defaultValue={row.passingtouchdowns}
                                                                             className="table_input"
+                                                                            // PassingTouchdowns
+                                                                            id={row.id}
+                                                                            onChange={handleChangePassingTouchdowns}
                                                                         />
                                                                     </TableCell>
                                                                     <TableCell align="center">
@@ -518,6 +640,9 @@ export default function EnhancedTable(props) {
                                                                             }}
                                                                             defaultValue={row.rushingattempts}
                                                                             className="table_input"
+                                                                            // handleChangeRushingAttempts
+                                                                            id={row.id}
+                                                                            onChange={handleChangeRushingAttempts}
                                                                         />
                                                                     </TableCell>
                                                                     <TableCell align="center">
@@ -530,6 +655,9 @@ export default function EnhancedTable(props) {
                                                                             }}
                                                                             defaultValue={row.rushingyards}
                                                                             className="table_input"
+                                                                            // handleChangeRushingYards
+                                                                            id={row.id}
+                                                                            onChange={handleChangeRushingYards}
                                                                         />
                                                                     </TableCell>
                                                                     <TableCell align="center">
@@ -542,6 +670,9 @@ export default function EnhancedTable(props) {
                                                                             }}
                                                                             defaultValue={row.rushingtouchdowns}
                                                                             className="table_input"
+                                                                            // handleChangeRushingTouchdowns
+                                                                            id={row.id}
+                                                                            onChange={handleChangeRushingTouchdowns}
                                                                         />
                                                                     </TableCell>
                                                                     <TableCell align="center">
@@ -554,6 +685,9 @@ export default function EnhancedTable(props) {
                                                                             }}
                                                                             defaultValue={row.receptions}
                                                                             className="table_input"
+                                                                            // handleChangeReceptions
+                                                                            id={row.id}
+                                                                            onChange={handleChangeReceptions}
                                                                         />
                                                                     </TableCell>
                                                                     <TableCell align="center">
@@ -566,6 +700,9 @@ export default function EnhancedTable(props) {
                                                                             }}
                                                                             defaultValue={row.receivingyards}
                                                                             className="table_input"
+                                                                            // handleChangeReceivingYards
+                                                                            id={row.id}
+                                                                            onChange={handleChangeReceivingYards}
                                                                         />
                                                                     </TableCell>
                                                                     <TableCell align="center">
@@ -578,6 +715,9 @@ export default function EnhancedTable(props) {
                                                                             }}
                                                                             defaultValue={row.receivingtouchdowns}
                                                                             className="table_input"
+                                                                            // handleChangeReceivingTouchdowns
+                                                                            id={row.id}
+                                                                            onChange={handleChangeReceivingTouchdowns}
                                                                         />
                                                                     </TableCell>
                                                                     <TableCell align="center">
@@ -590,6 +730,9 @@ export default function EnhancedTable(props) {
                                                                             }}
                                                                             defaultValue={row.fieldgoalsmade}
                                                                             className="table_input"
+                                                                            // handleChangeFieldGoalsMade
+                                                                            id={row.id}
+                                                                            onChange={handleChangeFieldGoalsMade}
                                                                         />
                                                                     </TableCell>
                                                                     <TableCell align="center">
@@ -602,6 +745,9 @@ export default function EnhancedTable(props) {
                                                                             }}
                                                                             defaultValue={row.fieldgoalsattempted}
                                                                             className="table_input"
+                                                                            // handleChangeFieldGoalsAttempted
+                                                                            id={row.id}
+                                                                            onChange={handleChangeFieldGoalsAttempted}
                                                                         />
                                                                     </TableCell>
                                                                 </> :
