@@ -10,6 +10,7 @@ class Home extends React.Component {
             triggerFunc: []
         }
         this.nbaRequest = this.nbaRequest.bind(this);
+        // console.log(localStorage.getItem('username'), "@@@@@@@@@@@@@@@@@@")
 
     }
     nbaRequest(values) {

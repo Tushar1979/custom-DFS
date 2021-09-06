@@ -11,6 +11,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ReactHTMLTableToExcel from "react-html-table-to-excel";
 import CustomizedMenus from "../dropdownBtn/btnDropdown"
+import Button from "@material-ui/core/Button";
 
 let filter_list = []
 let nflFilter_list = []
@@ -32,7 +33,6 @@ class DataNavBar extends React.Component {
     api = new API()
     constructor(props) {
         super(props);
-        console.log(props)
         this.state =
             {
                 players_data:[
@@ -62,7 +62,11 @@ class DataNavBar extends React.Component {
                 teBtn:false,
                 kBtn:false,
                 dstBtn:false,
+                saveData:false,
+                is_nbaNfl:'NBA',
+                saveBtnActive:false
             }
+        this.child = React.createRef();
 
         this.myData = this.myData.bind(this)
         this.customDfs = this.customDfs.bind(this)
@@ -80,15 +84,14 @@ class DataNavBar extends React.Component {
         this.handleChange = this.handleChange.bind(this)
         this.nflFilterObj = this.nflFilterObj.bind(this)
 
-
     }
     componentDidMount() {
         this.getCustomDfsData({user:{id:'Master'}, sportView:"NBA"});
     }
     componentDidUpdate(prevProps) {
         if (this.props.triggerChildFunc !== prevProps.triggerChildFunc) {
+            this.setState({saveBtnActive:false})
             this.onParentTrigger(this.props.triggerChildFunc[0]);
-            // console.log(this.props.triggerChildFunc, "$$$$$$$$$$$")
             if(this.props.triggerChildFunc[0].sportView === 'NFL'){
                 this.setState({filter_player: null})
                 this.setState({nflAction: true})
@@ -100,6 +103,7 @@ class DataNavBar extends React.Component {
         }
     }
     onParentTrigger(data) {
+        this.setState({is_nbaNfl: data.sportView})
         this.getCustomDfsData(data)
 
         // Let's call the passed variable from parent if it's a function
@@ -111,19 +115,23 @@ class DataNavBar extends React.Component {
     myData(){
         toast("⭐ Populating fields...");
         this.setState({
-            inputActive:true
+            inputActive:true,
+            saveBtnActive:true
         })
     }
     customDfs(){
         toast("⭐ Populating fields...");
         this.setState({
-            inputActive:false
+            inputActive:false,
+            saveBtnActive:false
         })
     }
 
+    SaveData = () =>{
+        this.setState({saveData:true})
+    }
 
     //api calling
-
     getCustomDfsData(data){
         this.setState({loader:true})
         this.setState({update_data:true})
@@ -572,8 +580,79 @@ class DataNavBar extends React.Component {
     fdSalary = event => {
         this.setState({salary:'fd'})
     }
+    handlePlayerStats = (playerStats) =>{
+        let payload = {
+                data:{playerStats: playerStats, user: {id: localStorage.getItem('username')}, sportView: this.state.is_nbaNfl}
+            }
+            // player stats api calling
+            let url = 'https://o2ygn3a3h3.execute-api.us-east-2.amazonaws.com/Prod/save-player-stats'
+            this.api.PostApi(payload, url)
+                .then((res) => {
+                    let response_data = JSON.parse(res.request.response)
+                    if (res.status === 200 ) {
+                        // console.log('+++++----++++', response_data.body)
+                    } else if (res.request.status === 401) {
+                        console.log("login")
+                        this.setState({loader:false})
+                    } else {
+                        console.log(res)
+                    }
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
+        this.setState({saveData:false})
+        toast.success("⭐ Sucessfully Saved Data");
+    }
+    handleSimulations = () =>{
+        let payload = {
+            User: localStorage.getItem('username')
+        }
+        let url = 'https://o2ygn3a3h3.execute-api.us-east-2.amazonaws.com/Prod/run-simulation-nfl'
+        this.api.PostApi(payload, url)
+            .then((res) => {
+                let response_data = JSON.parse(res.request.response)
+                if (res.status === 200 ) {
+                    // console.log('+++++----++++', response_data.body)
+                    toast.success("⭐ Simulation Started...");
+                } else if (res.request.status === 401) {
+                    console.log("login")
+                    this.setState({loader:false})
+                } else {
+                    console.log(res)
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            })
 
+    }
 
+    handleSaveGameData = (props) =>{
+        let payload = {
+            data:{playerStats: props, user: {id: localStorage.getItem('username')}, sportView: this.state.is_nbaNfl}
+        }
+        // player stats api calling
+        let url = 'https://o2ygn3a3h3.execute-api.us-east-2.amazonaws.com/Prod/save-game-data'
+        this.api.PostApi(payload, url)
+            .then((res) => {
+                let response_data = JSON.parse(res.request.response)
+                if (res.status === 200 ) {
+                    // console.log('+++++----++++', response_data.body)
+                } else if (res.request.status === 401) {
+                    console.log("login")
+                    this.setState({loader:false})
+                } else {
+                    console.log(res)
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+        this.setState({saveData:false})
+        toast.success("⭐ Apply to All Teams...");
+
+    }
 
     render() {
         if(this.state.loader){
@@ -640,6 +719,8 @@ class DataNavBar extends React.Component {
                                 <CustomizedMenus
                                     nfl_game_data={this.state.game_data}
                                     inputActive={this.state.inputActive}
+                                    onSaveGameData={this.handleSaveGameData}
+                                    is_nbaNfl={this.state.is_nbaNfl}
                                 />
                             </div>
                             <div className="common-button ">
@@ -709,32 +790,51 @@ class DataNavBar extends React.Component {
                                            type="search" variant="outlined" onChange={this.handleChange}/>
                             </div>
                             <div className="common-button">
-                                {/*<label className="btn btn-primary ad-group-btn">*/}
-                                    {/*<input type="file" className="ad-group-btn"/>*/}
-                                    {/*<span className="btn-text">Export</span>*/}
-
                                     <ReactHTMLTableToExcel
                                         className="btn btn-primary active ad-group-btn"
                                         table="data_table"
                                         filename="ReportExcel"
                                         sheet="Sheet"
                                         buttonText="Export" />
-                                {/*</label>*/}
                             </div>
                             <div className="common-button">
-                                <label className="btn btn-primary active ad-group-btn"onClick={this.resetData}>
+                                <label className="btn btn-primary active ad-group-btn" onClick={this.resetData}>
                                     <span className="btn-text">Reset Data</span>
                                 </label>
                             </div>
                             <div className="common-button">
-                                <label className="btn btn-primary active ad-group-btn" >
-                                    <span className="btn-text">Save</span>
-                                </label>
+                                <Button
+                                    variant="contained"
+                                    color="primary"
+                                    className="btn btn-primary active ad-group-btn"
+                                    onClick={this.SaveData}
+                                    disabled={!this.state.saveBtnActive}
+                                >
+                                    <ToastContainer
+                                        position="bottom-right"
+                                        autoClose={5000}
+                                        hideProgressBar={false}
+                                        newestOnTop={false}
+                                        closeOnClick
+                                        rtl={false}
+                                        pauseOnFocusLoss
+                                        draggable
+                                        pauseOnHover
+                                        className='toasterStyle'
+                                    />
+                                    Save
+                                </Button>
                             </div>
                             <div className="common-button">
-                                <label className="btn btn-danger active ad-group-btn">
-                                    <span className="btn-text">Simulate</span>
-                                </label>
+                                <Button
+                                    variant="contained"
+                                    color="danger"
+                                    className="btn btn-danger active ad-group-btn"
+                                    onClick={this.handleSimulations}
+                                    disabled={!this.state.saveBtnActive}
+                                >
+                                    Simulate
+                                </Button>
                             </div>
                         </div>
 
@@ -748,6 +848,9 @@ class DataNavBar extends React.Component {
                             new_array={this.state.filter_player}
                             update_data={this.state.update_data}
                             nfl_player_data={this.state.nfl_player_data}
+                            saveDataBtn={this.state.saveData}
+                            is_nbaNfl={this.state.is_nbaNfl}
+                            onSavePlayerStats={this.handlePlayerStats}
                         />
                     </div>
                 </>

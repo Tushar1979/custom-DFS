@@ -34,7 +34,6 @@ export default class API {
     }
 
     async PostApi(data, url) {
-        console.log('react')
         try {
             let response = axios.post(
                 this.baseUrl + url,

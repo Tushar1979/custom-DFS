@@ -47,6 +47,7 @@ export default function CustomizedMenus(props) {
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [allGameData, setAllGameData] = React.useState([])
+    const [updateGameData, setUpdateGameData] = React.useState([])
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
     };
@@ -164,7 +165,11 @@ export default function CustomizedMenus(props) {
         }
     }
     const applyTeam = () =>{
-        toast.success("⭐ Apply to All Teams...");
+        props.onSaveGameData(updateGameData)
+        // toast.success("⭐ Apply to All Teams...");
+    }
+    const gameDataInstance = (data) =>{
+        setUpdateGameData(data)
     }
 
     const dropdownMenu = allGameData.map((gameData) => (
@@ -188,6 +193,9 @@ export default function CustomizedMenus(props) {
                             HomeTeam={gameData.HomeTeam}
                             gameData={allGameData}
                             collapse={props.inputActive}
+                            id={gameData.Id}
+                            updateGame={gameDataInstance}
+
                         />
                     </div>
                 </div>
@@ -268,26 +276,138 @@ export default function CustomizedMenus(props) {
                     </div>
                 </StyledMenu>
                 </div>
-
                     : null}
-
             </div>
 
     );
 }
-
-
-
 
 const useStyles = makeStyles((theme) => ({
     root: {
     },
 
 }));
-
-
 function DetailedAccordion(props) {
     const classes = useStyles();
+    const [updateGameData, setUpdateGameData] = React.useState([])
+    const [newGameData, setNewGameData] = React.useState([])
+
+    useEffect(()=>{
+        setUpdateGameData(props.gameData)
+
+    })
+
+    const winnerAction = (id, is_check, winner, keyName) =>{
+        let is_checked = !is_check
+        let is_exist = true
+
+        for(let i=0; i< newGameData.length; i++){
+            if(newGameData[i].Id === id){
+                if(is_checked && keyName === 'winner') {
+                newGameData[i]['Winner'] = winner
+                }
+                if(!is_checked && keyName === 'winner') {
+                    newGameData[i]['Winner'] = null
+                }
+                if(is_checked && keyName === 'leftSpreadHome') {
+                    newGameData[i]['PointSpreadHome'] = false
+                }
+                if(!is_checked && keyName === 'leftSpreadHome') {
+                    newGameData[i]['PointSpreadHome'] = null
+                }
+                if(is_checked && keyName === 'rightSpreadHome') {
+                    newGameData[i]['PointSpreadHome'] = true
+                }
+                if(!is_checked && keyName === 'rightSpreadHome') {
+                    newGameData[i]['PointSpreadHome'] = null
+                }
+                if(is_checked && keyName === 'over') {
+                    newGameData[i]['OverTotal'] = true
+                }
+                if(!is_checked && keyName === 'over') {
+                    newGameData[i]['OverTotal'] = null
+                }
+                if(is_checked && keyName === 'under') {
+                    newGameData[i]['OverTotal'] = false
+                }
+                if(!is_checked && keyName === 'under') {
+                    newGameData[i]['OverTotal'] = null
+                }
+
+                is_exist = false
+                break
+            }
+        }
+        if(is_exist){
+            for(let i=0; i< updateGameData.length; i++){
+                if(updateGameData[i].Id === id){
+                    if(is_checked && keyName === 'winner') {
+                        setNewGameData(newGameData.concat(updateGameData[i]))
+                        let data = Object.assign({}, {'Winner': winner}, newGameData);
+                        is_exist=false
+                        break
+                    }
+                    if(!is_checked && keyName === 'winner') {
+                        setNewGameData(newGameData.concat(updateGameData[i]))
+                        let data = Object.assign({}, {'Winner': null}, newGameData);
+                        is_exist=false
+                        break
+                    }
+                    if(is_checked && keyName === 'leftSpreadHome') {
+                        setNewGameData(newGameData.concat(updateGameData[i]))
+                        let data = Object.assign({}, {'PointSpreadHome': false}, newGameData);
+                        is_exist=false
+                        break
+                    }
+                    if(!is_checked && keyName === 'leftSpreadHome') {
+                        setNewGameData(newGameData.concat(updateGameData[i]))
+                        let data = Object.assign({}, {'PointSpreadHome': null}, newGameData);
+                        is_exist=false
+                        break
+                    }
+                    if(is_checked === true && keyName === 'rightSpreadHome') {
+                        setNewGameData(newGameData.concat(updateGameData[i]))
+                        let data = Object.assign({}, {'PointSpreadHome': true}, newGameData);
+                        is_exist=false
+                        break
+                    }
+                    if(!is_checked === true && keyName === 'rightSpreadHome') {
+                        setNewGameData(newGameData.concat(updateGameData[i]))
+                        let data = Object.assign({}, {'PointSpreadHome': null}, newGameData);
+                        is_exist=false
+                        break
+                    }
+
+                    if(is_checked === true && keyName === 'over') {
+                        setNewGameData(newGameData.concat(updateGameData[i]))
+                        let data = Object.assign({}, {'OverTotal': true}, newGameData);
+                        is_exist=false
+                        break
+                    }
+                    if(!is_checked === true && keyName === 'over') {
+                        setNewGameData(newGameData.concat(updateGameData[i]))
+                        let data = Object.assign({}, {'OverTotal': null}, newGameData);
+                        is_exist=false
+                        break
+                    }
+                    if(is_checked === true && keyName === 'under') {
+                        setNewGameData(newGameData.concat(updateGameData[i]))
+                        let data = Object.assign({}, {'OverTotal': false}, newGameData);
+                        is_exist=false
+                        break
+                    }
+                    if(!is_checked === true && keyName === 'under') {
+                        setNewGameData(newGameData.concat(updateGameData[i]))
+                        let data = Object.assign({}, {'OverTotal': null}, newGameData);
+                        is_exist=false
+                        break
+                    }
+                }
+            }
+        }
+        props.updateGame(newGameData)
+    }
+
     return (
         <div className={classes.root}>
             <Accordion >
@@ -317,6 +437,9 @@ function DetailedAccordion(props) {
                                                 spread={props.spread}
                                                 TeamName={props.AwayTeam}
                                                 HomeTeam={props.HomeTeam}
+                                                id={props.id}
+                                                onUpdateWinner={winnerAction}
+                                                actionKey={'winner'}
                                             />
                                         </span>
                                         <span className="input">
@@ -324,6 +447,9 @@ function DetailedAccordion(props) {
                                                 gameData={props.gameData}
                                                 spread={props.spread}
                                                 TeamName={props.HomeTeam}
+                                                id={props.id}
+                                                onUpdateWinner={winnerAction}
+                                                actionKey={'winner'}
                                             />
                                         </span>
                                     </li>
@@ -333,12 +459,18 @@ function DetailedAccordion(props) {
                                             <StandaloneToggleButton
                                                 gameData={props.gameData}
                                                 TeamName={-(props.spread)}
+                                                id={props.id}
+                                                onUpdateWinner={winnerAction}
+                                                actionKey={'spreadHome'}
                                             />
                                         </span>
                                         <span className="input">
                                             <StandaloneToggleButton
                                                 gameData={props.gameData}
                                                 TeamName={-(props.spread)}
+                                                id={props.id}
+                                                onUpdateWinner={winnerAction}
+                                                actionKey={'rightSpreadHome'}
                                             />
                                         </span>
                                     </li>
@@ -348,12 +480,18 @@ function DetailedAccordion(props) {
                                             <StandaloneToggleButton
                                                 gameData={props.gameData}
                                                 TeamName={"OVER " + props.overUnder}
+                                                id={props.id}
+                                                onUpdateWinner={winnerAction}
+                                                actionKey={'over'}
                                             />
                                         </span>
                                         <span className="input">
                                             <StandaloneToggleButton
                                                 gameData={props.gameData}
                                                 TeamName={"UNDER "+props.overUnder}
+                                                id={props.id}
+                                                onUpdateWinner={winnerAction}
+                                                actionKey={'under'}
                                             />
                                         </span>
                                     </li>
@@ -370,6 +508,21 @@ function DetailedAccordion(props) {
 
 function StandaloneToggleButton(props) {
     const [selected, setSelected] = React.useState(false);
+    const onGameChange = () =>{
+        // if(props.actionKey === 'winner') {
+            props.onUpdateWinner(props.id, selected, props.TeamName, props.actionKey)
+        // }
+        // if(props.actionKey === 'spreadHome') {
+        //     props.onUpdateWinner(props.id, selected, '', 'leftSpreadHome')
+        // }
+        // if(props.actionKey === 'rightSpreadHome') {
+        //     props.onUpdateWinner(props.id, selected, '', 'rightSpreadHome')
+        // }
+        // if(props.actionKey === 'over') {
+        //     props.onUpdateWinner(props.id, selected, '', 'over')
+        // }
+    }
+
     return (
         <ToggleButton
             value="check"
@@ -377,7 +530,9 @@ function StandaloneToggleButton(props) {
             onChange={() => {
                 setSelected(!selected);
             }}
-            className="toggle_btn"
+            className={`toggle_btn`}
+            id={props.id}
+            onClick={onGameChange}
         >
             {props.TeamName}
         </ToggleButton>

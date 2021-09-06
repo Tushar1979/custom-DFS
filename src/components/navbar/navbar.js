@@ -1,30 +1,127 @@
-import React from 'react'
+import React, {Component} from 'react'
 import './navbar.css'
 import '../datanavbar/datanavbar.css'
 import logo from '../../images/dfs-logo.png'
 import left_capsule from '../../images/capsule-img.png'
 import right_capsule from '../../images/right-capsule.png'
 import {Link} from "react-router-dom";
-import data_table from "../datanavbar/datanavbar"
-import { CognitoUserPool, CognitoUserAttribute } from 'amazon-cognito-identity-js'
 import { Auth } from "aws-amplify";
 
 class NavBar extends React.Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.nbaActive = this.nbaActive.bind(this);
         this.nflActive = this.nflActive.bind(this);
+        let data1 = {
+            "data":{
+                "playerStats":[
+                    {
+                        "FD_Proj":0,
+                        "GlobalGameID":17686,
+                        "FD_Floor":0,
+                        "DK_Floor":0,
+                        "ReceivingTouchdowns":0,
+                        "GlobalTeamID":11,
+                        "Team":"DET",
+                        "RushingTouchdowns":0,
+                        "FanDuelPosition":"WR",
+                        "PassingInterceptions":0,
+                        "FieldGoalsAttempted":0,
+                        "ReceivingYards":0,
+                        "FD_Value":0,
+                        "Opponent":"SF",
+                        "DK_Value":0,
+                        "PassingTouchdowns":0,
+                        "PassingCompletions":1234120,
+                        "FD_Ceil":0,
+                        "Name":"Javon McKinley",
+                        "Receptions":0,
+                        "FieldGoalsMade":0,
+                        "PassingYards":0,
+                        "DK_Ceil":0,
+                        "FanDuelSalary":4500,
+                        "RushingYards":0,
+                        "FumblesLost":0,
+                        "FantasyPoints":0,
+                        "DK_Proj":0,
+                        "DraftKingsSalary":3000,
+                        "PassingAttempts":0,
+                        "ReceivingTargets":0,
+                        "RushingAttempts":0,
+                        "Position":"WR",
+                        "Id":"22655",
+                        "DraftKingsPosition":"WR",
+                        "PlayerID":22655
+                    }
+                ],
+                "user":{
+                    "id":"3002fa1b-8cdf-4349-92a2-3eaac5d66174"
+                },
+                "sportView":"NFL"
+            }
+        }
+        let data2 = {
+            "data":{
+                "playerStats":[
+                    {
+                        "FD_Proj":0,
+                        "GlobalGameID":17686,
+                        "FD_Floor":0,
+                        "DK_Floor":0,
+                        "ReceivingTouchdowns":0,
+                        "GlobalTeamID":11,
+                        "Team":"DET",
+                        "RushingTouchdowns":0,
+                        "FanDuelPosition":"WR",
+                        "PassingInterceptions":0,
+                        "FieldGoalsAttempted":0,
+                        "ReceivingYards":0,
+                        "FD_Value":0,
+                        "Opponent":"SF",
+                        "DK_Value":0,
+                        "PassingTouchdowns":0,
+                        "PassingCompletions":1234120,
+                        "FD_Ceil":0,
+                        "Name":"Javon McKinley",
+                        "Receptions":0,
+                        "FieldGoalsMade":0,
+                        "PassingYards":0,
+                        "DK_Ceil":0,
+                        "FanDuelSalary":4500,
+                        "RushingYards":0,
+                        "FumblesLost":0,
+                        "FantasyPoints":0,
+                        "DK_Proj":0,
+                        "DraftKingsSalary":3000,
+                        "PassingAttempts":0,
+                        "ReceivingTargets":0,
+                        "RushingAttempts":0,
+                        "Position":"WR",
+                        "Id":"22655",
+                        "DraftKingsPosition":"WR",
+                        "PlayerID":22655
+                    }
+                ],
+                "user":{
+                    "id":"3002fa1b-8cdf-4349-92a2-3eaac5d66174"
+                },
+                "sportView":"NFL"
+            }
+        }
+        console.log(data1 === data2, "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
+
     }
 
-    logOut = () => {
-        const userLogout = Auth.signOut();
-        console.log(userLogout);
-        userLogout.then((data) => {
-            console.log(data);
-        }).catch((message) => {
-            console.log(message);
-        })
-    };
+    // logOut = () => {
+    //     const userLogout = Auth.signOut();
+    //     console.log(userLogout, "##");
+    //     userLogout.then((data) => {
+    //         console.log(data, "####");
+    //         this.props.history.push('/signin');
+    //     }).catch((message) => {
+    //         console.log(message);
+    //     })
+    // };
 
 
     nbaActive() {
@@ -73,7 +170,7 @@ class NavBar extends React.Component {
                                     <a className="nav-link" href="#">Leave Feedback</a>
                                 </li>
                                 <li className="nav-item">
-                                    <a className="nav-link" onClick={this.logOut}>SignOut</a>
+                                    <Link className="nav-link" to="/logout">SignOut</Link>
                                 </li>
                                 <li className="nav-item">
                                     <Link class="nav-link" to="/signin">Sign In</Link>
