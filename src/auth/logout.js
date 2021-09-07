@@ -15,6 +15,7 @@ class LogOut extends Component {
     logOut = () => {
         const userLogout = Auth.signOut();
         userLogout.then((data) => {
+            localStorage.setItem('username', '')
             this.props.history.push('/signin');
         }).catch((message) => {
             console.log(message);
@@ -25,7 +26,7 @@ class LogOut extends Component {
     render() {
 
         return (
-            <><h1>logout</h1></>
+            <></>
         )
     }
 }

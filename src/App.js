@@ -29,8 +29,7 @@ function App() {
                 <Switch>
                     <Route exact path="/" component={Home}>
                     </Route>
-                    <Route path="/report-bug" component={ReportBog}>
-                    </Route>
+                    {/*<Route path="/report-bug" component={ReportBog}/>*/}
                     <Route path="/signin" component={SignIn} />
                     <Route path="/signup" component={SignUp} />
                     <Route path="/verify_otp" component={VerifyOtp} />
