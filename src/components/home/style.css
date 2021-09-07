@@ -69,3 +69,6 @@
 .table_input .MuiInputBase-input{
     font-size: 12px;
 }
+.MuiButton-contained.btn-danger.Mui-disabled{
+    background-color: rgba(181, 12, 12, 0.76) !important;
+}

@@ -140,7 +140,7 @@ class DataNavBar extends React.Component {
             data:data
         }
         // player stats api calling
-        let url = 'https://o2ygn3a3h3.execute-api.us-east-2.amazonaws.com/Prod/get-player-stats'
+        let url = '/Prod/get-player-stats'
         this.api.GetApi(url, payload)
             .then((res) => {
                 let response_data = JSON.parse(res.request.response)
@@ -157,7 +157,8 @@ class DataNavBar extends React.Component {
                     }
                     // console.log('+++++----++++', response_data.body)
                 } else if (res.request.status === 401) {
-                    console.log("login")
+                    // console.log("login")
+                    this.props.history.push('/signin')
                     this.setState({loader:false})
                 } else {
                     console.log(res)
@@ -169,7 +170,7 @@ class DataNavBar extends React.Component {
 
 
     //    game data api calling
-        let game_url= 'https://o2ygn3a3h3.execute-api.us-east-2.amazonaws.com/Prod/get-game-data'
+        let game_url= '/Prod/get-game-data'
         this.api.GetApi(game_url, payload)
             .then((res) => {
                 let response_data = JSON.parse(res.request.response)
@@ -178,7 +179,8 @@ class DataNavBar extends React.Component {
                     this.setState({loader:false})
                     // console.log('+++++----++++', response_data.body)
                 } else if (res.request.status === 401) {
-                    console.log("login")
+                    // console.log("login")
+                    this.props.history.push('/signin')
                     this.setState({loader:false})
                 } else {
                     console.log(res)
@@ -585,14 +587,15 @@ class DataNavBar extends React.Component {
                 data:{playerStats: playerStats, user: {id: localStorage.getItem('username')}, sportView: this.state.is_nbaNfl}
             }
             // player stats api calling
-            let url = 'https://o2ygn3a3h3.execute-api.us-east-2.amazonaws.com/Prod/save-player-stats'
+            let url = '/Prod/save-player-stats'
             this.api.PostApi(payload, url)
                 .then((res) => {
                     let response_data = JSON.parse(res.request.response)
                     if (res.status === 200 ) {
                         // console.log('+++++----++++', response_data.body)
                     } else if (res.request.status === 401) {
-                        console.log("login")
+                        // console.log("login")
+                        this.props.history.push('/signin')
                         this.setState({loader:false})
                     } else {
                         console.log(res)
@@ -608,7 +611,7 @@ class DataNavBar extends React.Component {
         let payload = {
             User: localStorage.getItem('username')
         }
-        let url = 'https://o2ygn3a3h3.execute-api.us-east-2.amazonaws.com/Prod/run-simulation-nfl'
+        let url = '/Prod/run-simulation-nfl'
         this.api.PostApi(payload, url)
             .then((res) => {
                 let response_data = JSON.parse(res.request.response)
@@ -616,7 +619,8 @@ class DataNavBar extends React.Component {
                     // console.log('+++++----++++', response_data.body)
                     toast.success("⭐ Simulation Started...");
                 } else if (res.request.status === 401) {
-                    console.log("login")
+                    // console.log("login")
+                    this.props.history.push('/signin')
                     this.setState({loader:false})
                 } else {
                     console.log(res)
@@ -633,14 +637,15 @@ class DataNavBar extends React.Component {
             data:{playerStats: props, user: {id: localStorage.getItem('username')}, sportView: this.state.is_nbaNfl}
         }
         // player stats api calling
-        let url = 'https://o2ygn3a3h3.execute-api.us-east-2.amazonaws.com/Prod/save-game-data'
+        let url = '/Prod/save-game-data'
         this.api.PostApi(payload, url)
             .then((res) => {
                 let response_data = JSON.parse(res.request.response)
                 if (res.status === 200 ) {
                     // console.log('+++++----++++', response_data.body)
                 } else if (res.request.status === 401) {
-                    console.log("login")
+                    // console.log("login")
+                    this.props.history.push('/signin')
                     this.setState({loader:false})
                 } else {
                     console.log(res)

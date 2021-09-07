@@ -3,7 +3,7 @@ import axios from 'axios';
 
 
 export default class API {
-    baseUrl = ''
+    baseUrl = 'https://o2ygn3a3h3.execute-api.us-east-2.amazonaws.com'
 
     async setToken(token) {
         try {
