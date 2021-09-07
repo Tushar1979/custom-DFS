@@ -10,9 +10,25 @@ import {TextField} from "@material-ui/core";
 class VerifyOtp extends Component {
     constructor(props) {
         super(props);
+        this.state={
+            otp:'',
+            username: props.history.location.state['username']
+
+        }
+    }
+    otpField = (e) =>{
+        this.setState({otp:e.target.value})
     }
     verifyOtpBtn = () =>{
 
+    const verify = Auth.confirmSignUp(this.state.username, this.state.otp)
+        verify.then((data)=>{
+            console.log(data)
+
+            this.props.history.push('/signin');
+        }).catch((message) => {
+            console.log(message)
+        })
 
 
     };
@@ -27,7 +43,7 @@ class VerifyOtp extends Component {
                                  alt="User Icon"/>
                         </div>
                         <div>
-                            <TextField id="standard-basic" label="OTP" className="input_field fadeIn second" />
+                            <TextField id="standard-basic" label="OTP" className="input_field fadeIn second" onChange={this.otpField} />
                             <button  className="fadeIn forth loginBtn"  onClick={this.verifyOtpBtn}> Verify Otp </button>
 
                         </div>

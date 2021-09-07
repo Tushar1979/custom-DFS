@@ -36,6 +36,9 @@ componentDidMount() {
             this.props.history.push('/signin');
         }
 }
+    forgotBtn = () => {
+        this.props.history.push('/Forget')
+    }
 
     loginBtn = () => {
         this.setState({loader:true})
@@ -58,7 +61,6 @@ componentDidMount() {
                     <div className="main">
                         <div className="wrapper fadeInDown">
                             <div id="formContent">
-
                                 <h2 className="active"> Sign In </h2>
                                 <h2 className="inactive underlineHover">
                                     <Link class="authLink" to="/signup">Sign Up</Link>
@@ -84,9 +86,11 @@ componentDidMount() {
                                         floatingLabelText="Password"
                                         type="password"
                                     />
-                                    <button className="fadeIn forth loginBtn" onClick={this.loginBtn}> Login</button>
-                                    <span className="button-google fadeIn forth">Forgot Password</span>
-                                </div>
+
+                            <button  className="fadeIn forth loginBtn"  onClick={this.loginBtn}> Login </button>
+                            <span className="button-google fadeIn forth" onClick={this.forgotBtn}>Forgot Password</span>
+                        </div>
+
 
                             </div>
                         </div>
