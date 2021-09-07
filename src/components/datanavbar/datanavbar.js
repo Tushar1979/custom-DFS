@@ -12,6 +12,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import ReactHTMLTableToExcel from "react-html-table-to-excel";
 import CustomizedMenus from "../dropdownBtn/btnDropdown"
 import Button from "@material-ui/core/Button";
+import Spinner from '../Spinner/spinner'
 
 let filter_list = []
 let nflFilter_list = []
@@ -41,6 +42,8 @@ class DataNavBar extends React.Component {
                 game_data:[],
                 inputActive: false,
                 loader:false,
+                spinner:false,
+                simulationSpinner:false,
                 pgActive:false,
                 filter_player:null,
                 filter_key:null,
@@ -128,7 +131,7 @@ class DataNavBar extends React.Component {
     }
 
     SaveData = () =>{
-        this.setState({saveData:true})
+        this.setState({saveData:true, spinner: true})
     }
 
     //api calling
@@ -583,6 +586,7 @@ class DataNavBar extends React.Component {
         this.setState({salary:'fd'})
     }
     handlePlayerStats = (playerStats) =>{
+        this.setState({spinner: true})
         let payload = {
                 data:{playerStats: playerStats, user: {id: localStorage.getItem('username')}, sportView: this.state.is_nbaNfl}
             }
@@ -596,18 +600,22 @@ class DataNavBar extends React.Component {
                     } else if (res.request.status === 401) {
                         // console.log("login")
                         this.props.history.push('/signin')
-                        this.setState({loader:false})
+                        this.setState({loader:false,spinner: false})
                     } else {
+                        this.setState({loader:false,spinner: false})
                         console.log(res)
                     }
                 })
                 .catch((error) => {
+                    this.setState({loader:false,spinner: false})
                     console.log(error);
                 })
         this.setState({saveData:false})
+        this.setState({spinner: false})
         toast.success("⭐ Sucessfully Saved Data");
     }
     handleSimulations = () =>{
+        this.setState({simulationSpinner: true})
         let payload = {
             User: localStorage.getItem('username')
         }
@@ -618,21 +626,25 @@ class DataNavBar extends React.Component {
                 if (res.status === 200 ) {
                     // console.log('+++++----++++', response_data.body)
                     toast.success("⭐ Simulation Started...");
+                    this.setState({simulationSpinner: false})
                 } else if (res.request.status === 401) {
                     // console.log("login")
                     this.props.history.push('/signin')
-                    this.setState({loader:false})
+                    this.setState({loader:false, simulationSpinner:false})
                 } else {
+                    this.setState({simulationSpinner: false, loader:false})
                     console.log(res)
                 }
             })
             .catch((error) => {
+                this.setState({simulationSpinner: false,loader:false})
                 console.log(error);
             })
 
     }
 
     handleSaveGameData = (props) =>{
+        this.setState({spinner: true})
         let payload = {
             data:{playerStats: props, user: {id: localStorage.getItem('username')}, sportView: this.state.is_nbaNfl}
         }
@@ -646,12 +658,14 @@ class DataNavBar extends React.Component {
                 } else if (res.request.status === 401) {
                     // console.log("login")
                     this.props.history.push('/signin')
-                    this.setState({loader:false})
+                    this.setState({loader:false,spinner: true})
                 } else {
+                    this.setState({loader:false,spinner: true})
                     console.log(res)
                 }
             })
             .catch((error) => {
+                this.setState({loader:false,spinner: true})
                 console.log(error);
             })
         this.setState({saveData:false})
@@ -808,6 +822,15 @@ class DataNavBar extends React.Component {
                                 </label>
                             </div>
                             <div className="common-button">
+                                {this.state.spinner ?
+                                    <Button
+                                        variant="contained"
+                                        color="primary"
+                                        className="btn btn-primary active ad-group-btn"
+                                    >
+                                        <Spinner/>
+                                    </Button>
+                                    :
                                 <Button
                                     variant="contained"
                                     color="primary"
@@ -829,17 +852,29 @@ class DataNavBar extends React.Component {
                                     />
                                     Save
                                 </Button>
+                                    }
                             </div>
                             <div className="common-button">
-                                <Button
-                                    variant="contained"
-                                    color="danger"
-                                    className="btn btn-danger active ad-group-btn"
-                                    onClick={this.handleSimulations}
-                                    disabled={!this.state.saveBtnActive}
-                                >
-                                    Simulate
-                                </Button>
+                                {this.state.simulationSpinner ?
+                                    <Button
+                                        variant="contained"
+                                        color="danger"
+                                        className="btn btn-danger active ad-group-btn simulationSpinner"
+                                    >
+                                        <Spinner/>
+                                    </Button>
+                                    :
+
+                                    <Button
+                                        variant="contained"
+                                        color="danger"
+                                        className="btn btn-danger active ad-group-btn simulationSpinner"
+                                        onClick={this.handleSimulations}
+                                        disabled={!this.state.saveBtnActive}
+                                    >
+                                        Simulate
+                                    </Button>
+                                }
                             </div>
                         </div>
 

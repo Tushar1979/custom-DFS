@@ -1,0 +1,5 @@
+.MuiCircularProgress-indeterminate{
+    width: 16px !important;
+    height: 16px !important;
+    vertical-align: middle;
+}

@@ -4,27 +4,48 @@ import {BrowserRouter as Router, Switch, Route, Redirect, Link} from 'react-rout
 import authLogo from "../images/login_logo.png"
 import './style.css';
 import {TextField} from "@material-ui/core";
-import { CognitoUserPool, CognitoUserAttribute } from 'amazon-cognito-identity-js'
+import { CognitoUserPool } from 'amazon-cognito-identity-js'
+import {toast, ToastContainer} from "react-toastify";
+import Spinner from '../components/Spinner/spinner'
 
+const emailReg = new RegExp(/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]/)
+const passwordReg = new RegExp(/^[A-Z]*$/);
 
 class SignUp extends Component {
     constructor(props) {
         super(props);
         this.state={
             email:'',
-            password:''
+            password:'',
+            spinner:false,
+            btnActive:true,
+            is_emailValid:false,
+            is_passValid:false
 
         }
     }
     emailField = (e) =>{
         this.setState({
-            email: e.target.value
+            email: (e.target.value).toLowerCase()
         })
+        this.setState({is_emailValid: emailReg.test(e.target.value)})
+        if(this.state.is_emailValid && this.state.password > 5){
+            this.setState({btnActive:false})
+        }
+        else{
+            this.setState({btnActive: true})
+        }
     }
     passwordField = (e) =>{
         this.setState({
             password: e.target.value
         })
+        if(this.state.is_emailValid && this.state.password.length>5){
+                this.setState({btnActive:false})
+        }
+        else{
+            this.setState({btnActive:true})
+        }
     }
 
     forgotBtn = () => {
@@ -32,6 +53,7 @@ class SignUp extends Component {
     }
 
     signUpBtn = () =>{
+        this.setState({spinner:true})
 
         const poolData = {
         UserPoolId: 'us-east-1_y4ICPLoWJ',
@@ -41,25 +63,15 @@ class SignUp extends Component {
         const UserPool = new CognitoUserPool(poolData);
 
         UserPool.signUp(this.state.email ,this.state.password, [], null, (err, data)=>{
-        if (err) this.props.history.push('/', {username:this.state.email});
-        console.log(data);
-        this.props.history.push('/verify_otp', {username:this.state.email});
+        if (err) {
+            toast.error("⭐ Email or Password in Invalid...");
+            this.setState({spinner:false})
+        }
+        else {
+            this.setState({spinner:false})
+            this.props.history.push('/verify_otp', {username:this.state.email});
+        }
     })
-
-
-//        const usersignUp = Auth.signUp({
-//            username: this.state.email,
-//            password:   this.state.password,
-//        });
-
-//        usersignUp.then((data) => {
-//            console.log(data,);
-//            this.props.history.push('/verify_otp');
-//
-//        }).catch((message)=> {
-//            console.log(message);
-//            this.props.history.push('/verify_otp');
-//        })
     };
 
     render() {
@@ -98,7 +110,27 @@ class SignUp extends Component {
                                 floatingLabelText="Password"
                                 type="password"
                             />
-                            <button type="submit" className="fadeIn forth loginBtn" onClick={this.signUpBtn} value="Log In" >Sign Up</button>
+
+                            {this.state.spinner ?
+                                <button className="fadeIn forth loginBtn" disabled> <Spinner/></button>
+                                :
+                                <button
+                                    className={`fadeIn forth loginBtn ${this.state.btnActive ? 'btnDisabled' : ''} `}
+                                    onClick={this.signUpBtn} disabled={this.state.btnActive ? true : false}> Sign Up
+                                    <ToastContainer
+                                        position="bottom-right"
+                                        autoClose={5000}
+                                        hideProgressBar={false}
+                                        newestOnTop={false}
+                                        closeOnClick
+                                        rtl={false}
+                                        pauseOnFocusLoss
+                                        draggable
+                                        pauseOnHover
+                                        className='toasterStyle'
+                                    />
+                                </button>
+                            }
 
                             <span className="button-google fadeIn forth" onClick={this.forgotBtn}>Forgot Password</span>
 
