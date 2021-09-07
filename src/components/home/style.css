@@ -35,6 +35,7 @@
     padding: 10px 0px;
     text-align: center !important;
     font-size: 12px;
+    max-width: 49px;
 }
 /*.data_table tbody>tr>td:hover{*/
 /*    color: #fff !important;*/

@@ -293,3 +293,17 @@ ul>li{
 .search_input .MuiFormLabel-root{
     line-height: 0 !important;
 }
+.MuiButton-contained.Mui-disabled{
+    color: #fff !important;
+}
+.MuiButton-contained.btn-danger.Mui-disabled {
+    background-color: rgba(195, 20, 20, 0.81);
+}
+.MuiButton-root {
+    padding: 6px 7px !important;
+}
+.toggle_btn.active{
+    color: #fff !important;
+    background-color: #123C6C !important;
+    border-color: #123C6C !important;
+}

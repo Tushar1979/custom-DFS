@@ -7,10 +7,21 @@ class Home extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            triggerFunc: []
+            triggerFunc: [],
+            user:localStorage.getItem('username')
         }
         this.nbaRequest = this.nbaRequest.bind(this);
+        // console.log(localStorage.getItem('username'), "@@@@@@@@@@@@@@@@@@")
 
+    }
+    componentDidMount() {
+        if(this.state.user){
+            this.props.history.push('/');
+        }
+        else{
+
+            this.props.history.push('/signin');
+        }
     }
     nbaRequest(values) {
         this.setState({ triggerFunc: [values.payload_data, values.nbaNfl_active]})

@@ -1,30 +1,32 @@
-import React from 'react'
+import React, {Component} from 'react'
 import './navbar.css'
 import '../datanavbar/datanavbar.css'
 import logo from '../../images/dfs-logo.png'
 import left_capsule from '../../images/capsule-img.png'
 import right_capsule from '../../images/right-capsule.png'
 import {Link} from "react-router-dom";
-import data_table from "../datanavbar/datanavbar"
-import { CognitoUserPool, CognitoUserAttribute } from 'amazon-cognito-identity-js'
 import { Auth } from "aws-amplify";
 
 class NavBar extends React.Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.nbaActive = this.nbaActive.bind(this);
         this.nflActive = this.nflActive.bind(this);
+        this.state={
+            user:localStorage.getItem("username")
+        }
     }
 
-    logOut = () => {
-        const userLogout = Auth.signOut();
-        console.log(userLogout);
-        userLogout.then((data) => {
-            console.log(data);
-        }).catch((message) => {
-            console.log(message);
-        })
-    };
+    // logOut = () => {
+    //     const userLogout = Auth.signOut();
+    //     console.log(userLogout, "##");
+    //     userLogout.then((data) => {
+    //         console.log(data, "####");
+    //         this.props.history.push('/signin');
+    //     }).catch((message) => {
+    //         console.log(message);
+    //     })
+    // };
 
 
     nbaActive() {
@@ -67,17 +69,21 @@ class NavBar extends React.Component {
                                     </Link>
                                 </li>
                                 <li className="nav-item">
-                                    <Link class="nav-link" to="/report-bug">Report a Bug</Link>
+                                    {/*<Link class="nav-link" to="/report-bug">Report a Bug</Link>*/}
+                                    <Link class="nav-link" >Report a Bug</Link>
                                 </li>
                                 <li className="nav-item">
                                     <a className="nav-link" href="#">Leave Feedback</a>
                                 </li>
+                                {this.state.user?
                                 <li className="nav-item">
-                                    <a className="nav-link" onClick={this.logOut}>SignOut</a>
+                                    <Link className="nav-link" to="/logout">SignOut</Link>
                                 </li>
+                                    :
                                 <li className="nav-item">
                                     <Link class="nav-link" to="/signin">Sign In</Link>
                                 </li>
+                                }
                             </ul>
                         </div>
 

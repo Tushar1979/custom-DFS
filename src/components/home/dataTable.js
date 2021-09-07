@@ -13,6 +13,7 @@ import TableSortLabel from '@material-ui/core/TableSortLabel';
 import Paper from '@material-ui/core/Paper';
 import TextField from "@material-ui/core/TextField";
 import Loader from "../../loader/loader"
+import API from '../../networking/api'
 
 
 let rows = []
@@ -154,10 +155,17 @@ export default function EnhancedTable(props) {
     const [NbaMinus, setNbaMinus] = React.useState('');
     const [nbaUpdate, setNbaUpdate] = React.useState([]);
     const [updateGameList, setUpdateGameList] = React.useState([]);
+    const [updateNflGameList, setUpdateNflGameList] = React.useState([]);
+    const [nflList, setNflList] = React.useState([]);
+    // const [saveData, setSaveData] = React.useState(props.saveDataBtn);
+    const [isNbaNfl, setIsNbaNfl] = React.useState(props.is_nbaNfl);
 
     let user_data = props.data
+    let saveData = props.saveDataBtn
+
     useEffect(() => {
         setUpdateGameList(props.data)
+        setUpdateNflGameList(props.nfl_player_data)
     })
 
     const handleChangeMinus = (e) =>{
@@ -226,118 +234,280 @@ export default function EnhancedTable(props) {
         }
     }
 
+    //  NFL data updating
+
     const handleChangeCompletion = (e) =>{
         let rowId = e.target.id
         let nflPassingCompletions  = e.target.value
-        for(let i = 0; i<updateGameList.length; i++){
-            if(updateGameList[i].Id === rowId){
-                updateGameList[i]['PassingCompletions'] = nflPassingCompletions
+        let is_exist = true
+        for(let i = 0; i<nflList.length; i++){
+                if (nflList[i].Id === rowId) {
+                        nflList[i]['PassingCompletions'] = parseInt(nflPassingCompletions)
+                    is_exist = false
+                    break
+                }
+        }
+        if(is_exist){
+            for(let i = 0; i<updateNflGameList.length; i++){
+                if(updateNflGameList[i].Id === rowId){
+                    updateNflGameList[i]['PassingCompletions'] = parseInt(nflPassingCompletions)
+                    setNflList(nflList.concat(updateNflGameList[i]))
+                    is_exist=false
+                }
             }
+            is_exist = false
         }
     }
 
     const handleChangePassingAttempts = (e) =>{
         let rowId = e.target.id
         let nflPassingAttempts = e.target.value
-        for(let i = 0; i<updateGameList.length; i++){
-            if(updateGameList[i].Id === rowId){
-                updateGameList[i]['PassingAttempts'] = nflPassingAttempts
+        let is_exist = true
+        for(let i =0; i< nflList.length; i++){
+            if(nflList[i].Id === rowId){
+                nflList[i]['PassingAttempts'] = parseInt(nflPassingAttempts)
+                is_exist=false
+                break
             }
         }
+        if(is_exist){
+            for(let i = 0; i<updateNflGameList.length; i++){
+                if(updateNflGameList[i].Id === rowId){
+                    updateNflGameList[i]['PassingAttempts'] = parseInt(nflPassingAttempts)
+                    setNflList(nflList.concat(updateNflGameList[i]))
+                    is_exist=false
+                }
+            }
+            is_exist = false
+        }
+
     }
     const handleChangePassingYards = (e) =>{
         let rowId = e.target.id
         let nflPassingYards = e.target.value
-        for(let i = 0; i<updateGameList.length; i++){
-            if(updateGameList[i].Id === rowId){
-                updateGameList[i]['PassingYards'] = nflPassingYards
+        let is_exist = true
+        for(let i =0; i< nflList.length; i++){
+            if(nflList[i].Id === rowId){
+                nflList[i]['PassingYards'] = parseInt(nflPassingYards)
+                is_exist=false
+                break
             }
+        }
+        if(is_exist){
+            for(let i = 0; i<updateNflGameList.length; i++){
+                if(updateNflGameList[i].Id === rowId){
+                    updateNflGameList[i]['PassingYards'] = parseInt(nflPassingYards)
+                    setNflList(nflList.concat(updateNflGameList[i]))
+                    is_exist=false
+                }
+            }
+            is_exist = false
         }
     }
     const handleChangePassingTouchdowns = (e) =>{
         let rowId = e.target.id
         let nflPassingTouchdowns = e.target.value
-        for(let i = 0; i<updateGameList.length; i++){
-            if(updateGameList[i].Id === rowId){
-                updateGameList[i]['PassingTouchdowns'] = nflPassingTouchdowns
+        let is_exist = true
+        for(let i =0; i< nflList.length; i++){
+            if(nflList[i].Id === rowId){
+                nflList[i]['PassingTouchdowns'] = parseInt(nflPassingTouchdowns)
+                is_exist=false
+                break
             }
+        }
+        if(is_exist){
+            for(let i = 0; i<updateNflGameList.length; i++){
+                if(updateNflGameList[i].Id === rowId){
+                    updateNflGameList[i]['PassingTouchdowns'] = parseInt(nflPassingTouchdowns)
+                    setNflList(nflList.concat(updateNflGameList[i]))
+                    is_exist=false
+                }
+            }
+            is_exist = false
         }
     }
 
     const handleChangeRushingAttempts = (e) =>{
         let rowId = e.target.id
         let nflRushingAttempts = e.target.value
-        for(let i = 0; i<updateGameList.length; i++){
-            if(updateGameList[i].Id === rowId){
-                updateGameList[i]['RushingAttempts'] = nflRushingAttempts
+        let is_exist = true
+        for(let i =0; i< nflList.length; i++){
+            if(nflList[i].Id === rowId){
+                nflList[i]['RushingAttempts'] = parseInt(nflRushingAttempts)
+                is_exist=false
+                break
             }
+        }
+        if(is_exist){
+            for(let i = 0; i<updateNflGameList.length; i++){
+                if(updateNflGameList[i].Id === rowId){
+                    updateNflGameList[i]['RushingAttempts'] = parseInt(nflRushingAttempts)
+                    setNflList(nflList.concat(updateNflGameList[i]))
+                    is_exist=false
+                }
+            }
+            is_exist = false
         }
     }
     const handleChangeRushingYards = (e) =>{
         let rowId = e.target.id
         let nflRushingYards = e.target.value
-        for(let i = 0; i<updateGameList.length; i++){
-            if(updateGameList[i].Id === rowId){
-                updateGameList[i]['RushingYards'] = nflRushingYards
+        let is_exist = true
+        for(let i =0; i< nflList.length; i++){
+            if(nflList[i].Id === rowId){
+                nflList[i]['RushingYards'] = parseInt(nflRushingYards)
+                is_exist=false
+                break
             }
+        }
+        if(is_exist){
+            for(let i = 0; i<updateNflGameList.length; i++){
+                if(updateNflGameList[i].Id === rowId){
+                    updateNflGameList[i]['RushingYards'] = parseInt(nflRushingYards)
+                    setNflList(nflList.concat(updateNflGameList[i]))
+                    is_exist=false
+                }
+            }
+            is_exist = false
         }
     }
     const handleChangeRushingTouchdowns = (e) =>{
         let rowId = e.target.id
         let nflRushingTouchdowns = e.target.value
-        for(let i = 0; i<updateGameList.length; i++){
-            if(updateGameList[i].Id === rowId){
-                updateGameList[i]['RushingTouchdowns'] = nflRushingTouchdowns
+        let is_exist = true
+        for(let i =0; i< nflList.length; i++){
+            if(nflList[i].Id === rowId){
+                nflList[i]['RushingYards'] = parseInt(nflRushingTouchdowns)
+                is_exist=false
+                break
             }
+        }
+        if(is_exist){
+            for(let i = 0; i<updateNflGameList.length; i++){
+                if(updateNflGameList[i].Id === rowId){
+                    updateNflGameList[i]['RushingYards'] = parseInt(nflRushingTouchdowns)
+                    setNflList(nflList.concat(updateNflGameList[i]))
+                    is_exist=false
+                }
+            }
+            is_exist = false
         }
     }
     const handleChangeReceptions = (e) =>{
         let rowId = e.target.id
         let nflReceptions = e.target.value
-        for(let i = 0; i<updateGameList.length; i++){
-            if(updateGameList[i].Id === rowId){
-                updateGameList[i]['Receptions'] = nflReceptions
+        let is_exist = true
+        for(let i =0; i< nflList.length; i++){
+            if(nflList[i].Id === rowId){
+                nflList[i]['Receptions'] = parseInt(nflReceptions)
+                is_exist=false
+                break
             }
+        }
+        if(is_exist){
+            for(let i = 0; i<updateNflGameList.length; i++){
+                if(updateNflGameList[i].Id === rowId){
+                    updateNflGameList[i]['Receptions'] = parseInt(nflReceptions)
+                    setNflList(nflList.concat(updateNflGameList[i]))
+                    is_exist=false
+                }
+            }
+            is_exist = false
         }
     }
     const handleChangeReceivingYards = (e) =>{
         let rowId = e.target.id
         let nflReceivingYards = e.target.value
-        for(let i = 0; i<updateGameList.length; i++){
-            if(updateGameList[i].Id === rowId){
-                updateGameList[i]['ReceivingYards'] = nflReceivingYards
+        let is_exist = true
+        for(let i =0; i< nflList.length; i++){
+            if(nflList[i].Id === rowId){
+                nflList[i]['ReceivingYards'] = parseInt(nflReceivingYards)
+                is_exist=false
+                break
             }
+        }
+        if(is_exist){
+            for(let i = 0; i<updateNflGameList.length; i++){
+                if(updateNflGameList[i].Id === rowId){
+                    updateNflGameList[i]['ReceivingYards'] = parseInt(nflReceivingYards)
+                    setNflList(nflList.concat(updateNflGameList[i]))
+                    is_exist=false
+                }
+            }
+            is_exist = false
         }
     }
     const handleChangeReceivingTouchdowns = (e) =>{
         let rowId = e.target.id
         let nflReceivingTouchdowns = e.target.value
-        for(let i = 0; i<updateGameList.length; i++){
-            if(updateGameList[i].Id === rowId){
-                updateGameList[i]['ReceivingTouchdowns'] = nflReceivingTouchdowns
+        let is_exist = true
+        for(let i =0; i< nflList.length; i++){
+            if(nflList[i].Id === rowId){
+                nflList[i]['ReceivingTouchdowns'] = parseInt(nflReceivingTouchdowns)
+                is_exist=false
+                break
             }
+        }
+        if(is_exist){
+            for(let i = 0; i<updateNflGameList.length; i++){
+                if(updateNflGameList[i].Id === rowId){
+                    updateNflGameList[i]['ReceivingTouchdowns'] = parseInt(nflReceivingTouchdowns)
+                    setNflList(nflList.concat(updateNflGameList[i]))
+                    is_exist=false
+                }
+            }
+            is_exist = false
         }
     }
     const handleChangeFieldGoalsMade= (e) =>{
         let rowId = e.target.id
         let nflFieldGoalsMade = e.target.value
-        for(let i = 0; i<updateGameList.length; i++){
-            if(updateGameList[i].Id === rowId){
-                updateGameList[i]['FieldGoalsMade'] = nflFieldGoalsMade
+        let is_exist = true
+        for(let i =0; i< nflList.length; i++){
+            if(nflList[i].Id === rowId){
+                nflList[i]['FieldGoalsMade'] = parseInt(nflFieldGoalsMade)
+                is_exist=false
+                break
             }
+        }
+        if(is_exist){
+            for(let i = 0; i<updateNflGameList.length; i++){
+                if(updateNflGameList[i].Id === rowId){
+                    updateNflGameList[i]['FieldGoalsMade'] = parseInt(nflFieldGoalsMade)
+                    setNflList(nflList.concat(updateNflGameList[i]))
+                    is_exist=false
+                }
+            }
+            is_exist = false
         }
     }
     const handleChangeFieldGoalsAttempted = (e) =>{
         let rowId = e.target.id
         let nflFieldGoalsAttempted = e.target.value
-        for(let i = 0; i<updateGameList.length; i++){
-            if(updateGameList[i].Id === rowId){
-                updateGameList[i]['FieldGoalsAttempted'] = nflFieldGoalsAttempted
+        let is_exist = true
+        for(let i =0; i< nflList.length; i++){
+            if(nflList[i].Id === rowId){
+                nflList[i]['FieldGoalsAttempted'] = parseInt(nflFieldGoalsAttempted)
+                is_exist=false
+                break
             }
         }
+        if(is_exist){
+            for(let i = 0; i<updateNflGameList.length; i++){
+                if(updateNflGameList[i].Id === rowId){
+                    updateNflGameList[i]['FieldGoalsAttempted'] = parseInt(nflFieldGoalsAttempted)
+                    setNflList(nflList.concat(updateNflGameList[i]))
+                    is_exist=false
+                }
+            }
+            is_exist = false
+        }
     }
-// console.log(updateGameList, "############")
-
+    if(saveData){
+        if(props.is_nbaNfl === 'NFL') {
+            props.onSavePlayerStats(nflList)
+        }
+    }
     if (props.nfl_player_data.length > 0) {
         update_data = true
         nft_header = true

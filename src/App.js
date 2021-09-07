@@ -16,6 +16,7 @@ import React, { useState } from "react";
 import Amplify from "aws-amplify";
 import Auth from "./auth/auth";
 import VerifyOtp from "./auth/verifyOtp";
+import LogOut from "./auth/logout"
 
 
 
@@ -28,11 +29,11 @@ function App() {
                 <Switch>
                     <Route exact path="/" component={Home}>
                     </Route>
-                    <Route path="/report-bug" component={ReportBog}>
-                    </Route>
+                    {/*<Route path="/report-bug" component={ReportBog}/>*/}
                     <Route path="/signin" component={SignIn} />
                     <Route path="/signup" component={SignUp} />
                     <Route path="/verify_otp" component={VerifyOtp} />
+                    <Route path="/logout" component={LogOut} />
                 </Switch>
             </div>
         </Router>
