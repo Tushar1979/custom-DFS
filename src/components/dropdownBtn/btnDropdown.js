@@ -195,6 +195,7 @@ export default function CustomizedMenus(props) {
                             collapse={props.inputActive}
                             id={gameData.Id}
                             updateGame={gameDataInstance}
+                            dateTime={gameData.DateTime}
 
                         />
                     </div>
@@ -294,6 +295,7 @@ function DetailedAccordion(props) {
 
     useEffect(()=>{
         setUpdateGameData(props.gameData)
+        console.log(props)
 
     })
 
@@ -417,7 +419,9 @@ function DetailedAccordion(props) {
                     // id="panel1c-header"
                 >
                     <div className="row mr-0">
+
                         <div className="left_des  col-md-5 col-sm-5 col-xs-5">
+
                             <span className="">Over/under {props.overUnder}</span>
                         </div>
                         <div className="middle_des  col-md-2 col-sm-2 col-xs-2"></div>
@@ -429,6 +433,23 @@ function DetailedAccordion(props) {
                 {props.collapse ?
                     <AccordionDetails>
                         <ul className="collapse_container">
+                            <li className="collapse_single text-right">
+                                <span className="dateTimeText">
+                                    {new Intl.DateTimeFormat(
+                                            'en',
+                                            {
+                                                month: 'long',
+                                                day: '2-digit',
+                                                year: 'numeric',
+                                                hour: 'numeric',
+                                                minute: 'numeric',
+                                                hourCycle: 'h11'
+                                            }
+                                        ).format(new Date(props.dateTime)
+                                        )}
+
+                                </span>
+                            </li>
                                     <li className="collapse_single">
                                         <span className="text">Winner </span>
                                         <span className="input">
@@ -466,8 +487,8 @@ function DetailedAccordion(props) {
                                         </span>
                                         <span className="input">
                                             <StandaloneToggleButton
-                                                gameData={props.gameData}
-                                                TeamName={-(props.spread)}
+                                                gameData={-(props.gameData)}
+                                                TeamName={(props.spread)}
                                                 id={props.id}
                                                 onUpdateWinner={winnerAction}
                                                 actionKey={'rightSpreadHome'}
@@ -509,18 +530,8 @@ function DetailedAccordion(props) {
 function StandaloneToggleButton(props) {
     const [selected, setSelected] = React.useState(false);
     const onGameChange = () =>{
-        // if(props.actionKey === 'winner') {
             props.onUpdateWinner(props.id, selected, props.TeamName, props.actionKey)
-        // }
-        // if(props.actionKey === 'spreadHome') {
-        //     props.onUpdateWinner(props.id, selected, '', 'leftSpreadHome')
-        // }
-        // if(props.actionKey === 'rightSpreadHome') {
-        //     props.onUpdateWinner(props.id, selected, '', 'rightSpreadHome')
-        // }
-        // if(props.actionKey === 'over') {
-        //     props.onUpdateWinner(props.id, selected, '', 'over')
-        // }
+
     }
 
     return (

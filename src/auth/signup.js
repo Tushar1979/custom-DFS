@@ -4,6 +4,7 @@ import {BrowserRouter as Router, Switch, Route, Redirect, Link} from 'react-rout
 import authLogo from "../images/login_logo.png"
 import './style.css';
 import {TextField} from "@material-ui/core";
+import { CognitoUserPool, CognitoUserAttribute } from 'amazon-cognito-identity-js'
 
 
 class SignUp extends Component {
@@ -25,20 +26,40 @@ class SignUp extends Component {
             password: e.target.value
         })
     }
+
+    forgotBtn = () => {
+        this.props.history.push('/Forget')
+    }
+
     signUpBtn = () =>{
-        const usersignUp = Auth.signUp({
-            username: this.state.email,
-            password:   this.state.password,
-        });
 
-        usersignUp.then((data) => {
-            console.log(data,);
-            this.props.history.push('/verify_otp');
+        const poolData = {
+        UserPoolId: 'us-east-1_y4ICPLoWJ',
+        ClientId: '7ob8ngt7d1efjhrudc524qlqsn',
+    };
 
-        }).catch((message)=> {
-            console.log(message);
-            this.props.history.push('/verify_otp');
-        })
+        const UserPool = new CognitoUserPool(poolData);
+
+        UserPool.signUp(this.state.email ,this.state.password, [], null, (err, data)=>{
+        if (err) this.props.history.push('/', {username:this.state.email});
+        console.log(data);
+        this.props.history.push('/verify_otp', {username:this.state.email});
+    })
+
+
+//        const usersignUp = Auth.signUp({
+//            username: this.state.email,
+//            password:   this.state.password,
+//        });
+
+//        usersignUp.then((data) => {
+//            console.log(data,);
+//            this.props.history.push('/verify_otp');
+//
+//        }).catch((message)=> {
+//            console.log(message);
+//            this.props.history.push('/verify_otp');
+//        })
     };
 
     render() {
@@ -78,7 +99,9 @@ class SignUp extends Component {
                                 type="password"
                             />
                             <button type="submit" className="fadeIn forth loginBtn" onClick={this.signUpBtn} value="Log In" >Sign Up</button>
-                            <span className="button-google fadeIn forth">Forgot Password</span>
+
+                            <span className="button-google fadeIn forth" onClick={this.forgotBtn}>Forgot Password</span>
+
                         </div>
 
                     </div>
