@@ -9,6 +9,7 @@ import Accordion from '@material-ui/core/Accordion';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
 import Divider from '@material-ui/core/Divider';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 import ToggleButton from '@material-ui/lab/ToggleButton';
 
@@ -414,9 +415,9 @@ function DetailedAccordion(props) {
         <div className={classes.root}>
             <Accordion >
                 <AccordionSummary
-                    // expandIcon={<ExpandMoreIcon />}
-                    // aria-controls="panel1c-content"
-                    // id="panel1c-header"
+                    expandIcon={<ExpandMoreIcon />}
+                    aria-controls="panel1c-content"
+                    id="panel1c-header"
                 >
                     <div className="row mr-0">
 
