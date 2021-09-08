@@ -1,4 +1,5 @@
 import axios from 'axios';
+import data from "bootstrap/js/src/dom/data";
 // import {Redirect} from "react-router";
 
 
@@ -50,6 +51,29 @@ export default class API {
             return error
         }
     }
+
+    async PostWithParamsApi(url, params, data) {
+        this.baseUrl=''
+        try {
+            let response = axios.post(
+                this.baseUrl + url,
+                data,
+                {
+                    params:params
+                }
+            )
+                .then((res) => {
+                    return res
+                })
+                .catch((error) => {
+                    return error.response
+                })
+            return response
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
 
 
 };

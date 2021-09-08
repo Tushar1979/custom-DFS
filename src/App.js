@@ -31,9 +31,8 @@ function App() {
         <Router>
             <div>
                 <Switch>
-                    <Route exact path="/" component={Home}>
-                    </Route>
-                    {/*<Route path="/report-bug" component={ReportBog}/>*/}
+                    <Route exact path="/" component={Home}/>
+                    <Route path="/customdfs-feedback" component={ReportBog}/>
                     <Route path="/signin" component={SignIn} />
                     <Route path="/signup" component={SignUp} />
                     <Route path="/verify_otp" component={VerifyOtp} />
