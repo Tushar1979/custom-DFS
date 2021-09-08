@@ -3,7 +3,6 @@ import './datanavbar.css'
 import btn_img1 from '../../images/btn-img1.png'
 import btn_img2 from '../../images/btn-logo2.png'
 import EnhancedTableHead from "../home/dataTable";
-import {Input} from "@material-ui/core";
 import TextField from "@material-ui/core/TextField";
 import API from '../../networking/api'
 import Loader from "../../loader/loader"
@@ -97,11 +96,24 @@ class DataNavBar extends React.Component {
             this.onParentTrigger(this.props.triggerChildFunc[0]);
             if(this.props.triggerChildFunc[0].sportView === 'NFL'){
                 this.setState({filter_player: null})
-                this.setState({nflAction: true})
+                this.setState({nflAction: true,pgBtn:false,
+                    sgBtn:false,
+                    sfBtn:false,
+                    pfBtn:false,
+                    cBtn:false,
+                    allBtn:false,
+                    allClearBtn:false,})
             }
             if(this.props.triggerChildFunc[0].sportView === 'NBA'){
                 this.setState({filter_player: null})
-                this.setState({nflAction: false})
+                this.setState({nflAction: false, qbBtn:false,
+                    rbBtn:false,
+                    wrBtn:false,
+                    teBtn:false,
+                    kBtn:false,
+                    dstBtn:false,
+                    allBtn:false,
+                    allClearBtn:false,})
             }
         }
     }
@@ -525,37 +537,61 @@ class DataNavBar extends React.Component {
 
     allSelectFilter(){
         if(this.state.nflAction){
-            this.setState({filter_player:this.state.nfl_player_data})
+            this.setState({filter_player:this.state.nfl_player_data,
+                allBtn:true,
+                allClearBtn:false,
+                qbBtn:true,
+                rbBtn:true,
+                wrBtn:true,
+                teBtn:true,
+                kBtn:true,
+                dstBtn:true,})
         }
         else{
-            this.setState({filter_player:this.state.players_data})
+            this.setState({filter_player:this.state.players_data,
+                allBtn:true,
+                allClearBtn:false,
+                pgBtn:true,
+                sgBtn:true,
+                sfBtn:true,
+                pfBtn:true,
+                cBtn:true,})
         }
-        this.setState({
-            allBtn:true,
-            allClearBtn:false,
-            pgBtn:true,
-            sgBtn:true,
-            sfBtn:true,
-            pfBtn:true,
-            cBtn:true,
-        })
+
     }
     allClearFilter(){
         if(this.state.nflAction){
-            this.setState({filter_player:this.state.nfl_player_data})
+            this.setState({filter_player:this.state.nfl_player_data,
+                allBtn:false,
+                allClearBtn:true,
+                pgBtn:false,
+                sgBtn:false,
+                sfBtn:false,
+                pfBtn:false,
+                cBtn:false,
+                qbBtn:false,
+                rbBtn:false,
+                wrBtn:false,
+                teBtn:false,
+                kBtn:false,
+                dstBtn:false,})
         }
         else{
-            this.setState({filter_player:this.state.players_data})
+            this.setState({filter_player:this.state.players_data,
+                allBtn:false,
+                allClearBtn:true,
+                pgBtn:false,
+                sgBtn:false,
+                sfBtn:false,
+                pfBtn:false,
+                cBtn:false,
+                qbBtn:false,
+                rbBtn:false,
+                wrBtn:false,
+                teBtn:false,
+                kBtn:false,
+                dstBtn:false,})
         }
-        this.setState({
-            allBtn:false,
-            allClearBtn:true,
-            pgBtn:false,
-            sgBtn:false,
-            sfBtn:false,
-            pfBtn:false,
-            cBtn:false,
-        })
     }
 
     resetData(){
@@ -745,20 +781,18 @@ class DataNavBar extends React.Component {
                             <div className="common-button ">
                                 <div className="btn-group" >
                                     <label className={`${this.state.allBtn ? 'btn btn-primary active ad-group-btn' : 'btn btn-primary ad-group-btn'}`} onClick={()=>{this.allSelectFilter('nfl')}}>
-                                        {/*<input type="radio" name="options" autoComplete="off" checked/>*/}
                                         <span className="btn-text"> All</span>
                                     </label>
                                     <label className={`${this.state.allClearBtn ? 'btn btn-primary active ad-group-btn' : 'btn btn-primary ad-group-btn'}`} onClick={this.allClearFilter}>
-                                        {/*<input type="radio" name="options" autoComplete="off" checked/>*/}
                                         <span className="btn-text"> Clear</span>
                                     </label>
                                     {this.state.nflAction ?
                                         <>
-                                        <label
-                                            className={`${this.state.qbBtn ? 'btn btn-primary active ad-group-btn' : 'btn btn-primary ad-group-btn'}`}
-                                            onClick={this.qbFilters}>
-                                            <span className="btn-text"> qb</span>
-                                        </label>
+                                            <label
+                                                className={`${this.state.qbBtn ? 'btn btn-primary active ad-group-btn' : 'btn btn-primary ad-group-btn'}`}
+                                                onClick={this.qbFilters}>
+                                                <span className="btn-text"> qb</span>
+                                            </label>
                                             <label
                                                 className={`${this.state.rbBtn ? 'btn btn-primary active ad-group-btn' : 'btn btn-primary ad-group-btn'}`}
                                                 onClick={this.rbFilters}>
