@@ -247,6 +247,7 @@ ul>li{
     border: 1px solid #ddd;
     margin-left: 5px;
     font-size: 10px;
+    min-height: 29px;
 }
 .collapse_single .input .toggle_btn:hover, .MuiToggleButton-root.Mui-selected{
     background: #123c6c !important;

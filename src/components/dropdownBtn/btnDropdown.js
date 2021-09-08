@@ -296,7 +296,6 @@ function DetailedAccordion(props) {
 
     useEffect(()=>{
         setUpdateGameData(props.gameData)
-        console.log(props)
 
     })
 
@@ -436,8 +435,9 @@ function DetailedAccordion(props) {
                         <ul className="collapse_container">
                             <li className="collapse_single text-right">
                                 <span className="dateTimeText">
-                                    {new Intl.DateTimeFormat(
-                                            'en',
+                                    {props.dateTime ?
+                                        (new Intl.DateTimeFormat(
+                                        'en',
                                             {
                                                 month: 'long',
                                                 day: '2-digit',
@@ -447,7 +447,9 @@ function DetailedAccordion(props) {
                                                 hourCycle: 'h11'
                                             }
                                         ).format(new Date(props.dateTime)
-                                        )}
+                                        ))
+                                    : null}
+                                    {/*{props.dateTime}*/}
 
                                 </span>
                             </li>

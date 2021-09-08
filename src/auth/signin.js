@@ -45,8 +45,7 @@ componentDidMount() {
         this.setState({spinner:true})
         const usersignIn = Auth.signIn(this.state.email, this.state.password);
         usersignIn.then((response) => {
-
-            if(response.status === 200){
+            if(response.username){
                 localStorage.setItem('username', response.username);
                 this.props.history.push('/');
             }
