@@ -59,7 +59,7 @@
 }
 .table_input{
     width: 60px;
-    padding: 2px 8px !important;
+    padding: 2px 0px !important;
     border: 1px solid #ddd !important;
 }
 .table_input .MuiInput-underline:before,.table_input .MuiInput-underline:after,.table_input .MuiInput-underline:hover:not(.Mui-disabled):before{

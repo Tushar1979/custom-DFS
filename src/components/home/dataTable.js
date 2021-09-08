@@ -504,9 +504,9 @@ export default function EnhancedTable(props) {
         }
     }
     if(saveData){
-        if(props.is_nbaNfl === 'NFL') {
+        // if(props.is_nbaNfl === 'NFL') {
             props.onSavePlayerStats(nflList)
-        }
+        // }
     }
     if (props.nfl_player_data.length > 0) {
         update_data = true
