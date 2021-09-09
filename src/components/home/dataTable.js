@@ -67,7 +67,7 @@ function EnhancedTableHead(props) {
                     <TableCell colSpan={4}>Simulation Result</TableCell>
                 </TableRow>
                 : null}
-            <TableRow className="middle_table_head">
+            <TableRow className={nft_header ? "middle_table_head nfl_head" : "middle_table_head" }>
                 {headCells.map((headCell) => (
                     <TableCell
                         key={headCell.id}

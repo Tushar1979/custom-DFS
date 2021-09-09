@@ -57,6 +57,11 @@
 .middle_table_head>th:nth-child(18){
     padding-left: 5px;
 }
+
+.middle_table_head.nfl_head>th:nth-child(9), .middle_table_head.nfl_head>th:nth-child(15),.middle_table_head.nfl_head>th:nth-child(17){
+    border-right: 1px solid #fff;
+}
+
 .table_input{
     width: 60px;
     padding: 2px 0px !important;
