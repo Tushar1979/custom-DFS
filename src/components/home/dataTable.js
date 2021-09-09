@@ -32,8 +32,8 @@ function descendingComparator(a, b, orderBy) {
 
 function getComparator(order, orderBy) {
     return order === 'desc'
-        ? (a, b) => descendingComparator(a, b, orderBy)
-        : (a, b) => -descendingComparator(a, b, orderBy);
+        ? (a, b) => -descendingComparator(a, b, orderBy)
+        : (a, b) => descendingComparator(a, b, orderBy);
 }
 
 function stableSort(array, comparator) {
@@ -625,7 +625,7 @@ export default function EnhancedTable(props) {
 
     const classes = useStyles();
     const [order, setOrder] = React.useState('asc');
-    const [orderBy, setOrderBy] = React.useState('pos');
+    const [orderBy, setOrderBy] = React.useState('salary');
     const [selected, setSelected] = React.useState([]);
     const [page, setPage] = React.useState(0);
     const [dense, setDense] = React.useState(false);

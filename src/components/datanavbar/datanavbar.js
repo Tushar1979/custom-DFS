@@ -102,7 +102,8 @@ class DataNavBar extends React.Component {
                     pfBtn:false,
                     cBtn:false,
                     allBtn:false,
-                    allClearBtn:false,})
+                    allClearBtn:false,
+                    inputActive:false})
             }
             if(this.props.triggerChildFunc[0].sportView === 'NBA'){
                 this.setState({filter_player: null})
@@ -113,7 +114,8 @@ class DataNavBar extends React.Component {
                     kBtn:false,
                     dstBtn:false,
                     allBtn:false,
-                    allClearBtn:false,})
+                    allClearBtn:false,
+                    inputActive:false})
             }
         }
     }
@@ -846,7 +848,7 @@ class DataNavBar extends React.Component {
                                     <ReactHTMLTableToExcel
                                         className="btn btn-primary active ad-group-btn"
                                         table="data_table"
-                                        filename="ReportExcel"
+                                        filename="CustomDFSExport"
                                         sheet="Sheet"
                                         buttonText="Export" />
                             </div>
