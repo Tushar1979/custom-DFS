@@ -595,10 +595,16 @@ export default function EnhancedTable(props) {
                     steals: user_data[data].Steals,
                     blockedShots: user_data[data].BlockedShots,
                     to: user_data[data].Turnovers,
-                    fantasyPoints: user_data[data].FantasyPoints,
+                    fantasyPoints: user_data[data].FantasyPointsDraftKings,
+                    fd_fantasyPoints: user_data[data].FantasyPointsFantasyDraft,
+                    nfl_dk_fantasyPoints: user_data[data].DK_Proj,
+                    nfl_fd_fantasyPoints: user_data[data].FantasyPoints,
                     ceiling: user_data[data].DK_Ceil,
+                    fd_ceiling: user_data[data].FD_Ceil,
                     floor: user_data[data].DK_Floor,
+                    fd_floor: user_data[data].FD_Floor,
                     fpts$: user_data[data].DK_Value,
+                    fd_fpts$: user_data[data].FD_Value,
 
                     completion: user_data[data].PassingCompletions,
                     passingattempts: user_data[data].PassingAttempts,
@@ -1066,10 +1072,33 @@ export default function EnhancedTable(props) {
                                                                 </>
                                                         )
                                                     }
-                                                    <TableCell align="center">{row.fantasyPoints}</TableCell>
-                                                    <TableCell align="center">{row.ceiling} </TableCell>
-                                                    <TableCell align="center">{row.floor} </TableCell>
-                                                    <TableCell align="center">{row.fpts$}</TableCell>
+                                                    {nft_header ?
+
+                                                        (props.salary === 'dk' ?
+                                                            <TableCell align="center">{row.nfl_dk_fantasyPoints}</TableCell>
+                                                            :
+                                                            <TableCell align="center">{row.nfl_fd_fantasyPoints}</TableCell>)
+
+                                                        :
+                                                        (props.salary === 'dk' ?
+                                                            <TableCell align="center">{row.fantasyPoints} </TableCell>
+                                                            :<TableCell align="center">{row.fd_fantasyPoints} </TableCell>
+                                                        )
+
+
+                                                    }
+                                                    {props.salary === 'dk' ?
+                                                        <>
+                                                            <TableCell align="center">{row.ceiling} </TableCell>
+                                                            <TableCell align="center">{row.floor} </TableCell>
+                                                            <TableCell align="center">{row.fpts$}</TableCell>
+                                                        </>:
+                                                        <>
+                                                            <TableCell align="center">{row.fd_ceiling} </TableCell>
+                                                            <TableCell align="center">{row.fd_floor} </TableCell>
+                                                            <TableCell align="center">{row.fd_fpts$}</TableCell>
+                                                        </>}
+
                                                 </TableRow>
                                             );
                                         })}
