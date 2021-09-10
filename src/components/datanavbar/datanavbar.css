@@ -64,7 +64,7 @@
 .ad-group-btn{
     display: table;
     min-height: 40px;
-    padding: 3px 10px;
+    padding: 3px 5px;
     font-size: 14px;
 }
 .multiple-btn .ad-group-btn{
@@ -101,6 +101,7 @@
 .search_input .MuiOutlinedInput-input{
     padding: 11.5px 14px;
     min-width: 90px;
+    max-width: 110px;
 }
 
 .toasterStyle .Toastify__toast--default{

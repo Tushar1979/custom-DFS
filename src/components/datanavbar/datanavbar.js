@@ -50,13 +50,13 @@ class DataNavBar extends React.Component {
                 salary: 'dk',
                 update_data:true,
                 search_player_data: [],
-                allBtn:false,
+                allBtn:true,
                 allClearBtn:false,
-                pgBtn:false,
-                sgBtn:false,
-                sfBtn:false,
-                pfBtn:false,
-                cBtn:false,
+                pgBtn:true,
+                sgBtn:true,
+                sfBtn:true,
+                pfBtn:true,
+                cBtn:true,
                 nflAction:false,
                 qbBtn:false,
                 rbBtn:false,
@@ -96,26 +96,38 @@ class DataNavBar extends React.Component {
             this.onParentTrigger(this.props.triggerChildFunc[0]);
             if(this.props.triggerChildFunc[0].sportView === 'NFL'){
                 this.setState({filter_player: null})
-                this.setState({nflAction: true,pgBtn:false,
+                this.setState({nflAction: true,
+                    pgBtn:false,
+                    qbBtn:true,
+                    rbBtn:true,
+                    wrBtn:true,
+                    teBtn:true,
+                    kBtn:true,
+                    dstBtn:true,
                     sgBtn:false,
                     sfBtn:false,
                     pfBtn:false,
                     cBtn:false,
-                    allBtn:false,
+                    allBtn:true,
                     allClearBtn:false,
                     inputActive:false})
             }
             if(this.props.triggerChildFunc[0].sportView === 'NBA'){
                 this.setState({filter_player: null})
-                this.setState({nflAction: false, qbBtn:false,
+                this.setState({nflAction: false, qbBtn:true,
+                    sgBtn:true,
+                    sfBtn:true,
+                    pfBtn:true,
+                    cBtn:true,
                     rbBtn:false,
                     wrBtn:false,
                     teBtn:false,
                     kBtn:false,
                     dstBtn:false,
-                    allBtn:false,
+                    allBtn:true,
                     allClearBtn:false,
-                    inputActive:false})
+                    inputActive:false
+                })
             }
         }
     }
@@ -267,27 +279,27 @@ class DataNavBar extends React.Component {
         for(let i = 0; i<keyList.length; i++){
             if(keyList[i] === 'qb'){
                 qbArray = (player_obj.players.filter(function (el){
-                    return el.DraftKingsPosition === 'QB' || el.DraftKingsPosition === 'qb'  ;
+                    return el.Position === 'QB' || el.Position === 'qb'  ;
                 }));
             } if(keyList[i] === 'rb'){
                 rbArray = (player_obj.players.filter(function (el){
-                    return el.DraftKingsPosition === 'RB' || el.DraftKingsPosition === 'rb'  ;
+                    return el.Position === 'RB' || el.Position === 'rb'  ;
                 }));
             } if(keyList[i] === 'wr'){
                 wrArray = (player_obj.players.filter(function (el){
-                    return el.DraftKingsPosition === 'WR' || el.DraftKingsPosition === 'wr'  ;
+                    return el.Position === 'WR' || el.Position === 'wr'  ;
                 }));
             } if(keyList[i] === 'te'){
                 teArray = (player_obj.players.filter(function (el){
-                    return el.DraftKingsPosition === 'TE' || el.DraftKingsPosition === 'te'  ;
+                    return el.Position === 'TE' || el.Position === 'te'  ;
                 }));
             } if(keyList[i] === 'k'){
                 kArray = (player_obj.players.filter(function (el){
-                    return el.DraftKingsPosition === 'K' || el.DraftKingsPosition === 'k'  ;
+                    return el.Position === 'K' || el.Position === 'k'  ;
                 }));
             } if(keyList[i] === 'dst'){
                 dstArray = (player_obj.players.filter(function (el){
-                    return el.DraftKingsPosition === 'DST' || el.DraftKingsPosition === 'dst'  ;
+                    return el.Position === 'DST' || el.Position === 'dst'  ;
                 }));
             }
         }
@@ -429,7 +441,7 @@ class DataNavBar extends React.Component {
     }
     dstFilters = () =>{
         dstActive = !dstActive
-        if(kActive){
+        if(dstActive){
             nflFilter_list.push('dst')
         }
         if(!dstActive) {
@@ -603,10 +615,21 @@ class DataNavBar extends React.Component {
         this.setState({ filter: event.target.value });
         let searching_data = this.state.search_player_data
         function filterByValue(searching_data, term) {
+            term = term.toLowerCase()
             let ans = searching_data.filter(function(v,i) {
-                if(v.Name.toLowerCase().indexOf(term) >=0) {
+                if(v.Name.toLowerCase().indexOf(term) >=0 ) {
                     return true;
-                } else {
+                }
+                else if(v.FanDuelPosition.toLowerCase().indexOf(term) >=0){
+                    return true
+                }
+                else if(v.Opponent.toLowerCase().indexOf(term) >=0){
+                    return true
+                }
+                else if(v.Team.toLowerCase().indexOf(term) >=0){
+                    return true
+                }
+                else {
                     return false
                 };
             });
@@ -696,17 +719,17 @@ class DataNavBar extends React.Component {
                 } else if (res.request.status === 401) {
                     // console.log("login")
                     this.props.history.push('/signin')
-                    this.setState({loader:false,spinner: true})
+                    this.setState({loader:false,spinner: false})
                 } else {
-                    this.setState({loader:false,spinner: true})
+                    this.setState({loader:false,spinner: false})
                     console.log(res)
                 }
             })
             .catch((error) => {
-                this.setState({loader:false,spinner: true})
+                this.setState({loader:false,spinner: false})
                 console.log(error);
             })
-        this.setState({saveData:false})
+        this.setState({saveData:false,spinner: false})
         toast.success("⭐ Apply to All Teams...");
 
     }
@@ -814,6 +837,11 @@ class DataNavBar extends React.Component {
                                                 className={`${this.state.kBtn ? 'btn btn-primary active ad-group-btn' : 'btn btn-primary ad-group-btn'}`}
                                                 onClick={this.kFilters}>
                                                 <span className="btn-text"> k</span>
+                                            </label>
+                                            <label
+                                                className={`${this.state.dstBtn ? 'btn btn-primary active ad-group-btn' : 'btn btn-primary ad-group-btn'}`}
+                                                onClick={this.dstFilters}>
+                                                <span className="btn-text"> dst</span>
                                             </label>
                                         </>
                                         :

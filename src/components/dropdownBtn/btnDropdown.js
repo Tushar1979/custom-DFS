@@ -430,7 +430,6 @@ function DetailedAccordion(props) {
                         </div>
                     </div>
                 </AccordionSummary>
-                {props.collapse ?
                     <AccordionDetails>
                         <ul className="collapse_container">
                             <li className="collapse_single text-right">
@@ -453,6 +452,9 @@ function DetailedAccordion(props) {
 
                                 </span>
                             </li>
+
+                            {props.collapse ?
+                                <>
                                     <li className="collapse_single">
                                         <span className="text">Winner </span>
                                         <span className="input">
@@ -519,9 +521,11 @@ function DetailedAccordion(props) {
                                             />
                                         </span>
                                     </li>
+                                </>
+
+                            : null }
                                 </ul>
                     </AccordionDetails>
-                    : null }
                 <Divider />
             </Accordion>
         </div>
