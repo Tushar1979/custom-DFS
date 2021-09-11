@@ -141,19 +141,65 @@ class DataNavBar extends React.Component {
         }
     }
 
+    getPlayerState = (data) =>{
+        this.setState({loader:true})
+        this.setState({update_data:true})
+        let payload = {
+            data:data
+        }
+        // player stats api calling
+        let url = '/Prod/get-player-stats'
+        this.api.GetApi(url, payload)
+            .then((res) => {
+                let response_data = JSON.parse(res.request.response)
+                if (res.status === 200 ) {
+                    if(data.sportView === "NBA"){
+                        this.setState({players_data: response_data.body})
+                        this.setState({search_player_data: response_data.body})
+                        this.setState({nfl_player_data:[]})
+
+                        this.setState({loader:false})
+                    }
+                    if(data.sportView === "NFL"){
+                        this.setState({nfl_player_data: response_data.body})
+                        this.setState({search_player_data: response_data.body})
+                        this.setState({players_data: []})
+
+                        this.setState({loader:false})
+                    }
+                } else if (res.request.status === 401) {
+                    // console.log("login")
+                    this.props.history.push('/signin')
+                    this.setState({loader:false})
+                } else {
+                    console.log(res)
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+
+    }
+
+
     myData(){
         toast("⭐ Populating fields...");
         this.setState({
             inputActive:true,
             saveBtnActive:true
         })
-    }
+            this.getPlayerState({"user": {"id": localStorage.getItem('username')}, "sportView": this.state.is_nbaNfl})
+
+        }
     customDfs(){
         toast("⭐ Populating fields...");
         this.setState({
             inputActive:false,
             saveBtnActive:false
         })
+
+            this.getPlayerState( {"user": {"id": "Master"}, "sportView": this.state.is_nbaNfl})
+
     }
 
     SaveData = () =>{
@@ -164,7 +210,6 @@ class DataNavBar extends React.Component {
     getCustomDfsData(data){
         this.setState({loader:true})
         this.setState({update_data:true})
-        // let url = '2019-MAY-30?key=11806b0dab30479187ccb5b3d0ca58c6'
         let payload = {
             data:data
         }
@@ -184,7 +229,6 @@ class DataNavBar extends React.Component {
                         this.setState({search_player_data: response_data.body})
                         this.setState({players_data: []})
                     }
-                    // console.log('+++++----++++', response_data.body)
                 } else if (res.request.status === 401) {
                     // console.log("login")
                     this.props.history.push('/signin')
@@ -617,21 +661,14 @@ class DataNavBar extends React.Component {
         function filterByValue(searching_data, term) {
             term = term.toLowerCase()
             let ans = searching_data.filter(function(v,i) {
-                if(v.Name.toLowerCase().indexOf(term) >=0 ) {
-                    return true;
-                }
-                else if(v.FanDuelPosition.toLowerCase().indexOf(term) >=0){
-                    return true
-                }
-                else if(v.Opponent.toLowerCase().indexOf(term) >=0){
-                    return true
-                }
-                else if(v.Team.toLowerCase().indexOf(term) >=0){
-                    return true
-                }
-                else {
+                console.log(v.Name)
+                if((v.Name || v.Team) === undefined){
                     return false
-                };
+                }
+                   else if (v.Name.toLowerCase().indexOf(term) >= 0) {
+                        return true;
+                    }
+                    else return v.Team.toLowerCase().indexOf(term) >= 0;
             });
             return ans
         }
@@ -676,31 +713,64 @@ class DataNavBar extends React.Component {
         toast.success("⭐ Sucessfully Saved Data");
     }
     handleSimulations = () =>{
+        toast.success("⭐ Simulation Started...");
         this.setState({simulationSpinner: true})
-        let payload = {
-            User: localStorage.getItem('username')
+        if(this.state.is_nbaNfl === 'NFL') {
+            let payload = {
+                User: localStorage.getItem('username')
+            }
+
+            let url = '/Prod/run-simulation-nfl'
+            this.api.PostApi(payload, url)
+                .then((res) => {
+                    let response_data = JSON.parse(res.request.response)
+                    if (res.status === 200) {
+                        this.getCustomDfsData({user: {id: 'Master'}, sportView: this.state.is_nbaNfl})
+
+                        this.setState({simulationSpinner: false})
+                    } else if (res.request.status === 401) {
+                        // console.log("login")
+                        this.props.history.push('/signin')
+                        this.setState({loader: false, simulationSpinner: false})
+                    } else {
+                        this.setState({simulationSpinner: false, loader: false})
+                        console.log(res)
+                    }
+                })
+                .catch((error) => {
+                    this.setState({simulationSpinner: false, loader: false})
+                    console.log(error);
+                })
         }
-        let url = '/Prod/run-simulation-nfl'
-        this.api.PostApi(payload, url)
-            .then((res) => {
-                let response_data = JSON.parse(res.request.response)
-                if (res.status === 200 ) {
-                    // console.log('+++++----++++', response_data.body)
-                    toast.success("⭐ Simulation Started...");
-                    this.setState({simulationSpinner: false})
-                } else if (res.request.status === 401) {
-                    // console.log("login")
-                    this.props.history.push('/signin')
-                    this.setState({loader:false, simulationSpinner:false})
-                } else {
-                    this.setState({simulationSpinner: false, loader:false})
-                    console.log(res)
-                }
-            })
-            .catch((error) => {
-                this.setState({simulationSpinner: false,loader:false})
-                console.log(error);
-            })
+        else{
+            let payload = {
+                User: localStorage.getItem('username')
+            }
+
+            let url = '/Prod/run-simulation'
+            this.api.PostApi(payload, url)
+                .then((res) => {
+                    let response_data = JSON.parse(res.request.response)
+                    if (res.status === 200) {
+                        this.getCustomDfsData({user: {id: localStorage.getItem('username')}, sportView: this.state.is_nbaNfl})
+                        toast.success("⭐ Simulation Started...");
+                        this.setState({simulationSpinner: false})
+                    } else if (res.request.status === 401) {
+                        // console.log("login")
+                        this.props.history.push('/signin')
+                        this.setState({loader: false, simulationSpinner: false})
+                    } else {
+                        this.setState({simulationSpinner: false, loader: false})
+                        console.log(res)
+                    }
+                })
+                .catch((error) => {
+                    this.setState({simulationSpinner: false, loader: false})
+                    console.log(error);
+                })
+        }
+        setTimeout(() => { toast("⭐ Populating fields..."); }, 3000);
+
 
     }
 
@@ -744,13 +814,13 @@ class DataNavBar extends React.Component {
                     <div className="container-fluid">
                         <div className="group-buttons">
                             <div className="common-button">
-                                <div className="btn-group btn-group-toggle" data-toggle="buttons">
-                                    <label className="btn btn-primary active ad-group-btn">
+                                <div className="btn-group ">
+                                    <label className={this.state.inputActive ? "btn btn-primary ad-group-btn":"btn btn-primary active ad-group-btn"}>
                                         <input type="radio" name="options" autoComplete="off" checked
                                                onClick={this.customDfs}/>
                                         <ToastContainer
                                             position="bottom-right"
-                                            autoClose={5000}
+                                            autoClose={3000}
                                             hideProgressBar={false}
                                             newestOnTop={false}
                                             closeOnClick
@@ -762,10 +832,10 @@ class DataNavBar extends React.Component {
                                         />
                                         <span className="btn-text">CustomDFS Data</span>
                                     </label>
-                                    <label className="btn btn-primary ad-group-btn">
+                                    <label className={this.state.inputActive ? "btn btn-primary active ad-group-btn" : "btn btn-primary ad-group-btn"}>
                                         <ToastContainer
                                             position="bottom-right"
-                                            autoClose={5000}
+                                            autoClose={3000}
                                             hideProgressBar={false}
                                             newestOnTop={false}
                                             closeOnClick
@@ -904,7 +974,7 @@ class DataNavBar extends React.Component {
                                 >
                                     <ToastContainer
                                         position="bottom-right"
-                                        autoClose={5000}
+                                        autoClose={3000}
                                         hideProgressBar={false}
                                         newestOnTop={false}
                                         closeOnClick

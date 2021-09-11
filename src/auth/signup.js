@@ -119,7 +119,7 @@ class SignUp extends Component {
                                     onClick={this.signUpBtn} disabled={this.state.btnActive ? true : false}> Sign Up
                                     <ToastContainer
                                         position="bottom-right"
-                                        autoClose={5000}
+                                        autoClose={3000}
                                         hideProgressBar={false}
                                         newestOnTop={false}
                                         closeOnClick

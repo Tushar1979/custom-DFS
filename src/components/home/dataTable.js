@@ -578,47 +578,51 @@ export default function EnhancedTable(props) {
     }
     if (update_data) {
         for (let data = 0; data < user_data.length; data++) {
-            rows.push(
-                {
-                    id:user_data[data].Id,
-                    name: user_data[data].Name,
-                    pos: user_data[data].DraftKingsPosition,
-                    fdPos: user_data[data].FanDuelPosition,
-                    team: user_data[data].Team,
-                    oop: user_data[data].Opponent,
-                    salary: user_data[data].DraftKingsSalary,
-                    fdSalary: user_data[data].FanDuelSalary,
-                    minus: user_data[data].PlusMinus,
-                    points: user_data[data].Points,
-                    rebound: user_data[data].Rebounds,
-                    assists: user_data[data].Assists,
-                    steals: user_data[data].Steals,
-                    blockedShots: user_data[data].BlockedShots,
-                    to: user_data[data].Turnovers,
-                    fantasyPoints: user_data[data].FantasyPointsDraftKings,
-                    fd_fantasyPoints: user_data[data].FantasyPointsFantasyDraft,
-                    nfl_dk_fantasyPoints: user_data[data].DK_Proj,
-                    nfl_fd_fantasyPoints: user_data[data].FantasyPoints,
-                    ceiling: user_data[data].DK_Ceil,
-                    fd_ceiling: user_data[data].FD_Ceil,
-                    floor: user_data[data].DK_Floor,
-                    fd_floor: user_data[data].FD_Floor,
-                    fpts$: user_data[data].DK_Value,
-                    fd_fpts$: user_data[data].FD_Value,
+            if((user_data[data].Name !== undefined)){
 
-                    completion: user_data[data].PassingCompletions,
-                    passingattempts: user_data[data].PassingAttempts,
-                    passingyards: user_data[data].PassingYards,
-                    passingtouchdowns: user_data[data].PassingTouchdowns,
-                    rushingattempts: user_data[data].RushingAttempts,
-                    rushingyards: user_data[data].RushingYards,
-                    rushingtouchdowns: user_data[data].RushingTouchdowns,
-                    receptions: user_data[data].Receptions,
-                    receivingyards: user_data[data].ReceivingYards,
-                    receivingtouchdowns: user_data[data].ReceivingTouchdowns,
-                    fieldgoalsmade: user_data[data].FieldGoalsMade,
-                    fieldgoalsattempted: user_data[data].FieldGoalsAttempted,
-                })
+                rows.push(
+                    {
+                        id: user_data[data].Id,
+                        name: user_data[data].Name,
+                        pos: user_data[data].DraftKingsPosition,
+                        fdPos: user_data[data].FanDuelPosition,
+                        team: user_data[data].Team,
+                        oop: user_data[data].Opponent,
+                        salary: user_data[data].DraftKingsSalary,
+                        fdSalary: user_data[data].FanDuelSalary,
+                        minus: user_data[data].PlusMinus,
+                        points: user_data[data].Points,
+                        rebound: user_data[data].Rebounds,
+                        assists: user_data[data].Assists,
+                        steals: user_data[data].Steals,
+                        blockedShots: user_data[data].BlockedShots,
+                        to: user_data[data].Turnovers,
+                        fantasyPoints: user_data[data].FantasyPointsDraftKings,
+                        fd_fantasyPoints: user_data[data].FantasyPointsFantasyDraft,
+                        nfl_dk_fantasyPoints: user_data[data].DK_Proj,
+                        nfl_fd_fantasyPoints: user_data[data].FantasyPoints,
+                        ceiling: user_data[data].DK_Ceil,
+                        fd_ceiling: user_data[data].FD_Ceil,
+                        floor: user_data[data].DK_Floor,
+                        fd_floor: user_data[data].FD_Floor,
+                        fpts$: user_data[data].DK_Value,
+                        fd_fpts$: user_data[data].FD_Value,
+
+                        completion: user_data[data].PassingCompletions,
+                        passingattempts: user_data[data].PassingAttempts,
+                        passingyards: user_data[data].PassingYards,
+                        passingtouchdowns: user_data[data].PassingTouchdowns,
+                        rushingattempts: user_data[data].RushingAttempts,
+                        rushingyards: user_data[data].RushingYards,
+                        rushingtouchdowns: user_data[data].RushingTouchdowns,
+                        receptions: user_data[data].Receptions,
+                        receivingyards: user_data[data].ReceivingYards,
+                        receivingtouchdowns: user_data[data].ReceivingTouchdowns,
+                        fieldgoalsmade: user_data[data].FieldGoalsMade,
+                        fieldgoalsattempted: user_data[data].FieldGoalsAttempted,
+                    })
+
+            }
             update_data = false
         }
 
