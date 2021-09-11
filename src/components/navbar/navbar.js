@@ -65,15 +65,16 @@ class NavBar extends React.Component {
 
                             <ul className="navbar-nav ">
                                 <li className="nav-item active">
-                                    <Link class="nav-link" to="/">Premium
-                                    </Link>
+                                    <Link class="nav-link" >MANAGE SUBSCRIPTION</Link>
                                 </li>
                                 <li className="nav-item">
-                                    {/*<Link class="nav-link" to="/report-bug">Report a Bug</Link>*/}
-                                    <Link class="nav-link" >Report a Bug</Link>
+                                    <Link class="nav-link" to="/customdfs-feedback">Report a Bug</Link>
                                 </li>
                                 <li className="nav-item">
-                                    <a className="nav-link" href="#">Leave Feedback</a>
+                                    <Link class="nav-link" to="/customdfs-feedback">Leave Feedback</Link>
+                                </li>
+                                <li className="nav-item">
+                                    <Link class="nav-link" to="/customdfs-feedback">Contact Us</Link>
                                 </li>
                                 {this.state.user?
                                 <li className="nav-item">

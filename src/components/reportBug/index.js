@@ -1,35 +1,89 @@
 import React from 'react'
 import "./style.css"
+import {Link} from "react-router-dom";
+import API from '../../networking/api'
+const emailReg = new RegExp(/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]/)
 class ReportBog extends React.Component {
+    api = new API()
+    constructor(props) {
+        super(props);
+        this.state={
+            email:'',
+            comment:'',
+            emailError:false,
+            process:false,
+            processed:false
+        }
+    }
+    handleSubmit = () =>{
+        if(!emailReg.test(this.state.email)){
+            this.setState({emailError: true})
+        }
+        else{
+            this.setState({process:true})
+            let data = {
+                "28fd5d118efab908cf0d4dad911ac5f4":this.state.email,
+                "38f3676ad9cb4ccc3574ba5f183c0e4f":this.state.comment
+            }
+            let param = {skip_redirect:true}
+            // player stats api calling
+            let url = 'https://api.leadpages.io/integration/v1/forms/UJgXbBwh3bdvGV6cGmWhLm/submissions'
+            this.api.PostWithParamsApi(url, param, data)
+                .then((res) => {
+                    let response_data = JSON.parse(res.request.response)
+                        // console.log('+++++----++++', response_data.body)
+
+                })
+                .catch((error) => {
+                    this.setState({loader:false,spinner: false})
+                    console.log(error);
+                })
+            setTimeout(() => { this.setState({process:false, processed:true}) }, 1000);
+
+        }
+    }
     render() {
         return (
-            <>
+            <div className="main_container">
+                <div className="form_container">
                 <div className="container report-container">
                     <div className="row">
-                        <div className="col-md-6 col-sm-6 col-xs-6">
-                            <h1 className="text-left report-head">Feedback about CustomDFS</h1>
-                            <form className="report-form">
+                        <div className="col-md-12 col-sm-12 col-xs-12">
+                            <h3 className="text-left report-head">
+                                To report a bug, ask for help, or provide feedback about CustomDFS please fill out the form below and we will respond ASAP:
+                            </h3>
+                            <div className="report-form">
                                 <div className="form-group">
-                                    <label>Email address</label>
+                                    <label>Email </label>
                                     <input type="email" className="form-control"
-                                           aria-describedby="emailHelp" placeholder="Enter email"/>
-                                        <small id="emailHelp" className="form-text text-muted">We'll never share your
-                                            email with anyone else.</small>
+                                           aria-describedby="emailHelp" placeholder="Enter email" onChange={e =>this.setState({email: e.target.value})}/>
+                                    {this.state.emailError ?
+                                        <small id="emailHelp" className="form-text text-danger">Please enter your Email.</small>
+                                        : null}
                                 </div>
                                 <div className="form-group">
                                     <label>Comment</label>
-                                    <textarea className="form-control" rows="6"> </textarea>
+                                    <textarea className="form-control" rows="4" onChange={e =>this.setState({comment: e.target.value})}> </textarea>
                                 </div>
-                                <div className="form-group text-right">
-                                    <button className="btn btn-primary btn-lg">Submit</button>
+                                <div className=" text-right">
+                                    <button className="btn btn-info btn-lg btn-block submit_btn" onClick={this.handleSubmit} disabled={this.state.process || this.state.processed ? true: false}>
+                                        {this.state.process ? 'Submitting': (
+                                            this.state.processed ? 'thank You': 'Submit'
+                                        )}
+
+                                    </button>
                                 </div>
-                            </form>
-                        </div>
-                        <div className="col-md-6 col-sm-6 col-xs-6">
+                            </div>
                         </div>
                     </div>
                 </div>
-            </>
+                </div>
+                <div className="report-footer">
+                    <div className="footer-body">
+                        <Link class="report_btn btn btn-info" to="/">Return Home to Customdfs.com</Link>
+                    </div>
+                </div>
+            </div>
         )
     }
 }

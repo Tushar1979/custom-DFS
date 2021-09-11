@@ -2,10 +2,12 @@ import React, {Component} from 'react';
 import {BrowserRouter as Router, Switch, Route, Redirect, Link} from 'react-router-dom';
 import authLogo from "../images/login_logo.png"
 import './style.css';
-import Loader from '../loader/loader'
+import Spinner from '../components/Spinner/spinner'
 
 import { Auth } from "aws-amplify";
 import {TextField} from "@material-ui/core";
+import {toast, ToastContainer} from "react-toastify";
+import CircularSpinner from "../components/Spinner/spinner";
 
 class SignIn extends Component {
     constructor(props) {
@@ -14,7 +16,7 @@ class SignIn extends Component {
             email:'',
             password:'',
             user: localStorage.getItem('username'),
-            loader:false
+            spinner:false
         }
     }
     emailField = (e) =>{
@@ -32,7 +34,6 @@ componentDidMount() {
             this.props.history.push('/');
         }
         else{
-
             this.props.history.push('/signin');
         }
 }
@@ -41,23 +42,26 @@ componentDidMount() {
     }
 
     loginBtn = () => {
-        this.setState({loader:true})
+        this.setState({spinner:true})
         const usersignIn = Auth.signIn(this.state.email, this.state.password);
         usersignIn.then((response) => {
-            localStorage.setItem('username', response.username);
-            this.props.history.push('/');
+            if(response.username){
+                localStorage.setItem('username', response.username);
+                this.props.history.push('/');
+            }
+            else{
+                toast.error("⭐ Email or Password in Invalid...");
+                this.setState({spinner:false})
+            }
         }).catch((message) => {
-            this.setState({loader:false})
-            console.log(message)
+            toast.error("⭐ Email or Password in Invalid...");
+            this.setState({spinner:false})
         })
     }
 
     render() {
         return (
             <>
-                {this.state.loader ? <Loader/>
-                    :
-
                     <div className="main">
                         <div className="wrapper fadeInDown">
                             <div id="formContent">
@@ -86,16 +90,31 @@ componentDidMount() {
                                         floatingLabelText="Password"
                                         type="password"
                                     />
-
-                            <button  className="fadeIn forth loginBtn"  onClick={this.loginBtn}> Login </button>
-                            <span className="button-google fadeIn forth" onClick={this.forgotBtn}>Forgot Password</span>
+                                    {this.state.spinner ?
+                                        <button className="fadeIn forth loginBtn" disabled> <CircularSpinner/></button>
+                                        :
+                                        <button className="fadeIn forth loginBtn" onClick={this.loginBtn}> Login
+                                            <ToastContainer
+                                                position="bottom-right"
+                                                autoClose={3000}
+                                                hideProgressBar={false}
+                                                newestOnTop={false}
+                                                closeOnClick
+                                                rtl={false}
+                                                pauseOnFocusLoss
+                                                draggable
+                                                pauseOnHover
+                                                className='toasterStyle'
+                                            />
+                                        </button>
+                                    }
                         </div>
+                                <span className="button-google fadeIn forth" onClick={this.forgotBtn}>Forgot Password</span>
 
 
                             </div>
                         </div>
                     </div>
-                }
             </>
         )
     }

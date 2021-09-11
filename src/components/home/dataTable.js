@@ -32,8 +32,8 @@ function descendingComparator(a, b, orderBy) {
 
 function getComparator(order, orderBy) {
     return order === 'desc'
-        ? (a, b) => descendingComparator(a, b, orderBy)
-        : (a, b) => -descendingComparator(a, b, orderBy);
+        ? (a, b) => -descendingComparator(a, b, orderBy)
+        : (a, b) => descendingComparator(a, b, orderBy);
 }
 
 function stableSort(array, comparator) {
@@ -67,7 +67,7 @@ function EnhancedTableHead(props) {
                     <TableCell colSpan={4}>Simulation Result</TableCell>
                 </TableRow>
                 : null}
-            <TableRow className="middle_table_head">
+            <TableRow className={nft_header ? "middle_table_head nfl_head" : "middle_table_head" }>
                 {headCells.map((headCell) => (
                     <TableCell
                         key={headCell.id}
@@ -504,9 +504,9 @@ export default function EnhancedTable(props) {
         }
     }
     if(saveData){
-        if(props.is_nbaNfl === 'NFL') {
+        // if(props.is_nbaNfl === 'NFL') {
             props.onSavePlayerStats(nflList)
-        }
+        // }
     }
     if (props.nfl_player_data.length > 0) {
         update_data = true
@@ -578,41 +578,51 @@ export default function EnhancedTable(props) {
     }
     if (update_data) {
         for (let data = 0; data < user_data.length; data++) {
-            rows.push(
-                {
-                    id:user_data[data].Id,
-                    name: user_data[data].Name,
-                    pos: user_data[data].DraftKingsPosition,
-                    fdPos: user_data[data].FanDuelPosition,
-                    team: user_data[data].Team,
-                    oop: user_data[data].Opponent,
-                    salary: user_data[data].DraftKingsSalary,
-                    fdSalary: user_data[data].FanDuelSalary,
-                    minus: user_data[data].PlusMinus,
-                    points: user_data[data].Points,
-                    rebound: user_data[data].Rebounds,
-                    assists: user_data[data].Assists,
-                    steals: user_data[data].Steals,
-                    blockedShots: user_data[data].BlockedShots,
-                    to: user_data[data].Turnovers,
-                    fantasyPoints: user_data[data].FantasyPoints,
-                    ceiling: user_data[data].DK_Ceil,
-                    floor: user_data[data].DK_Floor,
-                    fpts$: user_data[data].DK_Value,
+            if((user_data[data].Name !== undefined)){
 
-                    completion: user_data[data].PassingCompletions,
-                    passingattempts: user_data[data].PassingAttempts,
-                    passingyards: user_data[data].PassingYards,
-                    passingtouchdowns: user_data[data].PassingTouchdowns,
-                    rushingattempts: user_data[data].RushingAttempts,
-                    rushingyards: user_data[data].RushingYards,
-                    rushingtouchdowns: user_data[data].RushingTouchdowns,
-                    receptions: user_data[data].Receptions,
-                    receivingyards: user_data[data].ReceivingYards,
-                    receivingtouchdowns: user_data[data].ReceivingTouchdowns,
-                    fieldgoalsmade: user_data[data].FieldGoalsMade,
-                    fieldgoalsattempted: user_data[data].FieldGoalsAttempted,
-                })
+                rows.push(
+                    {
+                        id: user_data[data].Id,
+                        name: user_data[data].Name,
+                        pos: user_data[data].DraftKingsPosition,
+                        fdPos: user_data[data].FanDuelPosition,
+                        team: user_data[data].Team,
+                        oop: user_data[data].Opponent,
+                        salary: user_data[data].DraftKingsSalary,
+                        fdSalary: user_data[data].FanDuelSalary,
+                        minus: user_data[data].PlusMinus,
+                        points: user_data[data].Points,
+                        rebound: user_data[data].Rebounds,
+                        assists: user_data[data].Assists,
+                        steals: user_data[data].Steals,
+                        blockedShots: user_data[data].BlockedShots,
+                        to: user_data[data].Turnovers,
+                        fantasyPoints: user_data[data].FantasyPointsDraftKings,
+                        fd_fantasyPoints: user_data[data].FantasyPointsFantasyDraft,
+                        nfl_dk_fantasyPoints: user_data[data].DK_Proj,
+                        nfl_fd_fantasyPoints: user_data[data].FantasyPoints,
+                        ceiling: user_data[data].DK_Ceil,
+                        fd_ceiling: user_data[data].FD_Ceil,
+                        floor: user_data[data].DK_Floor,
+                        fd_floor: user_data[data].FD_Floor,
+                        fpts$: user_data[data].DK_Value,
+                        fd_fpts$: user_data[data].FD_Value,
+
+                        completion: user_data[data].PassingCompletions,
+                        passingattempts: user_data[data].PassingAttempts,
+                        passingyards: user_data[data].PassingYards,
+                        passingtouchdowns: user_data[data].PassingTouchdowns,
+                        rushingattempts: user_data[data].RushingAttempts,
+                        rushingyards: user_data[data].RushingYards,
+                        rushingtouchdowns: user_data[data].RushingTouchdowns,
+                        receptions: user_data[data].Receptions,
+                        receivingyards: user_data[data].ReceivingYards,
+                        receivingtouchdowns: user_data[data].ReceivingTouchdowns,
+                        fieldgoalsmade: user_data[data].FieldGoalsMade,
+                        fieldgoalsattempted: user_data[data].FieldGoalsAttempted,
+                    })
+
+            }
             update_data = false
         }
 
@@ -625,7 +635,7 @@ export default function EnhancedTable(props) {
 
     const classes = useStyles();
     const [order, setOrder] = React.useState('asc');
-    const [orderBy, setOrderBy] = React.useState('pos');
+    const [orderBy, setOrderBy] = React.useState('salary');
     const [selected, setSelected] = React.useState([]);
     const [page, setPage] = React.useState(0);
     const [dense, setDense] = React.useState(false);
@@ -1066,10 +1076,33 @@ export default function EnhancedTable(props) {
                                                                 </>
                                                         )
                                                     }
-                                                    <TableCell align="center">{row.fantasyPoints}</TableCell>
-                                                    <TableCell align="center">{row.ceiling} </TableCell>
-                                                    <TableCell align="center">{row.floor} </TableCell>
-                                                    <TableCell align="center">{row.fpts$}</TableCell>
+                                                    {nft_header ?
+
+                                                        (props.salary === 'dk' ?
+                                                            <TableCell align="center">{row.nfl_dk_fantasyPoints}</TableCell>
+                                                            :
+                                                            <TableCell align="center">{row.nfl_fd_fantasyPoints}</TableCell>)
+
+                                                        :
+                                                        (props.salary === 'dk' ?
+                                                            <TableCell align="center">{row.fantasyPoints} </TableCell>
+                                                            :<TableCell align="center">{row.fd_fantasyPoints} </TableCell>
+                                                        )
+
+
+                                                    }
+                                                    {props.salary === 'dk' ?
+                                                        <>
+                                                            <TableCell align="center">{row.ceiling} </TableCell>
+                                                            <TableCell align="center">{row.floor} </TableCell>
+                                                            <TableCell align="center">{row.fpts$}</TableCell>
+                                                        </>:
+                                                        <>
+                                                            <TableCell align="center">{row.fd_ceiling} </TableCell>
+                                                            <TableCell align="center">{row.fd_floor} </TableCell>
+                                                            <TableCell align="center">{row.fd_fpts$}</TableCell>
+                                                        </>}
+
                                                 </TableRow>
                                             );
                                         })}

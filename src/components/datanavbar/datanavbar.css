@@ -64,7 +64,7 @@
 .ad-group-btn{
     display: table;
     min-height: 40px;
-    padding: 3px 10px;
+    padding: 3px 5px;
     font-size: 14px;
 }
 .multiple-btn .ad-group-btn{
@@ -101,9 +101,7 @@
 .search_input .MuiOutlinedInput-input{
     padding: 11.5px 14px;
     min-width: 90px;
-}
-.toasterStyle{
-    width: 180px;
+    max-width: 110px;
 }
 
 .toasterStyle .Toastify__toast--default{
@@ -250,6 +248,7 @@ ul>li{
     border: 1px solid #ddd;
     margin-left: 5px;
     font-size: 10px;
+    min-height: 29px;
 }
 .collapse_single .input .toggle_btn:hover, .MuiToggleButton-root.Mui-selected{
     background: #123c6c !important;
@@ -309,4 +308,7 @@ ul>li{
     flex: 1;
     color: #123c6c;
     font-weight: 600;
+}
+.simulationSpinner{
+    min-width: 86px !important;
 }

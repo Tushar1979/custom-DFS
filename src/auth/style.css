@@ -158,6 +158,10 @@ input[type=text]:placeholder {
 .forgotContainer{
     padding-top: 30px !important;
 }
+.btnDisabled{
+    background: #26a1e080 !important;
+    cursor: default;
+}
 
 
 

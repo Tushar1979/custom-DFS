@@ -3,7 +3,6 @@ import './datanavbar.css'
 import btn_img1 from '../../images/btn-img1.png'
 import btn_img2 from '../../images/btn-logo2.png'
 import EnhancedTableHead from "../home/dataTable";
-import {Input} from "@material-ui/core";
 import TextField from "@material-ui/core/TextField";
 import API from '../../networking/api'
 import Loader from "../../loader/loader"
@@ -12,6 +11,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import ReactHTMLTableToExcel from "react-html-table-to-excel";
 import CustomizedMenus from "../dropdownBtn/btnDropdown"
 import Button from "@material-ui/core/Button";
+import Spinner from '../Spinner/spinner'
 
 let filter_list = []
 let nflFilter_list = []
@@ -41,6 +41,8 @@ class DataNavBar extends React.Component {
                 game_data:[],
                 inputActive: false,
                 loader:false,
+                spinner:false,
+                simulationSpinner:false,
                 pgActive:false,
                 filter_player:null,
                 filter_key:null,
@@ -48,13 +50,13 @@ class DataNavBar extends React.Component {
                 salary: 'dk',
                 update_data:true,
                 search_player_data: [],
-                allBtn:false,
+                allBtn:true,
                 allClearBtn:false,
-                pgBtn:false,
-                sgBtn:false,
-                sfBtn:false,
-                pfBtn:false,
-                cBtn:false,
+                pgBtn:true,
+                sgBtn:true,
+                sfBtn:true,
+                pfBtn:true,
+                cBtn:true,
                 nflAction:false,
                 qbBtn:false,
                 rbBtn:false,
@@ -94,11 +96,38 @@ class DataNavBar extends React.Component {
             this.onParentTrigger(this.props.triggerChildFunc[0]);
             if(this.props.triggerChildFunc[0].sportView === 'NFL'){
                 this.setState({filter_player: null})
-                this.setState({nflAction: true})
+                this.setState({nflAction: true,
+                    pgBtn:false,
+                    qbBtn:true,
+                    rbBtn:true,
+                    wrBtn:true,
+                    teBtn:true,
+                    kBtn:true,
+                    dstBtn:true,
+                    sgBtn:false,
+                    sfBtn:false,
+                    pfBtn:false,
+                    cBtn:false,
+                    allBtn:true,
+                    allClearBtn:false,
+                    inputActive:false})
             }
             if(this.props.triggerChildFunc[0].sportView === 'NBA'){
                 this.setState({filter_player: null})
-                this.setState({nflAction: false})
+                this.setState({nflAction: false, qbBtn:true,
+                    sgBtn:true,
+                    sfBtn:true,
+                    pfBtn:true,
+                    cBtn:true,
+                    rbBtn:false,
+                    wrBtn:false,
+                    teBtn:false,
+                    kBtn:false,
+                    dstBtn:false,
+                    allBtn:true,
+                    allClearBtn:false,
+                    inputActive:false
+                })
             }
         }
     }
@@ -112,35 +141,80 @@ class DataNavBar extends React.Component {
         }
     }
 
+    getPlayerState = (data) =>{
+        this.setState({loader:true})
+        this.setState({update_data:true})
+        let payload = {
+            data:data
+        }
+        // player stats api calling
+        let url = '/Prod/get-player-stats'
+        this.api.GetApi(url, payload)
+            .then((res) => {
+                let response_data = JSON.parse(res.request.response)
+                if (res.status === 200 ) {
+                    if(data.sportView === "NBA"){
+                        this.setState({players_data: response_data.body})
+                        this.setState({search_player_data: response_data.body})
+                        this.setState({nfl_player_data:[]})
+
+                        this.setState({loader:false})
+                    }
+                    if(data.sportView === "NFL"){
+                        this.setState({nfl_player_data: response_data.body})
+                        this.setState({search_player_data: response_data.body})
+                        this.setState({players_data: []})
+
+                        this.setState({loader:false})
+                    }
+                } else if (res.request.status === 401) {
+                    // console.log("login")
+                    this.props.history.push('/signin')
+                    this.setState({loader:false})
+                } else {
+                    console.log(res)
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+
+    }
+
+
     myData(){
         toast("⭐ Populating fields...");
         this.setState({
             inputActive:true,
             saveBtnActive:true
         })
-    }
+            this.getPlayerState({"user": {"id": localStorage.getItem('username')}, "sportView": this.state.is_nbaNfl})
+
+        }
     customDfs(){
         toast("⭐ Populating fields...");
         this.setState({
             inputActive:false,
             saveBtnActive:false
         })
+
+            this.getPlayerState( {"user": {"id": "Master"}, "sportView": this.state.is_nbaNfl})
+
     }
 
     SaveData = () =>{
-        this.setState({saveData:true})
+        this.setState({saveData:true, spinner: true})
     }
 
     //api calling
     getCustomDfsData(data){
         this.setState({loader:true})
         this.setState({update_data:true})
-        // let url = '2019-MAY-30?key=11806b0dab30479187ccb5b3d0ca58c6'
         let payload = {
             data:data
         }
         // player stats api calling
-        let url = 'https://o2ygn3a3h3.execute-api.us-east-2.amazonaws.com/Prod/get-player-stats'
+        let url = '/Prod/get-player-stats'
         this.api.GetApi(url, payload)
             .then((res) => {
                 let response_data = JSON.parse(res.request.response)
@@ -155,9 +229,9 @@ class DataNavBar extends React.Component {
                         this.setState({search_player_data: response_data.body})
                         this.setState({players_data: []})
                     }
-                    // console.log('+++++----++++', response_data.body)
                 } else if (res.request.status === 401) {
-                    console.log("login")
+                    // console.log("login")
+                    this.props.history.push('/signin')
                     this.setState({loader:false})
                 } else {
                     console.log(res)
@@ -169,7 +243,7 @@ class DataNavBar extends React.Component {
 
 
     //    game data api calling
-        let game_url= 'https://o2ygn3a3h3.execute-api.us-east-2.amazonaws.com/Prod/get-game-data'
+        let game_url= '/Prod/get-game-data'
         this.api.GetApi(game_url, payload)
             .then((res) => {
                 let response_data = JSON.parse(res.request.response)
@@ -178,7 +252,8 @@ class DataNavBar extends React.Component {
                     this.setState({loader:false})
                     // console.log('+++++----++++', response_data.body)
                 } else if (res.request.status === 401) {
-                    console.log("login")
+                    // console.log("login")
+                    this.props.history.push('/signin')
                     this.setState({loader:false})
                 } else {
                     console.log(res)
@@ -248,27 +323,27 @@ class DataNavBar extends React.Component {
         for(let i = 0; i<keyList.length; i++){
             if(keyList[i] === 'qb'){
                 qbArray = (player_obj.players.filter(function (el){
-                    return el.DraftKingsPosition === 'QB' || el.DraftKingsPosition === 'qb'  ;
+                    return el.Position === 'QB' || el.Position === 'qb'  ;
                 }));
             } if(keyList[i] === 'rb'){
                 rbArray = (player_obj.players.filter(function (el){
-                    return el.DraftKingsPosition === 'RB' || el.DraftKingsPosition === 'rb'  ;
+                    return el.Position === 'RB' || el.Position === 'rb'  ;
                 }));
             } if(keyList[i] === 'wr'){
                 wrArray = (player_obj.players.filter(function (el){
-                    return el.DraftKingsPosition === 'WR' || el.DraftKingsPosition === 'wr'  ;
+                    return el.Position === 'WR' || el.Position === 'wr'  ;
                 }));
             } if(keyList[i] === 'te'){
                 teArray = (player_obj.players.filter(function (el){
-                    return el.DraftKingsPosition === 'TE' || el.DraftKingsPosition === 'te'  ;
+                    return el.Position === 'TE' || el.Position === 'te'  ;
                 }));
             } if(keyList[i] === 'k'){
                 kArray = (player_obj.players.filter(function (el){
-                    return el.DraftKingsPosition === 'K' || el.DraftKingsPosition === 'k'  ;
+                    return el.Position === 'K' || el.Position === 'k'  ;
                 }));
             } if(keyList[i] === 'dst'){
                 dstArray = (player_obj.players.filter(function (el){
-                    return el.DraftKingsPosition === 'DST' || el.DraftKingsPosition === 'dst'  ;
+                    return el.Position === 'DST' || el.Position === 'dst'  ;
                 }));
             }
         }
@@ -410,7 +485,7 @@ class DataNavBar extends React.Component {
     }
     dstFilters = () =>{
         dstActive = !dstActive
-        if(kActive){
+        if(dstActive){
             nflFilter_list.push('dst')
         }
         if(!dstActive) {
@@ -520,37 +595,61 @@ class DataNavBar extends React.Component {
 
     allSelectFilter(){
         if(this.state.nflAction){
-            this.setState({filter_player:this.state.nfl_player_data})
+            this.setState({filter_player:this.state.nfl_player_data,
+                allBtn:true,
+                allClearBtn:false,
+                qbBtn:true,
+                rbBtn:true,
+                wrBtn:true,
+                teBtn:true,
+                kBtn:true,
+                dstBtn:true,})
         }
         else{
-            this.setState({filter_player:this.state.players_data})
+            this.setState({filter_player:this.state.players_data,
+                allBtn:true,
+                allClearBtn:false,
+                pgBtn:true,
+                sgBtn:true,
+                sfBtn:true,
+                pfBtn:true,
+                cBtn:true,})
         }
-        this.setState({
-            allBtn:true,
-            allClearBtn:false,
-            pgBtn:true,
-            sgBtn:true,
-            sfBtn:true,
-            pfBtn:true,
-            cBtn:true,
-        })
+
     }
     allClearFilter(){
         if(this.state.nflAction){
-            this.setState({filter_player:this.state.nfl_player_data})
+            this.setState({filter_player:this.state.nfl_player_data,
+                allBtn:false,
+                allClearBtn:true,
+                pgBtn:false,
+                sgBtn:false,
+                sfBtn:false,
+                pfBtn:false,
+                cBtn:false,
+                qbBtn:false,
+                rbBtn:false,
+                wrBtn:false,
+                teBtn:false,
+                kBtn:false,
+                dstBtn:false,})
         }
         else{
-            this.setState({filter_player:this.state.players_data})
+            this.setState({filter_player:this.state.players_data,
+                allBtn:false,
+                allClearBtn:true,
+                pgBtn:false,
+                sgBtn:false,
+                sfBtn:false,
+                pfBtn:false,
+                cBtn:false,
+                qbBtn:false,
+                rbBtn:false,
+                wrBtn:false,
+                teBtn:false,
+                kBtn:false,
+                dstBtn:false,})
         }
-        this.setState({
-            allBtn:false,
-            allClearBtn:true,
-            pgBtn:false,
-            sgBtn:false,
-            sfBtn:false,
-            pfBtn:false,
-            cBtn:false,
-        })
     }
 
     resetData(){
@@ -560,12 +659,16 @@ class DataNavBar extends React.Component {
         this.setState({ filter: event.target.value });
         let searching_data = this.state.search_player_data
         function filterByValue(searching_data, term) {
+            term = term.toLowerCase()
             let ans = searching_data.filter(function(v,i) {
-                if(v.Name.toLowerCase().indexOf(term) >=0) {
-                    return true;
-                } else {
+                console.log(v.Name)
+                if((v.Name || v.Team) === undefined){
                     return false
-                };
+                }
+                   else if (v.Name.toLowerCase().indexOf(term) >= 0) {
+                        return true;
+                    }
+                    else return v.Team.toLowerCase().indexOf(term) >= 0;
             });
             return ans
         }
@@ -581,75 +684,122 @@ class DataNavBar extends React.Component {
         this.setState({salary:'fd'})
     }
     handlePlayerStats = (playerStats) =>{
+        this.setState({spinner: true})
         let payload = {
                 data:{playerStats: playerStats, user: {id: localStorage.getItem('username')}, sportView: this.state.is_nbaNfl}
             }
             // player stats api calling
-            let url = 'https://o2ygn3a3h3.execute-api.us-east-2.amazonaws.com/Prod/save-player-stats'
+            let url = '/Prod/save-player-stats'
             this.api.PostApi(payload, url)
                 .then((res) => {
                     let response_data = JSON.parse(res.request.response)
                     if (res.status === 200 ) {
                         // console.log('+++++----++++', response_data.body)
                     } else if (res.request.status === 401) {
-                        console.log("login")
-                        this.setState({loader:false})
+                        // console.log("login")
+                        this.props.history.push('/signin')
+                        this.setState({loader:false,spinner: false})
                     } else {
+                        this.setState({loader:false,spinner: false})
                         console.log(res)
                     }
                 })
                 .catch((error) => {
+                    this.setState({loader:false,spinner: false})
                     console.log(error);
                 })
         this.setState({saveData:false})
+        this.setState({spinner: false})
         toast.success("⭐ Sucessfully Saved Data");
     }
     handleSimulations = () =>{
-        let payload = {
-            User: localStorage.getItem('username')
+        toast.success("⭐ Simulation Started...");
+        this.setState({simulationSpinner: true})
+        if(this.state.is_nbaNfl === 'NFL') {
+            let payload = {
+                User: localStorage.getItem('username')
+            }
+
+            let url = '/Prod/run-simulation-nfl'
+            this.api.PostApi(payload, url)
+                .then((res) => {
+                    let response_data = JSON.parse(res.request.response)
+                    if (res.status === 200) {
+                        this.getCustomDfsData({user: {id: 'Master'}, sportView: this.state.is_nbaNfl})
+
+                        this.setState({simulationSpinner: false})
+                    } else if (res.request.status === 401) {
+                        // console.log("login")
+                        this.props.history.push('/signin')
+                        this.setState({loader: false, simulationSpinner: false})
+                    } else {
+                        this.setState({simulationSpinner: false, loader: false})
+                        console.log(res)
+                    }
+                })
+                .catch((error) => {
+                    this.setState({simulationSpinner: false, loader: false})
+                    console.log(error);
+                })
         }
-        let url = 'https://o2ygn3a3h3.execute-api.us-east-2.amazonaws.com/Prod/run-simulation-nfl'
-        this.api.PostApi(payload, url)
-            .then((res) => {
-                let response_data = JSON.parse(res.request.response)
-                if (res.status === 200 ) {
-                    // console.log('+++++----++++', response_data.body)
-                    toast.success("⭐ Simulation Started...");
-                } else if (res.request.status === 401) {
-                    console.log("login")
-                    this.setState({loader:false})
-                } else {
-                    console.log(res)
-                }
-            })
-            .catch((error) => {
-                console.log(error);
-            })
+        else{
+            let payload = {
+                User: localStorage.getItem('username')
+            }
+
+            let url = '/Prod/run-simulation'
+            this.api.PostApi(payload, url)
+                .then((res) => {
+                    let response_data = JSON.parse(res.request.response)
+                    if (res.status === 200) {
+                        this.getCustomDfsData({user: {id: localStorage.getItem('username')}, sportView: this.state.is_nbaNfl})
+                        toast.success("⭐ Simulation Started...");
+                        this.setState({simulationSpinner: false})
+                    } else if (res.request.status === 401) {
+                        // console.log("login")
+                        this.props.history.push('/signin')
+                        this.setState({loader: false, simulationSpinner: false})
+                    } else {
+                        this.setState({simulationSpinner: false, loader: false})
+                        console.log(res)
+                    }
+                })
+                .catch((error) => {
+                    this.setState({simulationSpinner: false, loader: false})
+                    console.log(error);
+                })
+        }
+        setTimeout(() => { toast("⭐ Populating fields..."); }, 3000);
+
 
     }
 
     handleSaveGameData = (props) =>{
+        this.setState({spinner: true})
         let payload = {
             data:{playerStats: props, user: {id: localStorage.getItem('username')}, sportView: this.state.is_nbaNfl}
         }
         // player stats api calling
-        let url = 'https://o2ygn3a3h3.execute-api.us-east-2.amazonaws.com/Prod/save-game-data'
+        let url = '/Prod/save-game-data'
         this.api.PostApi(payload, url)
             .then((res) => {
                 let response_data = JSON.parse(res.request.response)
                 if (res.status === 200 ) {
                     // console.log('+++++----++++', response_data.body)
                 } else if (res.request.status === 401) {
-                    console.log("login")
-                    this.setState({loader:false})
+                    // console.log("login")
+                    this.props.history.push('/signin')
+                    this.setState({loader:false,spinner: false})
                 } else {
+                    this.setState({loader:false,spinner: false})
                     console.log(res)
                 }
             })
             .catch((error) => {
+                this.setState({loader:false,spinner: false})
                 console.log(error);
             })
-        this.setState({saveData:false})
+        this.setState({saveData:false,spinner: false})
         toast.success("⭐ Apply to All Teams...");
 
     }
@@ -664,13 +814,13 @@ class DataNavBar extends React.Component {
                     <div className="container-fluid">
                         <div className="group-buttons">
                             <div className="common-button">
-                                <div className="btn-group btn-group-toggle" data-toggle="buttons">
-                                    <label className="btn btn-primary active ad-group-btn">
+                                <div className="btn-group ">
+                                    <label className={this.state.inputActive ? "btn btn-primary ad-group-btn":"btn btn-primary active ad-group-btn"}>
                                         <input type="radio" name="options" autoComplete="off" checked
                                                onClick={this.customDfs}/>
                                         <ToastContainer
                                             position="bottom-right"
-                                            autoClose={5000}
+                                            autoClose={3000}
                                             hideProgressBar={false}
                                             newestOnTop={false}
                                             closeOnClick
@@ -682,10 +832,10 @@ class DataNavBar extends React.Component {
                                         />
                                         <span className="btn-text">CustomDFS Data</span>
                                     </label>
-                                    <label className="btn btn-primary ad-group-btn">
+                                    <label className={this.state.inputActive ? "btn btn-primary active ad-group-btn" : "btn btn-primary ad-group-btn"}>
                                         <ToastContainer
                                             position="bottom-right"
-                                            autoClose={5000}
+                                            autoClose={3000}
                                             hideProgressBar={false}
                                             newestOnTop={false}
                                             closeOnClick
@@ -726,20 +876,18 @@ class DataNavBar extends React.Component {
                             <div className="common-button ">
                                 <div className="btn-group" >
                                     <label className={`${this.state.allBtn ? 'btn btn-primary active ad-group-btn' : 'btn btn-primary ad-group-btn'}`} onClick={()=>{this.allSelectFilter('nfl')}}>
-                                        {/*<input type="radio" name="options" autoComplete="off" checked/>*/}
                                         <span className="btn-text"> All</span>
                                     </label>
                                     <label className={`${this.state.allClearBtn ? 'btn btn-primary active ad-group-btn' : 'btn btn-primary ad-group-btn'}`} onClick={this.allClearFilter}>
-                                        {/*<input type="radio" name="options" autoComplete="off" checked/>*/}
                                         <span className="btn-text"> Clear</span>
                                     </label>
                                     {this.state.nflAction ?
                                         <>
-                                        <label
-                                            className={`${this.state.qbBtn ? 'btn btn-primary active ad-group-btn' : 'btn btn-primary ad-group-btn'}`}
-                                            onClick={this.qbFilters}>
-                                            <span className="btn-text"> qb</span>
-                                        </label>
+                                            <label
+                                                className={`${this.state.qbBtn ? 'btn btn-primary active ad-group-btn' : 'btn btn-primary ad-group-btn'}`}
+                                                onClick={this.qbFilters}>
+                                                <span className="btn-text"> qb</span>
+                                            </label>
                                             <label
                                                 className={`${this.state.rbBtn ? 'btn btn-primary active ad-group-btn' : 'btn btn-primary ad-group-btn'}`}
                                                 onClick={this.rbFilters}>
@@ -759,6 +907,11 @@ class DataNavBar extends React.Component {
                                                 className={`${this.state.kBtn ? 'btn btn-primary active ad-group-btn' : 'btn btn-primary ad-group-btn'}`}
                                                 onClick={this.kFilters}>
                                                 <span className="btn-text"> k</span>
+                                            </label>
+                                            <label
+                                                className={`${this.state.dstBtn ? 'btn btn-primary active ad-group-btn' : 'btn btn-primary ad-group-btn'}`}
+                                                onClick={this.dstFilters}>
+                                                <span className="btn-text"> dst</span>
                                             </label>
                                         </>
                                         :
@@ -793,7 +946,7 @@ class DataNavBar extends React.Component {
                                     <ReactHTMLTableToExcel
                                         className="btn btn-primary active ad-group-btn"
                                         table="data_table"
-                                        filename="ReportExcel"
+                                        filename="CustomDFSExport"
                                         sheet="Sheet"
                                         buttonText="Export" />
                             </div>
@@ -803,6 +956,15 @@ class DataNavBar extends React.Component {
                                 </label>
                             </div>
                             <div className="common-button">
+                                {this.state.spinner ?
+                                    <Button
+                                        variant="contained"
+                                        color="primary"
+                                        className="btn btn-primary active ad-group-btn"
+                                    >
+                                        <Spinner/>
+                                    </Button>
+                                    :
                                 <Button
                                     variant="contained"
                                     color="primary"
@@ -812,7 +974,7 @@ class DataNavBar extends React.Component {
                                 >
                                     <ToastContainer
                                         position="bottom-right"
-                                        autoClose={5000}
+                                        autoClose={3000}
                                         hideProgressBar={false}
                                         newestOnTop={false}
                                         closeOnClick
@@ -824,17 +986,29 @@ class DataNavBar extends React.Component {
                                     />
                                     Save
                                 </Button>
+                                    }
                             </div>
                             <div className="common-button">
-                                <Button
-                                    variant="contained"
-                                    color="danger"
-                                    className="btn btn-danger active ad-group-btn"
-                                    onClick={this.handleSimulations}
-                                    disabled={!this.state.saveBtnActive}
-                                >
-                                    Simulate
-                                </Button>
+                                {this.state.simulationSpinner ?
+                                    <Button
+                                        variant="contained"
+                                        color="danger"
+                                        className="btn btn-danger active ad-group-btn simulationSpinner"
+                                    >
+                                        <Spinner/>
+                                    </Button>
+                                    :
+
+                                    <Button
+                                        variant="contained"
+                                        color="danger"
+                                        className="btn btn-danger active ad-group-btn simulationSpinner"
+                                        onClick={this.handleSimulations}
+                                        disabled={!this.state.saveBtnActive}
+                                    >
+                                        Simulate
+                                    </Button>
+                                }
                             </div>
                         </div>
 

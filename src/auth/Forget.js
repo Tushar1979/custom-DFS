@@ -73,7 +73,7 @@ class Forget extends Component {
                                 <button  className="fadeIn forth loginBtn" onClick = {this.fogetPassOTP}> SUBMIT USERNAME
                                     <ToastContainer
                                         position="bottom-right"
-                                        autoClose={5000}
+                                        autoClose={3000}
                                         hideProgressBar={false}
                                         newestOnTop={false}
                                         closeOnClick
