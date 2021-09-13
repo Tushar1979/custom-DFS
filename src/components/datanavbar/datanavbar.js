@@ -72,6 +72,7 @@ class DataNavBar extends React.Component {
                 excelDataList: []
             }
         this.child = React.createRef();
+        this.setupCustomTable()
 
         this.myData = this.myData.bind(this)
         this.customDfs = this.customDfs.bind(this)
@@ -146,6 +147,30 @@ class DataNavBar extends React.Component {
         }
     }
 
+    setupCustomTable = () =>{
+        // setup custom table
+        let payload = {
+            data:{user:{id:localStorage.getItem('username')},sportView:"NBA"}
+        }
+        let url = '/Prod/setup-custom-tables'
+        this.api.GetApi(url, payload)
+            .then((res) => {
+                let response_data = JSON.parse(res.request.response)
+                if (res.status === 200 ) {
+
+                } else if (res.request.status === 401) {
+                    // console.log("login")
+                    this.props.history.push('/signin')
+                    this.setState({loader:false})
+                } else {
+                    console.log(res)
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+    }
+
     getPlayerState = (data) =>{
         this.setState({loader:true})
         this.setState({update_data:true})
@@ -160,14 +185,14 @@ class DataNavBar extends React.Component {
                 if (res.status === 200 ) {
                     if(data.sportView === "NBA"){
                         this.setState({players_data: response_data.body})
-                        this.setState({search_player_data: response_data.body})
+                        this.setState({search_player_data: response_data.body, excelDataList:response_data.body})
                         this.setState({nfl_player_data:[]})
 
                         this.setState({loader:false})
                     }
                     if(data.sportView === "NFL"){
                         this.setState({nfl_player_data: response_data.body})
-                        this.setState({search_player_data: response_data.body})
+                        this.setState({search_player_data: response_data.body, excelDataList:response_data.body})
                         this.setState({players_data: []})
 
                         this.setState({loader:false})
@@ -973,13 +998,6 @@ class DataNavBar extends React.Component {
                                            type="search" variant="outlined" onChange={this.handleChange}/>
                             </div>
                             <div className="common-button">
-                                    {/*<ReactHTMLTableToExcel*/}
-                                    {/*    className="btn btn-primary active ad-group-btn"*/}
-                                    {/*    table="data_table"*/}
-                                    {/*    filename="CustomDFSExport"*/}
-                                    {/*    sheet="Sheet"*/}
-                                    {/*    buttonText="Export" />*/}
-
                                 <ExportToExcel
                                     nba_player_data={this.state.players_data}
                                     nfl_player_data={this.state.nfl_player_data}
