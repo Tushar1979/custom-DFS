@@ -625,6 +625,7 @@ export default function EnhancedTable(props) {
             }
             update_data = false
         }
+        // props.generateExcelData(rows)
 
         if(loader) {
             sleep(3000).then(r => {
@@ -688,7 +689,7 @@ export default function EnhancedTable(props) {
     };
 
     const isSelected = (name) => selected.indexOf(name) !== -1;
-
+    // console.log(rows,"################")
 
     return (
         <>
