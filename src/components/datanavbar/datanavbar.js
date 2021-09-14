@@ -253,11 +253,13 @@ class DataNavBar extends React.Component {
                         this.setState({players_data: response_data.body})
                         this.setState({search_player_data: response_data.body, excelDataList:response_data.body})
                         this.setState({nfl_player_data:[]})
+                        filter_list = ['pg', 'sg', 'sf', 'pf', 'c']
                     }
                     if(data.sportView === "NFL"){
                         this.setState({nfl_player_data: response_data.body})
                         this.setState({search_player_data: response_data.body, excelDataList:response_data.body})
                         this.setState({players_data: []})
+                        nflFilter_list = ['qb', 'rb', 'wr', 'te', 'k', 'dst']
                     }
                 } else if (res.request.status === 401) {
                     // console.log("login")
@@ -382,13 +384,13 @@ class DataNavBar extends React.Component {
         return newArray
     }
     pgFilters(){
-        pgActive = !pgActive
         if(pgActive){
             filter_list.push('pg')
         }
         if(!pgActive) {
             filter_list=this.removeArray(filter_list, 'pg');
         }
+        pgActive = !pgActive
         let filter_data = this.filterObj(filter_list)
         if(filter_data.length > 0){
             this.setState({filter_player:filter_data,
@@ -409,13 +411,14 @@ class DataNavBar extends React.Component {
 
 
     qbFilters = () =>{
-        qbActive = !qbActive
+        console.log()
         if(qbActive){
             nflFilter_list.push('qb')
         }
         if(!qbActive) {
             nflFilter_list=this.removeArray(nflFilter_list, 'qb');
         }
+        qbActive = !qbActive
         let filter_data = this.nflFilterObj(nflFilter_list)
         if(filter_data.length > 0){
             this.setState({filter_player:filter_data,
@@ -433,13 +436,13 @@ class DataNavBar extends React.Component {
 
     }
     rbFilters = () =>{
-        rbActive = !rbActive
         if(rbActive){
             nflFilter_list.push('rb')
         }
         if(!rbActive) {
             nflFilter_list=this.removeArray(nflFilter_list, 'rb');
         }
+        rbActive = !rbActive
         let filter_data = this.nflFilterObj(nflFilter_list)
         if(filter_data.length > 0){
             this.setState({filter_player:filter_data,
@@ -456,13 +459,13 @@ class DataNavBar extends React.Component {
         })
     }
     wrFilters = () =>{
-        wrActive = !wrActive
         if(wrActive){
             nflFilter_list.push('wr')
         }
         if(!wrActive) {
             nflFilter_list=this.removeArray(nflFilter_list, 'wr');
         }
+        wrActive = !wrActive
         let filter_data = this.nflFilterObj(nflFilter_list)
         if(filter_data.length > 0){
             this.setState({filter_player:filter_data,
@@ -480,13 +483,13 @@ class DataNavBar extends React.Component {
     }
 
     teFilters = () =>{
-        teActive = !teActive
         if(teActive){
             nflFilter_list.push('te')
         }
         if(!teActive) {
             nflFilter_list=this.removeArray(nflFilter_list, 'te');
         }
+        teActive = !teActive
         let filter_data = this.nflFilterObj(nflFilter_list)
         if(filter_data.length > 0){
             this.setState({filter_player:filter_data,
@@ -503,13 +506,13 @@ class DataNavBar extends React.Component {
         })
     }
     kFilters = () =>{
-        kActive = !kActive
         if(kActive){
             nflFilter_list.push('k')
         }
         if(!kActive) {
             nflFilter_list=this.removeArray(nflFilter_list, 'k');
         }
+        kActive = !kActive
         let filter_data = this.nflFilterObj(nflFilter_list)
         if(filter_data.length > 0){
             this.setState({filter_player:filter_data,
@@ -526,13 +529,13 @@ class DataNavBar extends React.Component {
         })
     }
     dstFilters = () =>{
-        dstActive = !dstActive
         if(dstActive){
             nflFilter_list.push('dst')
         }
         if(!dstActive) {
             nflFilter_list=this.removeArray(nflFilter_list, 'dst');
         }
+        dstActive = !dstActive
         let filter_data = this.nflFilterObj(nflFilter_list)
         if(filter_data.length > 0){
             this.setState({filter_player:filter_data,
@@ -551,13 +554,13 @@ class DataNavBar extends React.Component {
 
 
     sgFilters(){
-        sgActive = !sgActive
         if(sgActive){
             filter_list.push('sg')
         }
         if(!sgActive) {
             filter_list=this.removeArray(filter_list, 'sg');
         }
+        sgActive = !sgActive
         let filter_data = this.filterObj(filter_list)
         if(filter_data.length > 0){
             this.setState({filter_player:filter_data,
@@ -575,13 +578,13 @@ class DataNavBar extends React.Component {
     }
 
     sfFilters(){
-        sfActive = !sfActive
         if(sfActive){
             filter_list.push('sf')
         }
         if(!sfActive) {
             filter_list=this.removeArray(filter_list, 'sf');
         }
+        sfActive = !sfActive
         let filter_data = this.filterObj(filter_list)
         if(filter_data.length > 0){
             this.setState({filter_player:filter_data,
@@ -598,13 +601,13 @@ class DataNavBar extends React.Component {
         })
     }
     pfFilters(){
-        pfActive = !pfActive
         if(pfActive){
             filter_list.push('pf')
         }
         if(!pfActive) {
             filter_list=this.removeArray(filter_list, 'pf');
         }
+        pfActive = !pfActive
         let filter_data = this.filterObj(filter_list)
         if(filter_data.length > 0){
             this.setState({filter_player:filter_data,
@@ -622,13 +625,13 @@ class DataNavBar extends React.Component {
 
     }
     cFilters(){
-        cActive = !cActive
         if(cActive){
             filter_list.push('c')
         }
         if(!cActive) {
             filter_list=this.removeArray(filter_list, 'c');
         }
+        cActive = !cActive
         let filter_data = this.filterObj(filter_list)
         if(filter_data.length > 0){
             this.setState({filter_player:filter_data,
