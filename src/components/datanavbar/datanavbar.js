@@ -336,6 +336,9 @@ class DataNavBar extends React.Component {
         }
 
         newArray = newArray.concat(pgArray, sgArray,sfArray, pfArray, cArray);
+        if(keyList.length <=0){
+            newArray = this.state.players_data
+        }
         return newArray
     }
 
@@ -381,6 +384,9 @@ class DataNavBar extends React.Component {
         }
 
         newArray = newArray.concat(qbArray, rbArray,wrArray, teArray, kArray, dstArray);
+        if(keyList.length <=0){
+            newArray = this.state.players_data
+        }
         return newArray
     }
     pgFilters(){
