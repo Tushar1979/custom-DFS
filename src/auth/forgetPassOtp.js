@@ -35,7 +35,6 @@ class ForgetOtp extends Component {
         Auth.forgotPasswordSubmit(this.state.username, this.state.otp, this.state.password)
     .then((data) =>
     {
-        console.log(data)
         this.props.history.push('/signin')
     })
     .catch((err) => {console.log(err)

@@ -12,6 +12,7 @@ import ReactHTMLTableToExcel from "react-html-table-to-excel";
 import CustomizedMenus from "../dropdownBtn/btnDropdown"
 import Button from "@material-ui/core/Button";
 import Spinner from '../Spinner/spinner'
+import ExportToExcel from '../exportFile/exportExcel'
 
 let filter_list = []
 let nflFilter_list = []
@@ -28,6 +29,7 @@ let teActive = false
 let kActive = false
 let dstActive = false
 let update_salary = 'dk'
+let data1 =[]
 class DataNavBar extends React.Component {
 
     api = new API()
@@ -66,9 +68,11 @@ class DataNavBar extends React.Component {
                 dstBtn:false,
                 saveData:false,
                 is_nbaNfl:'NBA',
-                saveBtnActive:false
+                saveBtnActive:false,
+                excelDataList: []
             }
         this.child = React.createRef();
+        this.setupCustomTable()
 
         this.myData = this.myData.bind(this)
         this.customDfs = this.customDfs.bind(this)
@@ -91,6 +95,7 @@ class DataNavBar extends React.Component {
         this.getCustomDfsData({user:{id:'Master'}, sportView:"NBA"});
     }
     componentDidUpdate(prevProps) {
+
         if (this.props.triggerChildFunc !== prevProps.triggerChildFunc) {
             this.setState({saveBtnActive:false})
             this.onParentTrigger(this.props.triggerChildFunc[0]);
@@ -130,6 +135,7 @@ class DataNavBar extends React.Component {
                 })
             }
         }
+
     }
     onParentTrigger(data) {
         this.setState({is_nbaNfl: data.sportView})
@@ -139,6 +145,30 @@ class DataNavBar extends React.Component {
         if (this.props.triggerChildFunc && {}.toString.call(this.props.triggerChildFunc) === '[object Function]') {
             this.props.triggerChildFunc();
         }
+    }
+
+    setupCustomTable = () =>{
+        // setup custom table
+        let payload = {
+            data:{user:{id:localStorage.getItem('username')},sportView:"NBA"}
+        }
+        let url = '/Prod/setup-custom-tables'
+        this.api.GetApi(url, payload)
+            .then((res) => {
+                let response_data = JSON.parse(res.request.response)
+                if (res.status === 200 ) {
+
+                } else if (res.request.status === 401) {
+                    // console.log("login")
+                    this.props.history.push('/signin')
+                    this.setState({loader:false})
+                } else {
+                    console.log(res)
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            })
     }
 
     getPlayerState = (data) =>{
@@ -155,14 +185,14 @@ class DataNavBar extends React.Component {
                 if (res.status === 200 ) {
                     if(data.sportView === "NBA"){
                         this.setState({players_data: response_data.body})
-                        this.setState({search_player_data: response_data.body})
+                        this.setState({search_player_data: response_data.body, excelDataList:response_data.body})
                         this.setState({nfl_player_data:[]})
 
                         this.setState({loader:false})
                     }
                     if(data.sportView === "NFL"){
                         this.setState({nfl_player_data: response_data.body})
-                        this.setState({search_player_data: response_data.body})
+                        this.setState({search_player_data: response_data.body, excelDataList:response_data.body})
                         this.setState({players_data: []})
 
                         this.setState({loader:false})
@@ -221,13 +251,15 @@ class DataNavBar extends React.Component {
                 if (res.status === 200 ) {
                     if(data.sportView === "NBA"){
                         this.setState({players_data: response_data.body})
-                        this.setState({search_player_data: response_data.body})
+                        this.setState({search_player_data: response_data.body, excelDataList:response_data.body})
                         this.setState({nfl_player_data:[]})
+                        filter_list = ['pg', 'sg', 'sf', 'pf', 'c']
                     }
                     if(data.sportView === "NFL"){
                         this.setState({nfl_player_data: response_data.body})
-                        this.setState({search_player_data: response_data.body})
+                        this.setState({search_player_data: response_data.body, excelDataList:response_data.body})
                         this.setState({players_data: []})
+                        nflFilter_list = ['qb', 'rb', 'wr', 'te', 'k', 'dst']
                     }
                 } else if (res.request.status === 401) {
                     // console.log("login")
@@ -304,6 +336,9 @@ class DataNavBar extends React.Component {
         }
 
         newArray = newArray.concat(pgArray, sgArray,sfArray, pfArray, cArray);
+        if(keyList.length <=0){
+            newArray = this.state.players_data
+        }
         return newArray
     }
 
@@ -349,22 +384,27 @@ class DataNavBar extends React.Component {
         }
 
         newArray = newArray.concat(qbArray, rbArray,wrArray, teArray, kArray, dstArray);
+        if(keyList.length <=0){
+            newArray = this.state.players_data
+        }
         return newArray
     }
     pgFilters(){
-        pgActive = !pgActive
         if(pgActive){
             filter_list.push('pg')
         }
         if(!pgActive) {
             filter_list=this.removeArray(filter_list, 'pg');
         }
+        pgActive = !pgActive
         let filter_data = this.filterObj(filter_list)
         if(filter_data.length > 0){
-            this.setState({filter_player:filter_data})
+            this.setState({filter_player:filter_data,
+                excelDataList: filter_data,})
         }
         else{
-            this.setState({filter_player:this.state.players_data})
+            this.setState({filter_player:this.state.players_data,
+                excelDataList: this.state.players_data,})
         }
         this.setState({
             allBtn:false,
@@ -377,19 +417,22 @@ class DataNavBar extends React.Component {
 
 
     qbFilters = () =>{
-        qbActive = !qbActive
+        console.log()
         if(qbActive){
             nflFilter_list.push('qb')
         }
         if(!qbActive) {
             nflFilter_list=this.removeArray(nflFilter_list, 'qb');
         }
+        qbActive = !qbActive
         let filter_data = this.nflFilterObj(nflFilter_list)
         if(filter_data.length > 0){
-            this.setState({filter_player:filter_data})
+            this.setState({filter_player:filter_data,
+                excelDataList: filter_data,})
         }
         else{
-            this.setState({filter_player:this.state.nfl_player_data})
+            this.setState({filter_player:this.state.nfl_player_data,
+                excelDataList: this.state.nfl_player_data,})
         }
         this.setState({
             allBtn:false,
@@ -399,19 +442,21 @@ class DataNavBar extends React.Component {
 
     }
     rbFilters = () =>{
-        rbActive = !rbActive
         if(rbActive){
             nflFilter_list.push('rb')
         }
         if(!rbActive) {
             nflFilter_list=this.removeArray(nflFilter_list, 'rb');
         }
+        rbActive = !rbActive
         let filter_data = this.nflFilterObj(nflFilter_list)
         if(filter_data.length > 0){
-            this.setState({filter_player:filter_data})
+            this.setState({filter_player:filter_data,
+                excelDataList: filter_data,})
         }
         else{
-            this.setState({filter_player:this.state.nfl_player_data})
+            this.setState({filter_player:this.state.nfl_player_data,
+                excelDataList: this.state.nfl_player_data,})
         }
         this.setState({
             allBtn:false,
@@ -420,19 +465,21 @@ class DataNavBar extends React.Component {
         })
     }
     wrFilters = () =>{
-        wrActive = !wrActive
         if(wrActive){
             nflFilter_list.push('wr')
         }
         if(!wrActive) {
             nflFilter_list=this.removeArray(nflFilter_list, 'wr');
         }
+        wrActive = !wrActive
         let filter_data = this.nflFilterObj(nflFilter_list)
         if(filter_data.length > 0){
-            this.setState({filter_player:filter_data})
+            this.setState({filter_player:filter_data,
+                excelDataList: filter_data,})
         }
         else{
-            this.setState({filter_player:this.state.nfl_player_data})
+            this.setState({filter_player:this.state.nfl_player_data,
+                excelDataList: this.state.nfl_player_data,})
         }
         this.setState({
             allBtn:false,
@@ -442,19 +489,21 @@ class DataNavBar extends React.Component {
     }
 
     teFilters = () =>{
-        teActive = !teActive
         if(teActive){
             nflFilter_list.push('te')
         }
         if(!teActive) {
             nflFilter_list=this.removeArray(nflFilter_list, 'te');
         }
+        teActive = !teActive
         let filter_data = this.nflFilterObj(nflFilter_list)
         if(filter_data.length > 0){
-            this.setState({filter_player:filter_data})
+            this.setState({filter_player:filter_data,
+                excelDataList: filter_data,})
         }
         else{
-            this.setState({filter_player:this.state.nfl_player_data})
+            this.setState({filter_player:this.state.nfl_player_data,
+                excelDataList: this.state.nfl_player_data,})
         }
         this.setState({
             allBtn:false,
@@ -463,19 +512,21 @@ class DataNavBar extends React.Component {
         })
     }
     kFilters = () =>{
-        kActive = !kActive
         if(kActive){
             nflFilter_list.push('k')
         }
         if(!kActive) {
             nflFilter_list=this.removeArray(nflFilter_list, 'k');
         }
+        kActive = !kActive
         let filter_data = this.nflFilterObj(nflFilter_list)
         if(filter_data.length > 0){
-            this.setState({filter_player:filter_data})
+            this.setState({filter_player:filter_data,
+                excelDataList: filter_data,})
         }
         else{
-            this.setState({filter_player:this.state.nfl_player_data})
+            this.setState({filter_player:this.state.nfl_player_data,
+                excelDataList: this.state.nfl_player_data,})
         }
         this.setState({
             allBtn:false,
@@ -484,19 +535,21 @@ class DataNavBar extends React.Component {
         })
     }
     dstFilters = () =>{
-        dstActive = !dstActive
         if(dstActive){
             nflFilter_list.push('dst')
         }
         if(!dstActive) {
             nflFilter_list=this.removeArray(nflFilter_list, 'dst');
         }
+        dstActive = !dstActive
         let filter_data = this.nflFilterObj(nflFilter_list)
         if(filter_data.length > 0){
-            this.setState({filter_player:filter_data})
+            this.setState({filter_player:filter_data,
+                excelDataList: filter_data,})
         }
         else{
-            this.setState({filter_player:this.state.nfl_player_data})
+            this.setState({filter_player:this.state.nfl_player_data,
+                excelDataList: this.state.nfl_player_data,})
         }
         this.setState({
             allBtn:false,
@@ -507,19 +560,21 @@ class DataNavBar extends React.Component {
 
 
     sgFilters(){
-        sgActive = !sgActive
         if(sgActive){
             filter_list.push('sg')
         }
         if(!sgActive) {
             filter_list=this.removeArray(filter_list, 'sg');
         }
+        sgActive = !sgActive
         let filter_data = this.filterObj(filter_list)
         if(filter_data.length > 0){
-            this.setState({filter_player:filter_data})
+            this.setState({filter_player:filter_data,
+                excelDataList: filter_data,})
         }
         else{
-            this.setState({filter_player:this.state.players_data})
+            this.setState({filter_player:this.state.players_data,
+                excelDataList: this.state.players_data,})
         }
         this.setState({
             allBtn:false,
@@ -529,19 +584,21 @@ class DataNavBar extends React.Component {
     }
 
     sfFilters(){
-        sfActive = !sfActive
         if(sfActive){
             filter_list.push('sf')
         }
         if(!sfActive) {
             filter_list=this.removeArray(filter_list, 'sf');
         }
+        sfActive = !sfActive
         let filter_data = this.filterObj(filter_list)
         if(filter_data.length > 0){
-            this.setState({filter_player:filter_data})
+            this.setState({filter_player:filter_data,
+                excelDataList: filter_data,})
         }
         else{
-            this.setState({filter_player:this.state.players_data})
+            this.setState({filter_player:this.state.players_data,
+                excelDataList: this.state.players_data,})
         }
         this.setState({
             allBtn:false,
@@ -550,19 +607,21 @@ class DataNavBar extends React.Component {
         })
     }
     pfFilters(){
-        pfActive = !pfActive
         if(pfActive){
             filter_list.push('pf')
         }
         if(!pfActive) {
             filter_list=this.removeArray(filter_list, 'pf');
         }
+        pfActive = !pfActive
         let filter_data = this.filterObj(filter_list)
         if(filter_data.length > 0){
-            this.setState({filter_player:filter_data})
+            this.setState({filter_player:filter_data,
+                excelDataList: filter_data,})
         }
         else{
-            this.setState({filter_player:this.state.players_data})
+            this.setState({filter_player:this.state.players_data,
+                excelDataList: this.state.players_data,})
         }
         this.setState({
             allBtn:false,
@@ -572,19 +631,21 @@ class DataNavBar extends React.Component {
 
     }
     cFilters(){
-        cActive = !cActive
         if(cActive){
             filter_list.push('c')
         }
         if(!cActive) {
             filter_list=this.removeArray(filter_list, 'c');
         }
+        cActive = !cActive
         let filter_data = this.filterObj(filter_list)
         if(filter_data.length > 0){
-            this.setState({filter_player:filter_data})
+            this.setState({filter_player:filter_data,
+                excelDataList: filter_data,})
         }
         else{
-            this.setState({filter_player:this.state.players_data})
+            this.setState({filter_player:this.state.players_data,
+                excelDataList: this.state.players_data,})
         }
         this.setState({
             allBtn:false,
@@ -596,6 +657,7 @@ class DataNavBar extends React.Component {
     allSelectFilter(){
         if(this.state.nflAction){
             this.setState({filter_player:this.state.nfl_player_data,
+                excelDataList: this.state.nfl_player_data,
                 allBtn:true,
                 allClearBtn:false,
                 qbBtn:true,
@@ -607,6 +669,7 @@ class DataNavBar extends React.Component {
         }
         else{
             this.setState({filter_player:this.state.players_data,
+                excelDataList: this.state.players_data,
                 allBtn:true,
                 allClearBtn:false,
                 pgBtn:true,
@@ -620,6 +683,7 @@ class DataNavBar extends React.Component {
     allClearFilter(){
         if(this.state.nflAction){
             this.setState({filter_player:this.state.nfl_player_data,
+                excelDataList: this.state.nfl_player_data,
                 allBtn:false,
                 allClearBtn:true,
                 pgBtn:false,
@@ -636,6 +700,7 @@ class DataNavBar extends React.Component {
         }
         else{
             this.setState({filter_player:this.state.players_data,
+                excelDataList: this.state.players_data,
                 allBtn:false,
                 allClearBtn:true,
                 pgBtn:false,
@@ -661,7 +726,6 @@ class DataNavBar extends React.Component {
         function filterByValue(searching_data, term) {
             term = term.toLowerCase()
             let ans = searching_data.filter(function(v,i) {
-                console.log(v.Name)
                 if((v.Name || v.Team) === undefined){
                     return false
                 }
@@ -673,7 +737,7 @@ class DataNavBar extends React.Component {
             return ans
         }
         let search_filter = filterByValue(searching_data, event.target.value);
-        this.setState({filter_player:search_filter})
+        this.setState({filter_player:search_filter, excelDataList: search_filter})
 
 
     };
@@ -943,12 +1007,14 @@ class DataNavBar extends React.Component {
                                            type="search" variant="outlined" onChange={this.handleChange}/>
                             </div>
                             <div className="common-button">
-                                    <ReactHTMLTableToExcel
-                                        className="btn btn-primary active ad-group-btn"
-                                        table="data_table"
-                                        filename="CustomDFSExport"
-                                        sheet="Sheet"
-                                        buttonText="Export" />
+                                <ExportToExcel
+                                    nba_player_data={this.state.players_data}
+                                    nfl_player_data={this.state.nfl_player_data}
+                                    fileName={'customDFSExport'}
+                                    dataOf={this.state.is_nbaNfl}
+                                    salaryType={this.state.salary}
+                                    excelData={this.state.excelDataList}
+                                />
                             </div>
                             <div className="common-button">
                                 <label className="btn btn-primary active ad-group-btn" onClick={this.resetData}>
