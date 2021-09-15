@@ -29,13 +29,17 @@
      font-weight: 600;
      font-size: 9px;
      text-align: center;
+     max-width: 100px;
+     word-break: break-all;
+     line-height: 1.3;
  }
 .data_table tbody>tr>td{
     text-transform: uppercase;
     padding: 10px 0px;
     text-align: center !important;
     font-size: 12px;
-    max-width: 49px;
+    /*max-width: 49px;*/
+    /*min-height: 49px;*/
 }
 /*.data_table tbody>tr>td:hover{*/
 /*    color: #fff !important;*/
@@ -76,4 +80,293 @@
 }
 .MuiButton-contained.btn-danger.Mui-disabled{
     background-color: rgba(181, 12, 12, 0.76) !important;
+}
+.MIL{
+    background: url("../../images/team_logo.svg") -480px -480px;
+    width: 30px;
+    height: 30px;
+    background-repeat: no-repeat;
+    display: inline-block;
+    vertical-align: middle;
+}
+.PHO {
+    width: 30px;
+    height: 30px;
+    background-repeat: no-repeat;
+    display: inline-block;
+    background: url("../../images/team_logo.svg") -690px -690px;
+    vertical-align: middle;
+}
+
+.MIL{
+    background: url("../../images/team_logo.svg") -480px -480px;
+    width: 30px;
+    height: 30px;
+    background-repeat: no-repeat;
+    display: inline-block;
+    vertical-align: middle;
+}
+.PHO {
+    width: 30px;
+    height: 30px;
+    background-repeat: no-repeat;
+    display: inline-block;
+    background: url("../../images/team_logo.svg") -690px -690px;
+    vertical-align: middle;
+}
+.nfl.CAR {
+    width: 30px;
+    height: 30px;
+    background-repeat: no-repeat;
+    display: inline-block;
+    background: url("../../images/nfl_team.svg") -120px -120px !important;
+    vertical-align: middle;
+}
+.nfl.NYJ {
+    width: 30px;
+    height: 30px;
+    background-repeat: no-repeat;
+    display: inline-block;
+    background: url("../../images/nfl_team.svg") -690px -690px !important;
+    vertical-align: middle;
+}
+.nfl.TEN {
+    width: 30px;
+    height: 30px;
+    background-repeat: no-repeat;
+    display: inline-block;
+    background: url("../../images/nfl_team.svg") -900px -900px !important;
+    vertical-align: middle;
+}
+.nfl.ARI {
+    width: 30px;
+    height: 30px;
+    background-repeat: no-repeat;
+    display: inline-block;
+    background: url("../../images/nfl_team.svg") 0px 0px !important;
+    vertical-align: middle;
+}
+.nfl.NO {
+    width: 30px;
+    height: 30px;
+    background-repeat: no-repeat;
+    display: inline-block;
+    background: url("../../images/nfl_team.svg") -630px -630px !important;
+    vertical-align: middle;
+}
+.nfl.GB {
+    width: 30px;
+    height: 30px;
+    background-repeat: no-repeat;
+    display: inline-block;
+    background: url("../../images/nfl_team.svg") -330px -330px !important;
+    vertical-align: middle;
+}
+.nfl.KC {
+    width: 30px;
+    height: 30px;
+    background-repeat: no-repeat;
+    display: inline-block;
+    background: url("../../images/nfl_team.svg") -450px -450px !important;
+    vertical-align: middle;
+}
+.nfl.CLE {
+    width: 28px;
+    height: 28px;
+    background-repeat: no-repeat;
+    display: inline-block;
+    background: url("../../images/nfl_team.svg") -210px -210px !important;
+    vertical-align: middle;
+}
+.nfl.IND {
+    width: 30px;
+    height: 30px;
+    background-repeat: no-repeat;
+    display: inline-block;
+    background: url("../../images/nfl_team.svg") -390px -390px !important;
+    vertical-align: middle;
+}
+.nfl.SEA {
+    width: 28px;
+    height: 28px;
+    background-repeat: no-repeat;
+    display: inline-block;
+    background: url("../../images/nfl_team.svg") -840px -840px !important;
+    vertical-align: middle;
+}
+.nfl.MIN {
+    width: 30px;
+    height: 30px;
+    background-repeat: no-repeat;
+    display: inline-block;
+    background: url("../../images/nfl_team.svg") -570px -570px !important;
+    vertical-align: middle;
+}
+.nfl.CIN {
+    width: 30px;
+    height: 30px;
+    background-repeat: no-repeat;
+    display: inline-block;
+    background: url("../../images/nfl_team.svg") -180px -180px !important;
+    vertical-align: middle;
+}
+.nfl.DET {
+    width: 30px;
+    height: 30px;
+    background-repeat: no-repeat;
+    display: inline-block;
+    background: url("../../images/nfl_team.svg") -300px -300px !important;
+    vertical-align: middle;
+}
+.nfl.SF {
+    width: 30px;
+    height: 30px;
+    background-repeat: no-repeat;
+    display: inline-block;
+    background: url("../../images/nfl_team.svg") -810px -810px !important;
+    vertical-align: middle;
+}
+.nfl.WAS {
+    width: 30px;
+    height: 30px;
+    background-repeat: no-repeat;
+    display: inline-block;
+    background: url("../../images/nfl_team.svg") -930px -930px !important;
+    vertical-align: middle;
+}
+.nfl.LAC {
+    width: 30px;
+    height: 30px;
+    background-repeat: no-repeat;
+    display: inline-block;
+    background: url("../../images/nfl_team.svg") -480px -480px !important;
+    vertical-align: middle;
+}
+.nfl.DAL {
+    width: 30px;
+    height: 30px;
+    background-repeat: no-repeat;
+    display: inline-block;
+    background: url("../../images/nfl_team.svg") -240px -240px !important;
+    vertical-align: middle;
+}
+.nfl.TB {
+    width: 30px;
+    height: 30px;
+    background-repeat: no-repeat;
+    display: inline-block;
+    background: url("../../images/nfl_team.svg") -870px -870px !important;
+    vertical-align: middle;
+}
+.nfl.LV {
+    width: 30px;
+    height: 30px;
+    background-repeat: no-repeat;
+    display: inline-block;
+    background: url("../../images/nfl_team.svg") -720px -720px !important;
+    vertical-align: middle;
+}
+.nfl.BAL {
+    width: 30px;
+    height: 30px;
+    background-repeat: no-repeat;
+    display: inline-block;
+    background: url("../../images/nfl_team.svg") -60px -60px !important;
+    vertical-align: middle;
+}
+.nfl.HOU {
+    width: 30px;
+    height: 30px;
+    background-repeat: no-repeat;
+    display: inline-block;
+    background: url("../../images/nfl_team.svg") -360px -360px !important;
+    vertical-align: middle;
+}
+.nfl.JAX {
+    width: 30px;
+    height: 30px;
+    background-repeat: no-repeat;
+    display: inline-block;
+    background: url("../../images/nfl_team.svg") -420px -420px !important;
+    vertical-align: middle;
+}
+.nfl.DEN {
+    width: 30px;
+    height: 30px;
+    background-repeat: no-repeat;
+    display: inline-block;
+    background: url("../../images/nfl_team.svg") -270px -270px !important;
+    vertical-align: middle;
+}
+.nfl.NYG {
+    width: 30px;
+    height: 30px;
+    background-repeat: no-repeat;
+    display: inline-block;
+    background: url("../../images/nfl_team.svg") -660px -660px !important;
+    vertical-align: middle;
+}
+.nfl.PIT {
+    width: 30px;
+    height: 30px;
+    background-repeat: no-repeat;
+    display: inline-block;
+    background: url("../../images/nfl_team.svg") -780px -780px !important;
+    vertical-align: middle;
+}
+.nfl.BUF {
+    width: 30px;
+    height: 30px;
+    background-repeat: no-repeat;
+    display: inline-block;
+    background: url("../../images/nfl_team.svg") -90px -90px !important;
+    vertical-align: middle;
+}
+.nfl.CHI {
+    width: 30px;
+    height: 30px;
+    background-repeat: no-repeat;
+    display: inline-block;
+    background: url("../../images/nfl_team.svg") -150px -150px !important;
+    vertical-align: middle;
+}
+.nfl.LAR {
+    width: 30px;
+    height: 30px;
+    background-repeat: no-repeat;
+    display: inline-block;
+    background: url("../../images/nfl_team.svg") -510px -510px !important;
+    vertical-align: middle;
+}
+.nfl.MIA {
+    width: 30px;
+    height: 30px;
+    background-repeat: no-repeat;
+    display: inline-block;
+    background: url("../../images/nfl_team.svg") -540px -540px !important;
+    vertical-align: middle;
+}
+.nfl.NE {
+    width: 30px;
+    height: 30px;
+    background-repeat: no-repeat;
+    display: inline-block;
+    background: url("../../images/nfl_team.svg") -600px -600px !important;
+    vertical-align: middle;
+}
+.nfl.ATL {
+    width: 30px;
+    height: 30px;
+    background-repeat: no-repeat;
+    display: inline-block;
+    background: url("../../images/nfl_team.svg") -30px -30px !important;
+    vertical-align: middle;
+}
+.nfl.PHI {
+    width: 30px;
+    height: 30px;
+    background-repeat: no-repeat;
+    display: inline-block;
+    background: url("../../images/nfl_team.svg") -750px -750px !important;
+    vertical-align: middle;
 }

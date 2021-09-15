@@ -13,6 +13,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 import ToggleButton from '@material-ui/lab/ToggleButton';
 
+import '../home/style.css'
 import '../datanavbar/datanavbar.css'
 import {toast, ToastContainer} from "react-toastify";
 
@@ -64,17 +65,10 @@ export default function CustomizedMenus(props) {
     useEffect(()=>{
         setAllGameData(props.nfl_game_data)
         setUpdateGameData(props.nfl_game_data)
-        // let demo_array = allGameData
-        // for(let i=0; i<allGameData.length; i++){
-        //     allGameData[i]['IsAwayTeamActive']=true
-        //     allGameData[i]['IsHomeTeamActive']=true
-        //     allGameData[i]['IsBothTeamActive']=true
-        // }
-        // sorting function
         allGameData.sort(function(a, b) {
             return a.DateTime - b.DateTime;
         });
-
+    console.log(props)
     })
 
     const saveModifyGameList = (id, is_check, winner, keyName) =>{
@@ -305,11 +299,19 @@ export default function CustomizedMenus(props) {
             <div className="menu_list_head">
                 <div className="team_container row">
                     <div data-awayName={`left${gameData.Id}`} id={`left${gameData.Id}`}  className="left_team active col-md-5 col-sm-5 col-xs-5"  onClick={activeDeactive}>
+                        {props.is_nbaNfl === 'NFL' ?
+                        <div className={`${gameData.AwayTeam} nfl CAR`}></div>
+                            : <div className={`${gameData.AwayTeam}`}></div>}
                         {gameData.AwayTeam}
                     </div>
                     <div data-middleName={`middle${gameData.Id}`} id={`middle${gameData.Id}`}  className="middle_team active  col-md-2 col-sm-2 col-xs-2" onClick={activeDeactive}>@</div>
                     <div data-homeName={`right${gameData.Id}`} id={`right${gameData.Id}`}  className="right_team active  col-md-5 col-sm-5 col-xs-5" onClick={activeDeactive}>
+                        {props.is_nbaNfl === 'NFL' ?
+                            <div className={`${gameData.HomeTeam} nfl NYJ`}></div>
+                            : <div className={`${gameData.HomeTeam}`}></div>}
+
                        {gameData.HomeTeam}
+
                     </div>
                 </div>
                 <div className="row">
@@ -440,7 +442,7 @@ function DetailedAccordion(props) {
                         </div>
                         <div className="middle_des  col-md-2 col-sm-2 col-xs-2"></div>
                         <div className="right_des  col-md-5 col-sm-5 col-xs-5">
-                            <span className="">car {props.spread}</span>
+                            <span className="text-uppercase">{props.HomeTeam}  {props.spread}</span>
                         </div>
                     </div>
                 </AccordionSummary>

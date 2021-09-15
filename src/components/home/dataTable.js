@@ -735,6 +735,7 @@ export default function EnhancedTable(props) {
                                                     selected={isItemSelected}
                                                 >
                                                     <TableCell id={labelId} scope="row" padding="none">
+
                                                         {row.name}
                                                     </TableCell>
                                                     {props.salary === 'dk' ?
@@ -742,8 +743,17 @@ export default function EnhancedTable(props) {
                                                         <TableCell align="center">{row.fdPos}</TableCell>
                                                     }
 
-                                                    <TableCell align="center">{row.team} </TableCell>
-                                                    <TableCell align="center">{row.oop} </TableCell>
+                                                    <TableCell align="center">
+                                                        {nft_header ? <div className={`${row.team} nfl`}></div> :
+                                                            <div className={`${row.team}`}></div>
+                                                        }
+                                                        {row.team}
+                                                    </TableCell>
+                                                    <TableCell align="center">
+                                                        {nft_header ? <div className={`${row.oop} nfl`}></div> :
+                                                            <div className={`${row.oop}`}></div>
+                                                        }
+                                                        {row.oop} </TableCell>
                                                     {props.salary === 'dk' ?
                                                         <TableCell align="center">${row.salary} </TableCell> :
                                                         <TableCell align="center">${row.fdSalary}  </TableCell>
