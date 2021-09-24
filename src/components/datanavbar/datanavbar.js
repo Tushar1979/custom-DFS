@@ -119,7 +119,9 @@ class DataNavBar extends React.Component {
             }
             if(this.props.triggerChildFunc[0].sportView === 'NBA'){
                 this.setState({filter_player: null})
-                this.setState({nflAction: false, qbBtn:true,
+                this.setState({nflAction: false,
+                    pgBtn:true,
+                    qbBtn:false,
                     sgBtn:true,
                     sfBtn:true,
                     pfBtn:true,
@@ -181,6 +183,7 @@ class DataNavBar extends React.Component {
         let url = '/Prod/get-player-stats'
         this.api.GetApi(url, payload)
             .then((res) => {
+                this.setState({loader:false})
                 let response_data = JSON.parse(res.request.response)
                 if (res.status === 200 ) {
                     if(data.sportView === "NBA"){
