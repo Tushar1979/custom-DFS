@@ -47,6 +47,7 @@ componentDidMount() {
         usersignIn.then((response) => {
             if(response.username){
                 localStorage.setItem('username', response.username);
+                toast.success("⭐ Welcom to CustomDFS");
                 this.props.history.push('/');
             }
             else{

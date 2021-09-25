@@ -5,7 +5,7 @@ import logo from '../../images/dfs-logo.png'
 import left_capsule from '../../images/capsule-img.png'
 import right_capsule from '../../images/right-capsule.png'
 import {Link} from "react-router-dom";
-import { Auth } from "aws-amplify";
+import { ToastContainer, toast } from 'react-toastify';
 
 class NavBar extends React.Component {
     constructor(props) {
@@ -38,6 +38,20 @@ class NavBar extends React.Component {
     render() {
         return (
             <>
+                <ToastContainer
+                    position="bottom-right"
+                    autoClose={3000}
+                    hideProgressBar={false}
+                    newestOnTop={false}
+                    closeOnClick={true
+                    }
+                    rtl={false}
+                    pauseOnFocusLoss
+                    draggable
+                    pauseOnHover
+                    className='toasterStyle'
+                />
+
                 <div className="container-fluid navbar-container">
                     <nav className="navbar navbar-expand-lg navbar-dark primary-color pd-0">
                         <img src={logo} className="nav-logo" />

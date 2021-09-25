@@ -44,6 +44,10 @@ function stableSort(array, comparator) {
         return a[1] - b[1];
     });
     let xx=JSON.stringify(stabilizedThis.map((el) => el[0]))
+    if (localStorage.getItem('exlData')){
+        localStorage.removeItem('exlData')
+        localStorage.setItem('exlData',xx)
+    }
         localStorage.setItem('exlData',xx)
     return stabilizedThis.map((el) => el[0]);
 }
@@ -53,6 +57,9 @@ let headCells = []
 function EnhancedTableHead(props) {
     const {classes, onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort} = props;
     const createSortHandler = (property) => (event) => {
+        if(property === 'salary' && props.salType === 'fd'){
+            property = 'fdSalary'
+        }
         onRequestSort(event, property);
     };
 
@@ -579,6 +586,7 @@ export default function EnhancedTable(props) {
         return new Promise(resolve => setTimeout(resolve, milliseconds))
     }
     if (update_data) {
+        rows = []
         for (let data = 0; data < user_data.length; data++) {
             if((user_data[data].Name !== undefined)){
 
@@ -718,7 +726,8 @@ export default function EnhancedTable(props) {
                                     onSelectAllClick={handleSelectAllClick}
                                     onRequestSort={handleRequestSort}
                                     rowCount={rows.length}
-                                    // data_props={user_data}
+                                    salType = { props.salary}
+                                        // data_props={user_data}
                                 />
                                 <TableBody>
                                     {stableSort(rows, getComparator(order, orderBy))

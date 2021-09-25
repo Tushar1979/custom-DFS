@@ -100,7 +100,7 @@ class DataNavBar extends React.Component {
             this.setState({saveBtnActive:false})
             this.onParentTrigger(this.props.triggerChildFunc[0]);
             if(this.props.triggerChildFunc[0].sportView === 'NFL'){
-                this.setState({filter_player: null})
+                this.setState({filter_player: []})
                 this.setState({nflAction: true,
                     pgBtn:false,
                     qbBtn:true,
@@ -118,7 +118,7 @@ class DataNavBar extends React.Component {
                     inputActive:false})
             }
             if(this.props.triggerChildFunc[0].sportView === 'NBA'){
-                this.setState({filter_player: null})
+                this.setState({filter_player: []})
                 this.setState({nflAction: false,
                     pgBtn:true,
                     qbBtn:false,
@@ -139,6 +139,7 @@ class DataNavBar extends React.Component {
         }
 
     }
+
     onParentTrigger(data) {
         this.setState({is_nbaNfl: data.sportView})
         this.getCustomDfsData(data)
@@ -192,6 +193,7 @@ class DataNavBar extends React.Component {
                         this.setState({nfl_player_data:[]})
 
                         this.setState({loader:false})
+                        filter_list = ['pg', 'sg', 'sf', 'pf', 'c']
                     }
                     if(data.sportView === "NFL"){
                         this.setState({nfl_player_data: response_data.body})
@@ -199,6 +201,7 @@ class DataNavBar extends React.Component {
                         this.setState({players_data: []})
 
                         this.setState({loader:false})
+                        nflFilter_list = ['qb', 'rb', 'wr', 'te', 'k', 'dst']
                     }
                 } else if (res.request.status === 401) {
                     // console.log("login")
@@ -224,6 +227,7 @@ class DataNavBar extends React.Component {
             this.getPlayerState({"user": {"id": localStorage.getItem('username')}, "sportView": this.state.is_nbaNfl})
 
         }
+
     customDfs(){
         toast("⭐ Populating fields...");
         this.setState({
@@ -237,6 +241,9 @@ class DataNavBar extends React.Component {
 
     SaveData = () =>{
         this.setState({saveData:true, spinner: true})
+        toast.success("⭐ Successfully loaded...",{closeOnClick: true,
+            autoClose:3000});
+        this.setState({saveData:true, spinner: false})
     }
 
     //api calling
@@ -863,7 +870,8 @@ class DataNavBar extends React.Component {
             cActive=false
             nflFilter_list = []
             this.setState({filter_player:[],
-                excelDataList: this.state.nfl_player_data,
+                excelDataList: [],
+                // excelDataList: this.state.nfl_player_data,
                 allBtn:false,
                 allClearBtn:true,
                 pgBtn:false,
@@ -887,7 +895,8 @@ class DataNavBar extends React.Component {
             kActive=false
             dstActive=false
             this.setState({filter_player:[],
-                excelDataList: this.state.players_data,
+                excelDataList: [],
+                // excelDataList: this.state.players_data,
                 allBtn:false,
                 allClearBtn:true,
                 pgBtn:false,
@@ -905,6 +914,7 @@ class DataNavBar extends React.Component {
     }
 
     resetData(){
+        toast("⭐ Populating fields...",{closeOnClick: true});
         this.allClearFilter()
     }
 
@@ -936,6 +946,7 @@ class DataNavBar extends React.Component {
     fdSalary = event => {
         this.setState({salary:'fd'}, () => console.log(this.state.salary))
     }
+
     handlePlayerStats = (playerStats) =>{
         this.setState({spinner: true})
         let payload = {
@@ -963,7 +974,6 @@ class DataNavBar extends React.Component {
                 })
         this.setState({saveData:false})
         this.setState({spinner: false})
-        toast.success("⭐ Sucessfully Saved Data");
     }
     handleSimulations = () =>{
         toast.success("⭐ Simulation Started...");
@@ -1071,33 +1081,9 @@ class DataNavBar extends React.Component {
                                     <label className={this.state.inputActive ? "btn btn-primary ad-group-btn":"btn btn-primary active ad-group-btn"}>
                                         <input type="radio" name="options" autoComplete="off" defaultChecked
                                                onClick={this.customDfs}/>
-                                        <ToastContainer
-                                            position="bottom-right"
-                                            autoClose={3000}
-                                            hideProgressBar={false}
-                                            newestOnTop={false}
-                                            closeOnClick
-                                            rtl={false}
-                                            pauseOnFocusLoss
-                                            draggable
-                                            pauseOnHover
-                                            className='toasterStyle'
-                                        />
                                         <span className="btn-text">CustomDFS Data</span>
                                     </label>
                                     <label className={this.state.inputActive ? "btn btn-primary active ad-group-btn" : "btn btn-primary ad-group-btn"}>
-                                        <ToastContainer
-                                            position="bottom-right"
-                                            autoClose={3000}
-                                            hideProgressBar={false}
-                                            newestOnTop={false}
-                                            closeOnClick
-                                            rtl={false}
-                                            pauseOnFocusLoss
-                                            draggable
-                                            pauseOnHover
-                                            className='toasterStyle'
-                                        />
                                         <input type="radio" name="options" autoComplete="off" onClick={this.myData}/>
                                         <span className="btn-text">My Data</span>
                                     </label>
@@ -1227,18 +1213,6 @@ class DataNavBar extends React.Component {
                                     onClick={this.SaveData}
                                     disabled={!this.state.saveBtnActive}
                                 >
-                                    <ToastContainer
-                                        position="bottom-right"
-                                        autoClose={3000}
-                                        hideProgressBar={false}
-                                        newestOnTop={false}
-                                        closeOnClick
-                                        rtl={false}
-                                        pauseOnFocusLoss
-                                        draggable
-                                        pauseOnHover
-                                        className='toasterStyle'
-                                    />
                                     Save
                                 </Button>
                                     }
