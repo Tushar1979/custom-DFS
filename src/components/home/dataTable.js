@@ -43,6 +43,8 @@ function stableSort(array, comparator) {
         if (order !== 0) return order;
         return a[1] - b[1];
     });
+    let xx=JSON.stringify(stabilizedThis.map((el) => el[0]))
+        localStorage.setItem('exlData',xx)
     return stabilizedThis.map((el) => el[0]);
 }
 
@@ -646,6 +648,7 @@ export default function EnhancedTable(props) {
         const isAsc = orderBy === property && order === 'asc';
         setOrder(isAsc ? 'desc' : 'asc');
         setOrderBy(property);
+
     };
 
     const handleSelectAllClick = (event) => {

@@ -304,100 +304,219 @@ class DataNavBar extends React.Component {
     }
 
     filterObj(keyList){
-        let newArray = []
-        let pgArray = []
-        let sgArray = []
-        let sfArray = []
-        let pfArray = []
-        let cArray = []
+        let newArray
+        let pgArray
+        let sgArray
+        let sfArray
+        let pfArray
+        let cArray
         let player_obj= {
                 'players':this.state.players_data
             }
+            // console.log(player_obj.players)
 
-        for(let i = 0; i<keyList.length; i++){
-            if(keyList[i] === 'pg'){
-                 pgArray = (player_obj.players.filter(function (el){
-                    return el.DraftKingsPosition === 'PG' || el.DraftKingsPosition === 'pg'  ;
-                }));
-            } if(keyList[i] === 'sg'){
-                 sgArray = (player_obj.players.filter(function (el){
-                    return el.DraftKingsPosition === 'sg' || el.DraftKingsPosition === 'sg'  ;
-                }));
-            } if(keyList[i] === 'sf'){
-                 sfArray = (player_obj.players.filter(function (el){
-                    return el.DraftKingsPosition === 'SF' || el.DraftKingsPosition === 'sf'  ;
-                }));
-            } if(keyList[i] === 'pf'){
-                 pfArray = (player_obj.players.filter(function (el){
-                    return el.DraftKingsPosition === 'PF' || el.DraftKingsPosition === 'pf'  ;
-                }));
-            } if(keyList[i] === 'c'){
-                 cArray = (player_obj.players.filter(function (el){
-                    return el.DraftKingsPosition === 'C' || el.DraftKingsPosition === 'c'  ;
-                }));
+        if(this.state.salary == 'dk'){
+            newArray = []
+            pgArray = []
+            sgArray = []
+            sfArray = []
+            pfArray = []
+            cArray = []
+
+            for(let i = 0; i<keyList.length; i++){
+                console.log(keyList[i])
+                if(keyList[i] === 'pg'){
+                    pgArray = (player_obj.players.filter(function (el){
+                        return el.DraftKingsPosition === 'PG' || el.DraftKingsPosition === 'pg' || el.DraftKingsPosition.includes('PG') || el.DraftKingsPosition.includes('pg');
+                    }));
+                } if(keyList[i] === 'sg'){
+                    sgArray = (player_obj.players.filter(function (el){
+                        return el.DraftKingsPosition === 'SG' || el.DraftKingsPosition === 'sg' || el.DraftKingsPosition.includes('SG') || el.DraftKingsPosition.includes('sg');
+                    }));
+                } if(keyList[i] === 'sf'){
+                    sfArray = (player_obj.players.filter(function (el){
+                        return el.DraftKingsPosition === 'SF' || el.DraftKingsPosition === 'sf' || el.DraftKingsPosition.includes('SF') || el.DraftKingsPosition.includes('sf');
+                    }));
+                } if(keyList[i] === 'pf'){
+                    pfArray = (player_obj.players.filter(function (el){
+                        return el.DraftKingsPosition === 'PF' || el.DraftKingsPosition === 'pf' || el.DraftKingsPosition.includes('PF') || el.DraftKingsPosition.includes('pf');
+                    }));
+                } if(keyList[i] === 'c'){
+                    cArray = (player_obj.players.filter(function (el){
+                        return el.DraftKingsPosition === 'C' || el.DraftKingsPosition === 'c' || el.DraftKingsPosition.includes('C') || el.DraftKingsPosition.includes('c');
+                    }));
+                }
             }
+
+            newArray = newArray.concat(pgArray, sgArray,sfArray, pfArray, cArray);
+            if(keyList.length <=0){
+                newArray = this.state.players_data
+            }
+            newArray = new Set(newArray)
+            newArray = Array.from(newArray)
+            return newArray
+        }
+        if(this.state.salary == 'fd') {
+            newArray = []
+            pgArray = []
+            sgArray = []
+            sfArray = []
+            pfArray = []
+            cArray = []
+
+            for(let i = 0; i<keyList.length; i++){
+
+                if(keyList[i] === 'pg'){
+                    pgArray = (player_obj.players.filter(function (el){
+                        return el.FanDuelPosition === 'PG' || el.FanDuelPosition === 'pg' || el.FanDuelPosition.includes('PG') || el.FanDuelPosition.includes('pg');
+                    }));
+                } if(keyList[i] === 'sg'){
+                    sgArray = (player_obj.players.filter(function (el){
+                        return el.FanDuelPosition === 'SG' || el.FanDuelPosition === 'sg' || el.FanDuelPosition.includes('SG') || el.FanDuelPosition.includes('sg');
+                    }));
+                } if(keyList[i] === 'sf'){
+                    sfArray = (player_obj.players.filter(function (el){
+                        return el.FanDuelPosition === 'SF' || el.FanDuelPosition === 'sf' || el.FanDuelPosition.includes('SF') || el.FanDuelPosition.includes('sf');
+                    }));
+                } if(keyList[i] === 'pf'){
+                    pfArray = (player_obj.players.filter(function (el){
+                        return el.FanDuelPosition === 'PF' || el.FanDuelPosition === 'pf' || el.FanDuelPosition.includes('PF') || el.FanDuelPosition.includes('pf');
+                    }));
+                } if(keyList[i] === 'c'){
+                    cArray = (player_obj.players.filter(function (el){
+                        return el.FanDuelPosition === 'C' || el.FanDuelPosition === 'c' || el.FanDuelPosition.includes('C') || el.FanDuelPosition.includes('c');
+                    }));
+                }
+            }
+
+            newArray = newArray.concat(pgArray, sgArray,sfArray, pfArray, cArray);
+            if(keyList.length <=0){
+                newArray = this.state.players_data
+            }
+            newArray = new Set(newArray)
+            newArray = Array.from(newArray)
+            return newArray
         }
 
-        newArray = newArray.concat(pgArray, sgArray,sfArray, pfArray, cArray);
-        if(keyList.length <=0){
-            newArray = this.state.players_data
-        }
-        return newArray
     }
 
 
     nflFilterObj(keyList){
-        let newArray = []
-        let qbArray = []
-        let rbArray = []
-        let wrArray = []
-        let teArray = []
-        let kArray = []
-        let dstArray = []
+        let newArray
+        let qbArray
+        let rbArray
+        let wrArray
+        let teArray
+        let kArray
+        let dstArray
         let player_obj
             player_obj= {
                 'players':this.state.nfl_player_data
             }
-        for(let i = 0; i<keyList.length; i++){
-            if(keyList[i] === 'qb'){
-                qbArray = (player_obj.players.filter(function (el){
-                    return el.Position === 'QB' || el.Position === 'qb'  ;
-                }));
-            } if(keyList[i] === 'rb'){
-                rbArray = (player_obj.players.filter(function (el){
-                    return el.Position === 'RB' || el.Position === 'rb'  ;
-                }));
-            } if(keyList[i] === 'wr'){
-                wrArray = (player_obj.players.filter(function (el){
-                    return el.Position === 'WR' || el.Position === 'wr'  ;
-                }));
-            } if(keyList[i] === 'te'){
-                teArray = (player_obj.players.filter(function (el){
-                    return el.Position === 'TE' || el.Position === 'te'  ;
-                }));
-            } if(keyList[i] === 'k'){
-                kArray = (player_obj.players.filter(function (el){
-                    return el.Position === 'K' || el.Position === 'k'  ;
-                }));
-            } if(keyList[i] === 'dst'){
-                dstArray = (player_obj.players.filter(function (el){
-                    return el.Position === 'DST' || el.Position === 'dst'  ;
-                }));
-            }
-        }
+            if (this.state.salary == 'dk'){
+                newArray = []
+                qbArray = []
+                rbArray = []
+                wrArray = []
+                teArray = []
+                kArray = []
+                dstArray = []
 
-        newArray = newArray.concat(qbArray, rbArray,wrArray, teArray, kArray, dstArray);
-        if(keyList.length <=0){
-            newArray = this.state.players_data
-        }
-        return newArray
+
+                for(let i = 0; i<keyList.length; i++){
+                    if(keyList[i] === 'qb'){
+                        qbArray = (player_obj.players.filter(function (el){
+                            return el.DraftKingsPosition === 'QB' || el.DraftKingsPosition === 'qb' || el.DraftKingsPosition.includes('QB') || el.DraftKingsPosition.includes('qb');
+                        }));
+                    } if(keyList[i] === 'rb'){
+                        rbArray = (player_obj.players.filter(function (el){
+                            return el.DraftKingsPosition === 'RB' || el.DraftKingsPosition === 'rb' || el.DraftKingsPosition.includes('RB') || el.DraftKingsPosition.includes('rb');
+                        }));
+                    } if(keyList[i] === 'wr'){
+                        wrArray = (player_obj.players.filter(function (el){
+                            return el.DraftKingsPosition === 'WR' || el.DraftKingsPosition === 'wr' || el.DraftKingsPosition.includes('WR') || el.DraftKingsPosition.includes('wr');
+                        }));
+                    } if(keyList[i] === 'te'){
+                        teArray = (player_obj.players.filter(function (el){
+                            return el.DraftKingsPosition === 'TE' || el.DraftKingsPosition === 'te' || el.DraftKingsPosition.includes('TE') || el.DraftKingsPosition.includes('te');
+                        }));
+                    } if(keyList[i] === 'k'){
+                        kArray = (player_obj.players.filter(function (el){
+                            return el.DraftKingsPosition === 'K' || el.DraftKingsPosition === 'k' || el.DraftKingsPosition.includes('K') || el.DraftKingsPosition.includes('k');
+                        }));
+                    } if(keyList[i] === 'dst'){
+                        dstArray = (player_obj.players.filter(function (el){
+                            return el.DraftKingsPosition === 'DST' || el.DraftKingsPosition === 'dst' || el.DraftKingsPosition.includes('DST') || el.DraftKingsPosition.includes('dst');
+                        }));
+                    }
+                }
+
+                newArray = newArray.concat(qbArray, rbArray,wrArray, teArray, kArray, dstArray);
+                if(keyList.length <=0){
+                    newArray = this.state.players_data
+                }
+
+                newArray = new Set(newArray)
+                newArray = Array.from(newArray)
+
+                return newArray
+            }
+            if(this.state.salary == 'fd'){
+                newArray = []
+                qbArray = []
+                rbArray = []
+                wrArray = []
+                teArray = []
+                kArray = []
+                dstArray = []
+                for(let i = 0; i<keyList.length; i++){
+                    if(keyList[i] === 'qb'){
+                        qbArray = (player_obj.players.filter(function (el){
+                            return el.FanDuelPosition === 'QB' || el.FanDuelPosition === 'qb' || el.FanDuelPosition.includes('QB') || el.FanDuelPosition.includes('qb');
+                        }));
+                    } if(keyList[i] === 'rb'){
+                        rbArray = (player_obj.players.filter(function (el){
+                            return el.FanDuelPosition === 'RB' || el.FanDuelPosition === 'rb' || el.FanDuelPosition.includes('RB') || el.FanDuelPosition.includes('rb');
+                        }));
+                    } if(keyList[i] === 'wr'){
+                        wrArray = (player_obj.players.filter(function (el){
+                            return el.FanDuelPosition === 'WR' || el.FanDuelPosition === 'wr' || el.FanDuelPosition.includes('WR') || el.FanDuelPosition.includes('wr');
+                        }));
+                    } if(keyList[i] === 'te'){
+                        teArray = (player_obj.players.filter(function (el){
+                            return el.FanDuelPosition === 'TE' || el.FanDuelPosition === 'te' || el.FanDuelPosition.includes('TE') || el.FanDuelPosition.includes('te');
+                        }));
+                    } if(keyList[i] === 'k'){
+                        kArray = (player_obj.players.filter(function (el){
+                            return el.FanDuelPosition === 'K' || el.FanDuelPosition === 'k' || el.FanDuelPosition.includes('K') || el.FanDuelPosition.includes('k');
+                        }));
+                    } if(keyList[i] === 'dst'){
+                        dstArray = (player_obj.players.filter(function (el){
+                            return el.FanDuelPosition === 'DST' || el.FanDuelPosition === 'dst' || el.FanDuelPosition.includes('DST') || el.FanDuelPosition.includes('dst');
+                        }));
+                    }
+                }
+
+                newArray = newArray.concat(qbArray, rbArray,wrArray, teArray, kArray, dstArray);
+                if(keyList.length <=0){
+                    newArray = this.state.players_data
+                }
+
+                newArray = new Set(newArray)
+                newArray = Array.from(newArray)
+                return newArray
+            }
+
     }
+
     pgFilters(){
         if(pgActive){
-            filter_list.push('pg')
+            filter_list=this.removeArray(filter_list, 'pg');
+            // filter_list.push('pg')
         }
         if(!pgActive) {
-            filter_list=this.removeArray(filter_list, 'pg');
+            filter_list.push('pg')
+            // filter_list=this.removeArray(filter_list, 'pg');
         }
         pgActive = !pgActive
         let filter_data = this.filterObj(filter_list)
@@ -417,15 +536,14 @@ class DataNavBar extends React.Component {
 
     }
 
-
-
     qbFilters = () =>{
-        console.log()
         if(qbActive){
-            nflFilter_list.push('qb')
+            nflFilter_list=this.removeArray(nflFilter_list, 'qb');
+            // nflFilter_list.push('qb')
         }
         if(!qbActive) {
-            nflFilter_list=this.removeArray(nflFilter_list, 'qb');
+            nflFilter_list.push('qb')
+            // nflFilter_list=this.removeArray(nflFilter_list, 'qb');
         }
         qbActive = !qbActive
         let filter_data = this.nflFilterObj(nflFilter_list)
@@ -444,12 +562,15 @@ class DataNavBar extends React.Component {
         })
 
     }
+
     rbFilters = () =>{
         if(rbActive){
-            nflFilter_list.push('rb')
+            nflFilter_list=this.removeArray(nflFilter_list, 'rb');
+            // nflFilter_list.push('rb')
         }
         if(!rbActive) {
-            nflFilter_list=this.removeArray(nflFilter_list, 'rb');
+            nflFilter_list.push('rb')
+            // nflFilter_list=this.removeArray(nflFilter_list, 'rb');
         }
         rbActive = !rbActive
         let filter_data = this.nflFilterObj(nflFilter_list)
@@ -467,12 +588,15 @@ class DataNavBar extends React.Component {
             rbBtn:!this.state.rbBtn,
         })
     }
+
     wrFilters = () =>{
         if(wrActive){
-            nflFilter_list.push('wr')
+            nflFilter_list=this.removeArray(nflFilter_list, 'wr');
+            // nflFilter_list.push('wr')
         }
         if(!wrActive) {
-            nflFilter_list=this.removeArray(nflFilter_list, 'wr');
+            nflFilter_list.push('wr')
+            // nflFilter_list=this.removeArray(nflFilter_list, 'wr');
         }
         wrActive = !wrActive
         let filter_data = this.nflFilterObj(nflFilter_list)
@@ -493,10 +617,13 @@ class DataNavBar extends React.Component {
 
     teFilters = () =>{
         if(teActive){
-            nflFilter_list.push('te')
+            // nflFilter_list.push('te')
+            nflFilter_list=this.removeArray(nflFilter_list, 'te');
+
         }
         if(!teActive) {
-            nflFilter_list=this.removeArray(nflFilter_list, 'te');
+            nflFilter_list.push('te')
+            // nflFilter_list=this.removeArray(nflFilter_list, 'te');
         }
         teActive = !teActive
         let filter_data = this.nflFilterObj(nflFilter_list)
@@ -514,12 +641,15 @@ class DataNavBar extends React.Component {
             teBtn:!this.state.teBtn,
         })
     }
+
     kFilters = () =>{
         if(kActive){
-            nflFilter_list.push('k')
+            nflFilter_list=this.removeArray(nflFilter_list, 'k');
+            // nflFilter_list.push('k')
         }
         if(!kActive) {
-            nflFilter_list=this.removeArray(nflFilter_list, 'k');
+            nflFilter_list.push('k')
+            // nflFilter_list=this.removeArray(nflFilter_list, 'k');
         }
         kActive = !kActive
         let filter_data = this.nflFilterObj(nflFilter_list)
@@ -537,12 +667,16 @@ class DataNavBar extends React.Component {
             kBtn:!this.state.kBtn,
         })
     }
+
     dstFilters = () =>{
         if(dstActive){
-            nflFilter_list.push('dst')
+            // nflFilter_list.push('dst')
+            nflFilter_list=this.removeArray(nflFilter_list, 'dst');
+
         }
         if(!dstActive) {
-            nflFilter_list=this.removeArray(nflFilter_list, 'dst');
+            nflFilter_list.push('dst')
+            // nflFilter_list=this.removeArray(nflFilter_list, 'dst');
         }
         dstActive = !dstActive
         let filter_data = this.nflFilterObj(nflFilter_list)
@@ -561,13 +695,14 @@ class DataNavBar extends React.Component {
         })
     }
 
-
     sgFilters(){
         if(sgActive){
-            filter_list.push('sg')
+            filter_list=this.removeArray(filter_list, 'sg');
+            // filter_list.push('sg')
         }
         if(!sgActive) {
-            filter_list=this.removeArray(filter_list, 'sg');
+            filter_list.push('sg')
+            // filter_list=this.removeArray(filter_list, 'sg');
         }
         sgActive = !sgActive
         let filter_data = this.filterObj(filter_list)
@@ -588,10 +723,12 @@ class DataNavBar extends React.Component {
 
     sfFilters(){
         if(sfActive){
-            filter_list.push('sf')
+            filter_list=this.removeArray(filter_list, 'sf');
+            // filter_list.push('sf')
         }
         if(!sfActive) {
-            filter_list=this.removeArray(filter_list, 'sf');
+            filter_list.push('sf')
+            // filter_list=this.removeArray(filter_list, 'sf');
         }
         sfActive = !sfActive
         let filter_data = this.filterObj(filter_list)
@@ -609,12 +746,15 @@ class DataNavBar extends React.Component {
             sfBtn:!this.state.sfBtn,
         })
     }
+
     pfFilters(){
         if(pfActive){
-            filter_list.push('pf')
+            filter_list=this.removeArray(filter_list, 'pf');
+            // filter_list.push('pf')
         }
         if(!pfActive) {
-            filter_list=this.removeArray(filter_list, 'pf');
+            filter_list.push('pf')
+            // filter_list=this.removeArray(filter_list, 'pf');
         }
         pfActive = !pfActive
         let filter_data = this.filterObj(filter_list)
@@ -633,12 +773,15 @@ class DataNavBar extends React.Component {
         })
 
     }
+
     cFilters(){
         if(cActive){
-            filter_list.push('c')
+            filter_list=this.removeArray(filter_list, 'c');
+            // filter_list.push('c')
         }
         if(!cActive) {
-            filter_list=this.removeArray(filter_list, 'c');
+            filter_list.push('c')
+            // filter_list=this.removeArray(filter_list, 'c');
         }
         cActive = !cActive
         let filter_data = this.filterObj(filter_list)
@@ -659,6 +802,13 @@ class DataNavBar extends React.Component {
 
     allSelectFilter(){
         if(this.state.nflAction){
+            nflFilter_list = ['qb', 'rb', 'wr', 'te', 'k', 'dst']
+            qbActive=true
+            rbActive=true
+            wrActive=true
+            teActive=true
+            kActive=true
+            dstActive=true
             this.setState({filter_player:this.state.nfl_player_data,
                 excelDataList: this.state.nfl_player_data,
                 allBtn:true,
@@ -668,9 +818,22 @@ class DataNavBar extends React.Component {
                 wrBtn:true,
                 teBtn:true,
                 kBtn:true,
-                dstBtn:true,})
+                dstBtn:true,
+                qbActive:true,
+                rbActive:true,
+                wrActive:true,
+                teActive:true,
+                kActive:true,
+                dstActive:true
+            })
         }
         else{
+            filter_list = ['pg', 'sg', 'sf', 'pf', 'c']
+            pgActive=true
+            sgActive=true
+            sfActive=true
+            pfActive=true
+            cActive=true
             this.setState({filter_player:this.state.players_data,
                 excelDataList: this.state.players_data,
                 allBtn:true,
@@ -679,13 +842,27 @@ class DataNavBar extends React.Component {
                 sgBtn:true,
                 sfBtn:true,
                 pfBtn:true,
-                cBtn:true,})
+                cBtn:true,
+                pgActive:true,
+                sgActive:true,
+                sfActive:true,
+                pfActive:true,
+                cActive:true
+            })
+
         }
 
     }
+
     allClearFilter(){
         if(this.state.nflAction){
-            this.setState({filter_player:this.state.nfl_player_data,
+            pgActive=false
+            sgActive=false
+            sfActive=false
+            pfActive=false
+            cActive=false
+            nflFilter_list = []
+            this.setState({filter_player:[],
                 excelDataList: this.state.nfl_player_data,
                 allBtn:false,
                 allClearBtn:true,
@@ -702,7 +879,14 @@ class DataNavBar extends React.Component {
                 dstBtn:false,})
         }
         else{
-            this.setState({filter_player:this.state.players_data,
+            filter_list = []
+            qbActive=false
+            rbActive=false
+            wrActive=false
+            teActive=false
+            kActive=false
+            dstActive=false
+            this.setState({filter_player:[],
                 excelDataList: this.state.players_data,
                 allBtn:false,
                 allClearBtn:true,
@@ -723,6 +907,7 @@ class DataNavBar extends React.Component {
     resetData(){
         this.allClearFilter()
     }
+
     handleChange (event) {
         this.setState({ filter: event.target.value });
         let searching_data = this.state.search_player_data
@@ -744,11 +929,12 @@ class DataNavBar extends React.Component {
 
 
     };
+
     dkSalary = event => {
-        this.setState({salary:'dk'})
+        this.setState({salary:'dk'}, () => console.log(this.state.salary))
     }
     fdSalary = event => {
-        this.setState({salary:'fd'})
+        this.setState({salary:'fd'}, () => console.log(this.state.salary))
     }
     handlePlayerStats = (playerStats) =>{
         this.setState({spinner: true})
@@ -883,7 +1069,7 @@ class DataNavBar extends React.Component {
                             <div className="common-button">
                                 <div className="btn-group ">
                                     <label className={this.state.inputActive ? "btn btn-primary ad-group-btn":"btn btn-primary active ad-group-btn"}>
-                                        <input type="radio" name="options" autoComplete="off" checked
+                                        <input type="radio" name="options" autoComplete="off" defaultChecked
                                                onClick={this.customDfs}/>
                                         <ToastContainer
                                             position="bottom-right"
