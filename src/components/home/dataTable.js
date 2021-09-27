@@ -179,7 +179,7 @@ export default function EnhancedTable(props) {
 
     const handleChangeMinus = (e) =>{
         let rowId = e.target.id
-        let nbaMinus = e.target.value
+        let nbaMinus = parseInt(e.target.value)
         for(let i = 0; i<updateGameList.length; i++){
             if(updateGameList[i].Id === rowId){
                 updateGameList[i]['Minutes'] = nbaMinus
@@ -188,7 +188,7 @@ export default function EnhancedTable(props) {
     }
     const handleChangePoints = (e) => {
         let rowId = e.target.id
-        let nbaPoints = e.target.value
+        let nbaPoints = parseInt(e.target.value)
         for(let i = 0; i<updateGameList.length; i++){
             if(updateGameList[i].Id === rowId){
                 updateGameList[i]['Points'] = nbaPoints
@@ -513,15 +513,20 @@ export default function EnhancedTable(props) {
         }
     }
     if(saveData){
-        // if(props.is_nbaNfl === 'NFL') {
+        if(props.is_nbaNfl === 'NFL') {
             props.onSavePlayerStats(nflList)
-        // }
+        }
+        props.onSavePlayerStats(updateGameList)
     }
+    console.log('New Array', props.new_array)
+    console.log('Update Data', props.update_data)
+    console.log('Nfl Player Data', props.nfl_player_data)
+    console.log('Data', props.data)
     if (props.nfl_player_data.length > 0) {
         update_data = true
         nft_header = true
         user_data = props.nfl_player_data
-        rows = []
+        // rows = []
         headCells = [
             {id: 'name', numeric: false, disablePadding: true, label: 'Name'},
             {id: 'pos', numeric: false, disablePadding: false, label: 'pos'},
@@ -576,11 +581,18 @@ export default function EnhancedTable(props) {
             {id: 'fpts$', numeric: false, disablePadding: false, label: 'fpts/$1'},
         ]
     }
-
+    // else{
+    //
+    // }
     if (props.new_array != null) {
         update_data = true
         user_data = props.new_array
     }
+    else{
+        update_data = true
+        user_data = props.data
+    }
+
     // update_data=props.update_data
     const sleep = (milliseconds) => {
         return new Promise(resolve => setTimeout(resolve, milliseconds))
@@ -635,6 +647,7 @@ export default function EnhancedTable(props) {
             }
             update_data = false
         }
+        console.log(rows)
         // props.generateExcelData(rows)
 
         if(loader) {

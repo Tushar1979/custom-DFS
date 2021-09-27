@@ -100,6 +100,12 @@ class DataNavBar extends React.Component {
             this.setState({saveBtnActive:false})
             this.onParentTrigger(this.props.triggerChildFunc[0]);
             if(this.props.triggerChildFunc[0].sportView === 'NFL'){
+                qbActive = true
+                rbActive = true
+                wrActive = true
+                teActive = true
+                kActive = true
+                dstActive = true
                 this.setState({filter_player: []})
                 this.setState({nflAction: true,
                     pgBtn:false,
@@ -115,9 +121,15 @@ class DataNavBar extends React.Component {
                     cBtn:false,
                     allBtn:true,
                     allClearBtn:false,
-                    inputActive:false})
+                    inputActive:false
+                })
             }
             if(this.props.triggerChildFunc[0].sportView === 'NBA'){
+                pgActive = true
+                sgActive = true
+                sfActive = true
+                pfActive = true
+                cActive = true
                 this.setState({filter_player: []})
                 this.setState({nflAction: false,
                     pgBtn:true,
@@ -188,14 +200,25 @@ class DataNavBar extends React.Component {
                 let response_data = JSON.parse(res.request.response)
                 if (res.status === 200 ) {
                     if(data.sportView === "NBA"){
-                        this.setState({players_data: response_data.body})
-                        this.setState({search_player_data: response_data.body, excelDataList:response_data.body})
-                        this.setState({nfl_player_data:[]})
+                        if (response_data.body.length <1 ){
+                            // this.setState({players_data: })
+                            // this.setState({search_player_data: response_data.body, excelDataList:response_data.body})
+                            // this.setState({nfl_player_data:[]})
+                            this.setState({loader:false})
+                            filter_list = ['pg', 'sg', 'sf', 'pf', 'c']
+                        }
+                        else{
+                            this.setState({players_data: response_data.body})
+                            this.setState({search_player_data: response_data.body, excelDataList:response_data.body})
+                            this.setState({nfl_player_data:[]})
 
-                        this.setState({loader:false})
-                        filter_list = ['pg', 'sg', 'sf', 'pf', 'c']
+                            this.setState({loader:false})
+                            filter_list = ['pg', 'sg', 'sf', 'pf', 'c']
+                        }
+
                     }
                     if(data.sportView === "NFL"){
+
                         this.setState({nfl_player_data: response_data.body})
                         this.setState({search_player_data: response_data.body, excelDataList:response_data.body})
                         this.setState({players_data: []})
@@ -243,7 +266,7 @@ class DataNavBar extends React.Component {
         this.setState({saveData:true, spinner: true})
         toast.success("⭐ Successfully loaded...",{closeOnClick: true,
             autoClose:3000});
-        this.setState({saveData:true, spinner: false})
+        // this.setState({saveData:true, spinner: false})
     }
 
     //api calling
@@ -331,7 +354,6 @@ class DataNavBar extends React.Component {
             cArray = []
 
             for(let i = 0; i<keyList.length; i++){
-                console.log(keyList[i])
                 if(keyList[i] === 'pg'){
                     pgArray = (player_obj.players.filter(function (el){
                         return el.DraftKingsPosition === 'PG' || el.DraftKingsPosition === 'pg' || el.DraftKingsPosition.includes('PG') || el.DraftKingsPosition.includes('pg');
@@ -406,7 +428,6 @@ class DataNavBar extends React.Component {
         }
 
     }
-
 
     nflFilterObj(keyList){
         let newArray
@@ -528,6 +549,7 @@ class DataNavBar extends React.Component {
         pgActive = !pgActive
         let filter_data = this.filterObj(filter_list)
         if(filter_data.length > 0){
+
             this.setState({filter_player:filter_data,
                 excelDataList: filter_data,})
         }
@@ -870,8 +892,8 @@ class DataNavBar extends React.Component {
             cActive=false
             nflFilter_list = []
             this.setState({filter_player:[],
-                excelDataList: [],
-                // excelDataList: this.state.nfl_player_data,
+                // excelDataList: [],
+                excelDataList: this.state.nfl_player_data,
                 allBtn:false,
                 allClearBtn:true,
                 pgBtn:false,
@@ -894,9 +916,10 @@ class DataNavBar extends React.Component {
             teActive=false
             kActive=false
             dstActive=false
+            console.log("Players_Data", this.state.players_data)
             this.setState({filter_player:[],
-                excelDataList: [],
-                // excelDataList: this.state.players_data,
+                // excelDataList: [],
+                excelDataList: this.state.players_data,
                 allBtn:false,
                 allClearBtn:true,
                 pgBtn:false,
@@ -915,7 +938,7 @@ class DataNavBar extends React.Component {
 
     resetData(){
         toast("⭐ Populating fields...",{closeOnClick: true});
-        this.allClearFilter()
+        this.getCustomDfsData({user: {id: 'Master'}, sportView: this.state.is_nbaNfl})
     }
 
     handleChange (event) {
@@ -948,6 +971,8 @@ class DataNavBar extends React.Component {
     }
 
     handlePlayerStats = (playerStats) =>{
+        console.log(playerStats)
+        console.log(this.state.is_nbaNfl)
         this.setState({spinner: true})
         let payload = {
                 data:{playerStats: playerStats, user: {id: localStorage.getItem('username')}, sportView: this.state.is_nbaNfl}
@@ -1048,7 +1073,8 @@ class DataNavBar extends React.Component {
             .then((res) => {
                 let response_data = JSON.parse(res.request.response)
                 if (res.status === 200 ) {
-                    // console.log('+++++----++++', response_data.body)
+
+                    console.log('+++++----++++', response_data.body)
                 } else if (res.request.status === 401) {
                     // console.log("login")
                     this.props.history.push('/signin')

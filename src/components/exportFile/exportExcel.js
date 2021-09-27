@@ -17,10 +17,11 @@ export default function ExportToExcel ({ nba_player_data, nfl_player_data, fileN
     })
 
     function xyz(value) {
-        if (typeof value == "string"){
-            return value
-        }
-        else if(typeof value === "undefined" || typeof value === undefined){
+        // if (typeof value == "string"){
+        //     return value
+        // }
+        // else
+        if(typeof value === "undefined" || typeof value === undefined){
             return 0
         }
         else{
@@ -96,6 +97,7 @@ export default function ExportToExcel ({ nba_player_data, nfl_player_data, fileN
         }
         if(dataOf === 'NBA' && salaryType === 'dk') {
             listData = []
+            console.error("ApiData",apiData);
             for (let i = 0; i < apiData.length; i++) {
                 listData.push({
                     "Name": xyz(apiData[i].name) || xyz(apiData[i].Name),
