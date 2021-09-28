@@ -17,16 +17,6 @@ class NavBar extends React.Component {
         }
     }
 
-    // logOut = () => {
-    //     const userLogout = Auth.signOut();
-    //     console.log(userLogout, "##");
-    //     userLogout.then((data) => {
-    //         console.log(data, "####");
-    //         this.props.history.push('/signin');
-    //     }).catch((message) => {
-    //         console.log(message);
-    //     })
-    // };
 
 
     nbaActive() {

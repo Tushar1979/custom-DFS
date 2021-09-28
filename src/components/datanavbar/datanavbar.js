@@ -174,7 +174,6 @@ class DataNavBar extends React.Component {
                 if (res.status === 200 ) {
 
                 } else if (res.request.status === 401) {
-                    // console.log("login")
                     this.props.history.push('/signin')
                     this.setState({loader:false})
                 } else {
@@ -200,10 +199,7 @@ class DataNavBar extends React.Component {
                 let response_data = JSON.parse(res.request.response)
                 if (res.status === 200 ) {
                     if(data.sportView === "NBA"){
-                        if (response_data.body.length <1 ){
-                            // this.setState({players_data: })
-                            // this.setState({search_player_data: response_data.body, excelDataList:response_data.body})
-                            // this.setState({nfl_player_data:[]})
+                        if (response_data.body.length === 0 ){
                             this.setState({loader:false})
                             filter_list = ['pg', 'sg', 'sf', 'pf', 'c']
                         }
@@ -211,23 +207,32 @@ class DataNavBar extends React.Component {
                             this.setState({players_data: response_data.body})
                             this.setState({search_player_data: response_data.body, excelDataList:response_data.body})
                             this.setState({nfl_player_data:[]})
-
                             this.setState({loader:false})
                             filter_list = ['pg', 'sg', 'sf', 'pf', 'c']
                         }
 
                     }
                     if(data.sportView === "NFL"){
+                        if (response_data.body.length !== 0){
+                            this.setState({nfl_player_data: response_data.body, filter_player:response_data.body},)
+                            this.setState({search_player_data: response_data.body, excelDataList:response_data.body})
+                            this.setState({players_data: []})
 
-                        this.setState({nfl_player_data: response_data.body})
-                        this.setState({search_player_data: response_data.body, excelDataList:response_data.body})
-                        this.setState({players_data: []})
-
-                        this.setState({loader:false})
-                        nflFilter_list = ['qb', 'rb', 'wr', 'te', 'k', 'dst']
+                            this.setState({loader:false})
+                            nflFilter_list = ['qb', 'rb', 'wr', 'te', 'k', 'dst']
+                        }
+                        else{
+                            this.setState({loader:false})
+                            nflFilter_list = ['qb', 'rb', 'wr', 'te', 'k', 'dst']
+                            qbActive = true
+                            rbActive = true
+                            wrActive = true
+                            teActive = true
+                            kActive = true
+                            dstActive = true
+                        }
                     }
                 } else if (res.request.status === 401) {
-                    // console.log("login")
                     this.props.history.push('/signin')
                     this.setState({loader:false})
                 } else {
@@ -287,15 +292,17 @@ class DataNavBar extends React.Component {
                         this.setState({search_player_data: response_data.body, excelDataList:response_data.body})
                         this.setState({nfl_player_data:[]})
                         filter_list = ['pg', 'sg', 'sf', 'pf', 'c']
+                        nflFilter_list = ['qb', 'rb', 'wr', 'te', 'k', 'dst']
+
                     }
                     if(data.sportView === "NFL"){
-                        this.setState({nfl_player_data: response_data.body})
+                        this.setState({nfl_player_data: response_data.body, filter_player:response_data.body})
                         this.setState({search_player_data: response_data.body, excelDataList:response_data.body})
                         this.setState({players_data: []})
+                        filter_list = ['pg', 'sg', 'sf', 'pf', 'c']
                         nflFilter_list = ['qb', 'rb', 'wr', 'te', 'k', 'dst']
                     }
                 } else if (res.request.status === 401) {
-                    // console.log("login")
                     this.props.history.push('/signin')
                     this.setState({loader:false})
                 } else {
@@ -315,9 +322,7 @@ class DataNavBar extends React.Component {
                 if (res.status === 200 ) {
                     this.setState({game_data: response_data.body})
                     this.setState({loader:false})
-                    // console.log('+++++----++++', response_data.body)
                 } else if (res.request.status === 401) {
-                    // console.log("login")
                     this.props.history.push('/signin')
                     this.setState({loader:false})
                 } else {
@@ -343,9 +348,8 @@ class DataNavBar extends React.Component {
         let player_obj= {
                 'players':this.state.players_data
             }
-            // console.log(player_obj.players)
 
-        if(this.state.salary == 'dk'){
+        if(this.state.salary === 'dk'){
             newArray = []
             pgArray = []
             sgArray = []
@@ -385,7 +389,7 @@ class DataNavBar extends React.Component {
             newArray = Array.from(newArray)
             return newArray
         }
-        if(this.state.salary == 'fd') {
+        if(this.state.salary === 'fd') {
             newArray = []
             pgArray = []
             sgArray = []
@@ -438,123 +442,206 @@ class DataNavBar extends React.Component {
         let kArray
         let dstArray
         let player_obj
-            player_obj= {
-                'players':this.state.nfl_player_data
+        player_obj= {
+            'players':this.state.nfl_player_data
+        }
+
+        if (this.state.salary === 'dk'){
+            newArray = []
+            qbArray = []
+            rbArray = []
+            wrArray = []
+            teArray = []
+            kArray = []
+            dstArray = []
+
+            for(let i = 0; i<keyList.length; i++){
+                if(keyList[i] === 'qb'){
+                    qbArray = (player_obj.players.filter(function (el){
+                        if (el.Name !== undefined){
+                            try{
+                                return el.DraftKingsPosition === 'QB' || el.DraftKingsPosition === 'qb' || el.DraftKingsPosition.includes('QB') || el.DraftKingsPosition.includes('qb');
+                            }
+                            catch (ex){
+                                console.log(ex)
+                            }
+                        }
+                    }));
+                } if(keyList[i] === 'rb'){
+                    rbArray = (player_obj.players.filter(function (el){
+                        if(el.Name !== undefined){
+                            try{
+                                return el.DraftKingsPosition === 'RB' || el.DraftKingsPosition === 'rb' || el.DraftKingsPosition.includes('RB') || el.DraftKingsPosition.includes('rb');
+                            }
+                            catch (ex){
+                                console.log(ex)
+                            }
+                        }
+                    }));
+                } if(keyList[i] === 'wr'){
+                    wrArray = (player_obj.players.filter(function (el){
+                        if(el.Name !== undefined){
+                            try{
+                                return el.DraftKingsPosition === 'WR' || el.DraftKingsPosition === 'wr' || el.DraftKingsPosition.includes('WR') || el.DraftKingsPosition.includes('wr');
+                            }
+                            catch (ex){
+                                console.log(ex)
+                            }
+                        }
+                    }));
+                } if(keyList[i] === 'te'){
+                    teArray = (player_obj.players.filter(function (el){
+                        if(el.Name !== undefined){
+                            try{
+                                return el.DraftKingsPosition === 'TE' || el.DraftKingsPosition === 'te' || el.DraftKingsPosition.includes('TE') || el.DraftKingsPosition.includes('te');
+                            }
+                            catch (ex){
+                                console.log(ex)
+                            }
+                        }
+                    }));
+                } if(keyList[i] === 'k'){
+                    kArray = (player_obj.players.filter(function (el){
+                        if(el.Name !== undefined){
+                            try{
+                                return el.DraftKingsPosition === 'K' || el.DraftKingsPosition === 'k' || el.DraftKingsPosition.includes('K') || el.DraftKingsPosition.includes('k');
+                            }
+                            catch (ex){
+                                console.log(ex)
+                            }
+                        }
+                    }));
+                } if(keyList[i] === 'dst'){
+                    dstArray = (player_obj.players.filter(function (el){
+                        if(el.Name !== undefined){
+                            try{
+                                return el.DraftKingsPosition === 'DST' || el.DraftKingsPosition === 'dst' || el.DraftKingsPosition.includes('DST') || el.DraftKingsPosition.includes('dst');
+                            }
+                            catch (ex){
+                                console.log(ex)
+                            }
+                        }
+                    }));
+                }
             }
-            if (this.state.salary == 'dk'){
-                newArray = []
-                qbArray = []
-                rbArray = []
-                wrArray = []
-                teArray = []
-                kArray = []
-                dstArray = []
 
 
-                for(let i = 0; i<keyList.length; i++){
-                    if(keyList[i] === 'qb'){
-                        qbArray = (player_obj.players.filter(function (el){
-                            return el.DraftKingsPosition === 'QB' || el.DraftKingsPosition === 'qb' || el.DraftKingsPosition.includes('QB') || el.DraftKingsPosition.includes('qb');
-                        }));
-                    } if(keyList[i] === 'rb'){
-                        rbArray = (player_obj.players.filter(function (el){
-                            return el.DraftKingsPosition === 'RB' || el.DraftKingsPosition === 'rb' || el.DraftKingsPosition.includes('RB') || el.DraftKingsPosition.includes('rb');
-                        }));
-                    } if(keyList[i] === 'wr'){
-                        wrArray = (player_obj.players.filter(function (el){
-                            return el.DraftKingsPosition === 'WR' || el.DraftKingsPosition === 'wr' || el.DraftKingsPosition.includes('WR') || el.DraftKingsPosition.includes('wr');
-                        }));
-                    } if(keyList[i] === 'te'){
-                        teArray = (player_obj.players.filter(function (el){
-                            return el.DraftKingsPosition === 'TE' || el.DraftKingsPosition === 'te' || el.DraftKingsPosition.includes('TE') || el.DraftKingsPosition.includes('te');
-                        }));
-                    } if(keyList[i] === 'k'){
-                        kArray = (player_obj.players.filter(function (el){
-                            return el.DraftKingsPosition === 'K' || el.DraftKingsPosition === 'k' || el.DraftKingsPosition.includes('K') || el.DraftKingsPosition.includes('k');
-                        }));
-                    } if(keyList[i] === 'dst'){
-                        dstArray = (player_obj.players.filter(function (el){
-                            return el.DraftKingsPosition === 'DST' || el.DraftKingsPosition === 'dst' || el.DraftKingsPosition.includes('DST') || el.DraftKingsPosition.includes('dst');
-                        }));
-                    }
-                }
-
-                newArray = newArray.concat(qbArray, rbArray,wrArray, teArray, kArray, dstArray);
-                if(keyList.length <=0){
-                    newArray = this.state.players_data
-                }
-
-                newArray = new Set(newArray)
-                newArray = Array.from(newArray)
-
-                return newArray
+            newArray = newArray.concat(qbArray, rbArray,wrArray, teArray, kArray, dstArray);
+            if(keyList.length <=0){
+                newArray = this.state.players_data
             }
-            if(this.state.salary == 'fd'){
-                newArray = []
-                qbArray = []
-                rbArray = []
-                wrArray = []
-                teArray = []
-                kArray = []
-                dstArray = []
-                for(let i = 0; i<keyList.length; i++){
-                    if(keyList[i] === 'qb'){
-                        qbArray = (player_obj.players.filter(function (el){
-                            return el.FanDuelPosition === 'QB' || el.FanDuelPosition === 'qb' || el.FanDuelPosition.includes('QB') || el.FanDuelPosition.includes('qb');
-                        }));
-                    } if(keyList[i] === 'rb'){
-                        rbArray = (player_obj.players.filter(function (el){
-                            return el.FanDuelPosition === 'RB' || el.FanDuelPosition === 'rb' || el.FanDuelPosition.includes('RB') || el.FanDuelPosition.includes('rb');
-                        }));
-                    } if(keyList[i] === 'wr'){
-                        wrArray = (player_obj.players.filter(function (el){
-                            return el.FanDuelPosition === 'WR' || el.FanDuelPosition === 'wr' || el.FanDuelPosition.includes('WR') || el.FanDuelPosition.includes('wr');
-                        }));
-                    } if(keyList[i] === 'te'){
-                        teArray = (player_obj.players.filter(function (el){
-                            return el.FanDuelPosition === 'TE' || el.FanDuelPosition === 'te' || el.FanDuelPosition.includes('TE') || el.FanDuelPosition.includes('te');
-                        }));
-                    } if(keyList[i] === 'k'){
-                        kArray = (player_obj.players.filter(function (el){
-                            return el.FanDuelPosition === 'K' || el.FanDuelPosition === 'k' || el.FanDuelPosition.includes('K') || el.FanDuelPosition.includes('k');
-                        }));
-                    } if(keyList[i] === 'dst'){
-                        dstArray = (player_obj.players.filter(function (el){
-                            return el.FanDuelPosition === 'DST' || el.FanDuelPosition === 'dst' || el.FanDuelPosition.includes('DST') || el.FanDuelPosition.includes('dst');
-                        }));
-                    }
-                }
 
-                newArray = newArray.concat(qbArray, rbArray,wrArray, teArray, kArray, dstArray);
-                if(keyList.length <=0){
-                    newArray = this.state.players_data
-                }
+            newArray = new Set(newArray)
+            newArray = Array.from(newArray)
 
-                newArray = new Set(newArray)
-                newArray = Array.from(newArray)
-                return newArray
+            return newArray
+        }
+        if(this.state.salary === 'fd'){
+            newArray = []
+            qbArray = []
+            rbArray = []
+            wrArray = []
+            teArray = []
+            kArray = []
+            dstArray = []
+            for(let i = 0; i<keyList.length; i++){
+
+                if(keyList[i] === 'qb'){
+                    qbArray = (player_obj.players.filter(function (el){
+                        if(el.Name !== undefined){
+                            try{
+                                return el.FanDuelPosition === 'QB' || el.FanDuelPosition === 'qb' || el.FanDuelPosition.includes('QB') || el.FanDuelPosition.includes('qb');
+                            }
+                            catch (ex){
+                                console.log(ex)
+                            }
+                        }
+                    }));
+                } if(keyList[i] === 'rb'){
+                    rbArray = (player_obj.players.filter(function (el){
+                        if(el.Name !== undefined){
+                            try{
+                                return el.FanDuelPosition === 'RB' || el.FanDuelPosition === 'rb' || el.FanDuelPosition.includes('RB') || el.FanDuelPosition.includes('rb');
+                            }
+                            catch (ex){
+                                console.log(ex)
+                            }
+                        }
+                    }));
+                } if(keyList[i] === 'wr'){
+                    wrArray = (player_obj.players.filter(function (el){
+                        if(el.Name !== undefined){
+                            try{
+                                return el.FanDuelPosition === 'WR' || el.FanDuelPosition === 'wr' || el.FanDuelPosition.includes('WR') || el.FanDuelPosition.includes('wr');
+                            }
+                            catch (ex){
+                                console.log(ex)
+                            }
+                        }
+                    }));
+                } if(keyList[i] === 'te'){
+                    teArray = (player_obj.players.filter(function (el){
+                        if(el.Name !== undefined){
+                            try{
+                                return el.FanDuelPosition === 'TE' || el.FanDuelPosition === 'te' || el.FanDuelPosition.includes('TE') || el.FanDuelPosition.includes('te');
+                            }
+                            catch (ex){
+                                console.log(ex)
+                            }
+                        }
+                    }));
+                } if(keyList[i] === 'k'){
+                    kArray = (player_obj.players.filter(function (el){
+                        if(el.Name !== undefined){
+                            try{
+                                return el.FanDuelPosition === 'K' || el.FanDuelPosition === 'k' || el.FanDuelPosition.includes('K') || el.FanDuelPosition.includes('k');
+                            }
+                            catch(ex){
+                                console.log(ex)
+                            }
+                        }
+                    }));
+                } if(keyList[i] === 'dst'){
+                    dstArray = (player_obj.players.filter(function (el){
+                        if(el.Name !== undefined){
+                            try{
+                                return el.FanDuelPosition === 'DST' || el.FanDuelPosition === 'dst' || el.FanDuelPosition.includes('DST') || el.FanDuelPosition.includes('dst');
+                            }
+                            catch(ex){
+                                console.log(ex)
+                            }
+                        }
+                    }));
+                }
             }
+
+            newArray = newArray.concat(qbArray, rbArray,wrArray, teArray, kArray, dstArray);
+            if(keyList.length <=0){
+                newArray = this.state.players_data
+            }
+
+            newArray = new Set(newArray)
+            newArray = Array.from(newArray)
+            return newArray
+        }
 
     }
 
     pgFilters(){
         if(pgActive){
             filter_list=this.removeArray(filter_list, 'pg');
-            // filter_list.push('pg')
         }
         if(!pgActive) {
             filter_list.push('pg')
-            // filter_list=this.removeArray(filter_list, 'pg');
         }
         pgActive = !pgActive
         let filter_data = this.filterObj(filter_list)
         if(filter_data.length > 0){
-
             this.setState({filter_player:filter_data,
                 excelDataList: filter_data,})
         }
         else{
-            this.setState({filter_player:this.state.players_data,
+            this.setState({filter_player:[],
                 excelDataList: this.state.players_data,})
         }
         this.setState({
@@ -568,11 +655,9 @@ class DataNavBar extends React.Component {
     qbFilters = () =>{
         if(qbActive){
             nflFilter_list=this.removeArray(nflFilter_list, 'qb');
-            // nflFilter_list.push('qb')
         }
         if(!qbActive) {
             nflFilter_list.push('qb')
-            // nflFilter_list=this.removeArray(nflFilter_list, 'qb');
         }
         qbActive = !qbActive
         let filter_data = this.nflFilterObj(nflFilter_list)
@@ -581,7 +666,7 @@ class DataNavBar extends React.Component {
                 excelDataList: filter_data,})
         }
         else{
-            this.setState({filter_player:this.state.nfl_player_data,
+            this.setState({filter_player:[],
                 excelDataList: this.state.nfl_player_data,})
         }
         this.setState({
@@ -595,11 +680,9 @@ class DataNavBar extends React.Component {
     rbFilters = () =>{
         if(rbActive){
             nflFilter_list=this.removeArray(nflFilter_list, 'rb');
-            // nflFilter_list.push('rb')
         }
         if(!rbActive) {
             nflFilter_list.push('rb')
-            // nflFilter_list=this.removeArray(nflFilter_list, 'rb');
         }
         rbActive = !rbActive
         let filter_data = this.nflFilterObj(nflFilter_list)
@@ -608,7 +691,7 @@ class DataNavBar extends React.Component {
                 excelDataList: filter_data,})
         }
         else{
-            this.setState({filter_player:this.state.nfl_player_data,
+            this.setState({filter_player:[],
                 excelDataList: this.state.nfl_player_data,})
         }
         this.setState({
@@ -621,11 +704,9 @@ class DataNavBar extends React.Component {
     wrFilters = () =>{
         if(wrActive){
             nflFilter_list=this.removeArray(nflFilter_list, 'wr');
-            // nflFilter_list.push('wr')
         }
         if(!wrActive) {
             nflFilter_list.push('wr')
-            // nflFilter_list=this.removeArray(nflFilter_list, 'wr');
         }
         wrActive = !wrActive
         let filter_data = this.nflFilterObj(nflFilter_list)
@@ -634,7 +715,7 @@ class DataNavBar extends React.Component {
                 excelDataList: filter_data,})
         }
         else{
-            this.setState({filter_player:this.state.nfl_player_data,
+            this.setState({filter_player:[],
                 excelDataList: this.state.nfl_player_data,})
         }
         this.setState({
@@ -646,13 +727,10 @@ class DataNavBar extends React.Component {
 
     teFilters = () =>{
         if(teActive){
-            // nflFilter_list.push('te')
             nflFilter_list=this.removeArray(nflFilter_list, 'te');
-
         }
         if(!teActive) {
             nflFilter_list.push('te')
-            // nflFilter_list=this.removeArray(nflFilter_list, 'te');
         }
         teActive = !teActive
         let filter_data = this.nflFilterObj(nflFilter_list)
@@ -661,7 +739,7 @@ class DataNavBar extends React.Component {
                 excelDataList: filter_data,})
         }
         else{
-            this.setState({filter_player:this.state.nfl_player_data,
+            this.setState({filter_player:[],
                 excelDataList: this.state.nfl_player_data,})
         }
         this.setState({
@@ -674,11 +752,9 @@ class DataNavBar extends React.Component {
     kFilters = () =>{
         if(kActive){
             nflFilter_list=this.removeArray(nflFilter_list, 'k');
-            // nflFilter_list.push('k')
         }
         if(!kActive) {
             nflFilter_list.push('k')
-            // nflFilter_list=this.removeArray(nflFilter_list, 'k');
         }
         kActive = !kActive
         let filter_data = this.nflFilterObj(nflFilter_list)
@@ -687,7 +763,7 @@ class DataNavBar extends React.Component {
                 excelDataList: filter_data,})
         }
         else{
-            this.setState({filter_player:this.state.nfl_player_data,
+            this.setState({filter_player:[],
                 excelDataList: this.state.nfl_player_data,})
         }
         this.setState({
@@ -699,13 +775,10 @@ class DataNavBar extends React.Component {
 
     dstFilters = () =>{
         if(dstActive){
-            // nflFilter_list.push('dst')
             nflFilter_list=this.removeArray(nflFilter_list, 'dst');
-
         }
         if(!dstActive) {
             nflFilter_list.push('dst')
-            // nflFilter_list=this.removeArray(nflFilter_list, 'dst');
         }
         dstActive = !dstActive
         let filter_data = this.nflFilterObj(nflFilter_list)
@@ -714,7 +787,7 @@ class DataNavBar extends React.Component {
                 excelDataList: filter_data,})
         }
         else{
-            this.setState({filter_player:this.state.nfl_player_data,
+            this.setState({filter_player:[],
                 excelDataList: this.state.nfl_player_data,})
         }
         this.setState({
@@ -727,11 +800,9 @@ class DataNavBar extends React.Component {
     sgFilters(){
         if(sgActive){
             filter_list=this.removeArray(filter_list, 'sg');
-            // filter_list.push('sg')
         }
         if(!sgActive) {
             filter_list.push('sg')
-            // filter_list=this.removeArray(filter_list, 'sg');
         }
         sgActive = !sgActive
         let filter_data = this.filterObj(filter_list)
@@ -740,7 +811,7 @@ class DataNavBar extends React.Component {
                 excelDataList: filter_data,})
         }
         else{
-            this.setState({filter_player:this.state.players_data,
+            this.setState({filter_player:[],
                 excelDataList: this.state.players_data,})
         }
         this.setState({
@@ -753,11 +824,9 @@ class DataNavBar extends React.Component {
     sfFilters(){
         if(sfActive){
             filter_list=this.removeArray(filter_list, 'sf');
-            // filter_list.push('sf')
         }
         if(!sfActive) {
             filter_list.push('sf')
-            // filter_list=this.removeArray(filter_list, 'sf');
         }
         sfActive = !sfActive
         let filter_data = this.filterObj(filter_list)
@@ -766,7 +835,7 @@ class DataNavBar extends React.Component {
                 excelDataList: filter_data,})
         }
         else{
-            this.setState({filter_player:this.state.players_data,
+            this.setState({filter_player:[],
                 excelDataList: this.state.players_data,})
         }
         this.setState({
@@ -779,11 +848,9 @@ class DataNavBar extends React.Component {
     pfFilters(){
         if(pfActive){
             filter_list=this.removeArray(filter_list, 'pf');
-            // filter_list.push('pf')
         }
         if(!pfActive) {
             filter_list.push('pf')
-            // filter_list=this.removeArray(filter_list, 'pf');
         }
         pfActive = !pfActive
         let filter_data = this.filterObj(filter_list)
@@ -792,7 +859,7 @@ class DataNavBar extends React.Component {
                 excelDataList: filter_data,})
         }
         else{
-            this.setState({filter_player:this.state.players_data,
+            this.setState({filter_player:[],
                 excelDataList: this.state.players_data,})
         }
         this.setState({
@@ -806,11 +873,9 @@ class DataNavBar extends React.Component {
     cFilters(){
         if(cActive){
             filter_list=this.removeArray(filter_list, 'c');
-            // filter_list.push('c')
         }
         if(!cActive) {
             filter_list.push('c')
-            // filter_list=this.removeArray(filter_list, 'c');
         }
         cActive = !cActive
         let filter_data = this.filterObj(filter_list)
@@ -819,7 +884,7 @@ class DataNavBar extends React.Component {
                 excelDataList: filter_data,})
         }
         else{
-            this.setState({filter_player:this.state.players_data,
+            this.setState({filter_player:[],
                 excelDataList: this.state.players_data,})
         }
         this.setState({
@@ -885,14 +950,14 @@ class DataNavBar extends React.Component {
 
     allClearFilter(){
         if(this.state.nflAction){
-            pgActive=false
-            sgActive=false
-            sfActive=false
-            pfActive=false
-            cActive=false
+            qbActive=false
+            rbActive=false
+            wrActive=false
+            teActive=false
+            kActive=false
+            dstActive=false
             nflFilter_list = []
             this.setState({filter_player:[],
-                // excelDataList: [],
                 excelDataList: this.state.nfl_player_data,
                 allBtn:false,
                 allClearBtn:true,
@@ -909,16 +974,14 @@ class DataNavBar extends React.Component {
                 dstBtn:false,})
         }
         else{
+
+            pgActive=false
+            sgActive=false
+            sfActive=false
+            pfActive=false
+            cActive=false
             filter_list = []
-            qbActive=false
-            rbActive=false
-            wrActive=false
-            teActive=false
-            kActive=false
-            dstActive=false
-            console.log("Players_Data", this.state.players_data)
             this.setState({filter_player:[],
-                // excelDataList: [],
                 excelDataList: this.state.players_data,
                 allBtn:false,
                 allClearBtn:true,
@@ -964,15 +1027,15 @@ class DataNavBar extends React.Component {
     };
 
     dkSalary = event => {
-        this.setState({salary:'dk'}, () => console.log(this.state.salary))
+        this.setState({salary:'dk'})
     }
+
     fdSalary = event => {
-        this.setState({salary:'fd'}, () => console.log(this.state.salary))
+        this.setState({salary:'fd'})
     }
 
     handlePlayerStats = (playerStats) =>{
-        console.log(playerStats)
-        console.log(this.state.is_nbaNfl)
+
         this.setState({spinner: true})
         let payload = {
                 data:{playerStats: playerStats, user: {id: localStorage.getItem('username')}, sportView: this.state.is_nbaNfl}
@@ -983,9 +1046,8 @@ class DataNavBar extends React.Component {
                 .then((res) => {
                     let response_data = JSON.parse(res.request.response)
                     if (res.status === 200 ) {
-                        // console.log('+++++----++++', response_data.body)
+                        toast.success("⭐ Data Saved Successfully...");
                     } else if (res.request.status === 401) {
-                        // console.log("login")
                         this.props.history.push('/signin')
                         this.setState({loader:false,spinner: false})
                     } else {
@@ -1000,6 +1062,7 @@ class DataNavBar extends React.Component {
         this.setState({saveData:false})
         this.setState({spinner: false})
     }
+
     handleSimulations = () =>{
         toast.success("⭐ Simulation Started...");
         this.setState({simulationSpinner: true})

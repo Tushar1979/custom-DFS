@@ -17,10 +17,6 @@ export default function ExportToExcel ({ nba_player_data, nfl_player_data, fileN
     })
 
     function xyz(value) {
-        // if (typeof value == "string"){
-        //     return value
-        // }
-        // else
         if(typeof value === "undefined" || typeof value === undefined){
             return 0
         }
@@ -33,7 +29,6 @@ export default function ExportToExcel ({ nba_player_data, nfl_player_data, fileN
         "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8";
     const fileExtension = ".xlsx";
     const exportToCSV = (apiData, fileName, dataOf, salaryType) => { apiData=JSON.parse(localStorage.getItem('exlData'))
-        console.log(apiData)
         if(dataOf === 'NFL' && salaryType === 'dk') {
             listData = []
             for (let i = 0; i < apiData.length; i++) {
@@ -59,9 +54,7 @@ export default function ExportToExcel ({ nba_player_data, nfl_player_data, fileN
                     'Ceiling': xyz(apiData[i].ceiling) || xyz(apiData[i].DK_Ceil),
                     'Floor': xyz(apiData[i].floor) || xyz(apiData[i].DK_Floor),
                     'ValueRating': xyz(apiData[i].fpts$) || xyz(apiData[i].DK_Value)
-
                 })
-
             }
         }
         if(dataOf === 'NFL' && salaryType === 'fd') {
@@ -90,14 +83,10 @@ export default function ExportToExcel ({ nba_player_data, nfl_player_data, fileN
                     'Floor': xyz(apiData[i].fd_floor) || xyz(apiData[i].FD_Floor),
                     'ValueRating': xyz(apiData[i].fd_fpts$) || xyz(apiData[i].FD_Value)
                 })
-
             }
-
-
         }
         if(dataOf === 'NBA' && salaryType === 'dk') {
             listData = []
-            console.error("ApiData",apiData);
             for (let i = 0; i < apiData.length; i++) {
                 listData.push({
                     "Name": xyz(apiData[i].name) || xyz(apiData[i].Name),
@@ -105,7 +94,7 @@ export default function ExportToExcel ({ nba_player_data, nfl_player_data, fileN
                     'Team': xyz(apiData[i].team) || xyz(apiData[i].Team),
                     'Opponent': xyz(apiData[i].oop) || xyz(apiData[i].Opponent),
                     'Salary': xyz(apiData[i].salary) ||  xyz(apiData[i].DraftKingsSalary),
-                    'Minutes': xyz(apiData[i].minus) || xyz(apiData[i].PlusMinus),
+                    'Minutes': xyz(apiData[i].minus) || xyz(apiData[i].Minutes),
                     'Points': xyz(apiData[i].points) || xyz(apiData[i].Points),
                     'Rebounds': xyz(apiData[i].rebound) || xyz(apiData[i].Rebounds),
                     'Assists': xyz(apiData[i].assists) || xyz(apiData[i].Assists),
@@ -128,8 +117,8 @@ export default function ExportToExcel ({ nba_player_data, nfl_player_data, fileN
                     'Position': xyz(apiData[i].fdPos) || xyz(apiData[i].FanDuelPosition),
                     'Team': xyz(apiData[i].team) || xyz(apiData[i].Team),
                     'Opponent': xyz(apiData[i].oop) || xyz(apiData[i].Opponent),
-                    'Salary': xyz(apiData[i].fdSalary) || apiData[i].FanDuelSalary,
-                    'Minutes': xyz(apiData[i].minus) || xyz(apiData[i].PlusMinus),
+                    'Salary': xyz(apiData[i].fdSalary) || xyz(apiData[i].FanDuelSalary),
+                    'Minutes': xyz(apiData[i].minus) || xyz(apiData[i].Minutes),
                     'Points': xyz(apiData[i].points) || xyz(apiData[i].Points),
                     'Rebounds': xyz(apiData[i].rebound) || xyz(apiData[i].Rebounds),
                     'Assists': xyz(apiData[i].assists) || xyz(apiData[i].Assists),
@@ -137,9 +126,9 @@ export default function ExportToExcel ({ nba_player_data, nfl_player_data, fileN
                     'BlockedShots': xyz(apiData[i].blockedShots) || xyz(apiData[i].BlockedShots),
                     'Turnovers': xyz(apiData[i].to) || xyz(apiData[i].Turnovers),
                     'FantasyPoints': xyz(apiData[i].fd_fantasyPoints) || xyz(apiData[i].FantasyPointsFantasyDraft),
-                    'Ceiling': xyz(apiData[i].fd_ceiling) || apiData[i].FD_Ceil,
-                    'Floor': xyz(apiData[i].fd_floor) || apiData[i].FD_Floor,
-                    'ValueRating': xyz(apiData[i].fd_fpts$) || apiData[i].FD_Value
+                    'Ceiling': xyz(apiData[i].fd_ceiling) || xyz(apiData[i].FD_Ceil),
+                    'Floor': xyz(apiData[i].fd_floor) || xyz(apiData[i].FD_Floor),
+                    'ValueRating': xyz(apiData[i].fd_fpts$) || xyz(apiData[i].FD_Value),
                 })
 
             }

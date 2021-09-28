@@ -11,7 +11,6 @@ class Home extends React.Component {
             user:localStorage.getItem('username')
         }
         this.nbaRequest = this.nbaRequest.bind(this);
-        // console.log(localStorage.getItem('username'), "@@@@@@@@@@@@@@@@@@")
 
     }
     componentDidMount() {

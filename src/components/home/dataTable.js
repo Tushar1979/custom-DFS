@@ -166,7 +166,6 @@ export default function EnhancedTable(props) {
     const [updateGameList, setUpdateGameList] = React.useState([]);
     const [updateNflGameList, setUpdateNflGameList] = React.useState([]);
     const [nflList, setNflList] = React.useState([]);
-    // const [saveData, setSaveData] = React.useState(props.saveDataBtn);
     const [isNbaNfl, setIsNbaNfl] = React.useState(props.is_nbaNfl);
 
     let user_data = props.data
@@ -512,21 +511,20 @@ export default function EnhancedTable(props) {
             is_exist = false
         }
     }
+
     if(saveData){
         if(props.is_nbaNfl === 'NFL') {
             props.onSavePlayerStats(nflList)
         }
-        props.onSavePlayerStats(updateGameList)
+        else{
+            props.onSavePlayerStats(updateGameList)
+        }
     }
-    console.log('New Array', props.new_array)
-    console.log('Update Data', props.update_data)
-    console.log('Nfl Player Data', props.nfl_player_data)
-    console.log('Data', props.data)
+
     if (props.nfl_player_data.length > 0) {
         update_data = true
         nft_header = true
         user_data = props.nfl_player_data
-        // rows = []
         headCells = [
             {id: 'name', numeric: false, disablePadding: true, label: 'Name'},
             {id: 'pos', numeric: false, disablePadding: false, label: 'pos'},
@@ -581,9 +579,6 @@ export default function EnhancedTable(props) {
             {id: 'fpts$', numeric: false, disablePadding: false, label: 'fpts/$1'},
         ]
     }
-    // else{
-    //
-    // }
     if (props.new_array != null) {
         update_data = true
         user_data = props.new_array
@@ -597,11 +592,27 @@ export default function EnhancedTable(props) {
     const sleep = (milliseconds) => {
         return new Promise(resolve => setTimeout(resolve, milliseconds))
     }
+
+    const classes = useStyles();
+    const [order, setOrder] = React.useState('asc');
+    const [orderBy, setOrderBy] = React.useState('salary');
+    const [selected, setSelected] = React.useState([]);
+    const [page, setPage] = React.useState(0);
+    const [dense, setDense] = React.useState(false);
+    const [rowsPerPage, setRowsPerPage] = React.useState(10);
+
+    const changePage =(rowsPP, Page)=> {
+        let pageno=((rows.length-1)/rowsPP);
+        if(Page > pageno)
+        {
+            setPage(parseInt(pageno))
+        }
+    }
+
     if (update_data) {
         rows = []
         for (let data = 0; data < user_data.length; data++) {
             if((user_data[data].Name !== undefined)){
-
                 rows.push(
                     {
                         id: user_data[data].Id,
@@ -612,7 +623,7 @@ export default function EnhancedTable(props) {
                         oop: user_data[data].Opponent,
                         salary: user_data[data].DraftKingsSalary,
                         fdSalary: user_data[data].FanDuelSalary,
-                        minus: user_data[data].PlusMinus,
+                        minus: user_data[data].Minutes,
                         points: user_data[data].Points,
                         rebound: user_data[data].Rebounds,
                         assists: user_data[data].Assists,
@@ -647,9 +658,9 @@ export default function EnhancedTable(props) {
             }
             update_data = false
         }
-        console.log(rows)
-        // props.generateExcelData(rows)
-
+        if(rows.length>0) {
+            changePage(rowsPerPage,page)
+        }
         if(loader) {
             sleep(3000).then(r => {
                 setLoader(false);
@@ -657,13 +668,7 @@ export default function EnhancedTable(props) {
         }
     }
 
-    const classes = useStyles();
-    const [order, setOrder] = React.useState('asc');
-    const [orderBy, setOrderBy] = React.useState('salary');
-    const [selected, setSelected] = React.useState([]);
-    const [page, setPage] = React.useState(0);
-    const [dense, setDense] = React.useState(false);
-    const [rowsPerPage, setRowsPerPage] = React.useState(10);
+
 
     const handleRequestSort = (event, property) => {
         const isAsc = orderBy === property && order === 'asc';
@@ -713,7 +718,7 @@ export default function EnhancedTable(props) {
     };
 
     const isSelected = (name) => selected.indexOf(name) !== -1;
-    // console.log(rows,"################")
+
 
     return (
         <>
@@ -740,7 +745,6 @@ export default function EnhancedTable(props) {
                                     onRequestSort={handleRequestSort}
                                     rowCount={rows.length}
                                     salType = { props.salary}
-                                        // data_props={user_data}
                                 />
                                 <TableBody>
                                     {stableSort(rows, getComparator(order, orderBy))
