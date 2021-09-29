@@ -60,6 +60,9 @@ function EnhancedTableHead(props) {
         if(property === 'salary' && props.salType === 'fd'){
             property = 'fdSalary'
         }
+        else if(property === 'pos' && props.salType === 'fd') {
+            property='fdPos';
+        }
         onRequestSort(event, property);
     };
 
@@ -546,7 +549,8 @@ export default function EnhancedTable(props) {
             {id: 'fieldgoalsmade', numeric: false, disablePadding: true, label: 'fgm'},
             {id: 'fieldgoalsattempted', numeric: false, disablePadding: true, label: 'fga'},
 
-            {id: 'fpts', numeric: false, disablePadding: false, label: 'fpts'},
+            // {id: 'fpts', numeric: false, disablePadding: false, label: 'fpts'},
+            {id: 'nfl_dk_fantasyPoints', numeric: false, disablePadding: false, label: 'fpts'},
             {id: 'ceiling', numeric: false, disablePadding: false, label: 'ceiling'},
             {id: 'floor', numeric: false, disablePadding: false, label: 'floor'},
             {id: 'fpts$', numeric: false, disablePadding: false, label: 'fpts/$1'},
@@ -573,7 +577,8 @@ export default function EnhancedTable(props) {
             {id: 'blockedShots', numeric: false, disablePadding: false, label: 'blk'},
             {id: 'to', numeric: false, disablePadding: false, label: 'to'},
 
-            {id: 'fpts', numeric: false, disablePadding: false, label: 'fpts'},
+            // {id: 'fpts', numeric: false, disablePadding: false, label: 'fpts'},
+            {id: 'fantasyPoints', numeric: false, disablePadding: false, label: 'fpts'},
             {id: 'ceiling', numeric: false, disablePadding: false, label: 'ceiling'},
             {id: 'floor', numeric: false, disablePadding: false, label: 'floor'},
             {id: 'fpts$', numeric: false, disablePadding: false, label: 'fpts/$1'},

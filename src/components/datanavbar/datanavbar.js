@@ -232,6 +232,7 @@ class DataNavBar extends React.Component {
                             dstActive = true
                         }
                     }
+                    this.allSelectFilter()
                 } else if (res.request.status === 401) {
                     this.props.history.push('/signin')
                     this.setState({loader:false})
@@ -302,6 +303,7 @@ class DataNavBar extends React.Component {
                         filter_list = ['pg', 'sg', 'sf', 'pf', 'c']
                         nflFilter_list = ['qb', 'rb', 'wr', 'te', 'k', 'dst']
                     }
+                    this.allSelectFilter()
                 } else if (res.request.status === 401) {
                     this.props.history.push('/signin')
                     this.setState({loader:false})
