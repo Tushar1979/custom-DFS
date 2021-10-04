@@ -120,6 +120,7 @@ const useToolbarStyles = makeStyles((theme) => ({
     root: {
         paddingLeft: theme.spacing(2),
         paddingRight: theme.spacing(1),
+        border:"1px solid black",
     },
     highlight:
         theme.palette.type === 'light'
@@ -147,6 +148,7 @@ const useStyles = makeStyles((theme) => ({
     },
     table: {
         minWidth: 750,
+
     },
     visuallyHidden: {
         border: 0,
@@ -159,6 +161,9 @@ const useStyles = makeStyles((theme) => ({
         top: 20,
         width: 1,
     },
+    border:{
+        borderRight:"1px solid #DCDCDC",
+    }
 }));
 
 
@@ -768,7 +773,7 @@ export default function EnhancedTable(props) {
                                                     key={row.name}
                                                     selected={isItemSelected}
                                                 >
-                                                    <TableCell id={labelId} scope="row" padding="none">
+                                                    <TableCell id={labelId} scope="row" padding="none" className={classes.border}>
 
                                                         {row.name}
                                                     </TableCell>
