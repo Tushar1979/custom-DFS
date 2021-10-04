@@ -76,7 +76,7 @@ function EnhancedTableHead(props) {
                     <TableCell colSpan={3}>Rushing</TableCell>
                     <TableCell colSpan={3}>Receiving</TableCell>
                     <TableCell colSpan={2}>Kicking</TableCell>
-                    <TableCell colSpan={4}>Simulation Result</TableCell>
+                    <TableCell colSpan={4}>Simulation Results</TableCell>
                 </TableRow>
                 : null}
             <TableRow className={nft_header ? "middle_table_head nfl_head" : "middle_table_head" }>
@@ -162,8 +162,9 @@ const useStyles = makeStyles((theme) => ({
         width: 1,
     },
     border:{
-        borderRight:"1px solid #DCDCDC",
-    }
+        borderRight:"1px solid #D8D8D8"
+    },
+
 }));
 
 
@@ -558,7 +559,7 @@ export default function EnhancedTable(props) {
             {id: 'nfl_dk_fantasyPoints', numeric: false, disablePadding: false, label: 'fpts'},
             {id: 'ceiling', numeric: false, disablePadding: false, label: 'ceiling'},
             {id: 'floor', numeric: false, disablePadding: false, label: 'floor'},
-            {id: 'fpts$', numeric: false, disablePadding: false, label: 'fpts/$1'},
+            {id: 'fpts$', numeric: false, disablePadding: false, label: 'fpts/$1K'},
 
         ];
     }
@@ -586,7 +587,7 @@ export default function EnhancedTable(props) {
             {id: 'fantasyPoints', numeric: false, disablePadding: false, label: 'fpts'},
             {id: 'ceiling', numeric: false, disablePadding: false, label: 'ceiling'},
             {id: 'floor', numeric: false, disablePadding: false, label: 'floor'},
-            {id: 'fpts$', numeric: false, disablePadding: false, label: 'fpts/$1'},
+            {id: 'fpts$', numeric: false, disablePadding: false, label: 'fpts/$1K'},
         ]
     }
     if (props.new_array != null) {
@@ -778,29 +779,29 @@ export default function EnhancedTable(props) {
                                                         {row.name}
                                                     </TableCell>
                                                     {props.salary === 'dk' ?
-                                                        <TableCell align="center">{row.pos}  </TableCell> :
-                                                        <TableCell align="center">{row.fdPos}</TableCell>
+                                                        <TableCell align="center" className={classes.border}>{row.pos}  </TableCell> :
+                                                        <TableCell align="center" className={classes.border}>{row.fdPos}</TableCell>
                                                     }
 
-                                                    <TableCell align="center">
+                                                    <TableCell align="center" className={classes.border}>
                                                         {nft_header ? <div className={`${row.team} nfl`}></div> :
                                                             <div className={`${row.team}`}></div>
                                                         }
                                                         {row.team}
                                                     </TableCell>
-                                                    <TableCell align="center">
+                                                    <TableCell align="center" className={classes.border}>
                                                         {nft_header ? <div className={`${row.oop} nfl`}></div> :
                                                             <div className={`${row.oop}`}></div>
                                                         }
                                                         {row.oop} </TableCell>
                                                     {props.salary === 'dk' ?
-                                                        <TableCell align="center">${row.salary} </TableCell> :
-                                                        <TableCell align="center">${row.fdSalary}  </TableCell>
+                                                        <TableCell align="center" className={classes.border}>${row.salary} </TableCell> :
+                                                        <TableCell align="center" className={classes.border}>${row.fdSalary}  </TableCell>
                                                     }
 
                                                     {nft_header ?
                                                         (props.inputActive ? <>
-                                                                    <TableCell align="center">
+                                                                    <TableCell align="center" className={classes.border}>
                                                                         <TextField
                                                                             type="number"
                                                                             id={rows.id}
@@ -816,7 +817,7 @@ export default function EnhancedTable(props) {
                                                                             onChange={handleChangeCompletion}
                                                                         />
                                                                     </TableCell>
-                                                                    <TableCell align="center">
+                                                                    <TableCell align="center" className={classes.border}>
                                                                         <TextField
                                                                             type="number"
                                                                             InputProps={{
@@ -830,7 +831,7 @@ export default function EnhancedTable(props) {
                                                                             onChange={handleChangePassingAttempts}
                                                                         />
                                                                     </TableCell>
-                                                                    <TableCell align="center">
+                                                                    <TableCell align="center" className={classes.border}>
                                                                         <TextField
                                                                             type="number"
                                                                             InputProps={{
@@ -845,7 +846,7 @@ export default function EnhancedTable(props) {
                                                                             onChange={handleChangePassingYards}
                                                                         />
                                                                     </TableCell>
-                                                                    <TableCell align="center">
+                                                                    <TableCell align="center" className={classes.border}>
                                                                         <TextField
                                                                             type="number"
                                                                             InputProps={{
@@ -860,7 +861,7 @@ export default function EnhancedTable(props) {
                                                                             onChange={handleChangePassingTouchdowns}
                                                                         />
                                                                     </TableCell>
-                                                                    <TableCell align="center">
+                                                                    <TableCell align="center" className={classes.border}>
                                                                         <TextField
                                                                             type="number"
                                                                             InputProps={{
@@ -875,7 +876,7 @@ export default function EnhancedTable(props) {
                                                                             onChange={handleChangeRushingAttempts}
                                                                         />
                                                                     </TableCell>
-                                                                    <TableCell align="center">
+                                                                    <TableCell align="center" className={classes.border}>
                                                                         <TextField
                                                                             type="number"
                                                                             InputProps={{
@@ -890,7 +891,7 @@ export default function EnhancedTable(props) {
                                                                             onChange={handleChangeRushingYards}
                                                                         />
                                                                     </TableCell>
-                                                                    <TableCell align="center">
+                                                                    <TableCell align="center" className={classes.border}>
                                                                         <TextField
                                                                             type="number"
                                                                             InputProps={{
@@ -905,7 +906,7 @@ export default function EnhancedTable(props) {
                                                                             onChange={handleChangeRushingTouchdowns}
                                                                         />
                                                                     </TableCell>
-                                                                    <TableCell align="center">
+                                                                    <TableCell align="center" className={classes.border}>
                                                                         <TextField
                                                                             type="number"
                                                                             InputProps={{
@@ -920,7 +921,7 @@ export default function EnhancedTable(props) {
                                                                             onChange={handleChangeReceptions}
                                                                         />
                                                                     </TableCell>
-                                                                    <TableCell align="center">
+                                                                    <TableCell align="center" className={classes.border}>
                                                                         <TextField
                                                                             type="number"
                                                                             InputProps={{
@@ -935,7 +936,7 @@ export default function EnhancedTable(props) {
                                                                             onChange={handleChangeReceivingYards}
                                                                         />
                                                                     </TableCell>
-                                                                    <TableCell align="center">
+                                                                    <TableCell align="center" className={classes.border}>
                                                                         <TextField
                                                                             type="number"
                                                                             InputProps={{
@@ -950,7 +951,7 @@ export default function EnhancedTable(props) {
                                                                             onChange={handleChangeReceivingTouchdowns}
                                                                         />
                                                                     </TableCell>
-                                                                    <TableCell align="center">
+                                                                    <TableCell align="center" className={classes.border}>
                                                                         <TextField
                                                                             type="number"
                                                                             InputProps={{
@@ -965,7 +966,7 @@ export default function EnhancedTable(props) {
                                                                             onChange={handleChangeFieldGoalsMade}
                                                                         />
                                                                     </TableCell>
-                                                                    <TableCell align="center">
+                                                                    <TableCell align="center" className={classes.border}>
                                                                         <TextField
                                                                             type="number"
                                                                             InputProps={{
@@ -982,29 +983,29 @@ export default function EnhancedTable(props) {
                                                                     </TableCell>
                                                                 </> :
                                                                 <>
-                                                                    <TableCell
+                                                                    <TableCell className={classes.border}
                                                                         align="center">{row.completion} </TableCell>
-                                                                    <TableCell
+                                                                    <TableCell className={classes.border}
                                                                         align="center">{row.passingattempts}</TableCell>
-                                                                    <TableCell
+                                                                    <TableCell className={classes.border}
                                                                         align="center">{row.passingyards}</TableCell>
-                                                                    <TableCell
+                                                                    <TableCell className={classes.border}
                                                                         align="center">{row.passingtouchdowns}</TableCell>
-                                                                    <TableCell
+                                                                    <TableCell className={classes.border}
                                                                         align="center">{row.rushingattempts}</TableCell>
-                                                                    <TableCell
+                                                                    <TableCell className={classes.border}
                                                                         align="center">{row.rushingyards}</TableCell>
-                                                                    <TableCell
+                                                                    <TableCell className={classes.border}
                                                                         align="center">{row.rushingtouchdowns}</TableCell>
-                                                                    <TableCell
+                                                                    <TableCell className={classes.border}
                                                                         align="center">{row.receptions}</TableCell>
-                                                                    <TableCell
+                                                                    <TableCell className={classes.border}
                                                                         align="center">{row.receivingyards}</TableCell>
-                                                                    <TableCell
+                                                                    <TableCell className={classes.border}
                                                                         align="center">{row.receivingtouchdowns}</TableCell>
-                                                                    <TableCell
+                                                                    <TableCell className={classes.border}
                                                                         align="center">{row.fieldgoalsmade}</TableCell>
-                                                                    <TableCell
+                                                                    <TableCell className={classes.border}
                                                                         align="center">{row.fieldgoalsattempted}</TableCell>
                                                                 </>
                                                         )
@@ -1012,7 +1013,7 @@ export default function EnhancedTable(props) {
                                                         :
                                                         (props.inputActive ?
                                                                 <>
-                                                                    <TableCell align="center">
+                                                                    <TableCell align="center" className={classes.border}>
                                                                         <TextField
                                                                             type="number"
                                                                             InputProps={{
@@ -1026,7 +1027,7 @@ export default function EnhancedTable(props) {
                                                                             onChange={handleChangeMinus}
                                                                         />
                                                                     </TableCell>
-                                                                    <TableCell align="center">
+                                                                    <TableCell align="center" className={classes.border}>
                                                                         <TextField
                                                                             type="number"
                                                                             InputProps={{
@@ -1040,7 +1041,7 @@ export default function EnhancedTable(props) {
                                                                             onChange={handleChangePoints}
                                                                         />
                                                                     </TableCell>
-                                                                    <TableCell align="center">
+                                                                    <TableCell align="center" className={classes.border}>
                                                                         <TextField
                                                                             type="number"
                                                                             InputProps={{
@@ -1055,7 +1056,7 @@ export default function EnhancedTable(props) {
                                                                             onChange={handleChangeRebounds}
                                                                         />
                                                                     </TableCell>
-                                                                    <TableCell align="center">
+                                                                    <TableCell align="center" className={classes.border}>
                                                                         <TextField
                                                                             type="number"
                                                                             InputProps={{
@@ -1069,7 +1070,7 @@ export default function EnhancedTable(props) {
                                                                             onChange={handleChangeAssists}
                                                                         />
                                                                     </TableCell>
-                                                                    <TableCell align="center">
+                                                                    <TableCell align="center" className={classes.border}>
                                                                         <TextField
                                                                             type="number"
                                                                             InputProps={{
@@ -1083,7 +1084,7 @@ export default function EnhancedTable(props) {
                                                                             onChange={handleChangeSteals}
                                                                         />
                                                                     </TableCell>
-                                                                    <TableCell align="center">
+                                                                    <TableCell align="center" className={classes.border}>
                                                                         <TextField
                                                                             type="number"
                                                                             InputProps={{
@@ -1097,7 +1098,7 @@ export default function EnhancedTable(props) {
                                                                             onChange={handleChangeBlockedShots}
                                                                         />
                                                                     </TableCell>
-                                                                    <TableCell align="center">
+                                                                    <TableCell align="center" className={classes.border}>
                                                                         <TextField
                                                                             type="number"
                                                                             InputProps={{
@@ -1115,42 +1116,42 @@ export default function EnhancedTable(props) {
                                                                 </>
                                                                 :
                                                                 <>
-                                                                    <TableCell align="center">{row.minus} </TableCell>
-                                                                    <TableCell align="center">{row.points} </TableCell>
-                                                                    <TableCell align="center">{row.rebound} </TableCell>
-                                                                    <TableCell align="center">{row.assists} </TableCell>
-                                                                    <TableCell align="center">{row.steals} </TableCell>
-                                                                    <TableCell
+                                                                    <TableCell align="center" className={classes.border}>{row.minus} </TableCell>
+                                                                    <TableCell align="center" className={classes.border}>{row.points} </TableCell>
+                                                                    <TableCell align="center" className={classes.border}>{row.rebound} </TableCell>
+                                                                    <TableCell align="center" className={classes.border}>{row.assists} </TableCell>
+                                                                    <TableCell align="center" className={classes.border}>{row.steals} </TableCell>
+                                                                    <TableCell className={classes.border}
                                                                         align="center">{row.blockedShots} </TableCell>
-                                                                    <TableCell align="center">{row.to}</TableCell>
+                                                                    <TableCell align="center" className={classes.border}>{row.to}</TableCell>
                                                                 </>
                                                         )
                                                     }
                                                     {nft_header ?
 
                                                         (props.salary === 'dk' ?
-                                                            <TableCell align="center">{row.nfl_dk_fantasyPoints}</TableCell>
+                                                            <TableCell align="center" className={classes.border}>{row.nfl_dk_fantasyPoints}</TableCell>
                                                             :
-                                                            <TableCell align="center">{row.nfl_fd_fantasyPoints}</TableCell>)
+                                                            <TableCell align="center" className={classes.border}>{row.nfl_fd_fantasyPoints}</TableCell>)
 
                                                         :
                                                         (props.salary === 'dk' ?
-                                                            <TableCell align="center">{row.fantasyPoints} </TableCell>
-                                                            :<TableCell align="center">{row.fd_fantasyPoints} </TableCell>
+                                                            <TableCell align="center" className={classes.border}>{row.fantasyPoints} </TableCell>
+                                                            :<TableCell align="center" className={classes.border}>{row.fd_fantasyPoints} </TableCell>
                                                         )
 
 
                                                     }
                                                     {props.salary === 'dk' ?
                                                         <>
-                                                            <TableCell align="center">{row.ceiling} </TableCell>
-                                                            <TableCell align="center">{row.floor} </TableCell>
-                                                            <TableCell align="center">{row.fpts$}</TableCell>
+                                                            <TableCell align="center" className={classes.border}>{row.ceiling} </TableCell>
+                                                            <TableCell align="center" className={classes.border}>{row.floor} </TableCell>
+                                                            <TableCell align="center" className={classes.border}>{row.fpts$}</TableCell>
                                                         </>:
                                                         <>
-                                                            <TableCell align="center">{row.fd_ceiling} </TableCell>
-                                                            <TableCell align="center">{row.fd_floor} </TableCell>
-                                                            <TableCell align="center">{row.fd_fpts$}</TableCell>
+                                                            <TableCell align="center" className={classes.border}>{row.fd_ceiling} </TableCell>
+                                                            <TableCell align="center" className={classes.border}>{row.fd_floor} </TableCell>
+                                                            <TableCell align="center" className={classes.border}>{row.fd_fpts$}</TableCell>
                                                         </>}
 
                                                 </TableRow>

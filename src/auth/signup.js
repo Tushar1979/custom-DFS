@@ -9,7 +9,8 @@ import {toast, ToastContainer} from "react-toastify";
 import Spinner from '../components/Spinner/spinner'
 
 const emailReg = new RegExp(/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]/)
-const passwordReg = new RegExp(/^[A-Z]*$/);
+const passwordReg = new RegExp(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d@$!%*?&]{8,}$/);
+const smallChar = new RegExp(/^(?=.*[A-Z])(?=.*\d)[A-Z\d@$!%*?&]{8,}$/)
 
 class SignUp extends Component {
     constructor(props) {
@@ -19,32 +20,72 @@ class SignUp extends Component {
             password:'',
             spinner:false,
             btnActive:true,
-            is_emailValid:false,
-            is_passValid:false
-
+            is_emailValid:true,
+            is_passValid:true,
+            msg:""
         }
     }
     emailField = (e) =>{
         this.setState({
-            email: (e.target.value).toLowerCase()
+                email: (e.target.value).toLowerCase(), is_emailValid: emailReg.test(e.target.value) },
+            ()=>{
+                if(this.state.is_emailValid && ( this.state.is_passValid && this.state.password.length > 0) ){
+                    this.setState({btnActive: false})
+                }
+                else{
+                    this.setState({btnActive: true})
+                }
         })
-        this.setState({is_emailValid: emailReg.test(e.target.value)})
-        if(this.state.is_emailValid && this.state.password > 5){
-            this.setState({btnActive:false})
-        }
-        else{
-            this.setState({btnActive: true})
-        }
+
     }
     passwordField = (e) =>{
-        this.setState({
-            password: e.target.value
-        })
-        if(this.state.is_emailValid && this.state.password.length>5){
-                this.setState({btnActive:false})
+        this.setState({ password: e.target.value,is_passValid: passwordReg.test(e.target.value)}
+            ,()=>{
+                if(  (this.state.is_emailValid && this.state.email.length > 0 )  && this.state.is_passValid)
+                {
+                    this.setState({btnActive:false})
+                }
+                else
+                {
+                    this.setState({btnActive:true})
+                }
+            })
+
+        if(passwordReg.test(e.target.value))
+        {
+            this.setState({msg:""})
         }
-        else{
-            this.setState({btnActive:true})
+        else if(e.target.value.length<8)
+        {
+            this.setState({msg:"Password length must be 8 or greater"})
+        }
+        else if(e.target.value.match(/^(?=.*[A-Z])(?=.*\d)[A-Z\d@$!%*?&]{8,}$/))
+        {
+            this.setState({msg:"Password must contain atleast one small character"})
+        }
+        else if(e.target.value.match(/^(?=.*[a-z])(?=.*\d)[a-z\d@$!%*?&]{8,}$/))
+        {
+            this.setState({msg:"Password must contain atleast one capital character"})
+        }
+        else if(e.target.value.match(/^(?=.*[a-z])(?=.*[A-Z])[a-zA-Z@$!%*?&]{8,}$/))
+        {
+            this.setState({msg:"Password must contain atleast one number/digit"})
+        }
+        else if(e.target.value.match(/^[A-Z@$!%*?&]{8,}$/))
+        {
+            this.setState({msg:"Password must contain atleast one digit and small character"})
+        }
+        else if(e.target.value.match(/^[a-z@$!%*?&]{8,}$/))
+        {
+            this.setState({msg:"Password must contain atleast one digit and capital character"})
+        }
+        else if(e.target.value.match(/^[\d@$!%*?&]{8,}$/))
+        {
+            this.setState({msg:"Password must contain atleast one capital and small character"})
+        }
+        else
+        {
+            this.setState({msg:"Password must not contain any special character other than '@,$,!,%,*,?,&'"})
         }
     }
 
@@ -64,7 +105,7 @@ class SignUp extends Component {
 
         UserPool.signUp(this.state.email ,this.state.password, [], null, (err, data)=>{
         if (err) {
-            toast.error("⭐ Email or Password in Invalid...");
+            toast.error("⭐ Email or Password in Invalid...",{toastId:"supInvalidCreditionals"});
             this.setState({spinner:false})
         }
         else {
@@ -94,7 +135,9 @@ class SignUp extends Component {
 
 
                         <div>
-                            <TextField
+                            <TextField style={{
+                                marginBottom: "0.5rem",
+                            }}
                             label="Email Address"
                             className="input_field fadeIn second"
                             onChange={this.emailField}
@@ -102,14 +145,17 @@ class SignUp extends Component {
                             floatingLabelText="Email"
                             type="email"
                         />
-                            <TextField
-                                label="password"
+                            <TextField style={{
+                                marginBottom: "0.5rem",
+                            }}
+                                label="Password"
                                 className="input_field fadeIn third"
                                 onChange={this.passwordField}
                                 hintText="Password"
                                 floatingLabelText="Password"
                                 type="password"
                             />
+                            {this.state.is_passValid ?"" : <span id="passInstructions"><br/>{this.state.msg}</span>}
 
                             {this.state.spinner ?
                                 <button className="fadeIn forth loginBtn" disabled> <Spinner/></button>
@@ -132,7 +178,6 @@ class SignUp extends Component {
                                 </button>
                             }
 
-                            <span className="button-google fadeIn forth" onClick={this.forgotBtn}>Forgot Password</span>
 
                         </div>
 

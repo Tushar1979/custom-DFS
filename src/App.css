@@ -2,6 +2,10 @@
   text-align: center;
 }
 
+.MuiTableSortLabel-root.MuiTableSortLabel-active {
+  color: white;
+}
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;
@@ -35,4 +39,15 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.MuiFormControl-root {
+  border: 0;
+  /* margin: 0; */
+  display: inline-flex;
+  padding: 0;
+  position: relative;
+  min-width: 0;
+  flex-direction: column;
+  vertical-align: top;
 }

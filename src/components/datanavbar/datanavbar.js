@@ -1066,7 +1066,7 @@ class DataNavBar extends React.Component {
                     if (res.status === 200 ) {
                         toast.success("⭐ Data Saved Successfully...");
                     } else if (res.request.status === 401) {
-                        this.props.history.push('/signin')
+                        this.props.history.push('/')
                         this.setState({loader:false,spinner: false})
                     } else {
                         this.setState({loader:false,spinner: false})

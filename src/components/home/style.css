@@ -44,9 +44,17 @@
 /*.data_table tbody>tr>td:hover{*/
 /*    color: #fff !important;*/
 /*}*/
-.MuiTableSortLabel-root.MuiTableSortLabel-active{
-    color: #fff !important;
+/*.MuiTableSortLabel-root.MuiTableSortLabel-active{*/
+/*    color: #fff !important;*/
+/*}*/
+.MuiTableSortLabel-root:hover {
+    color: white!important;
 }
+.MuiTableSortLabel-root.MuiTableSortLabel-active {
+    color: white!important;
+}
+
+
 .top_table_head th{
     border-right: 1px solid #fff;
 }

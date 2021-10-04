@@ -84,3 +84,6 @@ width: 20px;
         min-width: 160px;
     }
 }
+.navbar-dark .navbar-nav .nav-link {
+    color: #fff;
+}

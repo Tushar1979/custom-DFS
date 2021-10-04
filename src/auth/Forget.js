@@ -8,34 +8,48 @@ import { Auth } from "aws-amplify";
 import {TextField} from "@material-ui/core";
 import {toast, ToastContainer} from "react-toastify";
 
+const emailReg = new RegExp(/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]/)
+
 class Forget extends Component {
     constructor(props) {
         super(props);
         this.state={
-            email:''
+            email:'',
+            is_emailValid:false
 
         }
     }
     emailField = (e) =>{
         this.setState({
-            email: e.target.value
+            email: (e.target.value).toLowerCase(), is_emailValid: emailReg.test(e.target.value)
         })
     }
 
+    login =() =>{
+        this.props.history.push('/signin')
+    }
+
     fogetPassOTP = () => {
-        Auth.forgotPassword(this.state.email)
-        .then((data) =>
-         {
-         this.props.history.push('/ForgetPasswordOtp', {username:this.state.email})
-         }).catch( (err) =>
+        if(this.state.is_emailValid) {
+            Auth.forgotPassword(this.state.email)
+                .then((data) => {
+                    this.props.history.push('/ForgetPasswordOtp', {username: this.state.email})
+                }).catch((err) => {
 
-         {
+                toast.error("⭐ Email not found.");
+                this.props.history.push('/Forget')
+            })
+        }
+        else if(this.state.email.length<1) {
+            toast.error("⭐ First enter email",{toastId:"fEmptyEmailField"})
+            console.error("kucherror")
+        }
+        else {
+            toast.error("⭐ Email Format is not correct",{toastId:"fWrongFormat"})
+            console.error("kucherror")
+        }
 
-             toast.error("⭐ Email not found.");
-         this.props.history.push('/Forget')
-         })
          }
-
 
 
 
@@ -84,6 +98,9 @@ class Forget extends Component {
                                         className='toasterStyle'
                                     />
                                 </button>
+                            <button
+                                className="fadeIn forth loginBtn" onClick = {this.login}> Login
+                            </button>
                         </div>
 
                     </div>

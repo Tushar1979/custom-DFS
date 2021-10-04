@@ -7,6 +7,11 @@
     z-index: 9;
 }
 
+#passInstructions{
+    font-size: 70%;
+    color: red;
+}
+
 a {
     color: #92badd;
     display:inline-block;
@@ -35,7 +40,7 @@ h2 {
     justify-content: center;
     width: 100%;
     min-height: 100%;
-    padding: 50px;
+    /*padding: 50px;*/
 }
 
 #formContent {
@@ -73,6 +78,7 @@ h2.active {
     color: #0d0d0d;
     border-bottom: 2px solid #5fbae9;
     cursor: initial;
+    margin-top: 4%;
 }
 
 
@@ -136,7 +142,7 @@ input[type=button]:active, input[type=submit]:active, input[type=reset]:active, 
     display: inline-block;
     font-size: 16px;
     margin: 5px;
-    width: 85%;
+    width: 98%;
     border: 2px solid #f6f6f6;
     -webkit-transition: all 0.5s ease-in-out;
     -moz-transition: all 0.5s ease-in-out;
@@ -156,14 +162,18 @@ input[type=text]:placeholder {
     color: #cccccc;
 }
 .forgotContainer{
-    padding-top: 30px !important;
+    padding-top: 0px !important;
 }
 .btnDisabled{
     background: #26a1e080 !important;
     cursor: default;
 }
 
-
+.from{
+    padding: 0;
+    position: relative;
+    min-width: 0;
+}
 
 /* ANIMATIONS */
 
@@ -176,6 +186,8 @@ input[type=text]:placeholder {
     -webkit-animation-fill-mode: both;
     animation-fill-mode: both;
 }
+
+
 
 @-webkit-keyframes fadeInDown {
     0% {
@@ -275,7 +287,14 @@ input[type=text]:placeholder {
 
 #icon {
     height: 50px;
-    /*width: 100%;*/
+    width: 50%;
+}
+
+@media only screen and (max-width: 380px) {
+    #icon {
+        height: 50px;
+        width: 70%;
+    }
 }
 
 * {
@@ -294,4 +313,28 @@ input[type=text]:placeholder {
     color: #333;
     border: none;
     text-decoration: none;
+}
+
+.MuiFormControl-root {
+    border: 0;
+    /* margin: 0; */
+    display: inline-flex;
+    padding: 0;
+    position: relative;
+    min-width: 0;
+    flex-direction: column;
+    vertical-align: top;
+}
+
+.login{
+    background-color: #56baed;
+    border: none;
+    color: white;
+    padding: 15px 15px;
+    padding-left: 295px;
+    text-align: center;
+    font-size: 13px;
+    box-shadow: 0 10px 30px 0 rgb(95 186 233 / 40%);
+    border-radius: 5px 5px 5px 5px;
+    margin: 10px 0;
 }
