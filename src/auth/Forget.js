@@ -35,18 +35,16 @@ class Forget extends Component {
                 .then((data) => {
                     this.props.history.push('/ForgetPasswordOtp', {username: this.state.email})
                 }).catch((err) => {
-
+                console.log(err)
                 toast.error("⭐ Email not found.");
                 this.props.history.push('/Forget')
             })
         }
         else if(this.state.email.length<1) {
             toast.error("⭐ First enter email",{toastId:"fEmptyEmailField"})
-            console.error("kucherror")
         }
         else {
             toast.error("⭐ Email Format is not correct",{toastId:"fWrongFormat"})
-            console.error("kucherror")
         }
 
          }

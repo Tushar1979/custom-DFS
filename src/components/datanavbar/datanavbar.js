@@ -40,7 +40,9 @@ class DataNavBar extends React.Component {
                 players_data:[
                 ],
                 nfl_player_data: [],
-                game_data:[],
+                nba_game_data:[],
+                nfl_game_data:[],
+                game_data: [],
                 inputActive: false,
                 loader:false,
                 spinner:false,
@@ -53,7 +55,7 @@ class DataNavBar extends React.Component {
                 update_data:true,
                 search_player_data: [],
                 allBtn:true,
-                allClearBtn:true,
+                allClearBtn:false,
                 pgBtn:true,
                 sgBtn:true,
                 sfBtn:true,
@@ -201,7 +203,6 @@ class DataNavBar extends React.Component {
                     if(data.sportView === "NBA"){
                         if (response_data.body.length === 0 ){
                             this.setState({loader:false})
-                            // filter_list = ['pg', 'sg', 'sf', 'pf', 'c']
                         }
                         else{
                             this.setState({players_data: response_data.body})
@@ -216,7 +217,6 @@ class DataNavBar extends React.Component {
                                 this.setState({filter_player:[], excelDataList: filter_data})
 
                             }
-                            // filter_list = ['pg', 'sg', 'sf', 'pf', 'c']
                         }
 
                     }
@@ -235,20 +235,18 @@ class DataNavBar extends React.Component {
                                 this.setState({filter_player:[], excelDataList: filter_data})
 
                             }
-                            // nflFilter_list = ['qb', 'rb', 'wr', 'te', 'k', 'dst']
                         }
                         else{
                             this.setState({loader:false})
-                            // nflFilter_list = ['qb', 'rb', 'wr', 'te', 'k', 'dst']
-                            qbActive = true
-                            rbActive = true
-                            wrActive = true
-                            teActive = true
-                            kActive = true
-                            dstActive = true
+                            // qbActive = true
+                            // rbActive = true
+                            // wrActive = true
+                            // teActive = true
+                            // kActive = true
+                            // dstActive = true
                         }
                     }
-                    // this.allSelectFilter()
+                    this.allSelectFilter()
                 } else if (res.request.status === 401) {
                     this.props.history.push('/signin')
                     this.setState({loader:false})
@@ -338,8 +336,17 @@ class DataNavBar extends React.Component {
             .then((res) => {
                 let response_data = JSON.parse(res.request.response)
                 if (res.status === 200 ) {
-                    this.setState({game_data: response_data.body})
-                    this.setState({loader:false})
+                    if(data.sportView === "NBA"){
+                        console.log(data.sportView)
+                        this.setState({game_data: response_data.body})
+                        this.setState({loader:false})
+                    }
+                    if(data.sportView === "NFL"){
+                        console.log(data.sportView)
+                        this.setState({game_data: response_data.body})
+                        this.setState({loader:false})
+                    }
+
                 } else if (res.request.status === 401) {
                     this.props.history.push('/signin')
                     this.setState({loader:false})
@@ -357,6 +364,7 @@ class DataNavBar extends React.Component {
     }
 
     filterObj(keyList){
+        sessionStorage.setItem('pageReset', "true0")
         let newArray
         let pgArray
         let sgArray
@@ -452,6 +460,7 @@ class DataNavBar extends React.Component {
     }
 
     nflFilterObj(keyList){
+        sessionStorage.setItem('pageReset', "true0")
         let newArray
         let qbArray
         let rbArray
@@ -913,6 +922,7 @@ class DataNavBar extends React.Component {
     }
 
     allSelectFilter(){
+        sessionStorage.setItem('pageReset', "true0")
         if(this.state.nflAction){
             nflFilter_list = ['qb', 'rb', 'wr', 'te', 'k', 'dst']
             qbActive=true
@@ -1155,7 +1165,7 @@ class DataNavBar extends React.Component {
                 let response_data = JSON.parse(res.request.response)
                 if (res.status === 200 ) {
 
-                    console.log('+++++----++++', response_data.body)
+                    //console.log('+++++----++++', response_data.body)
                 } else if (res.request.status === 401) {
                     // console.log("login")
                     this.props.history.push('/signin')
@@ -1213,6 +1223,7 @@ class DataNavBar extends React.Component {
                             <div className="common-button">
 
                                 <CustomizedMenus
+                                    // nba_game_data = {this.state.nba_game_data}
                                     nfl_game_data={this.state.game_data}
                                     inputActive={this.state.inputActive}
                                     onSaveGameData={this.handleSaveGameData}
@@ -1361,6 +1372,7 @@ class DataNavBar extends React.Component {
                             saveDataBtn={this.state.saveData}
                             is_nbaNfl={this.state.is_nbaNfl}
                             onSavePlayerStats={this.handlePlayerStats}
+
                         />
                     </div>
                 </>

@@ -7,7 +7,9 @@ import {TextField} from "@material-ui/core";
 import { CognitoUserPool } from 'amazon-cognito-identity-js'
 import {toast, ToastContainer} from "react-toastify";
 import Spinner from '../components/Spinner/spinner'
+import 'react-toastify/dist/ReactToastify.css';
 
+// toast.configure()
 const emailReg = new RegExp(/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]/)
 const passwordReg = new RegExp(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d@$!%*?&]{8,}$/);
 const smallChar = new RegExp(/^(?=.*[A-Z])(?=.*\d)[A-Z\d@$!%*?&]{8,}$/)
@@ -103,16 +105,38 @@ class SignUp extends Component {
 
         const UserPool = new CognitoUserPool(poolData);
 
-        UserPool.signUp(this.state.email ,this.state.password, [], null, (err, data)=>{
-        if (err) {
-            toast.error("⭐ Email or Password in Invalid...",{toastId:"supInvalidCreditionals"});
-            this.setState({spinner:false})
-        }
-        else {
-            this.setState({spinner:false})
-            this.props.history.push('/verify_otp', {username:this.state.email});
-        }
-    })
+        return new Promise((resolve, reject) => (
+            UserPool.signUp(this.state.email ,this.state.password, [], null, (err, data)=>{
+                if(err){
+                    console.error(err)
+                    toast.error(`⭐ ${err.message}`,{toastId:"supInvalidCreditiona"})
+
+                    // reject(err)
+                    this.setState({spinner:false})
+                }
+                else{
+                    this.setState({spinner:false})
+                    // resolve(data.user);
+                    setTimeout(toast.success(`⭐ OTP sent to ${data.user.getUsername()}`, {toastId:"signUpSuccess"}),1000)
+                    this.props.history.push('/verify_otp', {username:this.state.email});
+                }
+            })
+            ))
+
+
+        // UserPool.signUp(this.state.email ,this.state.password, [], null, (err, data)=>{
+        // if (err) {
+        //     console.log(data)
+        //     console.log(err)
+        //     toast.error("⭐ Email or Password in Invalid...",{toastId:"supInvalidCreditionals"});
+        //     this.setState({spinner:false})
+        // }
+        // else {
+        //     console.log(data)
+        //     this.setState({spinner:false})
+        //     this.props.history.push('/verify_otp', {username:this.state.email});
+        // }
+
     };
 
     render() {

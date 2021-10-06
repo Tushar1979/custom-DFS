@@ -99,32 +99,30 @@ componentDidMount() {
 
                 let datas = true;
                 usersignIn.then((response) => {
-                    console.error("Success--")
                     if (response.username) {
                         localStorage.setItem('username', response.username);
-                        toast.success("⭐ Welcome to CustomDFS",{toastId:"sinWelcomeHom"});
+                        // toast.success("⭐ Welcome to CustomDFS",{toastId:"sinWelcomeHom"});
                         this.props.history.push('/');
-                    } else {
-                        console.error("else--")
-                        // toast.error("⭐ Email or Password is Invalid...");
-                        this.setState({spinner: false})
-                        datas = false;
                     }
-                }).catch((message) => {
-                    console.error("Catch--");
-                    // toast.error("⭐ Email or Password is Invalid...");
+                else{
+                    datas = false;
+                        }
+                }).catch((err) => {
+                    console.log(err.message)
+                    // toast.error("⭐ Email or Password is Invalid...", `⭐ ${err.message} ...`);
                     this.setState({spinner: false});
                     datas = false;
                 });
                 setTimeout(() => {
-                    if (!datas) {
-                        toast.error("⭐ Email or Password is Invalid...",{toastId:"sinInvalidCreditionals"});
-                    } else {
+                  if(datas === true) {
                         setTimeout(() => {
                             toast.success("⭐ Welcome to CustomDFS...",{toastId:"sinWelcomeHome"});
                         }, 1500)
                     }
-                }, 1500)
+                  else{
+                          toast.error("⭐ Email or Password is Invalid...");
+                  }
+                }, 2000)
             }
             else if(!this.state.is_emailValid) {
                 toast.error("⭐ Email format is not correct",{toastId:"sinWrongMail"})

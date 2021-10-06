@@ -3,7 +3,7 @@ import {BrowserRouter as Router, Switch, Route, Redirect, Link} from 'react-rout
 import authLogo from "../images/login_logo.png"
 import './style.css';
 import {Amplify} from "aws-amplify";
-
+import {toast, ToastContainer} from "react-toastify";
 import { Auth } from "aws-amplify";
 import {TextField} from "@material-ui/core";
 
@@ -23,11 +23,10 @@ class VerifyOtp extends Component {
 
     const verify = Auth.confirmSignUp(this.state.username, this.state.otp)
         verify.then((data)=>{
-            console.log(data)
-
+            toast.success("⭐ Account created successfully")
             this.props.history.push('/signin');
         }).catch((message) => {
-            console.log(message)
+            toast.error("⭐ "+message.message)
         })
 
 
@@ -45,7 +44,18 @@ class VerifyOtp extends Component {
                         <div>
                             <TextField id="standard-basic" label="OTP" className="input_field fadeIn second" onChange={this.otpField} />
                             <button  className="fadeIn forth loginBtn"  onClick={this.verifyOtpBtn}> Verify Otp </button>
-
+                            <ToastContainer
+                                position="bottom-right"
+                                autoClose={3000}
+                                hideProgressBar={false}
+                                newestOnTop={false}
+                                closeOnClick
+                                rtl={false}
+                                pauseOnFocusLoss
+                                draggable
+                                pauseOnHover
+                                className='toasterStyle'
+                            />
                         </div>
 
                     </div>

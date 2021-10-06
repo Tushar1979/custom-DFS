@@ -48,7 +48,9 @@ function stableSort(array, comparator) {
         localStorage.removeItem('exlData')
         localStorage.setItem('exlData',xx)
     }
+    else{
         localStorage.setItem('exlData',xx)
+    }
     return stabilizedThis.map((el) => el[0]);
 }
 
@@ -57,12 +59,6 @@ let headCells = []
 function EnhancedTableHead(props) {
     const {classes, onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort} = props;
     const createSortHandler = (property) => (event) => {
-        if(property === 'salary' && props.salType === 'fd'){
-            property = 'fdSalary'
-        }
-        else if(property === 'pos' && props.salType === 'fd') {
-            property='fdPos';
-        }
         onRequestSort(event, property);
     };
 
@@ -176,14 +172,38 @@ export default function EnhancedTable(props) {
     const [updateNflGameList, setUpdateNflGameList] = React.useState([]);
     const [nflList, setNflList] = React.useState([]);
     const [isNbaNfl, setIsNbaNfl] = React.useState(props.is_nbaNfl);
+    const classes = useStyles();
+    const [order, setOrder] = React.useState('asc');
+    const [orderBy, setOrderBy] = React.useState('salary');
+    const [selected, setSelected] = React.useState([]);
+    const [page, setPage] = React.useState(0);
+    const [dense, setDense] = React.useState(false);
+    const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
     let user_data = props.data
     let saveData = props.saveDataBtn
-
     useEffect(() => {
         setUpdateGameList(props.data)
         setUpdateNflGameList(props.nfl_player_data)
     })
+
+    const handleChangePage = (event, newPage) => {
+        setPage(newPage);
+        user_data = false
+    };
+
+    const handleChangeRowsPerPage = (event) => {
+        setRowsPerPage(parseInt(event.target.value, 10));
+        setPage(0);
+        user_data = false
+    };
+
+
+    if(sessionStorage.getItem('pageReset')==='true0')
+    {
+        setPage(0);
+        sessionStorage.setItem('pageReset','false')
+    }
 
     const handleChangeMinus = (e) =>{
         let rowId = e.target.id
@@ -533,13 +553,19 @@ export default function EnhancedTable(props) {
     if (props.nfl_player_data.length > 0) {
         update_data = true
         nft_header = true
+        let pos, salary
+        if(props.salary ==='dk')
+        {pos='pos';salary='salary'}
+        else {
+            pos='fdPos';salary='fdSalary'
+        }
         user_data = props.nfl_player_data
         headCells = [
             {id: 'name', numeric: false, disablePadding: true, label: 'Name'},
-            {id: 'pos', numeric: false, disablePadding: false, label: 'pos'},
+            {id: pos, numeric: false, disablePadding: false, label: 'pos'},
             {id: 'team', numeric: false, disablePadding: false, label: 'team'},
             {id: 'oop', numeric: false, disablePadding: false, label: 'opp'},
-            {id: 'salary', numeric: false, disablePadding: false, label: 'salary'},
+            {id: salary, numeric: false, disablePadding: false, label: 'salary'},
 
 
             {id: 'completion', numeric: false, disablePadding: true, label: 'Completions'},
@@ -566,14 +592,20 @@ export default function EnhancedTable(props) {
     if (props.data.length > 0) {
         update_data = true
         user_data = props.data
+        let pos, salary
+        if(props.salary ==='dk')
+        {pos='pos';salary='salary'}
+        else {
+            pos='fdPos';salary='fdSalary'
+        }
         rows = []
         nft_header = false
         headCells = [
             {id: 'name', numeric: false, disablePadding: true, label: 'Name'},
-            {id: 'pos', numeric: false, disablePadding: false, label: 'pos'},
+            {id: pos, numeric: false, disablePadding: false, label: 'pos'},
             {id: 'team', numeric: false, disablePadding: false, label: 'team'},
             {id: 'oop', numeric: false, disablePadding: false, label: 'opp'},
-            {id: 'salary', numeric: false, disablePadding: false, label: 'salary'},
+            {id: salary, numeric: false, disablePadding: false, label: 'salary'},
 
             {id: 'minus', numeric: false, disablePadding: false, label: 'min'},
             {id: 'points', numeric: false, disablePadding: false, label: 'pts'},
@@ -604,21 +636,13 @@ export default function EnhancedTable(props) {
         return new Promise(resolve => setTimeout(resolve, milliseconds))
     }
 
-    const classes = useStyles();
-    const [order, setOrder] = React.useState('asc');
-    const [orderBy, setOrderBy] = React.useState('salary');
-    const [selected, setSelected] = React.useState([]);
-    const [page, setPage] = React.useState(0);
-    const [dense, setDense] = React.useState(false);
-    const [rowsPerPage, setRowsPerPage] = React.useState(10);
-
-    const changePage =(rowsPP, Page)=> {
-        let pageno=((rows.length-1)/rowsPP);
-        if(Page > pageno)
-        {
-            setPage(parseInt(pageno))
-        }
-    }
+    // const changePage =(rowsPP, Page)=> {
+    //     let pageno=((rows.length-1)/rowsPP);
+    //     if(Page > pageno)
+    //     {
+    //         setPage(parseInt(pageno))
+    //     }
+    // }
 
     if (update_data) {
         rows = []
@@ -644,7 +668,7 @@ export default function EnhancedTable(props) {
                         fantasyPoints: user_data[data].FantasyPointsDraftKings,
                         fd_fantasyPoints: user_data[data].FantasyPointsFantasyDraft,
                         nfl_dk_fantasyPoints: user_data[data].DK_Proj,
-                        nfl_fd_fantasyPoints: user_data[data].FantasyPoints,
+                        nfl_fd_fantasyPoints: user_data[data].FD_Proj,
                         ceiling: user_data[data].DK_Ceil,
                         fd_ceiling: user_data[data].FD_Ceil,
                         floor: user_data[data].DK_Floor,
@@ -669,9 +693,9 @@ export default function EnhancedTable(props) {
             }
             update_data = false
         }
-        if(rows.length>0) {
-            changePage(rowsPerPage,page)
-        }
+        // if(rows.length>0) {
+        //     changePage(rowsPerPage, page)
+        // }
         if(loader) {
             sleep(3000).then(r => {
                 setLoader(false);
@@ -717,16 +741,9 @@ export default function EnhancedTable(props) {
         setSelected(newSelected);
     };
 
-    const handleChangePage = (event, newPage) => {
-        setPage(newPage);
-        user_data = false
-    };
 
-    const handleChangeRowsPerPage = (event) => {
-        setRowsPerPage(parseInt(event.target.value, 10));
-        setPage(0);
-        user_data = false
-    };
+
+
 
     const isSelected = (name) => selected.indexOf(name) !== -1;
 

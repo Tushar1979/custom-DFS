@@ -7,6 +7,11 @@ import right_capsule from '../../images/right-capsule.png'
 import {Link} from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
 
+
+// if (response){
+//     toast(`${resposnse}`)
+// }
+
 class NavBar extends React.Component {
     constructor(props) {
         super(props);

@@ -68,7 +68,7 @@ export default function CustomizedMenus(props) {
         allGameData.sort(function(a, b) {
             return a.DateTime - b.DateTime;
         });
-    console.log(props)
+
     })
 
     const saveModifyGameList = (id, is_check, winner, keyName) =>{
@@ -347,7 +347,7 @@ export default function CustomizedMenus(props) {
                     game data
                 </Button>
 
-                {allGameData.length>0 ?
+
                 <div className="class_head">
                 <StyledMenu
                     id="customized-menu"
@@ -408,7 +408,7 @@ export default function CustomizedMenus(props) {
                     </div>
                 </StyledMenu>
                 </div>
-                    : null}
+
             </div>
 
     );
