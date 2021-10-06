@@ -25,10 +25,6 @@ class Forget extends Component {
         })
     }
 
-    login =() =>{
-        this.props.history.push('/signin')
-    }
-
     fogetPassOTP = () => {
         if(this.state.is_emailValid) {
             Auth.forgotPassword(this.state.email)
@@ -96,9 +92,6 @@ class Forget extends Component {
                                         className='toasterStyle'
                                     />
                                 </button>
-                            <button
-                                className="fadeIn forth loginBtn" onClick = {this.login}> Login
-                            </button>
                         </div>
 
                     </div>
