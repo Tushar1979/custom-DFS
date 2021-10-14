@@ -40,6 +40,7 @@ function stableSort(array, comparator) {
     const stabilizedThis = array.map((el, index) => [el, index]);
     stabilizedThis.sort((a, b) => {
         const order = comparator(a[0], b[0]);
+        console.log(order)
         if (order !== 0) return order;
         return a[1] - b[1];
     });
@@ -414,7 +415,7 @@ export default function EnhancedTable(props) {
         let is_exist = true
         for(let i =0; i< nflList.length; i++){
             if(nflList[i].Id === rowId){
-                nflList[i]['RushingYards'] = parseInt(nflRushingTouchdowns)
+                nflList[i]['RushingTouchdowns'] = parseInt(nflRushingTouchdowns)
                 is_exist=false
                 break
             }
@@ -422,7 +423,7 @@ export default function EnhancedTable(props) {
         if(is_exist){
             for(let i = 0; i<updateNflGameList.length; i++){
                 if(updateNflGameList[i].Id === rowId){
-                    updateNflGameList[i]['RushingYards'] = parseInt(nflRushingTouchdowns)
+                    updateNflGameList[i]['RushingTouchdowns'] = parseInt(nflRushingTouchdowns)
                     setNflList(nflList.concat(updateNflGameList[i]))
                     is_exist=false
                 }
@@ -543,7 +544,7 @@ export default function EnhancedTable(props) {
 
     if(saveData){
         if(props.is_nbaNfl === 'NFL') {
-            props.onSavePlayerStats(nflList)
+            props.onSavePlayerStats(updateNflGameList)
         }
         else{
             props.onSavePlayerStats(updateGameList)
@@ -553,11 +554,11 @@ export default function EnhancedTable(props) {
     if (props.nfl_player_data.length > 0) {
         update_data = true
         nft_header = true
-        let pos, salary
+        let pos, salary, ceiling
         if(props.salary ==='dk')
-        {pos='pos';salary='salary'}
+        {pos='pos';salary='salary'; ceiling='ceiling'}
         else {
-            pos='fdPos';salary='fdSalary'
+            pos='fdPos';salary='fdSalary';ceiling='fd_ceiling'
         }
         user_data = props.nfl_player_data
         headCells = [
@@ -583,7 +584,7 @@ export default function EnhancedTable(props) {
 
             // {id: 'fpts', numeric: false, disablePadding: false, label: 'fpts'},
             {id: 'nfl_dk_fantasyPoints', numeric: false, disablePadding: false, label: 'fpts'},
-            {id: 'ceiling', numeric: false, disablePadding: false, label: 'ceiling'},
+            {id: ceiling, numeric: false, disablePadding: false, label: 'ceiling'},
             {id: 'floor', numeric: false, disablePadding: false, label: 'floor'},
             {id: 'fpts$', numeric: false, disablePadding: false, label: 'fpts/$1K'},
 
@@ -592,11 +593,11 @@ export default function EnhancedTable(props) {
     if (props.data.length > 0) {
         update_data = true
         user_data = props.data
-        let pos, salary
+        let pos, salary, ceiling
         if(props.salary ==='dk')
-        {pos='pos';salary='salary'}
+        {pos='pos';salary='salary'; ceiling='ceiling'}
         else {
-            pos='fdPos';salary='fdSalary'
+            pos='fdPos';salary='fdSalary';ceiling='fd_ceiling'
         }
         rows = []
         nft_header = false
@@ -617,7 +618,7 @@ export default function EnhancedTable(props) {
 
             // {id: 'fpts', numeric: false, disablePadding: false, label: 'fpts'},
             {id: 'fantasyPoints', numeric: false, disablePadding: false, label: 'fpts'},
-            {id: 'ceiling', numeric: false, disablePadding: false, label: 'ceiling'},
+            {id: ceiling, numeric: false, disablePadding: false, label: 'ceiling'},
             {id: 'floor', numeric: false, disablePadding: false, label: 'floor'},
             {id: 'fpts$', numeric: false, disablePadding: false, label: 'fpts/$1K'},
         ]
@@ -625,6 +626,7 @@ export default function EnhancedTable(props) {
     if (props.new_array != null) {
         update_data = true
         user_data = props.new_array
+
     }
     else{
         update_data = true

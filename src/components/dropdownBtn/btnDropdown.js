@@ -17,6 +17,7 @@ import '../home/style.css'
 import '../datanavbar/datanavbar.css'
 import {toast, ToastContainer} from "react-toastify";
 
+const active='active'
 const StyledMenu = withStyles({
     paper: {
         border: '1px solid #d3d4d5',
@@ -45,6 +46,8 @@ const StyledMenuItem = withStyles((theme) => ({
     },
 }))(MenuItem);
 
+let set = new Set()
+
 export default function CustomizedMenus(props) {
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -66,7 +69,8 @@ export default function CustomizedMenus(props) {
         setAllGameData(props.nfl_game_data)
         setUpdateGameData(props.nfl_game_data)
         allGameData.sort(function(a, b) {
-            return a.DateTime - b.DateTime;
+            // return a.DateTime - b.DateTime;
+            return new Date(a.DateTime) - new Date(b.DateTime);
         });
 
     })
@@ -188,14 +192,51 @@ export default function CustomizedMenus(props) {
                 }
             }
         }
-
     }
-    const activeDeactive = (e)=>{
-
+    const activeDeactive = (e,teamName='',teamname='')=>{
         let awayNameAttribute = e.target.getAttribute("data-awayName")
         let homeNameAttribute = e.target.getAttribute("data-homeName")
         let middleNameAttribute = e.target.getAttribute("data-middleName")
-
+        if(e.target.getAttribute("at")){
+            if(set.has(e.target.getAttribute("awayTeamName"))){
+                set.delete(e.target.getAttribute("awayTeamName"))
+            }
+            else{
+                set.add(e.target.getAttribute("awayTeamName"))
+            }
+            if(set.has(e.target.getAttribute("homeTeamName"))){
+                set.delete(e.target.getAttribute("homeTeamName"))
+            }
+            else{
+                set.add(e.target.getAttribute("homeTeamName"))
+            }
+            // console.log(e.target.getAttribute("awayTeamName"))
+            // console.log(e.target.getAttribute("homeTeamName"))
+            console.log(set)
+        }
+        else if(e.target.getAttribute("awayTeamname")){
+            if(set.has(e.target.getAttribute("awayTeamName"))){
+                set.delete(e.target.getAttribute("awayTeamName"))
+            }
+            else{
+                console.log(JSON.stringify(e.target.getAttribute("awayTeamName")))
+                set.add(e.target.getAttribute("awayTeamName"))
+            }
+            // set.add(e.target.getAttribute("awayTeamName"))
+            console.log(set)
+            // console.log(e.target.getAttribute("awayTeamName"))
+        }
+        else{
+            if(set.has(e.target.getAttribute("homeTeamName"))){
+                set.delete(e.target.getAttribute("homeTeamName"))
+            }
+            else{
+                set.add(e.target.getAttribute("homeTeamName"))
+            }
+            // set.add(e.target.getAttribute("homeTeamName"))
+            // console.log(e.target.getAttribute("homeTeamName"))
+            console.log(set)
+        }
         let leftElement = '';
         let middleElement = '';
         let rightElement = '';
@@ -206,13 +247,13 @@ export default function CustomizedMenus(props) {
             if('left'+game_id.Id === awayNameAttribute){
                  // game_id['IsAwayTeamActive'] = !game_id.IsAwayTeamActive
                  // game_id['IsBothTeamActive'] = game_id.IsAwayTeamActive === game_id.IsHomeTeamActive
-
-                if(leftElement.className === 'left_team active col-md-5 col-sm-5 col-xs-5'){
+                console.log("Name",teamName,"name",teamname)
+                if(leftElement.className.includes("active")){
                     leftElement.className = 'left_team col-md-5 col-sm-5 col-xs-5'
                 }else{
-                    leftElement.className = 'left_team active col-md-5 col-sm-5 col-xs-5'
+                    leftElement.className = `left_team ${teamName.length>0 ? active+teamName : "active"} col-md-5 col-sm-5 col-xs-5`
                 }
-                if(leftElement.className === 'left_team active col-md-5 col-sm-5 col-xs-5' && rightElement.className === 'right_team active col-md-5 col-sm-5 col-xs-5'){
+                if(leftElement.className.includes("active") && rightElement.className.includes("active")){
                     middleElement.className = 'middle_team active col-md-2 col-sm-2 col-xs-2'
                 }else{
                     middleElement.className = 'middle_team col-md-2 col-sm-2 col-xs-2'
@@ -223,12 +264,12 @@ export default function CustomizedMenus(props) {
                 // game_id['IsAwayTeamActive'] = !game_id.IsHomeTeamActive
                 // game_id['IsBothTeamActive'] = game_id.IsAwayTeamActive === game_id.IsHomeTeamActive
 
-                if(rightElement.className === 'right_team active col-md-5 col-sm-5 col-xs-5'){
+                if(rightElement.className.includes("active")){
                     rightElement.className = 'right_team col-md-5 col-sm-5 col-xs-5'
                 }else{
-                    rightElement.className = 'right_team active col-md-5 col-sm-5 col-xs-5'
+                    rightElement.className = `right_team ${teamName.length>0 ? active+teamName : "active" } col-md-5 col-sm-5 col-xs-5`
                 }
-                if(leftElement.className === 'left_team active col-md-5 col-sm-5 col-xs-5' && rightElement.className === 'right_team active col-md-5 col-sm-5 col-xs-5'){
+                if(leftElement.className.includes("active") && rightElement.className.includes("active")){
                     middleElement.className = 'middle_team active col-md-2 col-sm-2 col-xs-2'
                 }else{
                     middleElement.className = 'middle_team col-md-2 col-sm-2 col-xs-2'
@@ -242,13 +283,13 @@ export default function CustomizedMenus(props) {
                     rightElement.className = 'right_team col-md-5 col-sm-5 col-xs-5'
                 }else{
                     middleElement.className = 'middle_team active col-md-2 col-sm-2 col-xs-2'
-                    leftElement.className = 'left_team active col-md-5 col-sm-5 col-xs-5'
-                    rightElement.className = 'right_team active col-md-5 col-sm-5 col-xs-5'
-                }
+                    leftElement.className = `left_team ${teamName.length>0 ? active+teamName : "active" } col-md-5 col-sm-5 col-xs-5`
+                    rightElement.className = `right_team ${teamname.length>0 ? active+teamname : "active" } col-md-5 col-sm-5 col-xs-5`                }
             }
         });
     }
     const selectAllTeam = () => {
+        set = new Set()
         toast("⭐ All teams Selected...");
         let leftElement = '';
         let middleElement = '';
@@ -257,17 +298,20 @@ export default function CustomizedMenus(props) {
             // allGameData[i]['IsAwayTeamActive']=true
             // allGameData[i]['IsHomeTeamActive']=true
             // allGameData[i]['IsBothTeamActive']=true
-
+            set.add(allGameData[i].AwayTeam)
+            set.add(allGameData[i].HomeTeam)
+            console.log(set)
             leftElement = document.getElementById('left'+allGameData[i].Id);
             middleElement = document.getElementById('middle'+allGameData[i].Id);
             rightElement = document.getElementById('right'+allGameData[i].Id);
 
-            leftElement.className = 'left_team active col-md-5 col-sm-5 col-xs-5'
-            rightElement.className = 'right_team active col-md-5 col-sm-5 col-xs-5'
+            leftElement.className = `left_team ${allGameData[i].AwayTeam.length>0 ? active+allGameData[i].AwayTeam : "active"} col-md-5 col-sm-5 col-xs-5`
+            rightElement.className = `right_team ${allGameData[i].HomeTeam.length>0 ? active+allGameData[i].HomeTeam : "active"} col-md-5 col-sm-5 col-xs-5`
             middleElement.className = 'middle_team active col-md-2 col-sm-2 col-xs-2'
         }
     }
     const clearAllTeam = () =>{
+        set = new Set()
         toast.error("⭐ Clear All Teams...");
         let leftElement = '';
         let middleElement = '';
@@ -287,9 +331,12 @@ export default function CustomizedMenus(props) {
         }
     }
     const applyTeam = () =>{
+        console.log(props)
+        props.setData(set)
         // props.onSaveGameData(updateGameData)
         // toast.success("⭐ Apply to All Teams...");
     }
+
     const gameDataInstance = (data) =>{
         setUpdateGameData(data)
     }
@@ -298,14 +345,14 @@ export default function CustomizedMenus(props) {
         <StyledMenuItem>
             <div className="menu_list_head">
                 <div className="team_container row">
-                    <div data-awayName={`left${gameData.Id}`} id={`left${gameData.Id}`}  className="left_team active col-md-5 col-sm-5 col-xs-5"  onClick={activeDeactive}>
+                    <div data-awayName={`left${gameData.Id}`} id={`left${gameData.Id}`} awayTeamName={ gameData.AwayTeam }  className={`left_team ${gameData.AwayTeam.length>0 ? active+gameData.AwayTeam : "active"} col-md-5 col-sm-5 col-xs-5`}  onClick={(e)=>{activeDeactive(e,gameData.AwayTeam)}}>
                         {props.is_nbaNfl === 'NFL' ?
                         <div className={`${gameData.AwayTeam} nfl CAR`}></div>
                             : <div className={`${gameData.AwayTeam}`}></div>}
                         {gameData.AwayTeam}
                     </div>
-                    <div data-middleName={`middle${gameData.Id}`} id={`middle${gameData.Id}`}  className="middle_team active  col-md-2 col-sm-2 col-xs-2" onClick={activeDeactive}>@</div>
-                    <div data-homeName={`right${gameData.Id}`} id={`right${gameData.Id}`}  className="right_team active  col-md-5 col-sm-5 col-xs-5" onClick={activeDeactive}>
+                    <div data-middleName={`middle${gameData.Id}`} id={`middle${gameData.Id}`} awayTeamName={ gameData.AwayTeam } at={"@"} homeTeamName={gameData.HomeTeam}  className="middle_team active  col-md-2 col-sm-2 col-xs-2" onClick={(e)=>{activeDeactive(e,gameData.AwayTeam,gameData.HomeTeam)}}>@</div>
+                    <div data-homeName={`right${gameData.Id}`} id={`right${gameData.Id}`} homeTeamName={gameData.HomeTeam} className={`right_team ${gameData.AwayTeam.length>0 ? active+gameData.HomeTeam : "active"} col-md-5 col-sm-5 col-xs-5`} onClick={(e)=>{activeDeactive(e,gameData.HomeTeam)}}>
                         {props.is_nbaNfl === 'NFL' ?
                             <div className={`${gameData.HomeTeam} nfl NYJ`}></div>
                             : <div className={`${gameData.HomeTeam}`}></div>}
@@ -361,48 +408,48 @@ export default function CustomizedMenus(props) {
                     </div>
                     <div className="listFooterContainer">
                         <Button size="small" variant="contained" color="primary" onClick={selectAllTeam}>
-                            <ToastContainer
-                                position="bottom-right"
-                                autoClose={3000}
-                                hideProgressBar={false}
-                                newestOnTop={false}
-                                closeOnClick
-                                rtl={false}
-                                pauseOnFocusLoss
-                                draggable
-                                pauseOnHover
-                                className='toasterStyle'
-                            />
+                            {/*<ToastContainer*/}
+                            {/*    position="bottom-right"*/}
+                            {/*    autoClose={3000}*/}
+                            {/*    hideProgressBar={false}*/}
+                            {/*    newestOnTop={false}*/}
+                            {/*    closeOnClick*/}
+                            {/*    rtl={false}*/}
+                            {/*    pauseOnFocusLoss*/}
+                            {/*    draggable*/}
+                            {/*    pauseOnHover*/}
+                            {/*    className='toasterStyle'*/}
+                            {/*/>*/}
                             All
                         </Button>
                         <Button size="small" variant="contained" color="primary" onClick={clearAllTeam}>
-                            <ToastContainer
-                                position="bottom-right"
-                                autoClose={3000}
-                                hideProgressBar={false}
-                                newestOnTop={false}
-                                closeOnClick
-                                rtl={false}
-                                pauseOnFocusLoss
-                                draggable
-                                pauseOnHover
-                                className='toasterStyle'
-                            />
+                            {/*<ToastContainer*/}
+                            {/*    position="bottom-right"*/}
+                            {/*    autoClose={3000}*/}
+                            {/*    hideProgressBar={false}*/}
+                            {/*    newestOnTop={false}*/}
+                            {/*    closeOnClick*/}
+                            {/*    rtl={false}*/}
+                            {/*    pauseOnFocusLoss*/}
+                            {/*    draggable*/}
+                            {/*    pauseOnHover*/}
+                            {/*    className='toasterStyle'*/}
+                            {/*/>*/}
                             Clear
                         </Button>
                         <Button size="small" variant="contained" color="primary" onClick={applyTeam}>
-                            <ToastContainer
-                                position="bottom-right"
-                                autoClose={3000}
-                                hideProgressBar={false}
-                                newestOnTop={false}
-                                closeOnClick
-                                rtl={false}
-                                pauseOnFocusLoss
-                                draggable
-                                pauseOnHover
-                                className='toasterStyle'
-                            />
+                            {/*<ToastContainer*/}
+                            {/*    position="bottom-right"*/}
+                            {/*    autoClose={3000}*/}
+                            {/*    hideProgressBar={false}*/}
+                            {/*    newestOnTop={false}*/}
+                            {/*    closeOnClick*/}
+                            {/*    rtl={false}*/}
+                            {/*    pauseOnFocusLoss*/}
+                            {/*    draggable*/}
+                            {/*    pauseOnHover*/}
+                            {/*    className='toasterStyle'*/}
+                            {/*/>*/}
                             Apply
                         </Button>
                     </div>

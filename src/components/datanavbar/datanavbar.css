@@ -88,7 +88,7 @@
     padding: 10px;
 }
 .ad-group-btn .btn-img{
-        display: table-cell;
+    display: table-cell;
     vertical-align: middle;
 }
 .btn-primary:not(:disabled):not(.disabled).active,
@@ -210,6 +210,139 @@
     color: #fff !important;
     background: #123c6c !important;
 }
+.team_container .activeBKN {
+    color: #fff !important;
+    background: #000000 !important;
+}
+.active:hover{
+      color: #fff !important;
+      background: #000000 !important;
+  }
+.team_container .activeMIL{
+    color: #fff !important;
+    background: #00471b !important;
+}
+.team_container .activeLAL{
+    color: #fff !important;
+    background: #552583 !important;
+}
+.team_container .activeGS{
+    color: #fff !important;
+    background: #b7a300 !important;
+}
+.team_container .activeCIN{
+    color: #fff !important;
+    background: #FB4F14 !important;
+}
+.team_container .activeDET{
+    color: #fff !important;
+    background: #0076B6 !important;
+}
+.team_container .activeARI{
+    color: #fff !important;
+    background: #97233F !important;
+}
+.team_container .activeCLE{
+    color: #fff !important;
+    background: #F3663B !important;
+}
+.team_container .activeLAC{
+    color: #fff !important;
+    background: #002A5E !important;
+}
+.team_container .activeBAL{
+    color: #fff !important;
+    background: #241773 !important;
+}
+.team_container .activeTB{
+    color: #fff !important;
+    background: #FFA800 !important;
+}
+.team_container .activePHI{
+    color: #fff !important;
+    background: #004C54 !important;
+}
+.team_container .activeDAL{
+    color: #fff !important;
+    background: #041E42 !important;
+}
+.team_container .activeNE{
+    color: #fff !important;
+    background: #002244 !important;
+}
+.team_container .activeSEA{
+    color: #fff !important;
+    background: #002244 !important;
+}
+.team_container .activePIT{
+    color: #fff !important;
+    background: #101820 !important;
+}
+.team_container .activeLV{
+    color: #fff !important;
+    background: #000000 !important;
+}
+.team_container .activeDEN{
+    color: #fff !important;
+    background: #002244 !important;
+}
+.team_container .activeLAR{
+    color: #fff !important;
+    background: #003594 !important;
+}
+.team_container .activeNYG{
+    color: #fff !important;
+    background: #F54BDE !important;
+}
+.team_container .activeMIN{
+    color: #fff !important;
+    background: #4F2683 !important;
+}
+.team_container .activeCAR{
+    color: #fff !important;
+    background: #0085CA !important;
+}
+.team_container .activeHOU{
+    color: #fff !important;
+    background: #03202F !important;
+}
+.team_container .activeIND{
+    color: #fff !important;
+    background: #002C5F !important;
+}
+.team_container .activeGB{
+    color: #fff !important;
+    background: #203731 !important;
+}
+.team_container .activeCHI{
+    color: #fff !important;
+    background: #0B162A !important;
+}
+.team_container .activeKC{
+    color: #fff !important;
+    background: #E31837 !important;
+}
+.team_container .activeWAS{
+    color: #fff !important;
+    background: #773141 !important;
+}
+.team_container .activeTEN{
+    color: #fff !important;
+    background: #0C2340 !important;
+}
+.team_container .activeBUF{
+    color: #fff !important;
+    background: #C60C30 !important;
+}
+.team_container .activeMIA{
+    color: #fff !important;
+    background: #008E96 !important;
+}
+.team_container .activeJAX{
+    color: #fff !important;
+    background: #006778 !important;
+}
+
 .MuiAccordionSummary-content{
     margin: 0 !important;
 }
