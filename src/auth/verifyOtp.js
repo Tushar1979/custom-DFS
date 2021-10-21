@@ -1,8 +1,6 @@
 import React, {Component} from 'react';
-import {BrowserRouter as Router, Switch, Route, Redirect, Link} from 'react-router-dom';
 import authLogo from "../images/login_logo.png"
 import './style.css';
-import {Amplify} from "aws-amplify";
 import {toast, ToastContainer} from "react-toastify";
 import { Auth } from "aws-amplify";
 import {TextField} from "@material-ui/core";
@@ -13,7 +11,6 @@ class VerifyOtp extends Component {
         this.state={
             otp:'',
             username: props.history.location.state['username']
-
         }
     }
     otpField = (e) =>{
@@ -28,11 +25,8 @@ class VerifyOtp extends Component {
         }).catch((message) => {
             toast.error("⭐ "+message.message)
         })
-
-
     };
     render() {
-
         return (
             <div className="main">
                 <div className="wrapper fadeInDown">
@@ -57,7 +51,6 @@ class VerifyOtp extends Component {
                                 className='toasterStyle'
                             />
                         </div>
-
                     </div>
                 </div>
             </div>

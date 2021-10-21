@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
@@ -15,9 +15,11 @@ import ToggleButton from '@material-ui/lab/ToggleButton';
 
 import '../home/style.css'
 import '../datanavbar/datanavbar.css'
-import {toast, ToastContainer} from "react-toastify";
+import {toast} from "react-toastify";
 
 const active='active'
+var aaa=''
+let set = new Set()
 const StyledMenu = withStyles({
     paper: {
         border: '1px solid #d3d4d5',
@@ -46,15 +48,11 @@ const StyledMenuItem = withStyles((theme) => ({
     },
 }))(MenuItem);
 
-let set = new Set()
-
 export default function CustomizedMenus(props) {
-    const classes = useStyles();
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [allGameData, setAllGameData] = React.useState([])
     const [updateGameData, setUpdateGameData] = React.useState([])
 
-    const [saveGameData, setSaveGameData] = React.useState([])
     let [newGameData, setNewGameData] = React.useState([])
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -69,11 +67,19 @@ export default function CustomizedMenus(props) {
         setAllGameData(props.nfl_game_data)
         setUpdateGameData(props.nfl_game_data)
         allGameData.sort(function(a, b) {
-            // return a.DateTime - b.DateTime;
-            return new Date(a.DateTime) - new Date(b.DateTime);
+            console.log(new Date(b.DateTime) - new Date(a.DateTime))
+            return new Date(b.DateTime) - new Date(a.DateTime);
         });
 
     })
+    useEffect(() => {
+        for(let i=0;i<props.nfl_game_data.length;i++)
+        {
+            set.add(props.nfl_game_data[i].AwayTeam)
+            set.add(props.nfl_game_data[i].HomeTeam)
+        }
+    }, props.nfl_game_data)
+    let [disable,setDisable] = useState(false)
 
     const saveModifyGameList = (id, is_check, winner, keyName) =>{
         let is_exist = true
@@ -193,50 +199,12 @@ export default function CustomizedMenus(props) {
             }
         }
     }
+
     const activeDeactive = (e,teamName='',teamname='')=>{
         let awayNameAttribute = e.target.getAttribute("data-awayName")
         let homeNameAttribute = e.target.getAttribute("data-homeName")
         let middleNameAttribute = e.target.getAttribute("data-middleName")
-        if(e.target.getAttribute("at")){
-            if(set.has(e.target.getAttribute("awayTeamName"))){
-                set.delete(e.target.getAttribute("awayTeamName"))
-            }
-            else{
-                set.add(e.target.getAttribute("awayTeamName"))
-            }
-            if(set.has(e.target.getAttribute("homeTeamName"))){
-                set.delete(e.target.getAttribute("homeTeamName"))
-            }
-            else{
-                set.add(e.target.getAttribute("homeTeamName"))
-            }
-            // console.log(e.target.getAttribute("awayTeamName"))
-            // console.log(e.target.getAttribute("homeTeamName"))
-            console.log(set)
-        }
-        else if(e.target.getAttribute("awayTeamname")){
-            if(set.has(e.target.getAttribute("awayTeamName"))){
-                set.delete(e.target.getAttribute("awayTeamName"))
-            }
-            else{
-                console.log(JSON.stringify(e.target.getAttribute("awayTeamName")))
-                set.add(e.target.getAttribute("awayTeamName"))
-            }
-            // set.add(e.target.getAttribute("awayTeamName"))
-            console.log(set)
-            // console.log(e.target.getAttribute("awayTeamName"))
-        }
-        else{
-            if(set.has(e.target.getAttribute("homeTeamName"))){
-                set.delete(e.target.getAttribute("homeTeamName"))
-            }
-            else{
-                set.add(e.target.getAttribute("homeTeamName"))
-            }
-            // set.add(e.target.getAttribute("homeTeamName"))
-            // console.log(e.target.getAttribute("homeTeamName"))
-            console.log(set)
-        }
+
         let leftElement = '';
         let middleElement = '';
         let rightElement = '';
@@ -244,30 +212,28 @@ export default function CustomizedMenus(props) {
             leftElement = document.getElementById('left'+game_id.Id);
             middleElement = document.getElementById('middle'+game_id.Id);
             rightElement = document.getElementById('right'+game_id.Id);
+
             if('left'+game_id.Id === awayNameAttribute){
-                 // game_id['IsAwayTeamActive'] = !game_id.IsAwayTeamActive
-                 // game_id['IsBothTeamActive'] = game_id.IsAwayTeamActive === game_id.IsHomeTeamActive
-                console.log("Name",teamName,"name",teamname)
                 if(leftElement.className.includes("active")){
-                    leftElement.className = 'left_team col-md-5 col-sm-5 col-xs-5'
+                    aaa=leftElement.className; set.delete(teamName)
+                    leftElement.className=aaa.replace("active",'hover')
                 }else{
-                    leftElement.className = `left_team ${teamName.length>0 ? active+teamName : "active"} col-md-5 col-sm-5 col-xs-5`
+                    aaa=leftElement.className; set.add(teamName)
+                    leftElement.className=aaa.replace("hover",'active')
                 }
                 if(leftElement.className.includes("active") && rightElement.className.includes("active")){
                     middleElement.className = 'middle_team active col-md-2 col-sm-2 col-xs-2'
                 }else{
                     middleElement.className = 'middle_team col-md-2 col-sm-2 col-xs-2'
                 }
-
             }
             if('right'+game_id.Id === homeNameAttribute){
-                // game_id['IsAwayTeamActive'] = !game_id.IsHomeTeamActive
-                // game_id['IsBothTeamActive'] = game_id.IsAwayTeamActive === game_id.IsHomeTeamActive
-
                 if(rightElement.className.includes("active")){
-                    rightElement.className = 'right_team col-md-5 col-sm-5 col-xs-5'
+                    aaa=rightElement.className; set.delete(teamName)
+                    rightElement.className=aaa.replace("active",'hover')
                 }else{
-                    rightElement.className = `right_team ${teamName.length>0 ? active+teamName : "active" } col-md-5 col-sm-5 col-xs-5`
+                    aaa=rightElement.className; set.add(teamName)
+                    rightElement.className=aaa.replace("hover",'active')
                 }
                 if(leftElement.className.includes("active") && rightElement.className.includes("active")){
                     middleElement.className = 'middle_team active col-md-2 col-sm-2 col-xs-2'
@@ -275,19 +241,29 @@ export default function CustomizedMenus(props) {
                     middleElement.className = 'middle_team col-md-2 col-sm-2 col-xs-2'
                 }
             }
-            if('middle'+game_id.Id === middleNameAttribute){
-                // game_id['IsBothTeamActive'] = !game_id.IsBothTeamActive
-                if(middleElement.className === 'middle_team active col-md-2 col-sm-2 col-xs-2'){
+            if('middle'+game_id.Id === middleNameAttribute) {
+                if (middleElement.className === 'middle_team active col-md-2 col-sm-2 col-xs-2') {
                     middleElement.className = 'middle_team col-md-2 col-sm-2 col-xs-2'
-                    leftElement.className = 'left_team col-md-5 col-sm-5 col-xs-5'
-                    rightElement.className = 'right_team col-md-5 col-sm-5 col-xs-5'
-                }else{
+                    aaa = leftElement.className ; set.delete(teamName) ; set.delete(teamname)
+                    leftElement.className = aaa.replace("active", 'hover')
+                    aaa = rightElement.className
+                    rightElement.className = aaa.replace("active", 'hover')
+                }
+                else {
                     middleElement.className = 'middle_team active col-md-2 col-sm-2 col-xs-2'
-                    leftElement.className = `left_team ${teamName.length>0 ? active+teamName : "active" } col-md-5 col-sm-5 col-xs-5`
-                    rightElement.className = `right_team ${teamname.length>0 ? active+teamname : "active" } col-md-5 col-sm-5 col-xs-5`                }
+                    aaa = leftElement.className ; set.add(teamName) ; set.add(teamname)
+                    leftElement.className = aaa.replace("hover", 'active')
+                    aaa = rightElement.className
+                    rightElement.className = aaa.replace("hover", 'active')
+                }
             }
         });
+        if(set.size>0)
+        {setDisable(false)}
+        else
+        {setDisable(true)}
     }
+
     const selectAllTeam = () => {
         set = new Set()
         toast("⭐ All teams Selected...");
@@ -295,46 +271,51 @@ export default function CustomizedMenus(props) {
         let middleElement = '';
         let rightElement = '';
         for(let i=0; i<allGameData.length; i++){
-            // allGameData[i]['IsAwayTeamActive']=true
-            // allGameData[i]['IsHomeTeamActive']=true
-            // allGameData[i]['IsBothTeamActive']=true
+
             set.add(allGameData[i].AwayTeam)
             set.add(allGameData[i].HomeTeam)
-            console.log(set)
             leftElement = document.getElementById('left'+allGameData[i].Id);
             middleElement = document.getElementById('middle'+allGameData[i].Id);
             rightElement = document.getElementById('right'+allGameData[i].Id);
 
-            leftElement.className = `left_team ${allGameData[i].AwayTeam.length>0 ? active+allGameData[i].AwayTeam : "active"} col-md-5 col-sm-5 col-xs-5`
-            rightElement.className = `right_team ${allGameData[i].HomeTeam.length>0 ? active+allGameData[i].HomeTeam : "active"} col-md-5 col-sm-5 col-xs-5`
+            aaa = leftElement.className
+            leftElement.className = aaa.replace("hover", 'active')
+            aaa = rightElement.className
+            rightElement.className = aaa.replace("hover", 'active')
             middleElement.className = 'middle_team active col-md-2 col-sm-2 col-xs-2'
         }
+        if(set.size>0)
+        {setDisable(false)}
+        else
+        {setDisable(true)}
     }
     const clearAllTeam = () =>{
-        set = new Set()
+        set.clear()
         toast.error("⭐ Clear All Teams...");
         let leftElement = '';
         let middleElement = '';
         let rightElement = '';
         for(let i=0; i<allGameData.length; i++){
-            // allGameData[i]['IsAwayTeamActive']=false
-            // allGameData[i]['IsHomeTeamActive']=false
-            // allGameData[i]['IsBothTeamActive']=false
 
             leftElement = document.getElementById('left'+allGameData[i].Id);
             middleElement = document.getElementById('middle'+allGameData[i].Id);
             rightElement = document.getElementById('right'+allGameData[i].Id);
 
-            leftElement.className = 'left_team col-md-5 col-sm-5 col-xs-5'
-            rightElement.className = 'right_team col-md-5 col-sm-5 col-xs-5'
+            aaa = leftElement.className
+            leftElement.className = aaa.replace("active", 'hover')
+            aaa = rightElement.className
+            rightElement.className = aaa.replace("active", 'hover')
             middleElement.className = 'middle_team col-md-2 col-sm-2 col-xs-2'
         }
+        if(set.size>0)
+        {setDisable(false);}
+        else
+        {setDisable(true);}
     }
     const applyTeam = () =>{
-        console.log(props)
+        toast.success("⭐ Apply to All Teams...");
+        sessionStorage.setItem('pageReset','true0')
         props.setData(set)
-        // props.onSaveGameData(updateGameData)
-        // toast.success("⭐ Apply to All Teams...");
     }
 
     const gameDataInstance = (data) =>{
@@ -347,7 +328,7 @@ export default function CustomizedMenus(props) {
                 <div className="team_container row">
                     <div data-awayName={`left${gameData.Id}`} id={`left${gameData.Id}`} awayTeamName={ gameData.AwayTeam }  className={`left_team ${gameData.AwayTeam.length>0 ? active+gameData.AwayTeam : "active"} col-md-5 col-sm-5 col-xs-5`}  onClick={(e)=>{activeDeactive(e,gameData.AwayTeam)}}>
                         {props.is_nbaNfl === 'NFL' ?
-                        <div className={`${gameData.AwayTeam} nfl CAR`}></div>
+                            <div className={`${gameData.AwayTeam} nfl CAR`}></div>
                             : <div className={`${gameData.AwayTeam}`}></div>}
                         {gameData.AwayTeam}
                     </div>
@@ -357,8 +338,7 @@ export default function CustomizedMenus(props) {
                             <div className={`${gameData.HomeTeam} nfl NYJ`}></div>
                             : <div className={`${gameData.HomeTeam}`}></div>}
 
-                       {gameData.HomeTeam}
-
+                        {gameData.HomeTeam}
                     </div>
                 </div>
                 <div className="row">
@@ -374,14 +354,11 @@ export default function CustomizedMenus(props) {
                             updateGame={gameDataInstance}
                             dateTime={gameData.DateTime}
                             saveModifyGameList={saveModifyGameList}
-
                         />
                     </div>
                 </div>
             </div>
-
         </StyledMenuItem>
-
     ))
     return (
             <div>
@@ -393,8 +370,6 @@ export default function CustomizedMenus(props) {
                 >
                     game data
                 </Button>
-
-
                 <div className="class_head">
                 <StyledMenu
                     id="customized-menu"
@@ -408,56 +383,22 @@ export default function CustomizedMenus(props) {
                     </div>
                     <div className="listFooterContainer">
                         <Button size="small" variant="contained" color="primary" onClick={selectAllTeam}>
-                            {/*<ToastContainer*/}
-                            {/*    position="bottom-right"*/}
-                            {/*    autoClose={3000}*/}
-                            {/*    hideProgressBar={false}*/}
-                            {/*    newestOnTop={false}*/}
-                            {/*    closeOnClick*/}
-                            {/*    rtl={false}*/}
-                            {/*    pauseOnFocusLoss*/}
-                            {/*    draggable*/}
-                            {/*    pauseOnHover*/}
-                            {/*    className='toasterStyle'*/}
-                            {/*/>*/}
                             All
                         </Button>
                         <Button size="small" variant="contained" color="primary" onClick={clearAllTeam}>
-                            {/*<ToastContainer*/}
-                            {/*    position="bottom-right"*/}
-                            {/*    autoClose={3000}*/}
-                            {/*    hideProgressBar={false}*/}
-                            {/*    newestOnTop={false}*/}
-                            {/*    closeOnClick*/}
-                            {/*    rtl={false}*/}
-                            {/*    pauseOnFocusLoss*/}
-                            {/*    draggable*/}
-                            {/*    pauseOnHover*/}
-                            {/*    className='toasterStyle'*/}
-                            {/*/>*/}
                             Clear
                         </Button>
+                        {/*this button is used for diasble apply when nothing is selected*/}
+                        {/*<Button size="small" variant="contained" color="primary" onClick={applyTeam} disabled={disable} >*/}
+                        {/*    Apply*/}
+                        {/*</Button>*/}
                         <Button size="small" variant="contained" color="primary" onClick={applyTeam}>
-                            {/*<ToastContainer*/}
-                            {/*    position="bottom-right"*/}
-                            {/*    autoClose={3000}*/}
-                            {/*    hideProgressBar={false}*/}
-                            {/*    newestOnTop={false}*/}
-                            {/*    closeOnClick*/}
-                            {/*    rtl={false}*/}
-                            {/*    pauseOnFocusLoss*/}
-                            {/*    draggable*/}
-                            {/*    pauseOnHover*/}
-                            {/*    className='toasterStyle'*/}
-                            {/*/>*/}
                             Apply
                         </Button>
                     </div>
                 </StyledMenu>
                 </div>
-
             </div>
-
     );
 }
 
@@ -475,46 +416,100 @@ function DetailedAccordion(props) {
 
     return (
         <div className={classes.root}>
-            <Accordion >
-                <AccordionSummary
+            <Accordion>
+                { props.collapse ? <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}
                     aria-controls="panel1c-content"
-                    id="panel1c-header"
-                >
-                    <div className="row mr-0">
-
-                        <div className="left_des  col-md-5 col-sm-5 col-xs-5">
-
-                            <span className="">Over/under {props.overUnder}</span>
+                    id="panel1c-header">
+                    <div>
+                        <div className="row mr-0 ">
+                            <div className="collapse_single text-right">
+                            <span className="dateTimeText">
+                                        {props.dateTime ?
+                                            (new Intl.DateTimeFormat(
+                                                'en',
+                                                {
+                                                    weekday:'long',
+                                                    month: 'long',
+                                                    day: '2-digit',
+                                                    year: 'numeric',
+                                                    hour: 'numeric',
+                                                    minute: 'numeric',
+                                                    hourCycle: 'h11'
+                                                }
+                                            ).format(new Date(props.dateTime)
+                                            ))
+                                            : null}
+                                    </span>
+                            </div>
                         </div>
-                        <div className="middle_des  col-md-2 col-sm-2 col-xs-2"></div>
-                        <div className="right_des  col-md-5 col-sm-5 col-xs-5">
-                            <span className="text-uppercase">{props.HomeTeam}  {props.spread}</span>
+                        <div className="row mr-0">
+                            <div className="left_des  col-md-5 col-sm-5 col-xs-5">
+                                <span className="">Over/under {props.overUnder}</span>
+                            </div>
+                            <div className="middle_des  col-md-2 col-sm-2 col-xs-2"></div>
+                            <div className="right_des  col-md-5 col-sm-5 col-xs-5">
+                                <span className="text-uppercase">{props.HomeTeam}  {props.spread>0 ? "+"+props.spread:props.spread}</span>
+                            </div>
                         </div>
                     </div>
-                </AccordionSummary>
+                </AccordionSummary>:<AccordionDetails>
+                    <div>
+                        <div className="row mr-0 ">
+                            <div className="collapse_single text-right">
+                            <span className="dateTimeText">
+                                        {props.dateTime ?
+                                            (new Intl.DateTimeFormat(
+                                                'en',
+                                                {
+                                                    weekday:'long',
+                                                    month: 'long',
+                                                    day: '2-digit',
+                                                    year: 'numeric',
+                                                    hour: 'numeric',
+                                                    minute: 'numeric',
+                                                    hourCycle: 'h11'
+                                                }
+                                            ).format(new Date(props.dateTime)
+                                            ))
+                                            : null}
+                                    </span>
+                            </div>
+                        </div>
+                        <div className="row mr-0">
+                            <div className="left_des  col-md-5 col-sm-5 col-xs-5">
+                                <span className="">Over/under {props.overUnder}</span>
+                            </div>
+                            <div className="middle_des  col-md-2 col-sm-2 col-xs-2"></div>
+                            <div className="right_des  col-md-5 col-sm-5 col-xs-5">
+                                <span className="text-uppercase">{props.HomeTeam}  {props.spread>0 ? "+"+props.spread:props.spread}</span>
+                            </div>
+                        </div>
+                    </div>
+                </AccordionDetails>
+                }
+
+
+                {/*<AccordionSummary*/}
+                {/*    expandIcon={<ExpandMoreIcon />}*/}
+                {/*    aria-controls="panel1c-content"*/}
+                {/*    id="panel1c-header"*/}
+                {/*>*/}
+                {/*    <div className="row mr-0">*/}
+                {/*        <div className="left_des  col-md-5 col-sm-5 col-xs-5">*/}
+                {/*            <span className="">Over/under {props.overUnder}</span>*/}
+                {/*        </div>*/}
+                {/*        <div className="middle_des  col-md-2 col-sm-2 col-xs-2"></div>*/}
+                {/*        <div className="right_des  col-md-5 col-sm-5 col-xs-5">*/}
+                {/*            <span className="text-uppercase">{props.HomeTeam}  {props.spread>0 ? "+"+props.spread:props.spread}</span>*/}
+                {/*        </div>*/}
+                {/*    </div>*/}
+
+
+                {/*</AccordionSummary>*/}
+
                     <AccordionDetails>
                         <ul className="collapse_container">
-                            <li className="collapse_single text-right">
-                                <span className="dateTimeText">
-                                    {props.dateTime ?
-                                        (new Intl.DateTimeFormat(
-                                        'en',
-                                            {
-                                                month: 'long',
-                                                day: '2-digit',
-                                                year: 'numeric',
-                                                hour: 'numeric',
-                                                minute: 'numeric',
-                                                hourCycle: 'h11'
-                                            }
-                                        ).format(new Date(props.dateTime)
-                                        ))
-                                    : null}
-
-                                </span>
-                            </li>
-
                             {props.collapse ?
                                 <>
                                     <li className="collapse_single">
@@ -584,7 +579,6 @@ function DetailedAccordion(props) {
                                         </span>
                                     </li>
                                 </>
-
                             : null }
                                 </ul>
                     </AccordionDetails>
@@ -594,13 +588,10 @@ function DetailedAccordion(props) {
     );
 }
 
-
-
 function StandaloneToggleButton(props) {
     const [selected, setSelected] = React.useState(false);
     const onGameChange = () =>{
             props.onUpdateWinner(props.id, selected, props.TeamName, props.actionKey)
-
     }
 
     return (
@@ -614,7 +605,7 @@ function StandaloneToggleButton(props) {
             id={props.id}
             onClick={onGameChange}
         >
-            {props.TeamName}
+            {props.TeamName>0 ? "+"+props.TeamName:props.TeamName}
         </ToggleButton>
     );
 }

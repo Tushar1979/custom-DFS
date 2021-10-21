@@ -30,8 +30,7 @@ class ReportBog extends React.Component {
             let url = 'https://api.leadpages.io/integration/v1/forms/UJgXbBwh3bdvGV6cGmWhLm/submissions'
             this.api.PostWithParamsApi(url, param, data)
                 .then((res) => {
-                    let response_data = JSON.parse(res.request.response)
-                        // console.log('+++++----++++', response_data.body)
+                   // let response_data = JSON.parse(res.request.response)
 
                 })
                 .catch((error) => {
@@ -39,7 +38,6 @@ class ReportBog extends React.Component {
                     console.log(error);
                 })
             setTimeout(() => { this.setState({process:false, processed:true}) }, 1000);
-
         }
     }
     render() {
@@ -63,14 +61,13 @@ class ReportBog extends React.Component {
                                 </div>
                                 <div className="form-group">
                                     <label>Comment</label>
-                                    <textarea className="form-control" rows="4" onChange={e =>this.setState({comment: e.target.value})}> </textarea>
+                                    <textarea className="form-control" placeholder="Comment" rows="4" onChange={e =>this.setState({comment: e.target.value})}/>
                                 </div>
                                 <div className=" text-right">
                                     <button className="btn btn-info btn-lg btn-block submit_btn" onClick={this.handleSubmit} disabled={this.state.process || this.state.processed ? true: false}>
                                         {this.state.process ? 'Submitting': (
                                             this.state.processed ? 'thank You': 'Submit'
                                         )}
-
                                     </button>
                                 </div>
                             </div>

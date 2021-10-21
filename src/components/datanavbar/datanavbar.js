@@ -6,42 +6,35 @@ import EnhancedTableHead from "../home/dataTable";
 import TextField from "@material-ui/core/TextField";
 import API from '../../networking/api'
 import Loader from "../../loader/loader"
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import ReactHTMLTableToExcel from "react-html-table-to-excel";
 import CustomizedMenus from "../dropdownBtn/btnDropdown"
 import Button from "@material-ui/core/Button";
 import Spinner from '../Spinner/spinner'
 import ExportToExcel from '../exportFile/exportExcel'
-import {forEach} from "react-bootstrap/ElementChildren";
 
 let filter_list = []
-let nflFilter_list = []
 let pgActive = false
 let sgActive = false
 let sfActive = false
 let pfActive = false
 let cActive = false
 
+let nflFilter_list = []
 let qbActive = false
 let rbActive = false
 let wrActive = false
 let teActive = false
 let kActive = false
 let dstActive = false
-let update_salary = 'dk'
-let data1 =[]
-var game_data_array = []
-var old_data = []
-class DataNavBar extends React.Component {
 
+class DataNavBar extends React.Component {
     api = new API()
     constructor(props) {
         super(props);
         this.state =
             {
-                players_data:[
-                ],
+                players_data:[],
                 nfl_player_data: [],
                 nba_game_data:[],
                 nfl_game_data:[],
@@ -175,12 +168,9 @@ class DataNavBar extends React.Component {
             setData:data
         }, () => {
             var game_data_array = []
-            console.log(this.state.filter_player)
             for(let key of data) {
-                console.log(key)
                 var temp_array = []
                 temp_array = this.state.temp_filter_player.filter((item) => item.Team.includes(key))
-                console.log(temp_array)
                 temp_array.forEach((item) => {
                     game_data_array.push(item)
                 })
@@ -199,7 +189,7 @@ class DataNavBar extends React.Component {
         let url = '/Prod/setup-custom-tables'
         this.api.GetApi(url, payload)
             .then((res) => {
-                let response_data = JSON.parse(res.request.response)
+                // let response_data = JSON.parse(res.request.response)
                 if (res.status === 200 ) {
 
                 } else if (res.request.status === 401) {
@@ -242,10 +232,8 @@ class DataNavBar extends React.Component {
                             }
                             else {
                                 this.setState({filter_player:[], excelDataList: filter_data, temp_filter_player:[]})
-
                             }
                         }
-
                     }
                     if(data.sportView === "NFL"){
                         if (response_data.body.length !== 0){
@@ -259,18 +247,11 @@ class DataNavBar extends React.Component {
                                 this.setState({filter_player:filter_data, excelDataList: filter_data, temp_filter_player:filter_data})
                             }
                             else {
-                                this.setState({filter_player:[], excelDataList: filter_data, temp_filter_player:[]})
-
+                                this.setState({excelDataList: filter_data, temp_filter_player:[]})
                             }
                         }
                         else{
                             this.setState({loader:false})
-                            // qbActive = true
-                            // rbActive = true
-                            // wrActive = true
-                            // teActive = true
-                            // kActive = true
-                            // dstActive = true
                         }
                     }
                     this.allSelectFilter()
@@ -295,7 +276,6 @@ class DataNavBar extends React.Component {
             saveBtnActive:true
         })
             this.getPlayerState({"user": {"id": localStorage.getItem('username')}, "sportView": this.state.is_nbaNfl})
-
         }
 
     customDfs(){
@@ -304,16 +284,13 @@ class DataNavBar extends React.Component {
             inputActive:false,
             saveBtnActive:false
         })
-
             this.getPlayerState( {"user": {"id": "Master"}, "sportView": this.state.is_nbaNfl})
-
     }
 
     SaveData = () =>{
         this.setState({saveData:true, spinner: true})
         toast.success("⭐ Successfully loaded...",{closeOnClick: true,
             autoClose:3000});
-        // this.setState({saveData:true, spinner: false})
     }
 
     //api calling
@@ -335,8 +312,8 @@ class DataNavBar extends React.Component {
                         this.setState({nfl_player_data:[]})
                         filter_list = ['pg', 'sg', 'sf', 'pf', 'c']
                         nflFilter_list = ['qb', 'rb', 'wr', 'te', 'k', 'dst']
-
                     }
+
                     if(data.sportView === "NFL"){
                         this.setState({nfl_player_data: response_data.body, filter_player:response_data.body, temp_filter_player:response_data.body})
                         this.setState({search_player_data: response_data.body, excelDataList:response_data.body})
@@ -345,7 +322,8 @@ class DataNavBar extends React.Component {
                         nflFilter_list = ['qb', 'rb', 'wr', 'te', 'k', 'dst']
                     }
                     this.allSelectFilter()
-                } else if (res.request.status === 401) {
+                }
+                else if (res.request.status === 401) {
                     this.props.history.push('/signin')
                     this.setState({loader:false})
                 } else {
@@ -364,12 +342,10 @@ class DataNavBar extends React.Component {
                 let response_data = JSON.parse(res.request.response)
                 if (res.status === 200 ) {
                     if(data.sportView === "NBA"){
-                        console.log(data.sportView)
                         this.setState({game_data: response_data.body})
                         this.setState({loader:false})
                     }
                     if(data.sportView === "NFL"){
-                        console.log(data.sportView)
                         this.setState({game_data: response_data.body})
                         this.setState({loader:false})
                     }
@@ -435,9 +411,6 @@ class DataNavBar extends React.Component {
             }
 
             newArray = newArray.concat(pgArray, sgArray,sfArray, pfArray, cArray);
-            if(keyList.length <=0){
-                newArray = this.state.players_data
-            }
             newArray = new Set(newArray)
             newArray = Array.from(newArray)
             return newArray
@@ -456,19 +429,19 @@ class DataNavBar extends React.Component {
                     pgArray = (player_obj.players.filter(function (el){
                         return el.FanDuelPosition === 'PG' || el.FanDuelPosition === 'pg' || el.FanDuelPosition.includes('PG') || el.FanDuelPosition.includes('pg');
                     }));
-                } if(keyList[i] === 'sg'){
+                }else if(keyList[i] === 'sg'){
                     sgArray = (player_obj.players.filter(function (el){
                         return el.FanDuelPosition === 'SG' || el.FanDuelPosition === 'sg' || el.FanDuelPosition.includes('SG') || el.FanDuelPosition.includes('sg');
                     }));
-                } if(keyList[i] === 'sf'){
+                }else if(keyList[i] === 'sf'){
                     sfArray = (player_obj.players.filter(function (el){
                         return el.FanDuelPosition === 'SF' || el.FanDuelPosition === 'sf' || el.FanDuelPosition.includes('SF') || el.FanDuelPosition.includes('sf');
                     }));
-                } if(keyList[i] === 'pf'){
+                }else if(keyList[i] === 'pf'){
                     pfArray = (player_obj.players.filter(function (el){
                         return el.FanDuelPosition === 'PF' || el.FanDuelPosition === 'pf' || el.FanDuelPosition.includes('PF') || el.FanDuelPosition.includes('pf');
                     }));
-                } if(keyList[i] === 'c'){
+                }else if(keyList[i] === 'c'){
                     cArray = (player_obj.players.filter(function (el){
                         return el.FanDuelPosition === 'C' || el.FanDuelPosition === 'c' || el.FanDuelPosition.includes('C') || el.FanDuelPosition.includes('c');
                     }));
@@ -476,9 +449,6 @@ class DataNavBar extends React.Component {
             }
 
             newArray = newArray.concat(pgArray, sgArray,sfArray, pfArray, cArray);
-            if(keyList.length <=0){
-                newArray = this.state.players_data
-            }
             newArray = new Set(newArray)
             newArray = Array.from(newArray)
             return newArray
@@ -521,7 +491,7 @@ class DataNavBar extends React.Component {
                             }
                         }
                     }));
-                } if(keyList[i] === 'rb'){
+                }else if(keyList[i] === 'rb'){
                     rbArray = (player_obj.players.filter(function (el){
                         if(el.Name !== undefined){
                             try{
@@ -532,7 +502,7 @@ class DataNavBar extends React.Component {
                             }
                         }
                     }));
-                } if(keyList[i] === 'wr'){
+                }else if(keyList[i] === 'wr'){
                     wrArray = (player_obj.players.filter(function (el){
                         if(el.Name !== undefined){
                             try{
@@ -543,7 +513,7 @@ class DataNavBar extends React.Component {
                             }
                         }
                     }));
-                } if(keyList[i] === 'te'){
+                }else if(keyList[i] === 'te'){
                     teArray = (player_obj.players.filter(function (el){
                         if(el.Name !== undefined){
                             try{
@@ -554,7 +524,7 @@ class DataNavBar extends React.Component {
                             }
                         }
                     }));
-                } if(keyList[i] === 'k'){
+                }else if(keyList[i] === 'k'){
                     kArray = (player_obj.players.filter(function (el){
                         if(el.Name !== undefined){
                             try{
@@ -565,7 +535,7 @@ class DataNavBar extends React.Component {
                             }
                         }
                     }));
-                } if(keyList[i] === 'dst'){
+                }else if(keyList[i] === 'dst'){
                     dstArray = (player_obj.players.filter(function (el){
                         if(el.Name !== undefined){
                             try{
@@ -579,12 +549,7 @@ class DataNavBar extends React.Component {
                 }
             }
 
-
             newArray = newArray.concat(qbArray, rbArray,wrArray, teArray, kArray, dstArray);
-            if(keyList.length <=0){
-                newArray = this.state.players_data
-            }
-
             newArray = new Set(newArray)
             newArray = Array.from(newArray)
 
@@ -611,7 +576,7 @@ class DataNavBar extends React.Component {
                             }
                         }
                     }));
-                } if(keyList[i] === 'rb'){
+                }else if(keyList[i] === 'rb'){
                     rbArray = (player_obj.players.filter(function (el){
                         if(el.Name !== undefined){
                             try{
@@ -622,7 +587,7 @@ class DataNavBar extends React.Component {
                             }
                         }
                     }));
-                } if(keyList[i] === 'wr'){
+                }else if(keyList[i] === 'wr'){
                     wrArray = (player_obj.players.filter(function (el){
                         if(el.Name !== undefined){
                             try{
@@ -633,7 +598,7 @@ class DataNavBar extends React.Component {
                             }
                         }
                     }));
-                } if(keyList[i] === 'te'){
+                }else if(keyList[i] === 'te'){
                     teArray = (player_obj.players.filter(function (el){
                         if(el.Name !== undefined){
                             try{
@@ -644,7 +609,7 @@ class DataNavBar extends React.Component {
                             }
                         }
                     }));
-                } if(keyList[i] === 'k'){
+                }else if(keyList[i] === 'k'){
                     kArray = (player_obj.players.filter(function (el){
                         if(el.Name !== undefined){
                             try{
@@ -655,7 +620,7 @@ class DataNavBar extends React.Component {
                             }
                         }
                     }));
-                } if(keyList[i] === 'dst'){
+                }else if(keyList[i] === 'dst'){
                     dstArray = (player_obj.players.filter(function (el){
                         if(el.Name !== undefined){
                             try{
@@ -670,9 +635,6 @@ class DataNavBar extends React.Component {
             }
 
             newArray = newArray.concat(qbArray, rbArray,wrArray, teArray, kArray, dstArray);
-            if(keyList.length <=0){
-                newArray = this.state.players_data
-            }
 
             newArray = new Set(newArray)
             newArray = Array.from(newArray)
@@ -685,7 +647,7 @@ class DataNavBar extends React.Component {
         if(pgActive){
             filter_list=this.removeArray(filter_list, 'pg');
         }
-        if(!pgActive) {
+        else {
             filter_list.push('pg')
         }
         pgActive = !pgActive
@@ -710,7 +672,7 @@ class DataNavBar extends React.Component {
         if(qbActive){
             nflFilter_list=this.removeArray(nflFilter_list, 'qb');
         }
-        if(!qbActive) {
+        else {
             nflFilter_list.push('qb')
         }
         qbActive = !qbActive
@@ -728,14 +690,13 @@ class DataNavBar extends React.Component {
             allClearBtn:false,
             qbBtn:!this.state.qbBtn,
         })
-
     }
 
     rbFilters = () =>{
         if(rbActive){
             nflFilter_list=this.removeArray(nflFilter_list, 'rb');
         }
-        if(!rbActive) {
+        else {
             nflFilter_list.push('rb')
         }
         rbActive = !rbActive
@@ -759,7 +720,7 @@ class DataNavBar extends React.Component {
         if(wrActive){
             nflFilter_list=this.removeArray(nflFilter_list, 'wr');
         }
-        if(!wrActive) {
+        else {
             nflFilter_list.push('wr')
         }
         wrActive = !wrActive
@@ -783,7 +744,7 @@ class DataNavBar extends React.Component {
         if(teActive){
             nflFilter_list=this.removeArray(nflFilter_list, 'te');
         }
-        if(!teActive) {
+        else {
             nflFilter_list.push('te')
         }
         teActive = !teActive
@@ -807,7 +768,7 @@ class DataNavBar extends React.Component {
         if(kActive){
             nflFilter_list=this.removeArray(nflFilter_list, 'k');
         }
-        if(!kActive) {
+       else {
             nflFilter_list.push('k')
         }
         kActive = !kActive
@@ -831,7 +792,7 @@ class DataNavBar extends React.Component {
         if(dstActive){
             nflFilter_list=this.removeArray(nflFilter_list, 'dst');
         }
-        if(!dstActive) {
+        else {
             nflFilter_list.push('dst')
         }
         dstActive = !dstActive
@@ -855,7 +816,7 @@ class DataNavBar extends React.Component {
         if(sgActive){
             filter_list=this.removeArray(filter_list, 'sg');
         }
-        if(!sgActive) {
+        else {
             filter_list.push('sg')
         }
         sgActive = !sgActive
@@ -879,7 +840,7 @@ class DataNavBar extends React.Component {
         if(sfActive){
             filter_list=this.removeArray(filter_list, 'sf');
         }
-        if(!sfActive) {
+        else {
             filter_list.push('sf')
         }
         sfActive = !sfActive
@@ -903,7 +864,7 @@ class DataNavBar extends React.Component {
         if(pfActive){
             filter_list=this.removeArray(filter_list, 'pf');
         }
-        if(!pfActive) {
+        else {
             filter_list.push('pf')
         }
         pfActive = !pfActive
@@ -928,7 +889,7 @@ class DataNavBar extends React.Component {
         if(cActive){
             filter_list=this.removeArray(filter_list, 'c');
         }
-        if(!cActive) {
+       else {
             filter_list.push('c')
         }
         cActive = !cActive
@@ -1000,9 +961,7 @@ class DataNavBar extends React.Component {
                 pfActive:true,
                 cActive:true
             })
-
         }
-
     }
 
     allClearFilter(){
@@ -1032,7 +991,6 @@ class DataNavBar extends React.Component {
                 dstBtn:false,})
         }
         else{
-
             pgActive=false
             sgActive=false
             sfActive=false
@@ -1064,7 +1022,6 @@ class DataNavBar extends React.Component {
     }
 
     handleChange (event) {
-        // this.setState({ filter: event.target.value });
         let searching_data = this.state.search_player_data
         function filterByValue(searching_data, term) {
             term = term.toLowerCase()
@@ -1086,7 +1043,6 @@ class DataNavBar extends React.Component {
             sessionStorage.setItem('pageReset', "true0")
             return ans
         }
-        console.log(event.target.value)
         let search_filter = filterByValue(searching_data, event.target.value);
 
         sessionStorage.setItem('pageReset', "true0")
@@ -1112,7 +1068,7 @@ class DataNavBar extends React.Component {
             let url = '/Prod/save-player-stats'
             this.api.PostApi(payload, url)
                 .then((res) => {
-                    let response_data = JSON.parse(res.request.response)
+                    //let response_data = JSON.parse(res.request.response)
                     if (res.status === 200 ) {
                         toast.success("⭐ Data Saved Successfully...");
                         this.setState({
@@ -1147,9 +1103,8 @@ class DataNavBar extends React.Component {
             let url = '/Prod/run-simulation-nfl'
             this.api.PostApi(payload, url)
                 .then((res) => {
-                    let response_data = JSON.parse(res.request.response)
+                    //let response_data = JSON.parse(res.request.response)
                     if (res.status === 200) {
-                        // this.getCustomDfsData({user: {id: 'Master'}, sportView: this.state.is_nbaNfl})
                         this.setState({
                             inputActive:true,
                             saveBtnActive:true
@@ -1157,7 +1112,6 @@ class DataNavBar extends React.Component {
                         this.getPlayerState({"user": {"id": localStorage.getItem('username')}, "sportView": this.state.is_nbaNfl})
                         this.setState({simulationSpinner: false})
                     } else if (res.request.status === 401) {
-                        // console.log("login")
                         this.props.history.push('/signin')
                         this.setState({loader: false, simulationSpinner: false})
                     } else {
@@ -1178,9 +1132,8 @@ class DataNavBar extends React.Component {
             let url = '/Prod/run-simulation'
             this.api.PostApi(payload, url)
                 .then((res) => {
-                    let response_data = JSON.parse(res.request.response)
+                    //let response_data = JSON.parse(res.request.response)
                     if (res.status === 200) {
-                        // this.getCustomDfsData({user: {id: localStorage.getItem('username')}, sportView: this.state.is_nbaNfl})
                         toast.success("⭐ Simulation Started...");
                         this.setState({
                             inputActive:true,
@@ -1189,7 +1142,6 @@ class DataNavBar extends React.Component {
                         this.getPlayerState({"user": {"id": localStorage.getItem('username')}, "sportView": this.state.is_nbaNfl})
                         this.setState({simulationSpinner: false})
                     } else if (res.request.status === 401) {
-                        // console.log("login")
                         this.props.history.push('/signin')
                         this.setState({loader: false, simulationSpinner: false})
                     } else {
@@ -1203,8 +1155,6 @@ class DataNavBar extends React.Component {
                 })
         }
         setTimeout(() => { toast("⭐ Populating fields..."); }, 3000);
-
-
     }
 
     handleSaveGameData = (props) =>{
@@ -1216,12 +1166,9 @@ class DataNavBar extends React.Component {
         let url = '/Prod/save-game-data'
         this.api.PostApi(payload, url)
             .then((res) => {
-                let response_data = JSON.parse(res.request.response)
-                if (res.status === 200 ) {
-
-                    //console.log('+++++----++++', response_data.body)
-                } else if (res.request.status === 401) {
-                    // console.log("login")
+                //let response_data = JSON.parse(res.request.response)
+                if (res.status === 200 ) { }
+                else if (res.request.status === 401) {
                     this.props.history.push('/signin')
                     this.setState({loader:false,spinner: false})
                 } else {
@@ -1264,12 +1211,12 @@ class DataNavBar extends React.Component {
                                 <div className="btn-group btn-group-toggle" data-toggle="buttons">
                                     <label className="btn btn-primary active ad-group-btn">
                                         <input type="radio" name="options" autoComplete="off" checked onClick={this.dkSalary}/>
-                                        <span className="btn-img"> <img src={btn_img2} className="btn-img-logo"/></span>
+                                        <span className="btn-img"> <img src={btn_img2} className="btn-img-logo" alt="Image2"/></span>
                                         <span className="btn-text"> DK</span>
                                     </label>
                                     <label className="btn btn-primary ad-group-btn">
                                         <input type="radio" name="options" autoComplete="off" onClick={this.fdSalary}/>
-                                        <span className="btn-img"> <img src={btn_img1} className="btn-img-logo"/></span>
+                                        <span className="btn-img"> <img src={btn_img1} className="btn-img-logo" alt="Image1"/></span>
                                         <span className="btn-text"> FD</span>
                                     </label>
                                 </div>
@@ -1277,7 +1224,6 @@ class DataNavBar extends React.Component {
                             <div className="common-button">
 
                                 <CustomizedMenus
-                                    // nba_game_data = {this.state.nba_game_data}
                                     nfl_game_data={this.state.game_data}
                                     inputActive={this.state.inputActive}
                                     onSaveGameData={this.handleSaveGameData}

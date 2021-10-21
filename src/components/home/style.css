@@ -5,8 +5,6 @@
     text-transform: uppercase;
     background: #123c6c;
     color: #fff;
-    /*border: none;*/
-
 }
 .ad-table thead.main-head>tr>th{
     border: 1px solid #fff;
@@ -19,7 +17,6 @@
  .table{
      margin: 0;
  }
-
 
  .data_table thead>tr>th{
      text-transform: uppercase;
@@ -38,22 +35,14 @@
     padding: 10px 0px;
     text-align: center !important;
     font-size: 12px;
-    /*max-width: 49px;*/
-    /*min-height: 49px;*/
 }
-/*.data_table tbody>tr>td:hover{*/
-/*    color: #fff !important;*/
-/*}*/
-/*.MuiTableSortLabel-root.MuiTableSortLabel-active{*/
-/*    color: #fff !important;*/
-/*}*/
+
 .MuiTableSortLabel-root:hover {
     color: white!important;
 }
 .MuiTableSortLabel-root.MuiTableSortLabel-active {
     color: white!important;
 }
-
 
 .top_table_head th{
     border-right: 1px solid #fff;
@@ -114,7 +103,7 @@
     background: url("../../images/team_logo.svg") -270px -270px;
     vertical-align: middle;
 }
-.Kings {
+.SAC {
     width: 30px;
     height: 30px;
     background-repeat: no-repeat;
@@ -122,7 +111,7 @@
     background: url("../../images/team_logo.svg") -746px -753px;
     vertical-align: middle;
 }
-.TrailBlazers {
+.POR {
     width: 30px;
     height: 30px;
     background-repeat: no-repeat;
@@ -130,7 +119,7 @@
     background: url("../../images/team_logo.svg") -718px -722px;
     vertical-align: middle;
 }
-.Nuggets {
+.DEN {
     width: 30px;
     height: 30px;
     background-repeat: no-repeat;
@@ -138,7 +127,7 @@
     background: url("../../images/team_logo.svg") -207px -212px;
     vertical-align: middle;
 }
-.Clippers {
+.LAC {
     width: 30px;
     height: 30px;
     background-repeat: no-repeat;
@@ -146,7 +135,7 @@
     background: url("../../images/team_logo.svg") -259px -362px;
     vertical-align: middle;
 }
-.Thunder {
+.OKC {
     width: 30px;
     height: 30px;
     background-repeat: no-repeat;
@@ -154,7 +143,7 @@
     background: url("../../images/team_logo.svg") -600px -600px;
     vertical-align: middle;
 }
-.Grizzlies {
+.MEM {
     width: 30px;
     height: 30px;
     background-repeat: no-repeat;
@@ -162,7 +151,7 @@
     background: url("../../images/team_logo.svg") -420px -420px;
     vertical-align: middle;
 }
-.Hornets {
+.CHA {
     width: 30px;
     height: 30px;
     background-repeat: no-repeat;
@@ -170,7 +159,7 @@
     background: url("../../images/team_logo.svg") -88px -90px;
     vertical-align: middle;
 }
-.Pelicians {
+.NOP {
     width: 30px;
     height: 30px;
     background-repeat: no-repeat;
@@ -178,7 +167,7 @@
     background: url("../../images/team_logo.svg") -540px -540px;
     vertical-align: middle;
 }
-.Rockets {
+.HOU {
     width: 30px;
     height: 30px;
     background-repeat: no-repeat;
@@ -186,7 +175,7 @@
     background: url("../../images/team_logo.svg") -300px -300px;
     vertical-align: middle;
 }
-.Hawks {
+.ATL {
     width: 30px;
     height: 30px;
     background-repeat: no-repeat;
@@ -194,7 +183,7 @@
     background: url("../../images/team_logo.svg") 0px 0px;
     vertical-align: middle;
 }
-.TimberWolf {
+.MIN {
     width: 30px;
     height: 30px;
     background-repeat: no-repeat;
@@ -202,7 +191,7 @@
     background: url("../../images/team_logo.svg") 507px 511px;
     vertical-align: middle;
 }
-.Bulls {
+.CHI {
     width: 30px;
     height: 30px;
     background-repeat: no-repeat;
@@ -210,7 +199,7 @@
     background: url("../../images/team_logo.svg") -118px -122px;
     vertical-align: middle;
 }
-.Cavalary {
+.CLE {
     width: 30px;
     height: 30px;
     background-repeat: no-repeat;
@@ -218,7 +207,7 @@
     background: url("../../images/team_logo.svg") -150px -151px;
     vertical-align: middle;
 }
-.Piston {
+.DET {
     width: 30px;
     height: 30px;
     background-repeat: no-repeat;
@@ -226,7 +215,7 @@
     background: url("../../images/team_logo.svg") -240px -241px;
     vertical-align: middle;
 }
-.Raptors {
+.TOR {
     width: 25px;
     height: 25px;
     margin-right: 5px;
@@ -236,7 +225,7 @@
     background-size: cover;
     vertical-align: middle;
 }
-.SevenSixers {
+.PHI {
     width: 30px;
     height: 30px;
     background-repeat: no-repeat;
@@ -244,7 +233,7 @@
     background: url("../../images/team_logo.svg") -658px -664px;
     vertical-align: middle;
 }
-.Spurs {
+.SAS {
     width: 30px;
     height: 30px;
     background-repeat: no-repeat;
@@ -252,7 +241,7 @@
     background: url("../../images/team_logo.svg") -780px -780px;
     vertical-align: middle;
 }
-.Magic {
+.ORL {
     width: 30px;
     height: 30px;
     background-repeat: no-repeat;
@@ -260,7 +249,7 @@
     background: url("../../images/team_logo.svg") -632px -632px;
     vertical-align: middle;
 }
-.Pacers {
+.IND {
     width: 30px;
     height: 30px;
     background-repeat: no-repeat;
@@ -268,7 +257,7 @@
     background: url("../../images/team_logo.svg") -329px -330px;
     vertical-align: middle;
 }
-.Knicks {
+.NYK {
     width: 30px;
     height: 30px;
     background-repeat: no-repeat;
@@ -276,7 +265,7 @@
     background: url("../../images/team_logo.svg") -570px -570px;
     vertical-align: middle;
 }
-.Celtics {
+.BOS {
     width: 30px;
     height: 30px;
     background-repeat: no-repeat;
@@ -284,7 +273,7 @@
     background: url("../../images/team_logo.svg") -29px -30px;
     vertical-align: middle;
 }
-.Jazz {
+.UTA {
     width: 30px;
     height: 30px;
     background-repeat: no-repeat;
@@ -292,7 +281,7 @@
     background: url("../../images/team_logo.svg") -840px -840px;
     vertical-align: middle;
 }
-.Heat{
+.MIA{
     background: url("../../images/team_logo.svg") -450px -450px;
     width: 30px;
     height: 30px;
@@ -300,7 +289,7 @@
     display: inline-block;
     vertical-align: middle;
 }
-.Mavericks{
+.DAL{
     background: url("../../images/team_logo.svg") -180px -180px;
     width: 30px;
     height: 30px;
@@ -308,7 +297,7 @@
     display: inline-block;
     vertical-align: middle;
 }
-.Wizards{
+.WAS{
     background: url("../../images/team_logo.svg") -869px -872px;
     width: 30px;
     height: 30px;

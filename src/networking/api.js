@@ -1,11 +1,7 @@
 import axios from 'axios';
-import data from "bootstrap/js/src/dom/data";
-// import {Redirect} from "react-router";
-
 
 export default class API {
     baseUrl = 'https://o2ygn3a3h3.execute-api.us-east-2.amazonaws.com'
-
     async setToken(token) {
         try {
             await localStorage.setItem('token', token)
@@ -15,12 +11,10 @@ export default class API {
     }
 
     async GetApi(url, payload) {
-        // let token = localStorage.getItem('token')
         try {
             let response = axios.post(
                 this.baseUrl + url,
                  payload
-
             )
                 .then((res) => {
                     return res
@@ -73,7 +67,4 @@ export default class API {
             console.log(error);
         }
     }
-
-
-
 };

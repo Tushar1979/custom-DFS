@@ -135,29 +135,6 @@
     display: block;
     width: 100%;
 }
-/*.left_team { grid-area: left_body; }*/
-/*.middle_team { grid-area: middle_body; }*/
-/*.right_team { grid-area: right_body; }*/
-/*.left_des { grid-area: left_des; }*/
-/*.middle_des { grid-area: middle_des; }*/
-/*.right_des { grid-area: right_des; }*/
-
-/*.team_container{*/
-/*    display: grid;*/
-/*    grid-template-areas:*/
-/*    'left_body middle_body right_body'*/
-/*    'left_des middle_des right_des';*/
-/*}*/
-
-/*.left_des{grid-area: left_des_body;}*/
-/*.middle_des{grid-area: middle_des_body;}*/
-/*.right_des{ grid-area: right_des_body;}*/
-
-/*.team_des_container{*/
-/*    display: grid;*/
-/*    grid-template-areas:*/
-/*    'left_des_body middle_des_body right_des_body';*/
-/*}*/
 .mr-0{
     margin: 0;
 }
@@ -195,7 +172,6 @@
 .left_des,
 .middle_des,
 .right_des{
-    /*padding: 10px 10px;*/
     cursor: initial;
     user-select: none;
 }
@@ -214,10 +190,7 @@
     color: #fff !important;
     background: #000000 !important;
 }
-.active:hover{
-      color: #fff !important;
-      background: #000000 !important;
-  }
+
 .team_container .activeMIL{
     color: #fff !important;
     background: #00471b !important;
@@ -342,7 +315,22 @@
     color: #fff !important;
     background: #006778 !important;
 }
-
+.team_container .activeATL{
+    color: #fff !important;
+    background: #A71930 !important;
+}
+.team_container .activeSF{
+    color: #fff !important;
+    background: #AA0000 !important;
+}
+.team_container .activeNO{
+    color: #fff !important;
+    background: #D3BC8D !important;
+}
+.team_container .activeNYJ{
+    color: #fff !important;
+    background: #125740 !important;
+}
 .MuiAccordionSummary-content{
     margin: 0 !important;
 }

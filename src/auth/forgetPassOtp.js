@@ -1,8 +1,5 @@
 import React, {Component} from 'react';
-import {BrowserRouter as Router, Switch, Route, Redirect, Link} from 'react-router-dom';
-import authLogo from "../images/login_logo.png"
 import './style.css';
-import {Amplify} from "aws-amplify";
 
 import { Auth } from "aws-amplify";
 import {TextField} from "@material-ui/core";
@@ -23,11 +20,7 @@ class ForgetOtp extends Component {
     otpField = (e) =>{
         this.setState({otp:e.target.value})
     }
-    emailField = (e) =>{
-        this.setState({
-            email: e.target.value
-        })
-    }
+
     passwordField = (e) =>{
         this.setState({ password: e.target.value,is_passValid: passwordReg.test(e.target.value)},()=>{
             if(passwordReg.test(e.target.value))
@@ -87,20 +80,7 @@ class ForgetOtp extends Component {
         }
     }
 
-
-//    loginBtn = () => {
-//        // const usersignIn = Auth.signIn('sanket.sanglikar@cubexo.io', 'Sanket@123');
-//        const usersignIn = Auth.signIn(this.state.email, this.state.password);
-//        usersignIn.then((data) => {
-//            console.log(data);
-//            this.props.history.push('/');
-//        }).catch((message) => {
-//            console.log(message)
-//        })
-//    }
-
     render(props) {
-
         return (
             <div className="main">
                 <div className="wrapper fadeInDown">
@@ -134,7 +114,6 @@ class ForgetOtp extends Component {
                                 className='toasterStyle'
                             />
                         </div>
-
                     </div>
                 </div>
             </div>

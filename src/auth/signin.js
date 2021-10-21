@@ -1,8 +1,7 @@
 import React, {Component} from 'react';
-import {BrowserRouter as Router, Switch, Route, Redirect, Link} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import authLogo from "../images/login_logo.png"
 import './style.css';
-import Spinner from '../components/Spinner/spinner'
 
 import { Auth } from "aws-amplify";
 import {TextField} from "@material-ui/core";
@@ -91,7 +90,6 @@ componentDidMount() {
         this.props.history.push('/Forget')
     }
 
-
         loginBtn = () => {
             if(this.state.is_emailValid && this.state.is_passValid) {
                 this.setState({spinner: true})
@@ -136,8 +134,7 @@ componentDidMount() {
     }
 
     render() {
-        return (
-            <>
+        return (<>
                     <div className="main">
                         <div className="wrapper fadeInDown">
                             <div id="formContent">
@@ -189,10 +186,8 @@ componentDidMount() {
                                             />
                                         </button>
                                     }
-                        </div>
+                                </div>
                                 <span className="button-google fadeIn forth" onClick={this.forgotBtn}>Forgot Password</span>
-
-
                             </div>
                         </div>
                     </div>

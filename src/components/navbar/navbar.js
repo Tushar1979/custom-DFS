@@ -1,17 +1,11 @@
-import React, {Component} from 'react'
+import React from 'react'
 import './navbar.css'
 import '../datanavbar/datanavbar.css'
 import logo from '../../images/dfs-logo.png'
 import left_capsule from '../../images/capsule-img.png'
 import right_capsule from '../../images/right-capsule.png'
 import {Link} from "react-router-dom";
-import { ToastContainer, toast } from 'react-toastify';
-
-
-// if (response){
-//     toast(`${resposnse}`)
-// }
-
+import {ToastContainer} from "react-toastify";
 class NavBar extends React.Component {
     constructor(props) {
         super(props);
@@ -22,8 +16,6 @@ class NavBar extends React.Component {
         }
     }
 
-
-
     nbaActive() {
         this.props.onCallNba({payload_data:{user:{id:'Master'}, sportView:"NBA"}, nbaNfl_active:true})
     }
@@ -31,35 +23,32 @@ class NavBar extends React.Component {
         this.props.onCallNba({payload_data:{user:{id:'Master'}, sportView:"NFL"}, nbaNfl_active:false})
     }
     render() {
-        return (
-            <>
+        return (<>
                 <ToastContainer
                     position="bottom-right"
                     autoClose={3000}
                     hideProgressBar={false}
                     newestOnTop={false}
-                    closeOnClick={true
-                    }
+                    closeOnClick
                     rtl={false}
                     pauseOnFocusLoss
                     draggable
                     pauseOnHover
                     className='toasterStyle'
                 />
-
                 <div className="container-fluid navbar-container">
                     <nav className="navbar navbar-expand-lg navbar-dark primary-color pd-0">
-                        <img src={logo} className="nav-logo" />
+                        <img src={logo} className="nav-logo" alt="Image1" />
                         <div className="common-button nav-common-btn">
                             <div className="btn-group btn-group-toggle" data-toggle="buttons">
                                 <label className="btn btn-primary active ad-group-btn" >
                                     <input type="radio" name="options" autoComplete="off" checked onClick={this.nbaActive}/>
-                                    <span className="btn-img"> <img src={left_capsule} className="btn-img-logo"/></span>
+                                    <span className="btn-img"> <img src={left_capsule} className="btn-img-logo" alt="Image2" /></span>
                                     <span className="btn-text"> nba</span>
                                 </label>
                                 <label className="btn btn-primary ad-group-btn">
                                     <input type="radio" name="options" autoComplete="off" onClick={this.nflActive}/>
-                                    <span className="btn-img"> <img src={right_capsule} className="btn-img-logo"/></span>
+                                    <span className="btn-img"> <img src={right_capsule} className="btn-img-logo" alt="Image3"/></span>
                                     <span className="btn-text"> nfl</span>
                                 </label>
                             </div>
@@ -96,7 +85,6 @@ class NavBar extends React.Component {
                                 }
                             </ul>
                         </div>
-
                     </nav>
                 </div>
             </>

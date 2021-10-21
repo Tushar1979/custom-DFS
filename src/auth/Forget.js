@@ -1,8 +1,5 @@
 import React, {Component} from 'react';
-import {BrowserRouter as Router, Switch, Route, Redirect, Link} from 'react-router-dom';
-import authLogo from "../images/login_logo.png"
 import './style.css';
-import {Amplify} from "aws-amplify";
 
 import { Auth } from "aws-amplify";
 import {TextField} from "@material-ui/core";
@@ -16,7 +13,6 @@ class Forget extends Component {
         this.state={
             email:'',
             is_emailValid:false
-
         }
     }
     emailField = (e) =>{
@@ -42,23 +38,7 @@ class Forget extends Component {
         else {
             toast.error("⭐ Email Format is not correct",{toastId:"fWrongFormat"})
         }
-
-         }
-
-
-
-
-
-//    loginBtn = () => {
-//        // const usersignIn = Auth.signIn('sanket.sanglikar@cubexo.io', 'Sanket@123');
-//        const usersignIn = Auth.signIn(this.state.email, this.state.password);
-//        usersignIn.then((data) => {
-//            console.log(data);
-//            this.props.history.push('/');
-//        }).catch((message) => {
-//            console.log(message)
-//        })
-//    }
+    }
 
     render() {
         return (
@@ -77,7 +57,6 @@ class Forget extends Component {
                                 type="email" required
                             />
 
-
                                 <button  className="fadeIn forth loginBtn" onClick = {this.fogetPassOTP}> SUBMIT USERNAME
                                     <ToastContainer
                                         position="bottom-right"
@@ -93,7 +72,6 @@ class Forget extends Component {
                                     />
                                 </button>
                         </div>
-
                     </div>
                 </div>
             </div>

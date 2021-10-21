@@ -4,9 +4,8 @@ import * as XLSX from "xlsx";
 
 export default function ExportToExcel ({ nba_player_data, nfl_player_data, fileName, dataOf, salaryType,excelData }) {
     let listData = []
-    let dictData = {}
     const [apiData, setApiData] = React.useState([])
-    const isFirstRender = React.useRef(true);
+    //const isFirstRender = React.useRef(true);
     useEffect((props)=>{
         if(dataOf==='NBA'){
             setApiData(excelData)
@@ -132,10 +131,7 @@ export default function ExportToExcel ({ nba_player_data, nfl_player_data, fileN
                 })
 
             }
-
-
         }
-
 
         const ws = XLSX.utils.json_to_sheet(listData);
         const wb = { Sheets: { data: ws }, SheetNames: ["data"] };
@@ -143,7 +139,6 @@ export default function ExportToExcel ({ nba_player_data, nfl_player_data, fileN
         const data = new Blob([excelBuffer], { type: fileType });
         FileSaver.saveAs(data, fileName + fileExtension);
     };
-
     return (
         <button className="btn btn-primary active ad-group-btn" onClick={(e) => exportToCSV(apiData, fileName, dataOf, salaryType)}>Export</button>
     );

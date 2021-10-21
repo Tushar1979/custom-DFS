@@ -32,7 +32,6 @@ class Home extends React.Component {
                     <DataNavBar nba_nfl={this.state.nba_nfl} triggerChildFunc={this.state.triggerFunc} />
                 </>
             )
-
     }
 }
 export default Home

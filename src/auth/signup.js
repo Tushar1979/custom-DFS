@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
-import { Auth } from "aws-amplify";
-import {BrowserRouter as Router, Switch, Route, Redirect, Link} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import authLogo from "../images/login_logo.png"
 import './style.css';
 import {TextField} from "@material-ui/core";
@@ -9,10 +8,8 @@ import {toast, ToastContainer} from "react-toastify";
 import Spinner from '../components/Spinner/spinner'
 import 'react-toastify/dist/ReactToastify.css';
 
-// toast.configure()
 const emailReg = new RegExp(/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]/)
 const passwordReg = new RegExp(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d@$!%*?&]{8,}$/);
-const smallChar = new RegExp(/^(?=.*[A-Z])(?=.*\d)[A-Z\d@$!%*?&]{8,}$/)
 
 class SignUp extends Component {
     constructor(props) {
@@ -38,7 +35,6 @@ class SignUp extends Component {
                     this.setState({btnActive: true})
                 }
         })
-
     }
     passwordField = (e) =>{
         this.setState({ password: e.target.value,is_passValid: passwordReg.test(e.target.value)}
@@ -97,7 +93,6 @@ class SignUp extends Component {
 
     signUpBtn = () =>{
         this.setState({spinner:true})
-
         const poolData = {
         UserPoolId: 'us-east-1_y4ICPLoWJ',
         ClientId: '7ob8ngt7d1efjhrudc524qlqsn',
@@ -120,27 +115,12 @@ class SignUp extends Component {
                     setTimeout(toast.success(`⭐ OTP sent to ${data.user.getUsername()}`, {toastId:"signUpSuccess"}),1000)
                     this.props.history.push('/verify_otp', {username:this.state.email});
                 }
-            })
-            ))
-
-
-        // UserPool.signUp(this.state.email ,this.state.password, [], null, (err, data)=>{
-        // if (err) {
-        //     console.log(data)
-        //     console.log(err)
-        //     toast.error("⭐ Email or Password in Invalid...",{toastId:"supInvalidCreditionals"});
-        //     this.setState({spinner:false})
-        // }
-        // else {
-        //     console.log(data)
-        //     this.setState({spinner:false})
-        //     this.props.history.push('/verify_otp', {username:this.state.email});
-        // }
-
+            }
+            )
+        ))
     };
 
     render() {
-
         return (
             <div className="main">
                 <div className="wrapper fadeInDown">
@@ -156,8 +136,6 @@ class SignUp extends Component {
                             <img src={authLogo} id="icon"
                                  alt="User Icon"/>
                         </div>
-
-
                         <div>
                             <TextField style={{
                                 marginBottom: "0.5rem",
@@ -201,10 +179,7 @@ class SignUp extends Component {
                                     />
                                 </button>
                             }
-
-
                         </div>
-
                     </div>
                 </div>
             </div>

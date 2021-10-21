@@ -1,31 +1,17 @@
-import logo from './logo.svg';
 import './App.css';
-import NavBar from "./components/navbar/navbar"
 import Home from "./components/home/index"
 import ReportBog from "./components/reportBug/index";
 import SignIn from "./auth/signin";
 import SignUp from "./auth/signup"
-import { CognitoUserPool } from 'amazon-cognito-identity-js'
-
-import {
-    BrowserRouter as Router,
-    Switch,
-    Route,
-    Link
-} from "react-router-dom";
-import React, { useState } from "react";
-import Amplify from "aws-amplify";
-import Auth from "./auth/auth";
+import { BrowserRouter as Router, Switch, Route} from "react-router-dom";
+import React from "react";
 import VerifyOtp from "./auth/verifyOtp";
-
 import LogOut from "./auth/logout"
-
 
 import Forget from "./auth/Forget";
 import ForgetPassOtp from './auth/forgetPassOtp'
 
 function App() {
-
   return (
     <div className="App">
         <Router>
@@ -39,7 +25,6 @@ function App() {
                     <Route path="/logout" component={LogOut} />
                     <Route path="/Forget" component={Forget} />
                     <Route path="/ForgetPasswordOtp" component={ForgetPassOtp} />
-
                 </Switch>
             </div>
         </Router>

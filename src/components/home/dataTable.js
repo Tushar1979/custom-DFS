@@ -1,7 +1,6 @@
 import React, {useEffect} from 'react';
 import PropTypes from 'prop-types';
-import clsx from 'clsx';
-import {lighten, makeStyles} from '@material-ui/core/styles';
+import {makeStyles} from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -13,8 +12,6 @@ import TableSortLabel from '@material-ui/core/TableSortLabel';
 import Paper from '@material-ui/core/Paper';
 import TextField from "@material-ui/core/TextField";
 import Loader from "../../loader/loader"
-import API from '../../networking/api'
-
 
 let rows = []
 let nft_header = false
@@ -40,7 +37,6 @@ function stableSort(array, comparator) {
     const stabilizedThis = array.map((el, index) => [el, index]);
     stabilizedThis.sort((a, b) => {
         const order = comparator(a[0], b[0]);
-        console.log(order)
         if (order !== 0) return order;
         return a[1] - b[1];
     });
@@ -58,7 +54,7 @@ function stableSort(array, comparator) {
 let headCells = []
 
 function EnhancedTableHead(props) {
-    const {classes, onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort} = props;
+    const {classes, order, orderBy, onRequestSort} = props;
     const createSortHandler = (property) => (event) => {
         onRequestSort(event, property);
     };
@@ -113,28 +109,6 @@ EnhancedTableHead.propTypes = {
     rowCount: PropTypes.number.isRequired,
 };
 
-const useToolbarStyles = makeStyles((theme) => ({
-    root: {
-        paddingLeft: theme.spacing(2),
-        paddingRight: theme.spacing(1),
-        border:"1px solid black",
-    },
-    highlight:
-        theme.palette.type === 'light'
-            ? {
-                color: theme.palette.secondary.main,
-                backgroundColor: lighten(theme.palette.secondary.light, 0.85),
-            }
-            : {
-                color: theme.palette.text.primary,
-                backgroundColor: theme.palette.secondary.dark,
-            },
-    title: {
-        flex: '1 1 100%',
-    },
-}));
-
-
 const useStyles = makeStyles((theme) => ({
     root: {
         width: '100%',
@@ -167,12 +141,12 @@ const useStyles = makeStyles((theme) => ({
 
 export default function EnhancedTable(props) {
     const [loader, setLoader] = React.useState(true);
-    const [NbaMinus, setNbaMinus] = React.useState('');
-    const [nbaUpdate, setNbaUpdate] = React.useState([]);
+    //const [NbaMinus, setNbaMinus] = React.useState('');
+    //const [nbaUpdate, setNbaUpdate] = React.useState([]);
     const [updateGameList, setUpdateGameList] = React.useState([]);
     const [updateNflGameList, setUpdateNflGameList] = React.useState([]);
     const [nflList, setNflList] = React.useState([]);
-    const [isNbaNfl, setIsNbaNfl] = React.useState(props.is_nbaNfl);
+    //const [isNbaNfl, setIsNbaNfl] = React.useState(props.is_nbaNfl);
     const classes = useStyles();
     const [order, setOrder] = React.useState('asc');
     const [orderBy, setOrderBy] = React.useState('salary');
@@ -186,7 +160,7 @@ export default function EnhancedTable(props) {
     useEffect(() => {
         setUpdateGameList(props.data)
         setUpdateNflGameList(props.nfl_player_data)
-    })
+    },[props.data,props.nfl_player_data])
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -198,7 +172,6 @@ export default function EnhancedTable(props) {
         setPage(0);
         user_data = false
     };
-
 
     if(sessionStorage.getItem('pageReset')==='true0')
     {
@@ -224,8 +197,6 @@ export default function EnhancedTable(props) {
             }
         }
     }
-    // Rebounds
-    // handleChangeAssists
     const handleChangeRebounds = (e) => {
         let rowId = e.target.id
         let nbaRebounds = e.target.value
@@ -582,7 +553,6 @@ export default function EnhancedTable(props) {
             {id: 'fieldgoalsmade', numeric: false, disablePadding: true, label: 'fgm'},
             {id: 'fieldgoalsattempted', numeric: false, disablePadding: true, label: 'fga'},
 
-            // {id: 'fpts', numeric: false, disablePadding: false, label: 'fpts'},
             {id: 'nfl_dk_fantasyPoints', numeric: false, disablePadding: false, label: 'fpts'},
             {id: ceiling, numeric: false, disablePadding: false, label: 'ceiling'},
             {id: 'floor', numeric: false, disablePadding: false, label: 'floor'},
@@ -593,11 +563,12 @@ export default function EnhancedTable(props) {
     if (props.data.length > 0) {
         update_data = true
         user_data = props.data
-        let pos, salary, ceiling
-        if(props.salary ==='dk')
-        {pos='pos';salary='salary'; ceiling='ceiling'}
+        let pos, salary, ceiling, fpts$, floor , fantasyPoints
+        if(props.salary ==='dk') {
+            pos='pos';salary='salary'; ceiling='ceiling' ; floor="floor" ; fpts$="fpts$";fantasyPoints="fantasyPoints"
+        }
         else {
-            pos='fdPos';salary='fdSalary';ceiling='fd_ceiling'
+            pos='fdPos';salary='fdSalary';ceiling='fd_ceiling' ;floor="fd_floor"; fpts$="fd_fpts$";fantasyPoints="fd_fantasyPoints"
         }
         rows = []
         nft_header = false
@@ -616,11 +587,10 @@ export default function EnhancedTable(props) {
             {id: 'blockedShots', numeric: false, disablePadding: false, label: 'blk'},
             {id: 'to', numeric: false, disablePadding: false, label: 'to'},
 
-            // {id: 'fpts', numeric: false, disablePadding: false, label: 'fpts'},
-            {id: 'fantasyPoints', numeric: false, disablePadding: false, label: 'fpts'},
+            {id: fantasyPoints, numeric: false, disablePadding: false, label: 'fpts'},
             {id: ceiling, numeric: false, disablePadding: false, label: 'ceiling'},
-            {id: 'floor', numeric: false, disablePadding: false, label: 'floor'},
-            {id: 'fpts$', numeric: false, disablePadding: false, label: 'fpts/$1K'},
+            {id: floor, numeric: false, disablePadding: false, label: 'floor'},
+            {id: fpts$, numeric: false, disablePadding: false, label: 'fpts/$1K'},
         ]
     }
     if (props.new_array != null) {
@@ -633,18 +603,9 @@ export default function EnhancedTable(props) {
         user_data = props.data
     }
 
-    // update_data=props.update_data
     const sleep = (milliseconds) => {
         return new Promise(resolve => setTimeout(resolve, milliseconds))
     }
-
-    // const changePage =(rowsPP, Page)=> {
-    //     let pageno=((rows.length-1)/rowsPP);
-    //     if(Page > pageno)
-    //     {
-    //         setPage(parseInt(pageno))
-    //     }
-    // }
 
     if (update_data) {
         rows = []
@@ -671,12 +632,12 @@ export default function EnhancedTable(props) {
                         fd_fantasyPoints: user_data[data].FantasyPointsFantasyDraft,
                         nfl_dk_fantasyPoints: user_data[data].DK_Proj,
                         nfl_fd_fantasyPoints: user_data[data].FD_Proj,
-                        ceiling: user_data[data].DK_Ceil,
-                        fd_ceiling: user_data[data].FD_Ceil,
-                        floor: user_data[data].DK_Floor,
-                        fd_floor: user_data[data].FD_Floor,
-                        fpts$: user_data[data].DK_Value,
-                        fd_fpts$: user_data[data].FD_Value,
+                        ceiling: parseFloat(user_data[data].DK_Ceil),
+                        fd_ceiling: parseFloat(user_data[data].FD_Ceil),
+                        floor: parseFloat(user_data[data].DK_Floor),
+                        fd_floor: parseFloat(user_data[data].FD_Floor),
+                        fpts$: parseFloat(user_data[data].DK_Value),
+                        fd_fpts$: parseFloat(user_data[data].FD_Value),
 
                         completion: user_data[data].PassingCompletions,
                         passingattempts: user_data[data].PassingAttempts,
@@ -691,13 +652,11 @@ export default function EnhancedTable(props) {
                         fieldgoalsmade: user_data[data].FieldGoalsMade,
                         fieldgoalsattempted: user_data[data].FieldGoalsAttempted,
                     })
-
             }
+
             update_data = false
         }
-        // if(rows.length>0) {
-        //     changePage(rowsPerPage, page)
-        // }
+
         if(loader) {
             sleep(3000).then(r => {
                 setLoader(false);
