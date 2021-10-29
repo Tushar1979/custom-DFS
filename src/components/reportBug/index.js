@@ -30,7 +30,7 @@ class ReportBog extends React.Component {
             let url = 'https://api.leadpages.io/integration/v1/forms/UJgXbBwh3bdvGV6cGmWhLm/submissions'
             this.api.PostWithParamsApi(url, param, data)
                 .then((res) => {
-                   // let response_data = JSON.parse(res.request.response)
+                   let response_data = JSON.parse(res.request.response)
 
                 })
                 .catch((error) => {

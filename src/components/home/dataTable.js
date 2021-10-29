@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useRef} from 'react';
 import PropTypes from 'prop-types';
 import {makeStyles} from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
@@ -154,23 +154,23 @@ export default function EnhancedTable(props) {
     const [page, setPage] = React.useState(0);
     const [dense, setDense] = React.useState(false);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
-
-    let user_data = props.data
     let saveData = props.saveDataBtn
+    let user_data = props.showData
+
     useEffect(() => {
-        setUpdateGameList(props.data)
-        setUpdateNflGameList(props.nfl_player_data)
-    },[props.data,props.nfl_player_data])
+        setUpdateGameList(props.showData)
+        setUpdateNflGameList(props.showData)
+    })
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
-        user_data = false
+        update_data = false
     };
 
     const handleChangeRowsPerPage = (event) => {
         setRowsPerPage(parseInt(event.target.value, 10));
         setPage(0);
-        user_data = false
+        update_data = false
     };
 
     if(sessionStorage.getItem('pageReset')==='true0')
@@ -181,7 +181,7 @@ export default function EnhancedTable(props) {
 
     const handleChangeMinus = (e) =>{
         let rowId = e.target.id
-        let nbaMinus = parseInt(e.target.value)
+        let nbaMinus = e.target.value
         for(let i = 0; i<updateGameList.length; i++){
             if(updateGameList[i].Id === rowId){
                 updateGameList[i]['Minutes'] = nbaMinus
@@ -190,7 +190,7 @@ export default function EnhancedTable(props) {
     }
     const handleChangePoints = (e) => {
         let rowId = e.target.id
-        let nbaPoints = parseInt(e.target.value)
+        let nbaPoints = e.target.value
         for(let i = 0; i<updateGameList.length; i++){
             if(updateGameList[i].Id === rowId){
                 updateGameList[i]['Points'] = nbaPoints
@@ -522,7 +522,7 @@ export default function EnhancedTable(props) {
         }
     }
 
-    if (props.nfl_player_data.length > 0) {
+    if (props.is_nbaNfl === "NFL") {
         update_data = true
         nft_header = true
         let pos, salary, ceiling
@@ -531,7 +531,7 @@ export default function EnhancedTable(props) {
         else {
             pos='fdPos';salary='fdSalary';ceiling='fd_ceiling'
         }
-        user_data = props.nfl_player_data
+        // user_data = props.showData
         headCells = [
             {id: 'name', numeric: false, disablePadding: true, label: 'Name'},
             {id: pos, numeric: false, disablePadding: false, label: 'pos'},
@@ -560,9 +560,9 @@ export default function EnhancedTable(props) {
 
         ];
     }
-    if (props.data.length > 0) {
+    if (props.is_nbaNfl === "NBA") {
         update_data = true
-        user_data = props.data
+        // user_data = props.showData
         let pos, salary, ceiling, fpts$, floor , fantasyPoints
         if(props.salary ==='dk') {
             pos='pos';salary='salary'; ceiling='ceiling' ; floor="floor" ; fpts$="fpts$";fantasyPoints="fantasyPoints"
@@ -593,15 +593,13 @@ export default function EnhancedTable(props) {
             {id: fpts$, numeric: false, disablePadding: false, label: 'fpts/$1K'},
         ]
     }
-    if (props.new_array != null) {
+
+    if (props.showData.length > 0) {
         update_data = true
-        user_data = props.new_array
+            // user_data = props.showData
 
     }
-    else{
-        update_data = true
-        user_data = props.data
-    }
+
 
     const sleep = (milliseconds) => {
         return new Promise(resolve => setTimeout(resolve, milliseconds))

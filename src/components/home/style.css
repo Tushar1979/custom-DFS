@@ -127,14 +127,7 @@
     background: url("../../images/team_logo.svg") -207px -212px;
     vertical-align: middle;
 }
-.LAC {
-    width: 30px;
-    height: 30px;
-    background-repeat: no-repeat;
-    display: inline-block;
-    background: url("../../images/team_logo.svg") -259px -362px;
-    vertical-align: middle;
-}
+
 .OKC {
     width: 30px;
     height: 30px;
@@ -459,12 +452,12 @@
     background: url("../../images/nfl_team.svg") -930px -930px !important;
     vertical-align: middle;
 }
-.nfl.LAC {
+.LAC {
     width: 30px;
     height: 30px;
     background-repeat: no-repeat;
     display: inline-block;
-    background: url("../../images/nfl_team.svg") -480px -480px !important;
+    background: url("../../images/team_logo.svg") -363px -360px !important;
     vertical-align: middle;
 }
 .nfl.DAL {
@@ -594,4 +587,36 @@
     display: inline-block;
     background: url("../../images/nfl_team.svg") -750px -750px !important;
     vertical-align: middle;
+}
+
+.gameDataButG{
+   width :68%
+}
+
+.gameDataBut {
+    border: 1px solid;
+    border-radius: 4px 0px 0px 4px;
+    padding: 6px 22px;
+    font-size: 11px;
+}
+
+.gameDataBut:hover{
+    background-color: blue;
+}
+
+.gameDataButt{
+    margin-left: 5px;
+    border: 1px solid ;
+    border-radius: 0px 4px 4px 0px;
+    padding: 6px 22px;
+    font-size: 11px;
+}
+
+.gameDataButt:hover{
+    background-color: blue;
+}
+
+.ACTIVE {
+    background-color: #123C6C !important;
+    color: white !important;
 }

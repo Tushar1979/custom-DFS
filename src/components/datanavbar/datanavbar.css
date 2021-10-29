@@ -3,9 +3,17 @@
     overflow-x: auto;
     padding: 15px 0;
     white-space: nowrap;
-    justify-content: space-between;
+    justify-content: flex-start;
 }
 
+/*.group-buttons{*/
+/*    width: 100%;*/
+/*    display: flex;*/
+/*    overflow-x: auto;*/
+/*    padding: 15px 0;*/
+/*    justify-content: flex-start;*/
+/*    !*white-space: nowrap;*!*/
+/*}*/
 /* width */
 .group-buttons::-webkit-scrollbar {
     height: 12px;
