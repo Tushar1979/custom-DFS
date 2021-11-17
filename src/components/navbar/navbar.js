@@ -16,6 +16,11 @@ class NavBar extends React.Component {
         }
     }
 
+    componentDidMount() {
+        sessionStorage.setItem("order" , "asc")
+        sessionStorage.setItem("orderby" , "salary")
+    }
+
     nbaActive() {
         this.props.onCallNba({payload_data:{user:{id:'Master'}, sportView:"NBA"}, nbaNfl_active:true})
     }

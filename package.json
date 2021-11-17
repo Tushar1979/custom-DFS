@@ -11,6 +11,7 @@
     "aws-amplify": "^4.2.5",
     "aws-sdk": "^2.1012.0",
     "bootstrap": "^5.1.0",
+    "cors": "^2.8.5",
     "dateformat": "^5.0.2",
     "keycode": "^2.2.0",
     "material-ui": "^0.20.2",

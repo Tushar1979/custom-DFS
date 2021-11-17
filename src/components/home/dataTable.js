@@ -17,7 +17,8 @@ let rows = []
 let nft_header = false
 let update_data = true
 
-function descendingComparator(a, b, orderBy) {
+
+    function descendingComparator(a, b, orderBy) {
     if (b[orderBy] < a[orderBy]) {
         return -1;
     }
@@ -34,6 +35,7 @@ function getComparator(order, orderBy) {
 }
 
 function stableSort(array, comparator) {
+
     const stabilizedThis = array.map((el, index) => [el, index]);
     stabilizedThis.sort((a, b) => {
         const order = comparator(a[0], b[0]);
@@ -56,6 +58,8 @@ let headCells = []
 function EnhancedTableHead(props) {
     const {classes, order, orderBy, onRequestSort} = props;
     const createSortHandler = (property) => (event) => {
+        console.log(property)
+        console.log(event)
         onRequestSort(event, property);
     };
 
@@ -148,7 +152,7 @@ export default function EnhancedTable(props) {
     const [nflList, setNflList] = React.useState([]);
     //const [isNbaNfl, setIsNbaNfl] = React.useState(props.is_nbaNfl);
     const classes = useStyles();
-    const [order, setOrder] = React.useState('asc');
+    const [order, setOrder] = React.useState('desc');
     const [orderBy, setOrderBy] = React.useState('salary');
     const [selected, setSelected] = React.useState([]);
     const [page, setPage] = React.useState(0);
@@ -157,10 +161,54 @@ export default function EnhancedTable(props) {
     let saveData = props.saveDataBtn
     let user_data = props.showData
 
+    useEffect(()=>{
+        sessionStorage.setItem("order" , "asc")
+        sessionStorage.setItem("orderby" , "salary")
+    },[props.is_nbaNfl])
+
     useEffect(() => {
         setUpdateGameList(props.showData)
         setUpdateNflGameList(props.showData)
     })
+
+    useEffect(()=>{
+        let a=sessionStorage.getItem("order")
+        let b=sessionStorage.getItem("orderby")
+        // if(props.salary ==='dk') {console.log("dkSalary",a,b)
+        //     if(b==="fdPos")
+        //         b='pos';
+        //     else if(b==="fd_ceiling")
+        //         b='ceiling';
+        //     else if(b==="fd_floor")
+        //         b="floor";
+        //     else if(b==="fd_fpts$")
+        //         b="fpts$";
+        //     else if(b==="fd_fantasyPoints")
+        //         b="fantasyPoints"
+        //     else
+        //         b='salary';
+        // }
+        // else if(props.salary==="fd") {console.log("fdSalary",a,b)
+        //     if(b==="pos")
+        //         b='fdPos';
+        //     else if(a==="ceiling")
+        //         b='fd_ceiling';
+        //     else if(b==="floor")
+        //         b="fd_floor";
+        //     else if(b==="fpts$")
+        //         b="fd_fpts$";
+        //     else if(b==="fantasyPoints")
+        //         b="fd_fantasyPoints"
+        //     else
+        //         b='fdSalary';
+        // }
+            if(props.salary==="fd")
+                b="fdSalary"
+            else
+                b="salary"
+        setOrder(a)
+        setOrderBy(b);
+    },[props.salary])
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -185,6 +233,7 @@ export default function EnhancedTable(props) {
         for(let i = 0; i<updateGameList.length; i++){
             if(updateGameList[i].Id === rowId){
                 updateGameList[i]['Minutes'] = nbaMinus
+
             }
         }
     }
@@ -617,38 +666,48 @@ export default function EnhancedTable(props) {
                         fdPos: user_data[data].FanDuelPosition,
                         team: user_data[data].Team,
                         oop: user_data[data].Opponent,
+                        teamId: user_data[data].TeamID,
+                        oopId: user_data[data].OpponentID,
+                        nflTeamId : user_data[data].GlobalTeamID,
                         salary: user_data[data].DraftKingsSalary,
-                        fdSalary: user_data[data].FanDuelSalary,
-                        minus: user_data[data].Minutes,
-                        points: user_data[data].Points,
-                        rebound: user_data[data].Rebounds,
-                        assists: user_data[data].Assists,
-                        steals: user_data[data].Steals,
-                        blockedShots: user_data[data].BlockedShots,
-                        to: user_data[data].Turnovers,
-                        fantasyPoints: user_data[data].FantasyPointsDraftKings,
-                        fd_fantasyPoints: user_data[data].FantasyPointsFantasyDraft,
-                        nfl_dk_fantasyPoints: user_data[data].DK_Proj,
-                        nfl_fd_fantasyPoints: user_data[data].FD_Proj,
-                        ceiling: parseFloat(user_data[data].DK_Ceil),
-                        fd_ceiling: parseFloat(user_data[data].FD_Ceil),
-                        floor: parseFloat(user_data[data].DK_Floor),
-                        fd_floor: parseFloat(user_data[data].FD_Floor),
-                        fpts$: parseFloat(user_data[data].DK_Value),
-                        fd_fpts$: parseFloat(user_data[data].FD_Value),
+                        fdSalary: user_data[data].FanDuelSalary===undefined || user_data[data].FanDuelSalary=== null ? 0 : user_data[data].FanDuelSalary,
+                        minus: user_data[data].Minutes===undefined || user_data[data].Minutes===null ? 0 : user_data[data].Minutes,
+                        points: user_data[data].Points === undefined || user_data[data].Points=== null ? 0 : user_data[data].Points,
+                        rebound: user_data[data].Rebounds === undefined || user_data[data].Rebounds === null ? 0 : user_data[data].Rebounds,
+                        assists: user_data[data].Assists === undefined || user_data[data].Assists=== null ? 0 : user_data[data].Assists,
+                        steals: user_data[data].Steals === undefined || user_data[data].Steals=== null ? 0 : user_data[data].Steals,
+                        blockedShots: user_data[data].BlockedShots=== undefined || user_data[data].BlockedShots === null ? 0 :user_data[data].BlockedShots,
+                        to: user_data[data].Turnovers===undefined || user_data[data].Turnovers===null ? 0 : user_data[data].Turnovers,
+                        fantasyPoints: user_data[data].FantasyPointsDraftKings === undefined || user_data[data].FantasyPointsDraftKings=== null ? 0 : user_data[data].FantasyPointsDraftKings,
+                        fd_fantasyPoints: user_data[data].FantasyPointsFantasyDraft===undefined || user_data[data].FantasyPointsFantasyDraft===null ? 0 : user_data[data].FantasyPointsFantasyDraft,
+                        nfl_dk_fantasyPoints: user_data[data].DK_Proj===undefined || user_data[data].DK_Proj===null ? 0 :user_data[data].DK_Proj,
+                        nfl_fd_fantasyPoints: user_data[data].FD_Proj===undefined || user_data[data].FD_Proj===null ? 0 : user_data[data].FD_Proj,
+                        // ceiling: parseFloat(user_data[data].DK_Ceil),
+                        // fd_ceiling: parseFloat(user_data[data].FD_Ceil),
+                        // floor: parseFloat(user_data[data].DK_Floor),
+                        // fd_floor: parseFloat(user_data[data].FD_Floor),
+                        // fpts$: parseFloat(user_data[data].DK_Value),
+                        // fd_fpts$: parseFloat(user_data[data].FD_Value),
+                        ceiling: user_data[data].DK_Ceil=== undefined || user_data[data].DK_Ceil=== null ? 0 : parseFloat(user_data[data].DK_Ceil),
+                        fd_ceiling: user_data[data].FD_Ceil === undefined || user_data[data].FD_Ceil === null ? 0 :parseFloat(user_data[data].FD_Ceil),
+                        floor: user_data[data].DK_Floor === undefined || user_data[data].DK_Floor === null ? 0 : parseFloat(user_data[data].DK_Floor),
+                        fd_floor: user_data[data].FD_Floor=== undefined || user_data[data].FD_Floor===null ? 0 :parseFloat(user_data[data].FD_Floor),
+                        fpts$: user_data[data].DK_Value=== undefined || user_data[data].DK_Value=== null ? 0 :parseFloat(user_data[data].DK_Value),
+                        fd_fpts$: user_data[data].DK_Value=== undefined || user_data[data].DK_Value=== null ? 0 :parseFloat(user_data[data].FD_Value),
 
-                        completion: user_data[data].PassingCompletions,
-                        passingattempts: user_data[data].PassingAttempts,
-                        passingyards: user_data[data].PassingYards,
-                        passingtouchdowns: user_data[data].PassingTouchdowns,
-                        rushingattempts: user_data[data].RushingAttempts,
-                        rushingyards: user_data[data].RushingYards,
-                        rushingtouchdowns: user_data[data].RushingTouchdowns,
-                        receptions: user_data[data].Receptions,
-                        receivingyards: user_data[data].ReceivingYards,
-                        receivingtouchdowns: user_data[data].ReceivingTouchdowns,
-                        fieldgoalsmade: user_data[data].FieldGoalsMade,
-                        fieldgoalsattempted: user_data[data].FieldGoalsAttempted,
+                        // nflOppId: user_data[data].OpponentID,
+                        completion: user_data[data].PassingCompletions===undefined || user_data[data].PassingCompletions===null ? 0 : user_data[data].PassingCompletions,
+                        passingattempts: user_data[data].PassingAttempts===undefined || user_data[data].PassingAttempts===null ? 0 : user_data[data].PassingAttempts,
+                        passingyards: user_data[data].PassingYards===undefined || user_data[data].PassingYards===null ? 0 : user_data[data].PassingYards,
+                        passingtouchdowns: user_data[data].PassingTouchdowns===undefined || user_data[data].PassingTouchdowns===null ? 0 : user_data[data].PassingTouchdowns,
+                        rushingattempts: user_data[data].RushingAttempts=== undefined || user_data[data].RushingAttempts === null ? 0 : user_data[data].RushingAttempts,
+                        rushingyards: user_data[data].RushingYards===undefined || user_data[data].RushingYards===null ? 0 : user_data[data].RushingYards,
+                        rushingtouchdowns : user_data[data].RushingTouchdowns===undefined || user_data[data].RushingTouchdowns===null ? 0 : user_data[data].RushingTouchdowns,
+                        receptions: user_data[data].Receptions===undefined || user_data[data].Receptions===null ? 0 : user_data[data].Receptions,
+                        receivingyards: user_data[data].ReceivingYards===undefined || user_data[data].ReceivingYards===null ? 0 :user_data[data].ReceivingYards,
+                        receivingtouchdowns: user_data[data].ReceivingTouchdowns=== undefined || user_data[data].ReceivingTouchdowns===null ? 0 : user_data[data].ReceivingTouchdowns,
+                        fieldgoalsmade: user_data[data].FieldGoalsMade===undefined || user_data[data].FieldGoalsMade===null ? 0 : user_data[data].FieldGoalsMade,
+                        fieldgoalsattempted: user_data[data].FieldGoalsAttempted=== undefined || user_data[data].FieldGoalsAttempted===null ? 0 : user_data[data].FieldGoalsAttempted,
                     })
             }
 
@@ -665,10 +724,12 @@ export default function EnhancedTable(props) {
 
 
     const handleRequestSort = (event, property) => {
+        console.error(orderBy,order)
         const isAsc = orderBy === property && order === 'asc';
         setOrder(isAsc ? 'desc' : 'asc');
         setOrderBy(property);
-
+        sessionStorage.setItem("order", isAsc ? 'desc' : 'asc' )
+        sessionStorage.setItem("orderby", property)
     };
 
     const handleSelectAllClick = (event) => {
@@ -760,14 +821,14 @@ export default function EnhancedTable(props) {
                                                     }
 
                                                     <TableCell align="center" className={classes.border}>
-                                                        {nft_header ? <div className={`${row.team} nfl`}></div> :
-                                                            <div className={`${row.team}`}></div>
+                                                        {nft_header ? <div className={`${"NFL"+row.nflTeamId} nfl`}></div> :
+                                                            <div className={`${"NBA"+row.teamId}`}></div>
                                                         }
                                                         {row.team}
                                                     </TableCell>
                                                     <TableCell align="center" className={classes.border}>
-                                                        {nft_header ? <div className={`${row.oop} nfl`}></div> :
-                                                            <div className={`${row.oop}`}></div>
+                                                        {nft_header ? <div className={`${"NFL"+row.oopId} nfl`}></div> :
+                                                            <div className={`${"NBA"+row.oopId}`}></div>
                                                         }
                                                         {row.oop} </TableCell>
                                                     {props.salary === 'dk' ?

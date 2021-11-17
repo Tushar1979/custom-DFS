@@ -21,22 +21,39 @@ class ReportBog extends React.Component {
         }
         else{
             this.setState({process:true})
-            let data = {
-                "28fd5d118efab908cf0d4dad911ac5f4":this.state.email,
-                "38f3676ad9cb4ccc3574ba5f183c0e4f":this.state.comment
-            }
-            let param = {skip_redirect:true}
-            // player stats api calling
-            let url = 'https://api.leadpages.io/integration/v1/forms/UJgXbBwh3bdvGV6cGmWhLm/submissions'
-            this.api.PostWithParamsApi(url, param, data)
-                .then((res) => {
-                   let response_data = JSON.parse(res.request.response)
+            // let data = {
+            //     "28fd5d118efab908cf0d4dad911ac5f4":this.state.email,
+            //     "38f3676ad9cb4ccc3574ba5f183c0e4f":this.state.comment
+            // }
+            var axios = require('axios');
+            var data = JSON.stringify({"Type":"Report A Bug","Email":"sanket.sanglikar@cubexo.io","Comment":"Hello"});
 
+            var config = {
+                method: 'post',
+                url: 'https://go4tpuovr7.execute-api.us-east-2.amazonaws.com/email-sending',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                data : data
+            };
+
+            axios(config)
+                .then(function (response) {
+                    console.log(JSON.stringify(response.data));
                 })
-                .catch((error) => {
-                    this.setState({loader:false,spinner: false})
+                .catch(function (error) {
                     console.log(error);
-                })
+                });
+
+            // this.api.PostApi(data, url)
+            //     .then((res) => {
+            //        // let response_data = JSON.parse(res.request.response)
+            //
+            //     })
+            //     .catch((error) => {
+            //         this.setState({loader:false,spinner: false})
+            //         console.log(error);
+            //     })
             setTimeout(() => { this.setState({process:false, processed:true}) }, 1000);
         }
     }

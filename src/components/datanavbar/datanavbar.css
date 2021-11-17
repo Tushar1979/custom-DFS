@@ -194,151 +194,262 @@
     color: #fff !important;
     background: #123c6c !important;
 }
-.team_container .activeBKN {
-    color: #fff !important;
-    background: #000000 !important;
-}
 
-.team_container .activeMIL{
-    color: #fff !important;
-    background: #00471b !important;
-}
-.team_container .activeLAL{
-    color: #fff !important;
-    background: #552583 !important;
-}
-.team_container .activeGS{
-    color: #fff !important;
-    background: #b7a300 !important;
-}
-.team_container .activeCIN{
-    color: #fff !important;
-    background: #FB4F14 !important;
-}
-.team_container .activeDET{
-    color: #fff !important;
-    background: #0076B6 !important;
-}
-.team_container .activeARI{
-    color: #fff !important;
-    background: #97233F !important;
-}
-.team_container .activeCLE{
-    color: #fff !important;
-    background: #F3663B !important;
-}
-.team_container .activeLAC{
-    color: #fff !important;
-    background: #002A5E !important;
-}
-.team_container .activeBAL{
-    color: #fff !important;
-    background: #241773 !important;
-}
-.team_container .activeTB{
-    color: #fff !important;
-    background: #FFA800 !important;
-}
-.team_container .activePHI{
-    color: #fff !important;
-    background: #004C54 !important;
-}
-.team_container .activeDAL{
-    color: #fff !important;
-    background: #041E42 !important;
-}
-.team_container .activeNE{
-    color: #fff !important;
-    background: #002244 !important;
-}
-.team_container .activeSEA{
-    color: #fff !important;
-    background: #002244 !important;
-}
-.team_container .activePIT{
-    color: #fff !important;
-    background: #101820 !important;
-}
-.team_container .activeLV{
-    color: #fff !important;
-    background: #000000 !important;
-}
-.team_container .activeDEN{
-    color: #fff !important;
-    background: #002244 !important;
-}
-.team_container .activeLAR{
-    color: #fff !important;
-    background: #003594 !important;
-}
-.team_container .activeNYG{
-    color: #fff !important;
-    background: #F54BDE !important;
-}
-.team_container .activeMIN{
-    color: #fff !important;
-    background: #4F2683 !important;
-}
-.team_container .activeCAR{
-    color: #fff !important;
-    background: #0085CA !important;
-}
-.team_container .activeHOU{
-    color: #fff !important;
-    background: #03202F !important;
-}
-.team_container .activeIND{
-    color: #fff !important;
-    background: #002C5F !important;
-}
-.team_container .activeGB{
-    color: #fff !important;
-    background: #203731 !important;
-}
-.team_container .activeCHI{
-    color: #fff !important;
-    background: #0B162A !important;
-}
-.team_container .activeKC{
-    color: #fff !important;
-    background: #E31837 !important;
-}
-.team_container .activeWAS{
+/*   NBA  */
+
+.team_container .activeNBA1{
     color: #fff !important;
     background: #773141 !important;
 }
-.team_container .activeTEN{
+.team_container .activeNBA2{
     color: #fff !important;
-    background: #0C2340 !important;
+    background: #0288fb !important;
 }
-.team_container .activeBUF{
-    color: #fff !important;
-    background: #C60C30 !important;
-}
-.team_container .activeMIA{
-    color: #fff !important;
-    background: #008E96 !important;
-}
-.team_container .activeJAX{
-    color: #fff !important;
-    background: #006778 !important;
-}
-.team_container .activeATL{
+.team_container .activeNBA3{
     color: #fff !important;
     background: #A71930 !important;
 }
-.team_container .activeSF{
+.team_container .activeNBA4{
     color: #fff !important;
-    background: #AA0000 !important;
+    background: #008E96 !important;
 }
-.team_container .activeNO{
+.team_container .activeNBA5 {
+    color: #fff !important;
+    background: #0077C0 !important;
+}
+.team_container .activeNBA6{
+    color: #fff !important;
+    background: orange !important;
+}
+.team_container .activeNBA7{
+    color: #fff !important;
+    background: #004C54 !important;
+}
+.team_container .activeNBA8 {
+    color: #fff !important;
+    background: #000000 !important;
+}
+.team_container .activeNBA9 {
+    color: #fff !important;
+    background: #007A33 !important;
+}
+.team_container .activeNBA10{
+    color: #fff !important;
+    background: #CE1141 !important;
+}
+.team_container .activeNBA11{
+    color: #fff !important;
+    background: #0B162A !important;
+}
+.team_container .activeNBA12{
+    color: #fff !important;
+    background: #F3663B !important;
+}
+.team_container .activeNBA13{
+    color: #fff !important;
+    background: #002C5F !important;
+}
+.team_container .activeNBA14{
+    color: #fff !important;
+    background: #0076B6 !important;
+}
+.team_container .activeNBA15{
+    color: #fff !important;
+    background: #00471b !important;
+}
+.team_container .activeNBA16{
+    color: #fff !important;
+    background: #4F2683 !important;
+}
+.team_container .activeNBA17{
+    color: #fff !important;
+    background: #123c6c !important;
+}
+.team_container .activeNBA18{
+    color: #fff !important;
+    background: #007AC1 !important;
+}
+.team_container .activeNBA19{
+    color: #fff !important;
+    background: #E03A3E !important;
+}
+.team_container .activeNBA20{
+    color: #fff !important;
+    background: #002244 !important;
+}
+.team_container .activeNBA21{
+    color: #fff !important;
+    background: #5D76A9 !important;
+}
+.team_container .activeNBA22{
+    color: #fff !important;
+    background: #03202F !important;
+}
+.team_container .activeNBA23{
     color: #fff !important;
     background: #D3BC8D !important;
 }
-.team_container .activeNYJ{
+.team_container .activeNBA24{
+     color: #fff !important;
+     background: rgb(0 0 0 / 12%) !important;
+}
+.team_container .activeNBA25{
+    color: #fff !important;
+    background: #041E42 !important;
+}
+.team_container .activeNBA26{
+    color: #fff !important;
+    background: #b7a300 !important;
+}
+.team_container .activeNBA27{
+    color: #fff !important;
+    background: #552583 !important;
+}
+.team_container .activeNBA28{
+    color: #fff !important;
+    background: #002A5E !important;
+}
+.team_container .activeNBA29{
+    color: #fff !important;
+    background: #1D1160 !important;
+}
+.team_container .activeNBA30{
+    color: #fff !important;
+    background: #5A2D81 !important;
+}
+
+/*   NFL  */
+
+.team_container .activeNFL1{
+    color: #fff !important;
+    background: #97233F !important;
+}
+.team_container .activeNFL2{
+    color: #fff !important;
+    background: #ff8924 !important;
+}
+.team_container .activeNFL3{
+    color: #fff !important;
+    background: #241773 !important;
+}
+.team_container .activeNFL4{
+    color: #fff !important;
+    background: #C60C30 !important;
+}
+.team_container .activeNFL5{
+    color: #fff !important;
+    background: #0085CA !important;
+}
+.team_container .activeNFL6{
+    color: #fff !important;
+    background: #ff8924 !important;
+}
+.team_container .activeNFL7{
+    color: #fff !important;
+    background: #FB4F14 !important;
+}
+.team_container .activeNFL8{
+    color: #fff !important;
+    background: #ff8924 !important;
+}
+.team_container .activeNFL9{
+    color: #fff !important;
+    background: #3a3a3a !important;
+}
+.team_container .activeNFL10{
+    color: #fff !important;
+    background: rgb(0 0 0 / 54%) !important;
+}
+.team_container .activeNFL11{
+    color: #fff !important;
+    background: #0400ff !important;
+}
+.team_container .activeNFL12{
+    color: #fff !important;
+    background: #203731 !important;
+}
+.team_container .activeNFL13{
+     color: #fff !important;
+     background: #110ebf !important;
+ }
+.team_container .activeNFL14{
+    color: #fff !important;
+    background: #00783b !important;
+}
+.team_container .activeNFL15{
+    color: #fff !important;
+    background: #006778 !important;
+}
+.team_container .activeNFL16{
+    color: #fff !important;
+    background: #E31837 !important;
+}
+.team_container .activeNFL19{
+    color: #fff !important;
+    background: #6a0101 !important;
+}
+.team_container .activeNFL20{
+    color: #fff !important;
+background: #855815 !important;
+}
+.team_container .activeNFL21{
+    color: #fff !important;
+    background: #023669e8 !important;
+}
+.team_container .activeNFL22{
+    color: #fff !important;
+    background: #4a4640 !important;
+}
+.team_container .activeNFL23{
+    color: #fff !important;
+    background: #F54BDE !important;
+}
+.team_container .activeNFL24{
     color: #fff !important;
     background: #125740 !important;
 }
+.team_container .activeNFL25{
+    color: #fff !important;
+    background: #000000 !important;
+}
+.team_container .activeNFL26{
+    background: #5e5446 !important;
+    color: #fff !important;
+}
+.team_container .activeNFL28{
+    color: #fff !important;
+    background: #101820 !important;
+}
+.team_container .activeNFL29{
+    background: #ff6307 !important;
+    color: #fff !important;
+}
+.team_container .activeNFL30 {
+    color: #fff !important;
+    background: #212529d1 !important;
+}
+.team_container .activeNFL31{
+    color: #fff !important;
+    background: #AA0000 !important;
+}
+.team_container .activeNFL32{
+    color: #fff !important;
+    background: #ffa707ba !important;
+}
+.team_container .activeNFL33{
+    color: #fff !important;
+    background: #FFA800 !important;
+}
+.team_container .activeNFL34{
+    color: #fff !important;
+    background: #0C2340 !important;
+}
+.team_container .activeNFL34{
+    color: #fff !important;
+    background: #480a0a !important;
+}
+
+
 .MuiAccordionSummary-content{
     margin: 0 !important;
 }

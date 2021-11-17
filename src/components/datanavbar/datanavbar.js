@@ -72,7 +72,7 @@ class DataNavBar extends React.Component {
                 setData: new Set()
             }
         this.child = React.createRef();
-        this.setupCustomTable()
+        // this.setupCustomTable()
 
         this.myData = this.myData.bind(this)
         this.customDfs = this.customDfs.bind(this)
@@ -90,9 +90,11 @@ class DataNavBar extends React.Component {
         this.handleChange = this.handleChange.bind(this)
         this.nflFilterObj = this.nflFilterObj.bind(this)
         this.getSetData = this.getSetData.bind(this)
+        this.setupCustomTable = this.setupCustomTable.bind(this)
     }
     componentDidMount() {
         this.getCustomDfsData({user:{id:'Master'}, sportView:"NBA"});
+        this.setupCustomTable()
     }
     componentDidUpdate(prevProps) {
 
@@ -148,6 +150,7 @@ class DataNavBar extends React.Component {
                     inputActive:false
                 })
             }
+            this.dkSalary()
         }
 
     }
@@ -197,6 +200,36 @@ class DataNavBar extends React.Component {
                 // let response_data = JSON.parse(res.request.response)
                 if (res.status === 200 ) {
 
+                    let fetch_payload={"user": {"id": localStorage.getItem('username')}, "sportView": this.state.is_nbaNfl}
+                    let data_url = '/Prod/fetch-game-data'
+                    this.api.GetApi(data_url, fetch_payload)
+                        .then((res) => {
+                            if (res.status === 200 ) {
+                                let fetch_live_stats = '/Prod/fetch-live-stats'
+                                let fetch_live_payload={"user": {"id": localStorage.getItem('username')}, "sportView": this.state.is_nbaNfl}
+                                this.api.GetApi(fetch_live_stats, fetch_live_payload)
+                                    .then((res) => {
+                                        if (res.status === 200 ) {
+                                        } else if (res.request.status === 401) {
+                                            this.props.history.push('/signin')
+                                            this.setState({loader:false})
+                                        } else {
+                                            console.log(res)
+                                        }
+                                    })
+                                    .catch((error) => {
+                                        console.log(error);
+                                    })
+                            } else if (res.request.status === 401) {
+                                this.props.history.push('/signin')
+                                this.setState({loader:false})
+                            } else {
+                                console.log(res)
+                            }
+                        })
+                        .catch((error) => {
+                            console.log(error);
+                        })
                 } else if (res.request.status === 401) {
                     this.props.history.push('/signin')
                     this.setState({loader:false})
@@ -210,7 +243,6 @@ class DataNavBar extends React.Component {
     }
 
     getPlayerState = (data) =>{
-        this.setState({loader:true})
         this.setState({update_data:true})
         let payload = {
             data:data
@@ -223,7 +255,7 @@ class DataNavBar extends React.Component {
                 let response_data = JSON.parse(res.request.response)
                 if (res.status === 200 ) {
                     if(data.sportView === "NBA"){
-                        if (response_data.body.length === 0 ){
+                        if (response_data.body !== undefined ){
                             this.setState({loader:false , players_data:this.state.temp_filter_player
                                 , init_data:this.state.temp_filter_player})
                         }
@@ -234,7 +266,7 @@ class DataNavBar extends React.Component {
 
                     }
                     if(data.sportView === "NFL"){
-                        if (response_data.body.length !== 0){
+                        if (response_data.body !== undefined){
                             this.setState({ init_data:response_data.body ,temp_filter_player:response_data.body})
                             this.setState({players_data:response_data.body})
                         }
@@ -261,8 +293,15 @@ class DataNavBar extends React.Component {
                 let response_data = JSON.parse(res.request.response)
                 if (res.status === 200 ) {
                     if(data.sportView === "NBA"){
-                        this.setState({game_data: response_data.body})
-                        this.setState({loader:false})
+                        if(response_data.body.length > 0){
+                            this.setState({game_data: response_data.body})
+                            this.setState({loader:false})
+                        }
+                        else{
+                            // this.setState({game_data: response_data.body})
+                            this.setState({loader:false})
+                        }
+
                     }
                     if(data.sportView === "NFL"){
                         this.setState({game_data: response_data.body})
@@ -279,32 +318,36 @@ class DataNavBar extends React.Component {
             .catch((error) => {
                 console.log(error);
             })
-
     }
 
 
     myData(){
+        this.dkSalary()
         toast("⭐ Populating fields...");
         this.setState({
             inputActive:true,
-            saveBtnActive:true
+            saveBtnActive:true,
+            loader:true
         })
-            this.getPlayerState({"user": {"id": localStorage.getItem('username')}, "sportView": this.state.is_nbaNfl})
-        }
+        this.getPlayerState({"user": {"id": localStorage.getItem('username')}, "sportView": this.state.is_nbaNfl})
+
+    }
 
     customDfs(){
         toast("⭐ Populating fields...");
         this.setState({
             inputActive:false,
-            saveBtnActive:false
+            saveBtnActive:false,
+            loader:true
         })
             this.getPlayerState( {"user": {"id": "Master"}, "sportView": this.state.is_nbaNfl})
+
     }
 
     SaveData = () =>{
         this.setState({saveData:true, spinner: true})
-        toast.success("⭐ Successfully loaded...",{closeOnClick: true,
-            autoClose:3000});
+        //toast.success("⭐ ...",{closeOnClick: true,
+       //     autoClose:3000});
     }
 
     //api calling
@@ -1167,66 +1210,66 @@ class DataNavBar extends React.Component {
     handleSimulations = () =>{
         toast.success("⭐ Simulation Started...");
         this.setState({simulationSpinner: true})
-        if(this.state.is_nbaNfl === 'NFL') {
+
             let payload = {
                 User: localStorage.getItem('username')
             }
-
-            let url = '/Prod/run-simulation-nfl'
-            this.api.PostApi(payload, url)
-                .then((res) => {
-                    //let response_data = JSON.parse(res.request.response)
-                    if (res.status === 200) {
-                        this.setState({
-                            inputActive:true,
-                            saveBtnActive:true
-                        })
-                        // this.getPlayerState({"user": {"id": localStorage.getItem('username')}, "sportView": this.state.is_nbaNfl})
-                        this.setState({simulationSpinner: false})
-                    } else if (res.request.status === 401) {
-                        this.props.history.push('/signin')
-                        this.setState({loader: false, simulationSpinner: false})
-                    } else {
-                        this.setState({simulationSpinner: false, loader: false})
-                        console.log(res)
-                    }
-                })
-                .catch((error) => {
-                    this.setState({simulationSpinner: false, loader: false})
-                    console.log(error);
-                })
+            let url
+        if(this.state.is_nbaNfl === 'NFL') {
+            url = '/Prod/run-simulation-nfl'
+            // this.api.PostApi(payload, url)
+            //     .then((res) => {
+            //         //let response_data = JSON.parse(res.request.response)
+            //         if (res.status === 200) {
+            //             this.setState({
+            //                 inputActive:true,
+            //                 saveBtnActive:true
+            //             })
+            //             this.getPlayerState({"user": {"id": localStorage.getItem('username')}, "sportView": this.state.is_nbaNfl})
+            //             this.setState({simulationSpinner: false})
+            //         } else if (res.request.status === 401) {
+            //             this.props.history.push('/signin')
+            //             this.setState({loader: false, simulationSpinner: false})
+            //         } else {
+            //             this.setState({simulationSpinner: false, loader: false})
+            //             console.log(res)
+            //         }
+            //     })
+            //     .catch((error) => {
+            //         this.setState({simulationSpinner: false, loader: false})
+            //         console.log(error);
+            //     })
         }
         else{
-            let payload = {
-                User: localStorage.getItem('username')
-            }
-
-            let url = '/Prod/run-simulation'
-            this.api.PostApi(payload, url)
-                .then((res) => {
-                    //let response_data = JSON.parse(res.request.response)
-                    if (res.status === 200) {
-                        toast.success("⭐ Simulation Started...");
-                        this.setState({
-                            inputActive:true,
-                            saveBtnActive:true
-                        })
-                        // this.getPlayerState({"user": {"id": localStorage.getItem('username')}, "sportView": this.state.is_nbaNfl})
-                        this.setState({simulationSpinner: false})
-                    } else if (res.request.status === 401) {
-                        this.props.history.push('/signin')
-                        this.setState({loader: false, simulationSpinner: false})
-                    } else {
-                        this.setState({simulationSpinner: false, loader: false})
-                        console.log(res)
-                    }
-                })
-                .catch((error) => {
-                    this.setState({simulationSpinner: false, loader: false})
-                    console.log(error);
-                })
+            // let payload = {
+            //     User: localStorage.getItem('username')
+            // }
+            url = '/Prod/run-simulation'
         }
-        setTimeout(() => { toast("⭐ Populating fields..."); }, 3000);
+        this.api.PostApi(payload, url)
+            .then((res) => {
+                //let response_data = JSON.parse(res.request.response)
+                if (res.status === 200) {
+                    this.setState({
+                        inputActive:true,
+                        saveBtnActive:true
+                    })
+
+                    this.getPlayerState({"user": {"id": localStorage.getItem('username')}, "sportView": this.state.is_nbaNfl})
+                    this.setState({simulationSpinner: false},()=>{toast("⭐ Populating fields ...");})
+                } else if (res.request.status === 401) {
+                    this.props.history.push('/signin')
+                    this.setState({loader: false, simulationSpinner: false})
+                } else {
+                    this.setState({simulationSpinner: false, loader: false})
+                    console.log(res)
+                }
+            })
+            .catch((error) => {
+                this.setState({simulationSpinner: false, loader: false})
+                console.log(error);
+            })
+        //setTimeout(() => { toast("⭐ Populating fields..."); }, 3000);
     }
 
     handleSaveGameData = (props) =>{

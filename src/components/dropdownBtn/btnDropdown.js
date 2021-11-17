@@ -12,7 +12,6 @@ import Divider from '@material-ui/core/Divider';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 import ToggleButton from '@material-ui/lab/ToggleButton';
-
 import '../home/style.css'
 import '../datanavbar/datanavbar.css'
 import {toast} from "react-toastify";
@@ -67,8 +66,6 @@ export default function CustomizedMenus(props) {
             else{
                 props.onSaveGameData(props.nfl_game_data)
             }
-
-
         }
     };
     useEffect(()=>{
@@ -90,7 +87,6 @@ export default function CustomizedMenus(props) {
     const saveModifyGameList = (id, winner, keyName) =>{
         let is_exist = true
 
-
         for(let i=0; i< newGameData.length; i++){
             if(newGameData[i].Id === id){
                 // my code
@@ -103,10 +99,8 @@ export default function CustomizedMenus(props) {
         if(is_exist){
             for(let i=0; i< updateGameData.length; i++){
                 if(updateGameData[i].Id === id){
-                    // my code
                     updateGameData[i][keyName]=winner
                     setNewGameData( updateGameData);
-                    //code ended
                 }
             }
         }
@@ -282,19 +276,19 @@ export default function CustomizedMenus(props) {
         <StyledMenuItem>
             <div className="menu_list_head">
                 <div className="team_container row">
-                    <div data-awayName={`left${gameData.Id}`} id={`left${gameData.Id}`} awayTeamName={ gameData.AwayTeam }  className={`left_team ${gameData.AwayTeam.length>0 ? active+gameData.AwayTeam : "active"} col-md-5 col-sm-5 col-xs-5`}  onClick={(e)=>{activeDeactive(e,gameData.AwayTeam)}}>
+                    <div data-awayName={`left${gameData.Id}`} id={`left${gameData.Id}`} awayTeamName={ gameData.AwayTeam }  className={`left_team ${ active }${ props.is_nbaNfl === 'NFL' ? "NFL"+gameData.GlobalAwayTeamID : "NBA"+gameData.AwayTeamID} col-md-5 col-sm-5 col-xs-5`}  onClick={(e)=>{activeDeactive(e,gameData.AwayTeam)}}>
                         {props.is_nbaNfl === 'NFL' ?
-                            <div data-awayName={`left${gameData.Id}`} className={`${gameData.AwayTeam} nfl`}  />
+                            <div data-awayName={`left${gameData.Id}`} className={`${"NFL"+gameData.GlobalAwayTeamID} nfl`}  />
 
-                            : <div data-awayName={`left${gameData.Id}`} className={`${gameData.AwayTeam}`} />}
+                            : <div data-awayName={`left${gameData.Id}`} className={`${"NBA"+gameData.AwayTeamID}`} />}
                         {gameData.AwayTeam}
                     </div>
                     <div data-middleName={`middle${gameData.Id}`} id={`middle${gameData.Id}`} awayTeamName={ gameData.AwayTeam } at={"@"} homeTeamName={gameData.HomeTeam}  className="middle_team active  col-md-2 col-sm-2 col-xs-2" onClick={(e)=>{activeDeactive(e,gameData.AwayTeam,gameData.HomeTeam)}}>@</div>
-                    <div data-homeName={`right${gameData.Id}`} id={`right${gameData.Id}`} homeTeamName={gameData.HomeTeam} className={`right_team ${gameData.AwayTeam.length>0 ? active+gameData.HomeTeam : "active"} col-md-5 col-sm-5 col-xs-5`} onClick={(e)=>{activeDeactive(e,gameData.HomeTeam)}}>
+                    <div data-homeName={`right${gameData.Id}`} id={`right${gameData.Id}`} homeTeamName={gameData.HomeTeam} className={`right_team ${ active }${ props.is_nbaNfl === 'NFL' ? "NFL"+gameData.GlobalHomeTeamID : "NBA"+gameData.HomeTeamID}  col-md-5 col-sm-5 col-xs-5`} onClick={(e)=>{activeDeactive(e,gameData.HomeTeam)}}>
                         {props.is_nbaNfl === 'NFL' ?
-                            <div data-homeName={`right${gameData.Id}`} className={`${gameData.HomeTeam} nfl`} />
+                            <div data-homeName={`right${gameData.Id}`} className={`${"NFL"+gameData.GlobalHomeTeamID} nfl`} />
                             // <div className={`${gameData.HomeTeam} nfl NYJ`}></div>
-                            : <div data-homeName={`right${gameData.Id}`} className={`${gameData.HomeTeam}`} />}
+                            : <div data-homeName={`right${gameData.Id}`} className={`${"NBA"+gameData.HomeTeamID}`} />}
 
                         {gameData.HomeTeam}
                     </div>
@@ -378,7 +372,6 @@ function DetailedAccordion(props) {
                     let classs = document.getElementById(x + "Winner2").getAttribute("class")
                     if(!classs.includes("ACTIVE")){
                         document.getElementById(x + "Winner2").setAttribute("class", classs + " ACTIVE")
-
                     }
                 } else if (props.nflData[i].Winner === props.nflData[i].AwayTeam) {
                     let classs = document.getElementById(x + "Winner1").getAttribute("class")
@@ -411,7 +404,7 @@ function DetailedAccordion(props) {
                 }
             }
         }
-    }, [])
+    })
 
     function fff(id, name, key , eleId)
     {
@@ -481,7 +474,7 @@ function DetailedAccordion(props) {
                             <div className="left_des  col-md-5 col-sm-5 col-xs-5">
                                 <span className="">Over/under {props.overUnder}</span>
                             </div>
-                            <div className="middle_des  col-md-2 col-sm-2 col-xs-2"></div>
+                            <div className="middle_des  col-md-2 col-sm-2 col-xs-2"/>
                             <div className="right_des  col-md-5 col-sm-5 col-xs-5">
                                 <span className="text-uppercase">{props.HomeTeam}  {props.spread>0 ? "+"+props.spread:props.spread}</span>
                             </div>
@@ -514,7 +507,7 @@ function DetailedAccordion(props) {
                             <div className="left_des  col-md-5 col-sm-5 col-xs-5">
                                 <span className="">Over/under {props.overUnder}</span>
                             </div>
-                            <div className="middle_des  col-md-2 col-sm-2 col-xs-2"></div>
+                            <div className="middle_des  col-md-2 col-sm-2 col-xs-2"/>
                             <div className="right_des  col-md-5 col-sm-5 col-xs-5">
                                 <span className="text-uppercase">{props.HomeTeam}  {props.spread>0 ? "+"+props.spread:props.spread}</span>
                             </div>

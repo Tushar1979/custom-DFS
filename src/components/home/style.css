@@ -457,7 +457,18 @@
     height: 30px;
     background-repeat: no-repeat;
     display: inline-block;
-    background: url("../../images/team_logo.svg") -363px -360px !important;
+    background: url("../../images/team_logo.svg") -363px -360px;
+    vertical-align: middle;
+}
+
+.nfl.LAC{
+    width: 25px;
+    height: 25px;
+    margin-right: 5px;
+    background-repeat:  no-repeat;
+    display: inline-block;
+    background: url("../../images/chargerLAC.png");
+    background-size: cover;
     vertical-align: middle;
 }
 .nfl.DAL {
@@ -619,4 +630,633 @@
 .ACTIVE {
     background-color: #123C6C !important;
     color: white !important;
+}
+.NO{
+    width: 30px;
+    height: 30px;
+    background-repeat: no-repeat;
+    display: inline-block;
+    background: url("../../images/team_logo.svg") -540px -540px;
+    vertical-align: middle;
+}
+
+/*      NBA WITH IDs      */
+
+.NBA1{
+    width: 21px;
+    height: 21px;
+    margin-right: 5px;
+    background-repeat:  no-repeat;
+    display: inline-block;
+    background: url("https://nbateamlogo.s3.us-east-2.amazonaws.com/1.svg");
+    background-size: cover;
+    vertical-align: middle;
+}
+.NBA2{
+    width: 22px;
+    height: 21px;
+    margin-right: 5px;
+    background-repeat:  no-repeat;
+    display: inline-block;
+    background: url("https://nbateamlogo.s3.us-east-2.amazonaws.com/2.svg");
+    background-size: cover;
+    vertical-align: middle;
+}
+.NBA3{
+    width: 21px;
+    height: 21px;
+    margin-right: 5px;
+    background-repeat:  no-repeat;
+    display: inline-block;
+    background: url("https://nbateamlogo.s3.us-east-2.amazonaws.com/3.svg");
+    background-size: cover;
+    vertical-align: middle;
+}
+.NBA4{
+    width: 18px;
+    height: 22px;
+    margin-right: 5px;
+    background-repeat:  no-repeat;
+    display: inline-block;
+    background: url("https://nbateamlogo.s3.us-east-2.amazonaws.com/4.svg");
+    background-size: cover;
+    vertical-align: middle;
+}
+.NBA5{
+    width: 25px;
+    height: 22px;
+    margin-right: 5px;
+    background-repeat:  no-repeat;
+    display: inline-block;
+    background: url("https://nbateamlogo.s3.us-east-2.amazonaws.com/5.png");
+    background-size: cover;
+    vertical-align: middle;
+}
+.NBA6{
+    width: 26px;
+    height: 21px;
+    margin-right: 5px;
+    background-repeat:  no-repeat;
+    display: inline-block;
+    background: url("https://nbateamlogo.s3.us-east-2.amazonaws.com/6.svg");
+    background-size: cover;
+    vertical-align: middle;
+}
+.NBA7{
+    width: 21px;
+    height: 21px;
+    margin-right: 5px;
+    background-repeat:  no-repeat;
+    display: inline-block;
+    background: url("https://nbateamlogo.s3.us-east-2.amazonaws.com/7.svg");
+    background-size: cover;
+    vertical-align: middle;
+}
+.NBA8{
+    width: 18px;
+    height: 19px;
+    margin-right: 5px;
+    background-repeat:  no-repeat;
+    display: inline-block;
+    background: url("https://nbateamlogo.s3.us-east-2.amazonaws.com/8.svg");
+    background-size: cover;
+    vertical-align: middle;
+}
+.NBA9{
+    width: 20px;
+    height: 21px;
+    margin-right: 5px;
+    background-repeat:  no-repeat;
+    display: inline-block;
+    background: url("https://nbateamlogo.s3.us-east-2.amazonaws.com/9.svg");
+    background-size: cover;
+    vertical-align: middle;
+}
+.NBA10{
+    width: 21px;
+    height: 21px;
+    margin-right: 5px;
+    background-repeat:  no-repeat;
+    display: inline-block;
+    background: url("https://nbateamlogo.s3.us-east-2.amazonaws.com/10.svg");
+    background-size: cover;
+    vertical-align: middle;
+}
+.NBA11{
+    width: 22px;
+    height: 23px;
+    margin-right: 5px;
+    background-repeat:  no-repeat;
+    display: inline-block;
+    background: url("https://nbateamlogo.s3.us-east-2.amazonaws.com/11.svg");
+    background-size: cover;
+    vertical-align: middle;
+}
+.NBA12{
+    width: 11px;
+    height: 24px;
+    margin-right: 5px;
+    background-repeat:  no-repeat;
+    display: inline-block;
+    background: url("https://nbateamlogo.s3.us-east-2.amazonaws.com/12.svg");
+    background-size: cover;
+    vertical-align: middle;
+}
+.NBA13{
+    width: 21px;
+    height: 21px;
+    margin-right: 5px;
+    background-repeat:  no-repeat;
+    display: inline-block;
+    background: url("https://nbateamlogo.s3.us-east-2.amazonaws.com/13.svg");
+    background-size: cover;
+    vertical-align: middle;
+}
+.NBA14{
+    width: 21px;
+    height: 21px;
+    margin-right: 5px;
+    background-repeat:  no-repeat;
+    display: inline-block;
+    background: url("https://nbateamlogo.s3.us-east-2.amazonaws.com/14.svg");
+    background-size: cover;
+    vertical-align: middle;
+}
+.NBA15{
+    width: 18px;
+    height: 21px;
+    margin-right: 5px;
+    background-repeat:  no-repeat;
+    display: inline-block;
+    background: url("https://nbateamlogo.s3.us-east-2.amazonaws.com/15.svg");
+    background-size: cover;
+    vertical-align: middle;
+}
+.NBA16{
+    width: 21px;
+    height: 21px;
+    margin-right: 5px;
+    background-repeat:  no-repeat;
+    display: inline-block;
+    background: url("https://nbateamlogo.s3.us-east-2.amazonaws.com/16.svg");
+    background-size: cover;
+    vertical-align: middle;
+}
+.NBA17{
+    width: 18px;
+    height: 21px;
+    margin-right: 5px;
+    background-repeat:  no-repeat;
+    display: inline-block;
+    background: url("https://nbateamlogo.s3.us-east-2.amazonaws.com/17.png");
+    background-size: cover;
+    vertical-align: middle;
+}
+.NBA18{
+    width: 21px;
+    height: 24px;
+    margin-right: 5px;
+    background-repeat:  no-repeat;
+    display: inline-block;
+    background: url("https://nbateamlogo.s3.us-east-2.amazonaws.com/18.png");
+    background-size: cover;
+    vertical-align: middle;
+}
+.NBA19{
+    width: 20px;
+    height: 23px;
+    margin-right: 5px;
+    background-repeat:  no-repeat;
+    display: inline-block;
+    background: url("https://nbateamlogo.s3.us-east-2.amazonaws.com/19.png");
+    background-size: cover;
+    vertical-align: middle;
+}
+.NBA20{
+    width: 21px;
+    height: 21px;
+    margin-right: 5px;
+    background-repeat:  no-repeat;
+    display: inline-block;
+    background: url("https://nbateamlogo.s3.us-east-2.amazonaws.com/20.svg");
+    background-size: cover;
+    vertical-align: middle;
+}
+.NBA21{
+    width: 21px;
+    height: 18px;
+    margin-right: 5px;
+    background-repeat:  no-repeat;
+    display: inline-block;
+    background: url("https://nbateamlogo.s3.us-east-2.amazonaws.com/21.svg");
+    background-size: cover;
+    vertical-align: middle;
+}
+.NBA22{
+    width: 19px;
+    height: 21px;
+    margin-right: 5px;
+    background-repeat:  no-repeat;
+    display: inline-block;
+    background: url("https://nbateamlogo.s3.us-east-2.amazonaws.com/22.svg");
+    background-size: cover;
+    vertical-align: middle;
+}
+.NBA23{
+    width: 24px;
+    height: 24px;
+    margin-right: 5px;
+    background-repeat:  no-repeat;
+    display: inline-block;
+    background: url("https://nbateamlogo.s3.us-east-2.amazonaws.com/23.png");
+    background-size: cover;
+    vertical-align: middle;
+}
+.NBA24{
+    width: 18px;
+    height: 21px;
+    margin-right: 5px;
+    background-repeat:  no-repeat;
+    display: inline-block;
+    background: url("https://nbateamlogo.s3.us-east-2.amazonaws.com/24.png");
+    background-size: cover;
+    vertical-align: middle;
+}
+.NBA25{
+    width: 21px;
+    height: 21px;
+    margin-right: 5px;
+    background-repeat:  no-repeat;
+    display: inline-block;
+    background: url("https://nbateamlogo.s3.us-east-2.amazonaws.com/25.png");
+    background-size: cover;
+    vertical-align: middle;
+}
+.NBA26{
+    width: 18px;
+    height: 21px;
+    margin-right: 5px;
+    background-repeat:  no-repeat;
+    display: inline-block;
+    background: url("https://nbateamlogo.s3.us-east-2.amazonaws.com/26.svg");
+    background-size: cover;
+    vertical-align: middle;
+}
+.NBA27{
+    width: 28px;
+    height: 18px;
+    margin-right: 5px;
+    background-repeat:  no-repeat;
+    display: inline-block;
+    background: url("https://nbateamlogo.s3.us-east-2.amazonaws.com/27.svg");
+    background-size: cover;
+    vertical-align: middle;
+}
+.NBA28{
+    width: 21px;
+    height: 21px;
+    margin-right: 5px;
+    background-repeat:  no-repeat;
+    display: inline-block;
+    background: url("https://nbateamlogo.s3.us-east-2.amazonaws.com/28.png");
+    background-size: cover;
+    vertical-align: middle;
+}
+.NBA29{
+    width: 20px;
+    height: 21px;
+    margin-right: 5px;
+    background-repeat:  no-repeat;
+    display: inline-block;
+    background: url("https://nbateamlogo.s3.us-east-2.amazonaws.com/29.svg");
+    background-size: cover;
+    vertical-align: middle;
+}
+.NBA30{
+    width: 20px;
+    height: 24px;
+    margin-right: 5px;
+    background-repeat:  no-repeat;
+    display: inline-block;
+    background: url("https://nbateamlogo.s3.us-east-2.amazonaws.com/30.svg");
+    background-size: cover;
+    vertical-align: middle;
+}
+
+/*      NFL WITH IDs      */
+
+.NFL1{
+    width: 23px;
+    height: 20px;
+    margin-right: 5px;
+    background-repeat:  no-repeat;
+    display: inline-block;
+    background: url("https://nflteamlogo.s3.us-east-2.amazonaws.com/1.svg");
+    background-size: cover;
+    vertical-align: middle;
+}
+.NFL2{
+    width: 24px;
+    height: 22px;
+    margin-right: 5px;
+    background-repeat:  no-repeat;
+    display: inline-block;
+    background: url("https://nflteamlogo.s3.us-east-2.amazonaws.com/2.svg");
+    background-size: cover;
+    vertical-align: middle;
+}
+.NFL3{
+    width: 34px;
+    height: 17px;
+    margin-right: 5px;
+    background-repeat:  no-repeat;
+    display: inline-block;
+    background: url("https://nflteamlogo.s3.us-east-2.amazonaws.com/3.svg");
+    background-size: cover;
+    vertical-align: middle;
+}
+.NFL4{
+    width: 27px;
+    height: 17px;
+    margin-right: 5px;
+    background-repeat:  no-repeat;
+    display: inline-block;
+    background: url("https://nflteamlogo.s3.us-east-2.amazonaws.com/4.svg");
+    background-size: cover;
+    vertical-align: middle;
+}
+.NFL5{
+    width: 26px;
+    height: 15px;
+    margin-right: 5px;
+    background-repeat:  no-repeat;
+    display: inline-block;
+    background: url("https://nflteamlogo.s3.us-east-2.amazonaws.com/5.svg");
+    background-size: cover;
+    vertical-align: middle;
+}
+.NFL6{
+    width: 25px;
+    height: 16px;
+    margin-right: 5px;
+    background-repeat:  no-repeat;
+    display: inline-block;
+    background: url("https://nflteamlogo.s3.us-east-2.amazonaws.com/6.svg");
+    background-size: cover;
+    vertical-align: middle;
+}
+.NFL7{
+    width: 24px;
+    height: 18px;
+    margin-right: 5px;
+    background-repeat:  no-repeat;
+    display: inline-block;
+    background: url("https://nflteamlogo.s3.us-east-2.amazonaws.com/7.svg");
+    background-size: cover;
+    vertical-align: middle;
+}
+.NFL8{
+    width: 22px;
+    height: 18px;
+    margin-right: 5px;
+    background-repeat:  no-repeat;
+    display: inline-block;
+    background: url("https://nflteamlogo.s3.us-east-2.amazonaws.com/8.svg");
+    background-size: cover;
+    vertical-align: middle;
+}
+.NFL9{
+    width: 22px;
+    height: 21px;
+    margin-right: 5px;
+    background-repeat:  no-repeat;
+    display: inline-block;
+    background: url("https://nflteamlogo.s3.us-east-2.amazonaws.com/9.svg");
+    background-size: cover;
+    vertical-align: middle;
+}
+.NFL10{
+    width: 30px;
+    height: 17px;
+    margin-right: 5px;
+    background-repeat:  no-repeat;
+    display: inline-block;
+    background: url("https://nflteamlogo.s3.us-east-2.amazonaws.com/10.svg");
+    background-size: cover;
+    vertical-align: middle;
+}
+.NFL11{
+    width: 27px;
+    height: 20px;
+    margin-right: 5px;
+    background-repeat:  no-repeat;
+    display: inline-block;
+    background: url("https://nflteamlogo.s3.us-east-2.amazonaws.com/11.svg");
+    background-size: cover;
+    vertical-align: middle;
+}
+.NFL12{
+    width: 28px;
+    height: 18px;
+    margin-right: 5px;
+    background-repeat:  no-repeat;
+    display: inline-block;
+    background: url("https://nflteamlogo.s3.us-east-2.amazonaws.com/12.svg");
+    background-size: cover;
+    vertical-align: middle;
+}
+.NFL13{
+    width: 22px;
+    height: 19px;
+    margin-right: 5px;
+    background-repeat:  no-repeat;
+    display: inline-block;
+    background: url("https://nflteamlogo.s3.us-east-2.amazonaws.com/13.svg");
+    background-size: cover;
+    vertical-align: middle;
+}.NFL14{
+     width: 20px;
+     height: 21px;
+     margin-right: 5px;
+     background-repeat:  no-repeat;
+     display: inline-block;
+     background: url("https://nflteamlogo.s3.us-east-2.amazonaws.com/14.svg");
+     background-size: cover;
+     vertical-align: middle;
+ }.NFL15{
+      width: 25px;
+      height: 19px;
+      margin-right: 5px;
+      background-repeat:  no-repeat;
+      display: inline-block;
+      background: url("https://nflteamlogo.s3.us-east-2.amazonaws.com/15.svg");
+      background-size: cover;
+      vertical-align: middle;
+  }.NFL16{
+       width: 28px;
+       height: 18px;
+       margin-right: 5px;
+       background-repeat:  no-repeat;
+       display: inline-block;
+       background: url("https://nflteamlogo.s3.us-east-2.amazonaws.com/16.svg");
+       background-size: cover;
+       vertical-align: middle;
+   }
+.NFL19{
+    width: 25px;
+    height: 19px;
+    margin-right: 5px;
+    background-repeat:  no-repeat;
+    display: inline-block;
+    background: url("https://nflteamlogo.s3.us-east-2.amazonaws.com/19.svg");
+    background-size: cover;
+    vertical-align: middle;
+}.NFL20{
+     width: 22px;
+     height: 25px;
+     margin-right: 5px;
+     background-repeat:  no-repeat;
+     display: inline-block;
+     background: url("https://nflteamlogo.s3.us-east-2.amazonaws.com/20.svg");
+     background-size: cover;
+     vertical-align: middle;
+ }
+.NFL21{
+      width: 33px;
+      height: 17px;
+      margin-right: 5px;
+      background-repeat:  no-repeat;
+      display: inline-block;
+      background: url("https://nflteamlogo.s3.us-east-2.amazonaws.com/21.svg");
+      background-size: cover;
+      vertical-align: middle;
+  }
+.NFL22{
+    width: 20px;
+    height: 24px;
+    margin-right: 5px;
+    background-repeat:  no-repeat;
+    display: inline-block;
+    background: url("https://nflteamlogo.s3.us-east-2.amazonaws.com/22.svg");
+    background-size: cover;
+    vertical-align: middle;
+}
+.NFL23{
+    width: 22px;
+    height: 16px;
+    margin-right: 5px;
+    background-repeat:  no-repeat;
+    display: inline-block;
+    background: url("https://nflteamlogo.s3.us-east-2.amazonaws.com/23.svg");
+    background-size: cover;
+    vertical-align: middle;
+}
+.NFL24{
+    width: 27px;
+    height: 17px;
+    margin-right: 5px;
+    background-repeat:  no-repeat;
+    display: inline-block;
+    background: url("https://nflteamlogo.s3.us-east-2.amazonaws.com/24.svg");
+    background-size: cover;
+    vertical-align: middle;
+}
+.NFL25{
+    width: 20px;
+    height: 21px;
+    margin-right: 5px;
+    background-repeat:  no-repeat;
+    display: inline-block;
+    background: url("https://nflteamlogo.s3.us-east-2.amazonaws.com/25.svg");
+    background-size: cover;
+    vertical-align: middle;
+}
+.NFL26{
+    width: 26px;
+    height: 19px;
+    margin-right: 5px;
+    background-repeat:  no-repeat;
+    display: inline-block;
+    background: url("https://nflteamlogo.s3.us-east-2.amazonaws.com/26.svg");
+    background-size: cover;
+    vertical-align: middle;
+}
+
+.NFL28{
+    width: 21px;
+    height: 21px;
+    margin-right: 5px;
+    background-repeat:  no-repeat;
+    display: inline-block;
+    background: url("https://nflteamlogo.s3.us-east-2.amazonaws.com/28.svg");
+    background-size: cover;
+    vertical-align: middle;
+}
+.NFL29{
+    width: 33px;
+    height: 15px;
+    margin-right: 5px;
+    background-repeat:  no-repeat;
+    display: inline-block;
+    background: url("https://nflteamlogo.s3.us-east-2.amazonaws.com/29.svg");
+    background-size: cover;
+    vertical-align: middle;
+}
+.NFL30{
+    width: 37px;
+    height: 16px;
+    margin-right: 5px;
+    background-repeat:  no-repeat;
+    display: inline-block;
+    background: url("https://nflteamlogo.s3.us-east-2.amazonaws.com/30.svg");
+    background-size: cover;
+    vertical-align: middle;
+}.NFL31{
+     width: 30px;
+     height: 18px;
+     margin-right: 5px;
+     background-repeat:  no-repeat;
+     display: inline-block;
+     background: url("https://nflteamlogo.s3.us-east-2.amazonaws.com/31.svg");
+     background-size: cover;
+     vertical-align: middle;
+ }.NFL32{
+      width: 25px;
+      height: 18px;
+      margin-right: 5px;
+      background-repeat:  no-repeat;
+      display: inline-block;
+      background: url("https://nflteamlogo.s3.us-east-2.amazonaws.com/32.svg");
+      background-size: cover;
+      vertical-align: middle;
+  }
+.NFL33{
+    width: 22px;
+    height: 20px;
+    margin-right: 5px;
+    background-repeat:  no-repeat;
+    display: inline-block;
+    background: url("https://nflteamlogo.s3.us-east-2.amazonaws.com/33.svg");
+    background-size: cover;
+    vertical-align: middle;
+}
+.NFL34{
+    width: 26px;
+    height: 18px;
+    margin-right: 5px;
+    background-repeat:  no-repeat;
+    display: inline-block;
+    background: url("https://nflteamlogo.s3.us-east-2.amazonaws.com/34.svg");
+    background-size: cover;
+    vertical-align: middle;
+}
+.NFL35{
+    width: 21px;
+    height: 21px;
+    margin-right: 5px;
+    background-repeat:  no-repeat;
+    display: inline-block;
+    background: url("https://nflteamlogo.s3.us-east-2.amazonaws.com/35.jpg");
+    background-size: cover;
+    vertical-align: middle;
 }

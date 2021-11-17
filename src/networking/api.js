@@ -67,4 +67,5 @@ export default class API {
             console.log(error);
         }
     }
+
 };
