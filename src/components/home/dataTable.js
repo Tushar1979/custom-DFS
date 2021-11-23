@@ -229,65 +229,71 @@ export default function EnhancedTable(props) {
 
     const handleChangeMinus = (e) =>{
         let rowId = e.target.id
-        let nbaMinus = e.target.value
+        let nbaMinus = e.target.value === "" ? 0 : parseFloat(e.target.value)
         for(let i = 0; i<updateGameList.length; i++){
             if(updateGameList[i].Id === rowId){
                 updateGameList[i]['Minutes'] = nbaMinus
-
+                break
             }
         }
     }
     const handleChangePoints = (e) => {
         let rowId = e.target.id
-        let nbaPoints = e.target.value
+        let nbaPoints = e.target.value === "" ? 0 : parseFloat(e.target.value)
         for(let i = 0; i<updateGameList.length; i++){
             if(updateGameList[i].Id === rowId){
                 updateGameList[i]['Points'] = nbaPoints
+                break
             }
         }
     }
     const handleChangeRebounds = (e) => {
         let rowId = e.target.id
-        let nbaRebounds = e.target.value
+        let nbaRebounds = e.target.value === "" ? 0 : parseFloat(e.target.value)
         for(let i = 0; i<updateGameList.length; i++){
             if(updateGameList[i].Id === rowId){
                 updateGameList[i]['Rebounds'] = nbaRebounds
+                break
             }
         }
     }
     const handleChangeAssists = (e) => {
         let rowId = e.target.id
-        let nbaAssists  = e.target.value
+        let nbaAssists  = e.target.value === "" ? 0 : parseFloat(e.target.value)
         for(let i = 0; i<updateGameList.length; i++){
             if(updateGameList[i].Id === rowId){
                 updateGameList[i]['Assists'] = nbaAssists
+                break
             }
         }
     }
     const handleChangeBlockedShots = (e) => {
         let rowId = e.target.id
-        let nbaBlockedShots   = e.target.value
+        let nbaBlockedShots   = e.target.value === "" ? 0 : parseFloat(e.target.value)
         for(let i = 0; i<updateGameList.length; i++){
             if(updateGameList[i].Id === rowId){
                 updateGameList[i]['BlockedShots'] = nbaBlockedShots
+                break
             }
         }
     }
     const handleChangeSteals = (e) => {
         let rowId = e.target.id
-        let nbaSteals = e.target.value
+        let nbaSteals = e.target.value === "" ? 0 : parseFloat(e.target.value)
         for(let i = 0; i<updateGameList.length; i++){
             if(updateGameList[i].Id === rowId){
                 updateGameList[i]['Steals'] = nbaSteals
+                break
             }
         }
     }
     const handleChangeTurnovers = (e) => {
         let rowId = e.target.id
-        let nbaTurnovers = e.target.value
+        let nbaTurnovers = e.target.value === "" ? 0 : parseFloat(e.target.value)
         for(let i = 0; i<updateGameList.length; i++){
             if(updateGameList[i].Id === rowId){
                 updateGameList[i]['Turnovers'] = nbaTurnovers
+                break
             }
         }
     }
@@ -296,11 +302,11 @@ export default function EnhancedTable(props) {
 
     const handleChangeCompletion = (e) =>{
         let rowId = e.target.id
-        let nflPassingCompletions  = e.target.value
+        let nflPassingCompletions  = e.target.value === "" ? 0 : parseFloat(e.target.value)
         let is_exist = true
         for(let i = 0; i<nflList.length; i++){
                 if (nflList[i].Id === rowId) {
-                        nflList[i]['PassingCompletions'] = parseInt(nflPassingCompletions)
+                        nflList[i]['PassingCompletions'] = nflPassingCompletions
                     is_exist = false
                     break
                 }
@@ -308,7 +314,7 @@ export default function EnhancedTable(props) {
         if(is_exist){
             for(let i = 0; i<updateNflGameList.length; i++){
                 if(updateNflGameList[i].Id === rowId){
-                    updateNflGameList[i]['PassingCompletions'] = parseInt(nflPassingCompletions)
+                    updateNflGameList[i]['PassingCompletions'] = nflPassingCompletions
                     setNflList(nflList.concat(updateNflGameList[i]))
                     is_exist=false
                 }
@@ -319,11 +325,11 @@ export default function EnhancedTable(props) {
 
     const handleChangePassingAttempts = (e) =>{
         let rowId = e.target.id
-        let nflPassingAttempts = e.target.value
+        let nflPassingAttempts = e.target.value === "" ? 0 : parseFloat(e.target.value)
         let is_exist = true
         for(let i =0; i< nflList.length; i++){
             if(nflList[i].Id === rowId){
-                nflList[i]['PassingAttempts'] = parseInt(nflPassingAttempts)
+                nflList[i]['PassingAttempts'] = nflPassingAttempts
                 is_exist=false
                 break
             }
@@ -331,7 +337,7 @@ export default function EnhancedTable(props) {
         if(is_exist){
             for(let i = 0; i<updateNflGameList.length; i++){
                 if(updateNflGameList[i].Id === rowId){
-                    updateNflGameList[i]['PassingAttempts'] = parseInt(nflPassingAttempts)
+                    updateNflGameList[i]['PassingAttempts'] = nflPassingAttempts
                     setNflList(nflList.concat(updateNflGameList[i]))
                     is_exist=false
                 }
@@ -342,11 +348,11 @@ export default function EnhancedTable(props) {
     }
     const handleChangePassingYards = (e) =>{
         let rowId = e.target.id
-        let nflPassingYards = e.target.value
+        let nflPassingYards = e.target.value === "" ? 0 : parseFloat(e.target.value)
         let is_exist = true
         for(let i =0; i< nflList.length; i++){
             if(nflList[i].Id === rowId){
-                nflList[i]['PassingYards'] = parseInt(nflPassingYards)
+                nflList[i]['PassingYards'] = nflPassingYards
                 is_exist=false
                 break
             }
@@ -354,7 +360,7 @@ export default function EnhancedTable(props) {
         if(is_exist){
             for(let i = 0; i<updateNflGameList.length; i++){
                 if(updateNflGameList[i].Id === rowId){
-                    updateNflGameList[i]['PassingYards'] = parseInt(nflPassingYards)
+                    updateNflGameList[i]['PassingYards'] = nflPassingYards
                     setNflList(nflList.concat(updateNflGameList[i]))
                     is_exist=false
                 }
@@ -364,11 +370,11 @@ export default function EnhancedTable(props) {
     }
     const handleChangePassingTouchdowns = (e) =>{
         let rowId = e.target.id
-        let nflPassingTouchdowns = e.target.value
+        let nflPassingTouchdowns = e.target.value === "" ? 0 : parseFloat(e.target.value)
         let is_exist = true
         for(let i =0; i< nflList.length; i++){
             if(nflList[i].Id === rowId){
-                nflList[i]['PassingTouchdowns'] = parseInt(nflPassingTouchdowns)
+                nflList[i]['PassingTouchdowns'] = nflPassingTouchdowns
                 is_exist=false
                 break
             }
@@ -376,7 +382,7 @@ export default function EnhancedTable(props) {
         if(is_exist){
             for(let i = 0; i<updateNflGameList.length; i++){
                 if(updateNflGameList[i].Id === rowId){
-                    updateNflGameList[i]['PassingTouchdowns'] = parseInt(nflPassingTouchdowns)
+                    updateNflGameList[i]['PassingTouchdowns'] = nflPassingTouchdowns
                     setNflList(nflList.concat(updateNflGameList[i]))
                     is_exist=false
                 }
@@ -387,11 +393,11 @@ export default function EnhancedTable(props) {
 
     const handleChangeRushingAttempts = (e) =>{
         let rowId = e.target.id
-        let nflRushingAttempts = e.target.value
+        let nflRushingAttempts = e.target.value === "" ? 0 : parseFloat(e.target.value)
         let is_exist = true
         for(let i =0; i< nflList.length; i++){
             if(nflList[i].Id === rowId){
-                nflList[i]['RushingAttempts'] = parseInt(nflRushingAttempts)
+                nflList[i]['RushingAttempts'] = nflRushingAttempts
                 is_exist=false
                 break
             }
@@ -399,7 +405,7 @@ export default function EnhancedTable(props) {
         if(is_exist){
             for(let i = 0; i<updateNflGameList.length; i++){
                 if(updateNflGameList[i].Id === rowId){
-                    updateNflGameList[i]['RushingAttempts'] = parseInt(nflRushingAttempts)
+                    updateNflGameList[i]['RushingAttempts'] = nflRushingAttempts
                     setNflList(nflList.concat(updateNflGameList[i]))
                     is_exist=false
                 }
@@ -409,11 +415,11 @@ export default function EnhancedTable(props) {
     }
     const handleChangeRushingYards = (e) =>{
         let rowId = e.target.id
-        let nflRushingYards = e.target.value
+        let nflRushingYards = e.target.value === "" ? 0 : parseFloat(e.target.value)
         let is_exist = true
         for(let i =0; i< nflList.length; i++){
             if(nflList[i].Id === rowId){
-                nflList[i]['RushingYards'] = parseInt(nflRushingYards)
+                nflList[i]['RushingYards'] = nflRushingYards
                 is_exist=false
                 break
             }
@@ -421,7 +427,7 @@ export default function EnhancedTable(props) {
         if(is_exist){
             for(let i = 0; i<updateNflGameList.length; i++){
                 if(updateNflGameList[i].Id === rowId){
-                    updateNflGameList[i]['RushingYards'] = parseInt(nflRushingYards)
+                    updateNflGameList[i]['RushingYards'] = nflRushingYards
                     setNflList(nflList.concat(updateNflGameList[i]))
                     is_exist=false
                 }
@@ -431,11 +437,11 @@ export default function EnhancedTable(props) {
     }
     const handleChangeRushingTouchdowns = (e) =>{
         let rowId = e.target.id
-        let nflRushingTouchdowns = e.target.value
+        let nflRushingTouchdowns = e.target.value === "" ? 0 : parseFloat(e.target.value)
         let is_exist = true
         for(let i =0; i< nflList.length; i++){
             if(nflList[i].Id === rowId){
-                nflList[i]['RushingTouchdowns'] = parseInt(nflRushingTouchdowns)
+                nflList[i]['RushingTouchdowns'] = nflRushingTouchdowns
                 is_exist=false
                 break
             }
@@ -443,7 +449,7 @@ export default function EnhancedTable(props) {
         if(is_exist){
             for(let i = 0; i<updateNflGameList.length; i++){
                 if(updateNflGameList[i].Id === rowId){
-                    updateNflGameList[i]['RushingTouchdowns'] = parseInt(nflRushingTouchdowns)
+                    updateNflGameList[i]['RushingTouchdowns'] = nflRushingTouchdowns
                     setNflList(nflList.concat(updateNflGameList[i]))
                     is_exist=false
                 }
@@ -453,11 +459,11 @@ export default function EnhancedTable(props) {
     }
     const handleChangeReceptions = (e) =>{
         let rowId = e.target.id
-        let nflReceptions = e.target.value
+        let nflReceptions = e.target.value === "" ? 0 : parseFloat(e.target.value)
         let is_exist = true
         for(let i =0; i< nflList.length; i++){
             if(nflList[i].Id === rowId){
-                nflList[i]['Receptions'] = parseInt(nflReceptions)
+                nflList[i]['Receptions'] = nflReceptions
                 is_exist=false
                 break
             }
@@ -465,7 +471,7 @@ export default function EnhancedTable(props) {
         if(is_exist){
             for(let i = 0; i<updateNflGameList.length; i++){
                 if(updateNflGameList[i].Id === rowId){
-                    updateNflGameList[i]['Receptions'] = parseInt(nflReceptions)
+                    updateNflGameList[i]['Receptions'] = nflReceptions
                     setNflList(nflList.concat(updateNflGameList[i]))
                     is_exist=false
                 }
@@ -475,11 +481,11 @@ export default function EnhancedTable(props) {
     }
     const handleChangeReceivingYards = (e) =>{
         let rowId = e.target.id
-        let nflReceivingYards = e.target.value
+        let nflReceivingYards = e.target.value === "" ? 0 : parseFloat(e.target.value)
         let is_exist = true
         for(let i =0; i< nflList.length; i++){
             if(nflList[i].Id === rowId){
-                nflList[i]['ReceivingYards'] = parseInt(nflReceivingYards)
+                nflList[i]['ReceivingYards'] = nflReceivingYards
                 is_exist=false
                 break
             }
@@ -487,7 +493,7 @@ export default function EnhancedTable(props) {
         if(is_exist){
             for(let i = 0; i<updateNflGameList.length; i++){
                 if(updateNflGameList[i].Id === rowId){
-                    updateNflGameList[i]['ReceivingYards'] = parseInt(nflReceivingYards)
+                    updateNflGameList[i]['ReceivingYards'] = nflReceivingYards
                     setNflList(nflList.concat(updateNflGameList[i]))
                     is_exist=false
                 }
@@ -497,11 +503,11 @@ export default function EnhancedTable(props) {
     }
     const handleChangeReceivingTouchdowns = (e) =>{
         let rowId = e.target.id
-        let nflReceivingTouchdowns = e.target.value
+        let nflReceivingTouchdowns = e.target.value === "" ? 0 : parseFloat(e.target.value)
         let is_exist = true
         for(let i =0; i< nflList.length; i++){
             if(nflList[i].Id === rowId){
-                nflList[i]['ReceivingTouchdowns'] = parseInt(nflReceivingTouchdowns)
+                nflList[i]['ReceivingTouchdowns'] = nflReceivingTouchdowns
                 is_exist=false
                 break
             }
@@ -509,7 +515,7 @@ export default function EnhancedTable(props) {
         if(is_exist){
             for(let i = 0; i<updateNflGameList.length; i++){
                 if(updateNflGameList[i].Id === rowId){
-                    updateNflGameList[i]['ReceivingTouchdowns'] = parseInt(nflReceivingTouchdowns)
+                    updateNflGameList[i]['ReceivingTouchdowns'] = nflReceivingTouchdowns
                     setNflList(nflList.concat(updateNflGameList[i]))
                     is_exist=false
                 }
@@ -519,11 +525,11 @@ export default function EnhancedTable(props) {
     }
     const handleChangeFieldGoalsMade= (e) =>{
         let rowId = e.target.id
-        let nflFieldGoalsMade = e.target.value
+        let nflFieldGoalsMade = e.target.value === "" ? 0 : parseFloat(e.target.value)
         let is_exist = true
         for(let i =0; i< nflList.length; i++){
             if(nflList[i].Id === rowId){
-                nflList[i]['FieldGoalsMade'] = parseInt(nflFieldGoalsMade)
+                nflList[i]['FieldGoalsMade'] = nflFieldGoalsMade
                 is_exist=false
                 break
             }
@@ -531,7 +537,7 @@ export default function EnhancedTable(props) {
         if(is_exist){
             for(let i = 0; i<updateNflGameList.length; i++){
                 if(updateNflGameList[i].Id === rowId){
-                    updateNflGameList[i]['FieldGoalsMade'] = parseInt(nflFieldGoalsMade)
+                    updateNflGameList[i]['FieldGoalsMade'] = nflFieldGoalsMade
                     setNflList(nflList.concat(updateNflGameList[i]))
                     is_exist=false
                 }
@@ -541,11 +547,11 @@ export default function EnhancedTable(props) {
     }
     const handleChangeFieldGoalsAttempted = (e) =>{
         let rowId = e.target.id
-        let nflFieldGoalsAttempted = e.target.value
+        let nflFieldGoalsAttempted = e.target.value === "" ? 0 : parseFloat(e.target.value)
         let is_exist = true
         for(let i =0; i< nflList.length; i++){
             if(nflList[i].Id === rowId){
-                nflList[i]['FieldGoalsAttempted'] = parseInt(nflFieldGoalsAttempted)
+                nflList[i]['FieldGoalsAttempted'] = nflFieldGoalsAttempted
                 is_exist=false
                 break
             }
@@ -553,7 +559,7 @@ export default function EnhancedTable(props) {
         if(is_exist){
             for(let i = 0; i<updateNflGameList.length; i++){
                 if(updateNflGameList[i].Id === rowId){
-                    updateNflGameList[i]['FieldGoalsAttempted'] = parseInt(nflFieldGoalsAttempted)
+                    updateNflGameList[i]['FieldGoalsAttempted'] = nflFieldGoalsAttempted
                     setNflList(nflList.concat(updateNflGameList[i]))
                     is_exist=false
                 }
@@ -669,19 +675,19 @@ export default function EnhancedTable(props) {
                         teamId: user_data[data].TeamID,
                         oopId: user_data[data].OpponentID,
                         nflTeamId : user_data[data].GlobalTeamID,
-                        salary: user_data[data].DraftKingsSalary,
-                        fdSalary: user_data[data].FanDuelSalary===undefined || user_data[data].FanDuelSalary=== null ? 0 : user_data[data].FanDuelSalary,
-                        minus: user_data[data].Minutes===undefined || user_data[data].Minutes===null ? 0 : user_data[data].Minutes,
-                        points: user_data[data].Points === undefined || user_data[data].Points=== null ? 0 : user_data[data].Points,
-                        rebound: user_data[data].Rebounds === undefined || user_data[data].Rebounds === null ? 0 : user_data[data].Rebounds,
-                        assists: user_data[data].Assists === undefined || user_data[data].Assists=== null ? 0 : user_data[data].Assists,
-                        steals: user_data[data].Steals === undefined || user_data[data].Steals=== null ? 0 : user_data[data].Steals,
-                        blockedShots: user_data[data].BlockedShots=== undefined || user_data[data].BlockedShots === null ? 0 :user_data[data].BlockedShots,
-                        to: user_data[data].Turnovers===undefined || user_data[data].Turnovers===null ? 0 : user_data[data].Turnovers,
-                        fantasyPoints: user_data[data].FantasyPointsDraftKings === undefined || user_data[data].FantasyPointsDraftKings=== null ? 0 : user_data[data].FantasyPointsDraftKings,
-                        fd_fantasyPoints: user_data[data].FantasyPointsFantasyDraft===undefined || user_data[data].FantasyPointsFantasyDraft===null ? 0 : user_data[data].FantasyPointsFantasyDraft,
-                        nfl_dk_fantasyPoints: user_data[data].DK_Proj===undefined || user_data[data].DK_Proj===null ? 0 :user_data[data].DK_Proj,
-                        nfl_fd_fantasyPoints: user_data[data].FD_Proj===undefined || user_data[data].FD_Proj===null ? 0 : user_data[data].FD_Proj,
+                        salary: user_data[data].DraftKingsSalary===undefined || user_data[data].DraftKingsSalary===null ? 0 : parseFloat(user_data[data].DraftKingsSalary) ,
+                        fdSalary: user_data[data].FanDuelSalary===undefined || user_data[data].FanDuelSalary=== null ? 0 : parseFloat(user_data[data].FanDuelSalary),
+                        minus: user_data[data].Minutes===undefined || user_data[data].Minutes===null ? 0 : parseFloat(user_data[data].Minutes),
+                        points: user_data[data].Points === undefined || user_data[data].Points=== null ? 0 : parseFloat(user_data[data].Points),
+                        rebound: user_data[data].Rebounds === undefined || user_data[data].Rebounds === null ? 0 : parseFloat(user_data[data].Rebounds),
+                        assists: user_data[data].Assists === undefined || user_data[data].Assists=== null ? 0 : parseFloat(user_data[data].Assists),
+                        steals: user_data[data].Steals === undefined || user_data[data].Steals=== null ? 0 : parseFloat(user_data[data].Steals),
+                        blockedShots: user_data[data].BlockedShots=== undefined || user_data[data].BlockedShots === null ? 0 : parseFloat(user_data[data].BlockedShots),
+                        to: user_data[data].Turnovers===undefined || user_data[data].Turnovers===null ? 0 : parseFloat(user_data[data].Turnovers),
+                        fantasyPoints: user_data[data].DK_Proj === undefined || user_data[data].DK_Proj=== null ? 0 : parseFloat(user_data[data].DK_Proj),
+                        fd_fantasyPoints: user_data[data].FD_Proj===undefined || user_data[data].FD_Proj===null ? 0 : parseFloat(user_data[data].FD_Proj),
+                        nfl_dk_fantasyPoints: user_data[data].DK_Proj===undefined || user_data[data].DK_Proj===null ? 0 : parseFloat(user_data[data].DK_Proj),
+                        nfl_fd_fantasyPoints: user_data[data].FD_Proj===undefined || user_data[data].FD_Proj===null ? 0 : parseFloat(user_data[data].FD_Proj),
                         // ceiling: parseFloat(user_data[data].DK_Ceil),
                         // fd_ceiling: parseFloat(user_data[data].FD_Ceil),
                         // floor: parseFloat(user_data[data].DK_Floor),
@@ -696,18 +702,18 @@ export default function EnhancedTable(props) {
                         fd_fpts$: user_data[data].DK_Value=== undefined || user_data[data].DK_Value=== null ? 0 :parseFloat(user_data[data].FD_Value),
 
                         // nflOppId: user_data[data].OpponentID,
-                        completion: user_data[data].PassingCompletions===undefined || user_data[data].PassingCompletions===null ? 0 : user_data[data].PassingCompletions,
-                        passingattempts: user_data[data].PassingAttempts===undefined || user_data[data].PassingAttempts===null ? 0 : user_data[data].PassingAttempts,
-                        passingyards: user_data[data].PassingYards===undefined || user_data[data].PassingYards===null ? 0 : user_data[data].PassingYards,
-                        passingtouchdowns: user_data[data].PassingTouchdowns===undefined || user_data[data].PassingTouchdowns===null ? 0 : user_data[data].PassingTouchdowns,
-                        rushingattempts: user_data[data].RushingAttempts=== undefined || user_data[data].RushingAttempts === null ? 0 : user_data[data].RushingAttempts,
-                        rushingyards: user_data[data].RushingYards===undefined || user_data[data].RushingYards===null ? 0 : user_data[data].RushingYards,
-                        rushingtouchdowns : user_data[data].RushingTouchdowns===undefined || user_data[data].RushingTouchdowns===null ? 0 : user_data[data].RushingTouchdowns,
-                        receptions: user_data[data].Receptions===undefined || user_data[data].Receptions===null ? 0 : user_data[data].Receptions,
-                        receivingyards: user_data[data].ReceivingYards===undefined || user_data[data].ReceivingYards===null ? 0 :user_data[data].ReceivingYards,
-                        receivingtouchdowns: user_data[data].ReceivingTouchdowns=== undefined || user_data[data].ReceivingTouchdowns===null ? 0 : user_data[data].ReceivingTouchdowns,
-                        fieldgoalsmade: user_data[data].FieldGoalsMade===undefined || user_data[data].FieldGoalsMade===null ? 0 : user_data[data].FieldGoalsMade,
-                        fieldgoalsattempted: user_data[data].FieldGoalsAttempted=== undefined || user_data[data].FieldGoalsAttempted===null ? 0 : user_data[data].FieldGoalsAttempted,
+                        completion: user_data[data].PassingCompletions===undefined || user_data[data].PassingCompletions===null ? 0 : parseFloat(user_data[data].PassingCompletions),
+                        passingattempts: user_data[data].PassingAttempts===undefined || user_data[data].PassingAttempts===null ? 0 : parseFloat(user_data[data].PassingAttempts),
+                        passingyards: user_data[data].PassingYards===undefined || user_data[data].PassingYards===null ? 0 : parseFloat(user_data[data].PassingYards),
+                        passingtouchdowns: user_data[data].PassingTouchdowns===undefined || user_data[data].PassingTouchdowns===null ? 0 : parseFloat(user_data[data].PassingTouchdowns),
+                        rushingattempts: user_data[data].RushingAttempts=== undefined || user_data[data].RushingAttempts === null ? 0 : parseFloat(user_data[data].RushingAttempts),
+                        rushingyards: user_data[data].RushingYards===undefined || user_data[data].RushingYards===null ? 0 : parseFloat(user_data[data].RushingYards),
+                        rushingtouchdowns : user_data[data].RushingTouchdowns===undefined || user_data[data].RushingTouchdowns===null ? 0 : parseFloat(user_data[data].RushingTouchdowns),
+                        receptions: user_data[data].Receptions===undefined || user_data[data].Receptions===null ? 0 : parseFloat(user_data[data].Receptions),
+                        receivingyards: user_data[data].ReceivingYards===undefined || user_data[data].ReceivingYards===null ? 0 : parseFloat(user_data[data].ReceivingYards),
+                        receivingtouchdowns: user_data[data].ReceivingTouchdowns=== undefined || user_data[data].ReceivingTouchdowns===null ? 0 : parseFloat(user_data[data].ReceivingTouchdowns),
+                        fieldgoalsmade: user_data[data].FieldGoalsMade===undefined || user_data[data].FieldGoalsMade===null ? 0 : parseFloat(user_data[data].FieldGoalsMade),
+                        fieldgoalsattempted: user_data[data].FieldGoalsAttempted=== undefined || user_data[data].FieldGoalsAttempted===null ? 0 : parseFloat(user_data[data].FieldGoalsAttempted),
                     })
             }
 

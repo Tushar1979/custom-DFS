@@ -1,6 +1,8 @@
 import './App.css';
 import Home from "./components/home/index"
 import ReportBog from "./components/reportBug/index";
+import Feedback from "./components/feedback"
+import ContactUs from "./components/contact-us"
 import SignIn from "./auth/signin";
 import SignUp from "./auth/signup"
 import { BrowserRouter as Router, Switch, Route} from "react-router-dom";
@@ -18,7 +20,9 @@ function App() {
             <div>
                 <Switch>
                     <Route exact path="/" component={Home}/>
-                    <Route path="/customdfs-feedback" component={ReportBog}/>
+                    <Route path="/customdfs-feedback" component={Feedback}/>
+                    <Route path="/customdfs-report_a_bug" component={ReportBog}/>
+                    <Route path="/customdfs-contact_us" component={ContactUs}/>
                     <Route path="/signin" component={SignIn} />
                     <Route path="/signup" component={SignUp} />
                     <Route path="/verify_otp" component={VerifyOtp} />

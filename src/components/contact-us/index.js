@@ -26,7 +26,7 @@ class ReportBog extends React.Component {
             //     "38f3676ad9cb4ccc3574ba5f183c0e4f":this.state.comment
             // }
             var axios = require('axios');
-            var data = JSON.stringify({"Type":"Report A Bug","Email":this.state.email,"Comment":this.state.comment});
+            var data = JSON.stringify({"Type":"Contact_us","Email":this.state.email,"Comment":this.state.comment});
 
             var config = {
                 method: 'post',

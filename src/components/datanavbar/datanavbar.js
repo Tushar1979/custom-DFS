@@ -255,7 +255,7 @@ class DataNavBar extends React.Component {
                 let response_data = JSON.parse(res.request.response)
                 if (res.status === 200 ) {
                     if(data.sportView === "NBA"){
-                        if (response_data.body !== undefined ){
+                        if (response_data.body.length === 0 ){
                             this.setState({loader:false , players_data:this.state.temp_filter_player
                                 , init_data:this.state.temp_filter_player})
                         }
@@ -266,7 +266,7 @@ class DataNavBar extends React.Component {
 
                     }
                     if(data.sportView === "NFL"){
-                        if (response_data.body !== undefined){
+                        if (response_data.body.length !== 0){
                             this.setState({ init_data:response_data.body ,temp_filter_player:response_data.body})
                             this.setState({players_data:response_data.body})
                         }

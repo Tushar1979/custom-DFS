@@ -67,17 +67,17 @@ class NavBar extends React.Component {
                         <div className="collapse navbar-collapse right-nav" id="basicExampleNav">
 
                             <ul className="navbar-nav ">
-                                <li className="nav-item active">
-                                    <Link class="nav-link" >MANAGE SUBSCRIPTION</Link>
-                                </li>
+                                {/*<li className="nav-item active">*/}
+                                {/*    <Link class="nav-link" >MANAGE SUBSCRIPTION</Link>*/}
+                                {/*</li>*/}
                                 <li className="nav-item">
-                                    <Link class="nav-link" to="/customdfs-feedback">Report a Bug</Link>
+                                    <Link class="nav-link" to="/customdfs-report_a_bug">Report a Bug</Link>
                                 </li>
                                 <li className="nav-item">
                                     <Link class="nav-link" to="/customdfs-feedback">Leave Feedback</Link>
                                 </li>
                                 <li className="nav-item">
-                                    <Link class="nav-link" to="/customdfs-feedback">Contact Us</Link>
+                                    <Link class="nav-link" to="/customdfs-contact_us">Contact Us</Link>
                                 </li>
                                 {this.state.user?
                                 <li className="nav-item">

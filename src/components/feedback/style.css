@@ -1,0 +1,37 @@
+.report-form{
+    text-align: left;
+}
+.report-form .form-control{
+}
+.main_container{
+    background: #123C6C;
+    min-height: 100vh;
+
+}
+.form_container{
+    background: #fff;
+    padding: 30px 0;
+}
+.report-container{
+    padding: 20px 30px;
+    border: 1px solid #123C6C;
+    border-radius: 5px;
+    -webkit-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+    box-shadow: 6px 7px 30px 4px rgba(18, 60, 108, .76);
+}
+.report-head{
+    color: #123c6c;
+}
+.report_btn{
+    font-size: 40px;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+.footer-body{
+    padding: 65px 0 0 0;
+}
+.submit_btn{
+    font-size: 35px;
+    text-transform: capitalize;
+}
