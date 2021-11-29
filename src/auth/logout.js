@@ -11,6 +11,7 @@ class LogOut extends Component {
         const userLogout = Auth.signOut();
         userLogout.then((data) => {
             localStorage.removeItem('username')
+            localStorage.removeItem('passcode')
             this.props.history.push('/');
         }).catch((message) => {
             console.log(message);

@@ -1217,33 +1217,8 @@ class DataNavBar extends React.Component {
             let url
         if(this.state.is_nbaNfl === 'NFL') {
             url = '/Prod/run-simulation-nfl'
-            // this.api.PostApi(payload, url)
-            //     .then((res) => {
-            //         //let response_data = JSON.parse(res.request.response)
-            //         if (res.status === 200) {
-            //             this.setState({
-            //                 inputActive:true,
-            //                 saveBtnActive:true
-            //             })
-            //             this.getPlayerState({"user": {"id": localStorage.getItem('username')}, "sportView": this.state.is_nbaNfl})
-            //             this.setState({simulationSpinner: false})
-            //         } else if (res.request.status === 401) {
-            //             this.props.history.push('/signin')
-            //             this.setState({loader: false, simulationSpinner: false})
-            //         } else {
-            //             this.setState({simulationSpinner: false, loader: false})
-            //             console.log(res)
-            //         }
-            //     })
-            //     .catch((error) => {
-            //         this.setState({simulationSpinner: false, loader: false})
-            //         console.log(error);
-            //     })
         }
         else{
-            // let payload = {
-            //     User: localStorage.getItem('username')
-            // }
             url = '/Prod/run-simulation'
         }
         this.api.PostApi(payload, url)
@@ -1254,9 +1229,7 @@ class DataNavBar extends React.Component {
                         inputActive:true,
                         saveBtnActive:true
                     })
-
-                    this.getPlayerState({"user": {"id": localStorage.getItem('username')}, "sportView": this.state.is_nbaNfl})
-                    this.setState({simulationSpinner: false},()=>{toast("⭐ Populating fields ...");})
+                    this.setState({simulationSpinner: false})
                 } else if (res.request.status === 401) {
                     this.props.history.push('/signin')
                     this.setState({loader: false, simulationSpinner: false})
@@ -1264,7 +1237,7 @@ class DataNavBar extends React.Component {
                     this.setState({simulationSpinner: false, loader: false})
                     console.log(res)
                 }
-            })
+            }).then(()=>{this.getPlayerState({"user": {"id": localStorage.getItem('username')}, "sportView": this.state.is_nbaNfl})}).then(toast.success("po"))
             .catch((error) => {
                 this.setState({simulationSpinner: false, loader: false})
                 console.log(error);

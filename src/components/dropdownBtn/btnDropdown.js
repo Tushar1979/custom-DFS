@@ -276,7 +276,7 @@ export default function CustomizedMenus(props) {
         <StyledMenuItem>
             <div className="menu_list_head">
                 <div className="team_container row">
-                    <div data-awayName={`left${gameData.Id}`} id={`left${gameData.Id}`} awayTeamName={ gameData.AwayTeam }  className={`left_team ${ active }${ props.is_nbaNfl === 'NFL' ? "NFL"+gameData.GlobalAwayTeamID : "NBA"+gameData.AwayTeamID} col-md-5 col-sm-5 col-xs-5`}  onClick={(e)=>{activeDeactive(e,gameData.AwayTeam)}}>
+                    <div data-awayName={`left${gameData.Id}`} id={`left${gameData.Id}`} awayTeamName={ gameData.AwayTeam }  className={`left_team ${ active }${ props.is_nbaNfl === 'NFL' ? "NFL"+gameData.GlobalAwayTeamID : "NBA"+gameData.AwayTeamID} col-md-5 col-sm-5 col-xs-5`}  onClick={(e)=>{activeDeactive(e,gameData.AwayTeam)}} style={{"padding-top":"3%"}}>
                         {props.is_nbaNfl === 'NFL' ?
                             <div data-awayName={`left${gameData.Id}`} className={`${"NFL"+gameData.GlobalAwayTeamID} nfl`}  />
 
@@ -284,7 +284,7 @@ export default function CustomizedMenus(props) {
                         {gameData.AwayTeam}
                     </div>
                     <div data-middleName={`middle${gameData.Id}`} id={`middle${gameData.Id}`} awayTeamName={ gameData.AwayTeam } at={"@"} homeTeamName={gameData.HomeTeam}  className="middle_team active  col-md-2 col-sm-2 col-xs-2" onClick={(e)=>{activeDeactive(e,gameData.AwayTeam,gameData.HomeTeam)}}>@</div>
-                    <div data-homeName={`right${gameData.Id}`} id={`right${gameData.Id}`} homeTeamName={gameData.HomeTeam} className={`right_team ${ active }${ props.is_nbaNfl === 'NFL' ? "NFL"+gameData.GlobalHomeTeamID : "NBA"+gameData.HomeTeamID}  col-md-5 col-sm-5 col-xs-5`} onClick={(e)=>{activeDeactive(e,gameData.HomeTeam)}}>
+                    <div data-homeName={`right${gameData.Id}`} id={`right${gameData.Id}`} homeTeamName={gameData.HomeTeam} className={`right_team ${ active }${ props.is_nbaNfl === 'NFL' ? "NFL"+gameData.GlobalHomeTeamID : "NBA"+gameData.HomeTeamID}  col-md-5 col-sm-5 col-xs-5`} onClick={(e)=>{activeDeactive(e,gameData.HomeTeam)}} style={{"padding-top":"3%", "padding-left":"0px"}}>
                         {props.is_nbaNfl === 'NFL' ?
                             <div data-homeName={`right${gameData.Id}`} className={`${"NFL"+gameData.GlobalHomeTeamID} nfl`} />
                             // <div className={`${gameData.HomeTeam} nfl NYJ`}></div>

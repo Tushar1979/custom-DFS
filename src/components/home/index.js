@@ -2,24 +2,27 @@ import React from 'react'
 import './style.css'
 import DataNavBar from "../datanavbar/datanavbar";
 import NavBar from "../navbar/navbar";
+import {Redirect} from "react-router-dom";
 
 class Home extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             triggerFunc: [],
-            user:localStorage.getItem('username')
+            user:localStorage.getItem('username'),
+            passcode:localStorage.getItem('passcode')
         }
         this.nbaRequest = this.nbaRequest.bind(this);
 
     }
     componentDidMount() {
-        if(this.state.user){
+        if(this.state.user && this.state.passcode){
             this.props.history.push('/');
         }
         else{
-
+            localStorage.removeItem('username');
             this.props.history.push('/signin');
+            // <Redirect to="/signin" />
         }
     }
     nbaRequest(values) {

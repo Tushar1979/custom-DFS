@@ -100,7 +100,7 @@ componentDidMount() {
                     if (response.username) {
                         localStorage.setItem('username', response.username);
                         // toast.success("⭐ Welcome to CustomDFS",{toastId:"sinWelcomeHom"});
-                        this.props.history.push('/');
+                        this.props.history.push('/passcode');
                     }
                 else{
                     datas = false;
@@ -113,9 +113,6 @@ componentDidMount() {
                 });
                 setTimeout(() => {
                   if(datas === true) {
-                        setTimeout(() => {
-                            toast.success("⭐ Welcome to CustomDFS...",{toastId:"sinWelcomeHome"});
-                        }, 1500)
                     }
                   else{
                           toast.error("⭐ Email or Password is Invalid...");

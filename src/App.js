@@ -9,7 +9,7 @@ import { BrowserRouter as Router, Switch, Route} from "react-router-dom";
 import React from "react";
 import VerifyOtp from "./auth/verifyOtp";
 import LogOut from "./auth/logout"
-
+import Passcode from "./auth/Passcode"
 import Forget from "./auth/Forget";
 import ForgetPassOtp from './auth/forgetPassOtp'
 
@@ -29,6 +29,7 @@ function App() {
                     <Route path="/logout" component={LogOut} />
                     <Route path="/Forget" component={Forget} />
                     <Route path="/ForgetPasswordOtp" component={ForgetPassOtp} />
+                    <Route path="/passcode" component={Passcode} />
                 </Switch>
             </div>
         </Router>
