@@ -1,0 +1,70 @@
+.middle_table_head>th:nth-child(6), .middle_table_head>th:nth-child(7), .middle_table_head>th:nth-child(8), .middle_table_head>th:nth-child(9), .middle_table_head>th:nth-child(10), .middle_table_head>th:nth-child(11), .middle_table_head>th:nth-child(12), .middle_table_head>th:nth-child(13), .middle_table_head>th:nth-child(14), .middle_table_head>th:nth-child(15), .middle_table_head>th:nth-child(16), .middle_table_head>th:nth-child(17), .middle_table_head>th:nth-child(18), .middle_table_head>th:nth-child(19), .middle_table_head>th:nth-child(20), .middle_table_head>th:nth-child(21) {
+    width: 5.5%;
+}
+.middle_table_head>th:nth-child(5)
+{
+    width: 7.5%;
+}
+.middle_table_head>th:nth-child(1)
+{
+    width: 15%;
+}
+
+   /*First Css*/
+
+
+.nfl_head>th:nth-child(6), .nfl_head>th:nth-child(7), .nfl_head>th:nth-child(8), .nfl_head>th:nth-child(9), .nfl_head>th:nth-child(10), .nfl_head>th:nth-child(11), .nfl_head>th:nth-child(12), .nfl_head>th:nth-child(13), .nfl_head>th:nth-child(14), .nfl_head>th:nth-child(15), .nfl_head>th:nth-child(16), .nfl_head>th:nth-child(17), .nfl_head>th:nth-child(18), .nfl_head>th:nth-child(19), .nfl_head>th:nth-child(20), .nfl_head>th:nth-child(21) {
+    width: 4%;
+}
+.nfl_head>th:nth-child(6)
+{
+    width: 4.3%;
+}
+.nfl_head>th:nth-child(5)
+{
+    width: 5%;
+}
+.nfl_head>th:nth-child(2)
+{
+    width: 4%;
+}
+.nfl_head>th:nth-child(1)
+{
+    width: 13%;
+}
+
+   /*Second Css*/
+
+/*.nfl_head>th:nth-child(6), .nfl_head>th:nth-child(10), .nfl_head>th:nth-child(13), .nfl_head>th:nth-child(7)*/
+/*{*/
+/*    width: 5.5%;*/
+/*}*/
+/*.nfl_head>th:nth-child(8), .nfl_head>th:nth-child(9), .nfl_head>th:nth-child(11), .nfl_head>th:nth-child(12), .nfl_head>th:nth-child(14), .nfl_head>th:nth-child(15), .nfl_head>th:nth-child(16), .nfl_head>th:nth-child(17), .nfl_head>th:nth-child(18), .nfl_head>th:nth-child(19), .nfl_head>th:nth-child(20), .nfl_head>th:nth-child(21) {*/
+/*    width: 4%;*/
+/*}*/
+/*.nfl_head>th:nth-child(9), .nfl_head>th:nth-child(12), .nfl_head>th:nth-child(15)*/
+/*{*/
+/*    width: 3.5%;*/
+/*}*/
+/*.nfl_head>th:nth-child(1)*/
+/*{*/
+/*    width: 13%;*/
+/*}*/
+
+/*   Third Css*/
+
+/*.nfl_head>th:nth-child(6), .nfl_head>th:nth-child(10), .nfl_head>th:nth-child(13), .nfl_head>th:nth-child(7)*/
+/*{*/
+/*    width: 5.5%;*/
+/*}*/
+/*.nfl_head>th:nth-child(8), .nfl_head>th:nth-child(9), .nfl_head>th:nth-child(11), .nfl_head>th:nth-child(12), .nfl_head>th:nth-child(14), .nfl_head>th:nth-child(15), .nfl_head>th:nth-child(16), .nfl_head>th:nth-child(17), .nfl_head>th:nth-child(18), .nfl_head>th:nth-child(19), .nfl_head>th:nth-child(20), .nfl_head>th:nth-child(21) {*/
+/*    width: 4%;*/
+/*}*/
+/*.nfl_head>th:nth-child(9), .nfl_head>th:nth-child(12), .nfl_head>th:nth-child(15)*/
+/*{*/
+/*    width: 3.5%;*/
+/*}*/
+/*.nfl_head>th:nth-child(1)*/
+/*{*/
+/*    width: 13%;*/
+/*}*/

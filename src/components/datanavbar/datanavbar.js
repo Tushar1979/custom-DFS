@@ -371,6 +371,7 @@ class DataNavBar extends React.Component {
                         this.setState({init_data:response_data.body, temp_filter_player:response_data.body})
                         this.setState({players_data: response_data.body})
                     }
+                    this.setState({loader:false})
                     this.allSelectFilter()
                 } else if (res.request.status === 401) {
                     this.props.history.push('/signin')
@@ -392,11 +393,11 @@ class DataNavBar extends React.Component {
                 if (res.status === 200 ) {
                     if(data.sportView === "NBA"){
                         this.setState({game_data: response_data.body})
-                        this.setState({loader:false})
+                
                     }
                     if(data.sportView === "NFL"){
                         this.setState({game_data: response_data.body})
-                        this.setState({loader:false})
+                       
                     }
 
                 } else if (res.request.status === 401) {

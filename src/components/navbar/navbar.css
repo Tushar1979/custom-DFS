@@ -87,3 +87,24 @@ width: 20px;
 .navbar-dark .navbar-nav .nav-link {
     color: #fff;
 }
+
+
+#betricsCss{
+    /* float: left; */
+    cursor: pointer;
+    width: 50px;
+}
+
+#rotowireCss{
+    /* float: left; */
+    cursor: pointer;
+    width: 50px;
+}
+
+.partenerImg0{
+    margin-left:10%
+}
+
+.partenerImg1{
+    margin-left:2%;
+}

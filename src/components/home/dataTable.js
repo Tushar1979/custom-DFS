@@ -12,6 +12,7 @@ import TableSortLabel from '@material-ui/core/TableSortLabel';
 import Paper from '@material-ui/core/Paper';
 import TextField from "@material-ui/core/TextField";
 import Loader from "../../loader/loader"
+import "./dataTable.css"
 
 let rows = []
 let nft_header = false
@@ -592,26 +593,26 @@ export default function EnhancedTable(props) {
             {id: pos, numeric: false, disablePadding: false, label: 'pos'},
             {id: 'team', numeric: false, disablePadding: false, label: 'team'},
             {id: 'oop', numeric: false, disablePadding: false, label: 'opp'},
-            {id: salary, numeric: false, disablePadding: false, label: 'salary'},
+            {id: salary, numeric: false, disablePadding: false, label: 'sal'},
 
 
-            {id: 'completion', numeric: false, disablePadding: true, label: 'Completions'},
-            {id: 'passingattempts', numeric: false, disablePadding: true, label: 'Attempts'},
-            {id: 'passingyards', numeric: false, disablePadding: true, label: 'Yards'},
+            {id: 'completion', numeric: false, disablePadding: true, label: 'Comp'},
+            {id: 'passingattempts', numeric: false, disablePadding: true, label: 'Att'},
+            {id: 'passingyards', numeric: false, disablePadding: true, label: 'Yds'},
             {id: 'passingtouchdowns', numeric: false, disablePadding: true, label: 'TD'},
-            {id: 'rushingattempts', numeric: false, disablePadding: true, label: 'Attempts'},
-            {id: 'rushingyards', numeric: false, disablePadding: true, label: 'Yards'},
+            {id: 'rushingattempts', numeric: false, disablePadding: true, label: 'Att'},
+            {id: 'rushingyards', numeric: false, disablePadding: true, label: 'Yds'},
             {id: 'rushingtouchdowns', numeric: false, disablePadding: true, label: 'TD'},
-            {id: 'receptions', numeric: false, disablePadding: true, label: 'Receptions'},
-            {id: 'receivingyards', numeric: false, disablePadding: true, label: 'yard'},
+            {id: 'receptions', numeric: false, disablePadding: true, label: 'Rec'},
+            {id: 'receivingyards', numeric: false, disablePadding: true, label: 'yds'},
             {id: 'receivingtouchdowns', numeric: false, disablePadding: true, label: 'TD'},
             {id: 'fieldgoalsmade', numeric: false, disablePadding: true, label: 'fgm'},
             {id: 'fieldgoalsattempted', numeric: false, disablePadding: true, label: 'fga'},
 
             {id: 'nfl_dk_fantasyPoints', numeric: false, disablePadding: false, label: 'fpts'},
-            {id: ceiling, numeric: false, disablePadding: false, label: 'ceiling'},
+            {id: ceiling, numeric: false, disablePadding: false, label: 'ceil'},
             {id: 'floor', numeric: false, disablePadding: false, label: 'floor'},
-            {id: 'fpts$', numeric: false, disablePadding: false, label: 'fpts/$1K'},
+            {id: 'fpts$', numeric: false, disablePadding: false, label: 'val'},
 
         ];
     }
@@ -632,7 +633,7 @@ export default function EnhancedTable(props) {
             {id: pos, numeric: false, disablePadding: false, label: 'pos'},
             {id: 'team', numeric: false, disablePadding: false, label: 'team'},
             {id: 'oop', numeric: false, disablePadding: false, label: 'opp'},
-            {id: salary, numeric: false, disablePadding: false, label: 'salary'},
+            {id: salary, numeric: false, disablePadding: false, label: 'sal'},
 
             {id: 'minus', numeric: false, disablePadding: false, label: 'min'},
             {id: 'points', numeric: false, disablePadding: false, label: 'pts'},
@@ -643,9 +644,9 @@ export default function EnhancedTable(props) {
             {id: 'to', numeric: false, disablePadding: false, label: 'to'},
 
             {id: fantasyPoints, numeric: false, disablePadding: false, label: 'fpts'},
-            {id: ceiling, numeric: false, disablePadding: false, label: 'ceiling'},
+            {id: ceiling, numeric: false, disablePadding: false, label: 'ceil'},
             {id: floor, numeric: false, disablePadding: false, label: 'floor'},
-            {id: fpts$, numeric: false, disablePadding: false, label: 'fpts/$1K'},
+            {id: fpts$, numeric: false, disablePadding: false, label: 'val'},
         ]
     }
 

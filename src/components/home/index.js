@@ -2,6 +2,7 @@ import React from 'react'
 import './style.css'
 import DataNavBar from "../datanavbar/datanavbar";
 import NavBar from "../navbar/navbar";
+// import Footer from '../footer/footer';
 import {Redirect} from "react-router-dom";
 
 class Home extends React.Component {
@@ -33,6 +34,7 @@ class Home extends React.Component {
                 <>
                     <NavBar onCallNba={this.nbaRequest} />
                     <DataNavBar nba_nfl={this.state.nba_nfl} triggerChildFunc={this.state.triggerFunc} />
+                    {/* <Footer/> */}
                 </>
             )
     }

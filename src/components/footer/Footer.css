@@ -1,0 +1,19 @@
+.footerCss{
+    background-color: #2d3436;
+    width:100%;
+    padding: 8px;
+}
+
+#betricsCss{
+    /* float: left; */
+    cursor: pointer;
+    width: 54px;
+}
+
+#rotowireCss{
+    /* float: left; */
+    cursor: pointer;
+    width: 54px;
+}
+
+/* style={{"margin-left":"3%"}} */

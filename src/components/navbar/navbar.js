@@ -4,6 +4,8 @@ import '../datanavbar/datanavbar.css'
 import logo from '../../images/dfs-logo.png'
 import left_capsule from '../../images/capsule-img.png'
 import right_capsule from '../../images/right-capsule.png'
+import Betrics from "../../images/Betrics.png"
+import RotoWire from "../../images/RotoWire.jpg"
 import {Link} from "react-router-dom";
 import {ToastContainer} from "react-toastify";
 class NavBar extends React.Component {
@@ -43,7 +45,10 @@ class NavBar extends React.Component {
                 />
                 <div className="container-fluid navbar-container">
                     <nav className="navbar navbar-expand-lg navbar-dark primary-color pd-0">
-                        <img src={logo} className="nav-logo" alt="Image1" />
+                    <span>
+                            <img src={logo} className="nav-logo" alt="Image1" />
+                            <h3  style={{"color":"white","padding-top":"1%","padding-left":"3px !important","float":"right" ,"font-size":"32px"}}>-BETA</h3>
+                    </span>
                         <div className="common-button nav-common-btn">
                             <div className="btn-group btn-group-toggle" data-toggle="buttons">
                                 <label className="btn btn-primary active ad-group-btn" >
@@ -63,6 +68,15 @@ class NavBar extends React.Component {
                                 aria-controls="basicExampleNav" aria-expanded="false" aria-label="Toggle navigation">
                             <span className="navbar-toggler-icon"></span>
                         </button>
+                        
+                        <span className="partenerImg0">
+                            <abbr title="Game lines and odds provided by Betrics"><img id="betricsCss" src={Betrics} onClick={()=>{window.open("https://www.betrics.io")}} /></abbr>
+                        </span>
+                        <span className="partenerImg1">
+                            <abbr title="Player news and stats provided by Rotowire" ><img id="rotowireCss" src={RotoWire} onClick={()=>{window.open("https://www.rotowire.com")}} /></abbr>
+                        </span>
+                        
+
 
                         <div className="collapse navbar-collapse right-nav" id="basicExampleNav">
 
