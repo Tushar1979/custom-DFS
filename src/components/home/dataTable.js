@@ -163,6 +163,56 @@ export default function EnhancedTable(props) {
     let user_data = props.showData
 
     useEffect(()=>{
+        let a=sessionStorage.getItem("order")
+        let b=sessionStorage.getItem("orderby")
+        if(props.salary ==='dk') {console.log("dkSalary",a,b)
+            if(b==="fdPos")
+                {b='pos';}
+            else if(b==="fd_ceiling")
+                b='ceiling';
+            else if(b==="fd_floor")
+                b="floor";
+            else if(b==="fd_fpts$")
+                b="fpts$";
+            else if(b==="fd_fantasyPoints")
+                b="fantasyPoints"
+            else if(b==="fdSalary")
+                b="salary"
+            // else
+            //     b='salary';
+            console.log("dk "+b)
+            sessionStorage.setItem("order" , a)
+            sessionStorage.setItem("orderby" , b)
+            
+        }
+        else if(props.salary==="fd") {console.log("fdSalary",a,b)
+            if(b==="pos")
+                b='fdPos';
+            else if(b==="ceiling")
+                b='fd_ceiling';
+            else if(b==="floor")
+                b="fd_floor";
+            else if(b==="fpts$")
+                b="fd_fpts$";
+            else if(b==="fantasyPoints")
+                b="fd_fantasyPoints"
+            else if(b==="salary")
+                b="fdSalary"
+            console.log("fd "+b)
+            sessionStorage.setItem("order" , a)
+            sessionStorage.setItem("orderby" , b)
+        }
+            // if(props.salary==="fd")
+            //     b="fdSalary"
+            // else
+            //     b="salary"
+        setOrder(a)
+        setOrderBy(b);
+    },[props.salary])
+
+    useEffect(()=>{
+        setOrder("asc")
+        setOrderBy("salary");
         sessionStorage.setItem("order" , "asc")
         sessionStorage.setItem("orderby" , "salary")
     },[props.is_nbaNfl])
@@ -172,44 +222,7 @@ export default function EnhancedTable(props) {
         setUpdateNflGameList(props.showData)
     })
 
-    useEffect(()=>{
-        let a=sessionStorage.getItem("order")
-        let b=sessionStorage.getItem("orderby")
-        // if(props.salary ==='dk') {console.log("dkSalary",a,b)
-        //     if(b==="fdPos")
-        //         b='pos';
-        //     else if(b==="fd_ceiling")
-        //         b='ceiling';
-        //     else if(b==="fd_floor")
-        //         b="floor";
-        //     else if(b==="fd_fpts$")
-        //         b="fpts$";
-        //     else if(b==="fd_fantasyPoints")
-        //         b="fantasyPoints"
-        //     else
-        //         b='salary';
-        // }
-        // else if(props.salary==="fd") {console.log("fdSalary",a,b)
-        //     if(b==="pos")
-        //         b='fdPos';
-        //     else if(a==="ceiling")
-        //         b='fd_ceiling';
-        //     else if(b==="floor")
-        //         b="fd_floor";
-        //     else if(b==="fpts$")
-        //         b="fd_fpts$";
-        //     else if(b==="fantasyPoints")
-        //         b="fd_fantasyPoints"
-        //     else
-        //         b='fdSalary';
-        // }
-            if(props.salary==="fd")
-                b="fdSalary"
-            else
-                b="salary"
-        setOrder(a)
-        setOrderBy(b);
-    },[props.salary])
+    
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -818,7 +831,7 @@ export default function EnhancedTable(props) {
                                                     key={row.name}
                                                     selected={isItemSelected}
                                                 >
-                                                    <TableCell id={labelId} scope="row" padding="none" className={classes.border}>
+                                                    <TableCell id={labelId} scope="row" padding="none" className={classes.border} style={{ "text-align-last": "left"}}>
 
                                                         {row.name}
                                                     </TableCell>

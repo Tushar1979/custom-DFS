@@ -1177,7 +1177,7 @@ class DataNavBar extends React.Component {
     }
 
     handlePlayerStats = (playerStats) =>{
-        this.setState({spinner: true})
+        //this.setState({spinner: true})
         let payload = {
                 data:{playerStats: playerStats, user: {id: localStorage.getItem('username')}, sportView: this.state.is_nbaNfl}
             }
@@ -1230,7 +1230,7 @@ class DataNavBar extends React.Component {
                         inputActive:true,
                         saveBtnActive:true
                     })
-                    this.setState({simulationSpinner: false})
+                    this.setState({simulationSpinner: false},()=>{toast("Populating Fields")})
                 } else if (res.request.status === 401) {
                     this.props.history.push('/signin')
                     this.setState({loader: false, simulationSpinner: false})
@@ -1238,7 +1238,7 @@ class DataNavBar extends React.Component {
                     this.setState({simulationSpinner: false, loader: false})
                     console.log(res)
                 }
-            }).then(()=>{this.getPlayerState({"user": {"id": localStorage.getItem('username')}, "sportView": this.state.is_nbaNfl})}).then(toast.success("po"))
+            }).then(()=>{this.getPlayerState({"user": {"id": localStorage.getItem('username')}, "sportView": this.state.is_nbaNfl})})
             .catch((error) => {
                 this.setState({simulationSpinner: false, loader: false})
                 console.log(error);
