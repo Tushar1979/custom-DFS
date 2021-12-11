@@ -165,7 +165,8 @@ export default function EnhancedTable(props) {
     useEffect(()=>{
         let a=sessionStorage.getItem("order")
         let b=sessionStorage.getItem("orderby")
-        if(props.salary ==='dk') {console.log("dkSalary",a,b)
+        if(props.salary ==='dk') {
+            console.log(b)
             if(b==="fdPos")
                 {b='pos';}
             else if(b==="fd_ceiling")
@@ -178,6 +179,8 @@ export default function EnhancedTable(props) {
                 b="fantasyPoints"
             else if(b==="fdSalary")
                 b="salary"
+            else if(b==="nfl_fd_fantasyPoints")
+                b="nfl_dk_fantasyPoints"
             // else
             //     b='salary';
             console.log("dk "+b)
@@ -185,7 +188,7 @@ export default function EnhancedTable(props) {
             sessionStorage.setItem("orderby" , b)
             
         }
-        else if(props.salary==="fd") {console.log("fdSalary",a,b)
+        else if(props.salary==="fd") {
             if(b==="pos")
                 b='fdPos';
             else if(b==="ceiling")
@@ -198,6 +201,8 @@ export default function EnhancedTable(props) {
                 b="fd_fantasyPoints"
             else if(b==="salary")
                 b="fdSalary"
+            else if(b==="nfl_dk_fantasyPoints")
+                b="nfl_fd_fantasyPoints"
             console.log("fd "+b)
             sessionStorage.setItem("order" , a)
             sessionStorage.setItem("orderby" , b)
@@ -594,11 +599,13 @@ export default function EnhancedTable(props) {
     if (props.is_nbaNfl === "NFL") {
         update_data = true
         nft_header = true
-        let pos, salary, ceiling
+        let pos, salary, ceiling, nfl_points, nfl_floor, nfl_fpts$
         if(props.salary ==='dk')
-        {pos='pos';salary='salary'; ceiling='ceiling'}
+        {
+            pos='pos';salary='salary'; ceiling='ceiling'; nfl_points='nfl_dk_fantasyPoints'; nfl_floor='floor'; nfl_fpts$='fpts$'
+        }
         else {
-            pos='fdPos';salary='fdSalary';ceiling='fd_ceiling'
+            pos='fdPos';salary='fdSalary';ceiling='fd_ceiling'; nfl_points='nfl_fd_fantasyPoints'; nfl_floor='fd_floor'; nfl_fpts$='fd_fpts$'
         }
         // user_data = props.showData
         headCells = [
@@ -622,10 +629,10 @@ export default function EnhancedTable(props) {
             {id: 'fieldgoalsmade', numeric: false, disablePadding: true, label: 'fgm'},
             {id: 'fieldgoalsattempted', numeric: false, disablePadding: true, label: 'fga'},
 
-            {id: 'nfl_dk_fantasyPoints', numeric: false, disablePadding: false, label: 'fpts'},
+            {id: nfl_points, numeric: false, disablePadding: false, label: 'fpts'},
             {id: ceiling, numeric: false, disablePadding: false, label: 'ceil'},
-            {id: 'floor', numeric: false, disablePadding: false, label: 'floor'},
-            {id: 'fpts$', numeric: false, disablePadding: false, label: 'val'},
+            {id: nfl_floor, numeric: false, disablePadding: false, label: 'floor'},
+            {id: nfl_fpts$, numeric: false, disablePadding: false, label: 'val'},
 
         ];
     }

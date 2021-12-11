@@ -44,6 +44,7 @@ class DataNavBar extends React.Component {
                 loader:false,
                 spinner:false,
                 simulationSpinner:false,
+                saveBtnSpinner:false,
                 pgActive:false,
                 temp_filter_player:null,
                 filter_key:null,
@@ -68,8 +69,10 @@ class DataNavBar extends React.Component {
                 saveData:false,
                 is_nbaNfl:'NBA',
                 saveBtnActive:false,
+                simulationBtn:false,
                 excelDataList: [],
-                setData: new Set()
+                setData: new Set(),
+                count:0
             }
         this.child = React.createRef();
         // this.setupCustomTable()
@@ -99,7 +102,7 @@ class DataNavBar extends React.Component {
     componentDidUpdate(prevProps) {
 
         if (this.props.triggerChildFunc !== prevProps.triggerChildFunc) {
-            this.setState({saveBtnActive:false})
+            this.setState({saveBtnActive:false, simulationBtn:false})
             this.onParentTrigger(this.props.triggerChildFunc[0]);
             if(this.props.triggerChildFunc[0].sportView === 'NFL'){
                 qbActive = true
@@ -171,9 +174,12 @@ class DataNavBar extends React.Component {
             setData:data
         }, () => {
             var game_data_array = []
+            console.log(data)
             for(let key of data) {
+                console.log(key)
                 var temp_array = []
-                temp_array = this.state.temp_filter_player.filter((item) => item.Team.includes(key))
+                console.log("FILTERING", this.state.temp_filter_player.length)
+                temp_array = this.state.temp_filter_player.filter((item) => item.Team.includes(key) || item.Opponent.includes(key))
                 temp_array.forEach((item) => {
                     game_data_array.push(item)
                 })
@@ -181,6 +187,7 @@ class DataNavBar extends React.Component {
             this.setState({
                 init_data:game_data_array
             },()=>{
+                console.log(this.state.init_data)
                 if(this.state.is_nbaNfl==="NBA")
                 { this.setState({ players_data : this.filterObj(filter_list)}) }
                 else
@@ -268,10 +275,9 @@ class DataNavBar extends React.Component {
                     if(data.sportView === "NFL"){
                         if (response_data.body.length !== 0){
                             this.setState({ init_data:response_data.body ,temp_filter_player:response_data.body})
-                            this.setState({players_data:response_data.body})
                         }
                         else{
-                            this.setState({players_data:this.state.temp_filter_player,  init_data:this.state.temp_filter_player})
+                            this.setState({players_data:this.state.temp_filter_player, init_data:this.state.temp_filter_player})
                         }
                         this.setState({loader:false})
                     }
@@ -324,9 +330,16 @@ class DataNavBar extends React.Component {
     myData(){
         this.dkSalary()
         toast("⭐ Populating fields...");
+        if(this.state.count >0){
+            this.setState({
+                saveBtnActive:true,
+                simulationBtn:true,
+            })
+        }
         this.setState({
             inputActive:true,
             saveBtnActive:true,
+            simulationBtn:false,
             loader:true
         })
         this.getPlayerState({"user": {"id": localStorage.getItem('username')}, "sportView": this.state.is_nbaNfl})
@@ -338,6 +351,7 @@ class DataNavBar extends React.Component {
         this.setState({
             inputActive:false,
             saveBtnActive:false,
+            simulationBtn:false,
             loader:true
         })
             this.getPlayerState( {"user": {"id": "Master"}, "sportView": this.state.is_nbaNfl})
@@ -345,7 +359,7 @@ class DataNavBar extends React.Component {
     }
 
     SaveData = () =>{
-        this.setState({saveData:true, spinner: true})
+        this.setState({saveData:true, spinner: true, count:this.state.count + 1})
         //toast.success("⭐ ...",{closeOnClick: true,
        //     autoClose:3000});
     }
@@ -368,8 +382,8 @@ class DataNavBar extends React.Component {
                         this.setState({ temp_filter_player:response_data.body})
                     }
                     if(data.sportView === "NFL"){
-                        this.setState({init_data:response_data.body, temp_filter_player:response_data.body})
-                        this.setState({players_data: response_data.body})
+                        this.setState({init_data:response_data.body, players_data: response_data.body})
+                        this.setState({ temp_filter_player:response_data.body})
                     }
                     this.setState({loader:false})
                     this.allSelectFilter()
@@ -1177,7 +1191,7 @@ class DataNavBar extends React.Component {
     }
 
     handlePlayerStats = (playerStats) =>{
-        //this.setState({spinner: true})
+        this.setState({saveBtnSpinner: true})
         let payload = {
                 data:{playerStats: playerStats, user: {id: localStorage.getItem('username')}, sportView: this.state.is_nbaNfl}
             }
@@ -1189,19 +1203,20 @@ class DataNavBar extends React.Component {
                         toast.success("⭐ Data Saved Successfully...");
                         this.setState({
                             inputActive:true,
-                            saveBtnActive:true
+                            saveBtnActive:true,
+                            saveBtnSpinner:false
                         })
                         // this.getPlayerState({"user": {"id": localStorage.getItem('username')}, "sportView": this.state.is_nbaNfl})
                     } else if (res.request.status === 401) {
                         this.props.history.push('/')
-                        this.setState({loader:false,spinner: false})
+                        this.setState({loader:false,spinner: false, saveBtnSpinner:false})
                     } else {
-                        this.setState({loader:false,spinner: false})
+                        this.setState({loader:false,spinner: false, saveBtnSpinner:false})
                         console.log(res)
                     }
                 })
                 .catch((error) => {
-                    this.setState({loader:false,spinner: false})
+                    this.setState({loader:false,spinner: false, saveBtnSpinner:false})
                     console.log(error);
                 })
         this.setState({saveData:false})
@@ -1209,6 +1224,9 @@ class DataNavBar extends React.Component {
     }
 
     handleSimulations = () =>{
+        this.setState({
+            count:0
+        })
         toast.success("⭐ Simulation Started...");
         this.setState({simulationSpinner: true})
 
@@ -1257,7 +1275,12 @@ class DataNavBar extends React.Component {
         this.api.PostApi(payload, url)
             .then((res) => {
                 //let response_data = JSON.parse(res.request.response)
-                if (res.status === 200 ) { }
+                if (res.status === 200 ) {
+                    this.setState({
+                        simulationBtn:true,
+                        spinner:false
+                    })
+                }
                 else if (res.request.status === 401) {
                     this.props.history.push('/signin')
                     this.setState({loader:false,spinner: false})
@@ -1405,11 +1428,11 @@ class DataNavBar extends React.Component {
                                 </label>
                             </div>
                             <div className="common-button">
-                                {this.state.spinner ?
+                                {this.state.saveBtnSpinner ?
                                     <Button
                                         variant="contained"
                                         color="primary"
-                                        className="btn btn-primary active ad-group-btn"
+                                        className="btn btn-primary active ad-group-btn simulationSpinner"
                                     >
                                         <Spinner/>
                                     </Button>
@@ -1417,7 +1440,7 @@ class DataNavBar extends React.Component {
                                 <Button
                                     variant="contained"
                                     color="primary"
-                                    className="btn btn-primary active ad-group-btn"
+                                    className="btn btn-primary active ad-group-btn simulationSpinner"
                                     onClick={this.SaveData}
                                     disabled={!this.state.saveBtnActive}
                                 >
@@ -1441,7 +1464,7 @@ class DataNavBar extends React.Component {
                                         color="danger"
                                         className="btn btn-danger active ad-group-btn simulationSpinner"
                                         onClick={this.handleSimulations}
-                                        disabled={!this.state.saveBtnActive}
+                                        disabled={this.state.count === 0 ? true : false}
                                     >
                                         Simulate
                                     </Button>
