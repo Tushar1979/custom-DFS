@@ -52,7 +52,9 @@ export default function CustomizedMenus(props) {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [allGameData, setAllGameData] = React.useState([])
     const [updateGameData, setUpdateGameData] = React.useState([])
-
+    console.log(props.is_nbaNfl)
+    console.log(props.salary)
+    console.log(props.slate_data)
     let [newGameData, setNewGameData] = React.useState([])
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -271,8 +273,28 @@ export default function CustomizedMenus(props) {
     const gameDataInstance = (data) =>{
         setUpdateGameData(data)
     }
-
-    const dropdownMenu = allGameData.map((gameData) => (
+    let selectMenu
+    if(props.is_nbaNfl === 'NFL' && props.salary==='dk'){
+        console.log(props.slate_data['DK'])
+        try{
+            selectMenu = props.slate_data['DK'].keys().map((el) => {
+                <option value={el}>{el}</option>
+            })
+                            // <option value={el}>{el}</option>)
+        }
+        catch (e){
+            console.log(e)
+        }
+        // selectMenu = props.slate_data['DK'].keys().map((el) =>
+        //                     <option >`${el}`</option>)
+    }
+    else{
+        console.log(props.slate_data['FD'])
+        // selectMenu = props.slate_data['FD'].keys().map((el) =>
+        //                     <option >`${el}`</option>)
+    }
+    const dropdownMenu =
+        allGameData.map((gameData) => (
         <StyledMenuItem>
             <div className="menu_list_head">
                 <div className="team_container row">
@@ -332,6 +354,9 @@ export default function CustomizedMenus(props) {
                     onClose={handleClose}
                 >
                     <div className="overflow_list">
+                        <select>
+                            {selectMenu}
+                        </select>
                     {dropdownMenu}
                     </div>
                     <div className="listFooterContainer">

@@ -74,7 +74,7 @@ class VerifyOtp extends Component {
                                  alt="User Icon"/>
                         </div>
                         <div>
-                            <h4>Please Enter Passcode To Test This Application</h4>
+                            <h4>Please Enter CustomDFS Beta Test Passcode</h4>
                             <TextField id="standard-basic" label="Passcode: " className="input_field fadeIn second" onChange={this.otpField} />
                             <button  className="fadeIn forth loginBtn"  onClick={this.verifyPasscode}> Verify Passcode </button>
                             <button  className="fadeIn forth loginBtn"  onClick={this.logOut}> Logout </button>

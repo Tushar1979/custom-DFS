@@ -838,7 +838,7 @@ export default function EnhancedTable(props) {
                                                     key={row.name}
                                                     selected={isItemSelected}
                                                 >
-                                                    <TableCell id={labelId} scope="row" padding="none" className={classes.border} style={{ "text-align-last": "left"}}>
+                                                    <TableCell id={labelId} scope="row" padding="none" className={classes.border} style={{ "text-align-last": "left", "padding-left":"25px"}}>
 
                                                         {row.name}
                                                     </TableCell>

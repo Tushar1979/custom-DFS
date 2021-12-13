@@ -40,6 +40,7 @@ class DataNavBar extends React.Component {
                 players_data:[],
                 init_data:[],
                 game_data: [],
+                slate_data:[],
                 inputActive: false,
                 loader:false,
                 spinner:false,
@@ -324,6 +325,23 @@ class DataNavBar extends React.Component {
             .catch((error) => {
                 console.log(error);
             })
+
+        var axios = require('axios');
+
+        var headers = {
+            'Content-Type': 'application/json'
+        }
+        const request = axios.get('https://igj6lh1hv0.execute-api.us-east-2.amazonaws.com/get-slate',{
+            headers: headers
+        }).then((res) => {
+            this.setState({
+                slate_data:res.data.body
+            })
+            console.log(res.data.body)
+        }).catch((err) => {
+            console.log(err);
+        })
+
     }
 
 
@@ -424,6 +442,23 @@ class DataNavBar extends React.Component {
             .catch((error) => {
                 console.log(error);
             })
+
+
+        var axios = require('axios');
+
+        var headers = {
+            'Content-Type': 'application/json'
+        }
+        const request = axios.get('https://igj6lh1hv0.execute-api.us-east-2.amazonaws.com/get-slate',{
+            headers: headers
+        }).then((res) => {
+            this.setState({
+                slate_data:res.data.body
+            })
+            console.log(res.data.body)
+        }).catch((err) => {
+            console.log(err);
+        })
     }
 
     removeArray(arrOriginal, elementToRemove){
@@ -1342,6 +1377,8 @@ class DataNavBar extends React.Component {
                                     onSaveGameData={this.handleSaveGameData}
                                     is_nbaNfl={this.state.is_nbaNfl}
                                     setData = {this.getSetData}
+                                    salary = {this.state.salary}
+                                    slate_data = {this.state.slate_data}
                                 />
                             </div>
                             <div className="common-button ">
