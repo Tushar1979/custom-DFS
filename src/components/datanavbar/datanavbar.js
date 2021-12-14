@@ -41,6 +41,7 @@ class DataNavBar extends React.Component {
                 init_data:[],
                 game_data: [],
                 slate_data:[],
+                slate_players_data:[],
                 inputActive: false,
                 loader:false,
                 spinner:false,
@@ -95,6 +96,7 @@ class DataNavBar extends React.Component {
         this.nflFilterObj = this.nflFilterObj.bind(this)
         this.getSetData = this.getSetData.bind(this)
         this.setupCustomTable = this.setupCustomTable.bind(this)
+        this.slate_teams = this.slate_teams.bind(this)
     }
     componentDidMount() {
         this.getCustomDfsData({user:{id:'Master'}, sportView:"NBA"});
@@ -175,9 +177,7 @@ class DataNavBar extends React.Component {
             setData:data
         }, () => {
             var game_data_array = []
-            console.log(data)
             for(let key of data) {
-                console.log(key)
                 var temp_array = []
                 console.log("FILTERING", this.state.temp_filter_player.length)
                 temp_array = this.state.temp_filter_player.filter((item) => item.Team.includes(key) || item.Opponent.includes(key))
@@ -195,6 +195,12 @@ class DataNavBar extends React.Component {
                 { this.setState({ players_data :this.nflFilterObj(nflFilter_list) }) }
             })
         })
+    }
+
+    slate_teams(data){
+        this.setState({
+                players_data:data
+            })
     }
 
     setupCustomTable = () =>{
@@ -265,20 +271,20 @@ class DataNavBar extends React.Component {
                     if(data.sportView === "NBA"){
                         if (response_data.body.length === 0 ){
                             this.setState({loader:false , players_data:this.state.temp_filter_player
-                                , init_data:this.state.temp_filter_player})
+                                , init_data:this.state.temp_filter_player, slate_players_data:this.state.temp_filter_player})
                         }
                         else{
-                            this.setState({players_data: response_data.body , init_data:response_data.body})
+                            this.setState({players_data: response_data.body , init_data:response_data.body, slate_players_data:response_data.body})
                             this.setState({loader:false})
                         }
 
                     }
                     if(data.sportView === "NFL"){
                         if (response_data.body.length !== 0){
-                            this.setState({ init_data:response_data.body ,temp_filter_player:response_data.body})
+                            this.setState({ init_data:response_data.body ,temp_filter_player:response_data.body, slate_players_data:response_data.body})
                         }
                         else{
-                            this.setState({players_data:this.state.temp_filter_player, init_data:this.state.temp_filter_player})
+                            this.setState({players_data:this.state.temp_filter_player, init_data:this.state.temp_filter_player, slate_players_data:this.state.temp_filter_player})
                         }
                         this.setState({loader:false})
                     }
@@ -396,11 +402,11 @@ class DataNavBar extends React.Component {
                 let response_data = JSON.parse(res.request.response)
                 if (res.status === 200 ) {
                     if(data.sportView === "NBA"){
-                        this.setState({players_data: response_data.body , init_data:response_data.body })
+                        this.setState({players_data: response_data.body , init_data:response_data.body , slate_players_data: response_data.body})
                         this.setState({ temp_filter_player:response_data.body})
                     }
                     if(data.sportView === "NFL"){
-                        this.setState({init_data:response_data.body, players_data: response_data.body})
+                        this.setState({init_data:response_data.body, players_data: response_data.body, slate_players_data: response_data.body})
                         this.setState({ temp_filter_player:response_data.body})
                     }
                     this.setState({loader:false})
@@ -1165,14 +1171,14 @@ class DataNavBar extends React.Component {
                 let response_data = JSON.parse(res.request.response)
                 if (res.status === 200 ) {
                     if(data.sportView === "NBA"){
-                        this.setState({players_data: response_data.body , init_data:response_data.body })
+                        this.setState({players_data: response_data.body , init_data:response_data.body, slate_players_data:response_data.body })
                         this.setState({ temp_filter_player:response_data.body})
                         this.setState({loader:false})
                         this.allClearFilter()
                         this.allSelectFilter()
                     }
                     if(data.sportView === "NFL"){
-                        this.setState({init_data:response_data.body, temp_filter_player:response_data.body})
+                        this.setState({init_data:response_data.body, temp_filter_player:response_data.body, slate_players_data:response_data.body})
                         this.setState({players_data: response_data.body})
                         this.setState({loader:false})
                         this.allClearFilter()
@@ -1377,8 +1383,10 @@ class DataNavBar extends React.Component {
                                     onSaveGameData={this.handleSaveGameData}
                                     is_nbaNfl={this.state.is_nbaNfl}
                                     setData = {this.getSetData}
+                                    slate_teams = { this.slate_teams }
                                     salary = {this.state.salary}
                                     slate_data = {this.state.slate_data}
+                                    nfl_players_data = {this.state.slate_players_data}
                                 />
                             </div>
                             <div className="common-button ">
