@@ -278,7 +278,7 @@ export default function CustomizedMenus(props) {
     const applyTeam = () => {
         toast.success("⭐ Apply to All Teams...");
         sessionStorage.setItem('pageReset', 'true0')
-        console.log(set)
+        console.log("Apply", set)
         props.setData(set)
     }
 
@@ -287,11 +287,12 @@ export default function CustomizedMenus(props) {
     }
     const ChangeData = (e) => {
         if (props.salary === 'dk') {
-            console.log(e.target.value)
-            console.log(props.slate_data['DK'][e.target.value]['Games'])
+            set.clear()
             setAllGameData(props.slate_data['DK'][e.target.value]['Games'])
-            console.log(props.nfl_players_data)
-            console.log(props.slate_data['DK'][e.target.value]['Players'])
+            for (var x = 0; x < props.slate_data['DK'][e.target.value]['Games'].length; x++) {
+                set.add(props.slate_data['DK'][e.target.value]['Games'][x].AwayTeam)
+                set.add(props.slate_data['DK'][e.target.value]['Games'][x].HomeTeam)
+        }
             var obj1 = props.nfl_players_data
             var obj2 = props.slate_data['DK'][e.target.value]['Players']
             var new_arr = []
@@ -307,11 +308,15 @@ export default function CustomizedMenus(props) {
                      }
                  }
              }
-             console.log(new_arr)
-            props.slate_teams(new_arr)
+             console.log(set)
+            props.slate_teams(new_arr, set)
+            // props.setData(set)
         } else if (props.salary === 'fd') {
-            console.log(props.nfl_players_data)
-            console.log(props.slate_data['FD'][e.target.value]['Games'])
+            set.clear()
+            for (let i = 0; i < props.slate_data['FD'][e.target.value]['Games'].length; i++) {
+                set.add(props.slate_data['FD'][e.target.value]['Games'][i].AwayTeam)
+                set.add(props.slate_data['FD'][e.target.value]['Games'][i].HomeTeam)
+        }
             setAllGameData(props.slate_data['FD'][e.target.value]['Games'])
             var obj1 = props.nfl_players_data
             var obj2 = props.slate_data['FD'][e.target.value]['Players']
@@ -327,9 +332,9 @@ export default function CustomizedMenus(props) {
                      }
                  }
              }
-            props.slate_teams(new_arr)
+            props.slate_teams(new_arr, set)
+            // props.setData(set)
         }
-        // console.log(e.target.value)
     }
     let selectMenu;
     let props_keys = Object.keys(props.slate_data)

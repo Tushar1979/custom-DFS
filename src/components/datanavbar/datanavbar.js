@@ -177,16 +177,22 @@ class DataNavBar extends React.Component {
             setData:data
         }, () => {
             var game_data_array = []
+            console.log("get set data", this.state.temp_filter_player)
             for(let key of data) {
                 var temp_array = []
-                console.log("FILTERING", this.state.temp_filter_player.length)
                 temp_array = this.state.temp_filter_player.filter((item) => item.Team.includes(key) || item.Opponent.includes(key))
                 temp_array.forEach((item) => {
                     game_data_array.push(item)
                 })
             }
+            var jsonObject = game_data_array.map(JSON.stringify);
+
+            console.log(jsonObject);
+
+            var uniqueSet = new Set(jsonObject);
+            var uniqueArray = Array.from(uniqueSet).map(JSON.parse);
             this.setState({
-                init_data:game_data_array
+                init_data:uniqueArray
             },()=>{
                 console.log(this.state.init_data)
                 if(this.state.is_nbaNfl==="NBA")
@@ -197,10 +203,41 @@ class DataNavBar extends React.Component {
         })
     }
 
-    slate_teams(data){
+    slate_teams(data,slate_data){
         this.setState({
-                players_data:data
+            players_data:data,
+            temp_filter_player:data
+            }, () => {
+            var game_data_array = []
+            for(let key of slate_data) {
+                var temp_array = []
+                console.log(this.state.players_data)
+                temp_array = this.state.players_data.filter((item) => item.Team.includes(key) || item.Opponent.includes(key))
+                temp_array.forEach((item) => {
+                    game_data_array.push(item)
+                })
+            }
+            console.log(game_data_array)
+            var jsonObject = game_data_array.map(JSON.stringify);
+
+            console.log(jsonObject);
+
+            var uniqueSet = new Set(jsonObject);
+            var uniqueArray = Array.from(uniqueSet).map(JSON.parse);
+
+            console.log(uniqueArray);
+            this.setState({
+                init_data:uniqueArray
+            },()=>{
+                console.log(this.state.init_data)
+                if(this.state.is_nbaNfl==="NBA")
+                { this.setState({ players_data : this.filterObj(filter_list)}) }
+                else
+                {
+                    console.log(nflFilter_list)
+                    this.setState({ players_data :this.nflFilterObj(nflFilter_list) }) }
             })
+        })
     }
 
     setupCustomTable = () =>{
