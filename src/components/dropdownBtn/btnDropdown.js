@@ -54,7 +54,7 @@ export default function CustomizedMenus(props) {
     const [updateGameData, setUpdateGameData] = React.useState([])
     console.log(props.is_nbaNfl)
     console.log(props.salary)
-    console.log(props.slate_data)
+    console.log(props.nba_slate_data)
     let [newGameData, setNewGameData] = React.useState([])
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);

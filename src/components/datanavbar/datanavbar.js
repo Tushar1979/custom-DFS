@@ -12,6 +12,7 @@ import CustomizedMenus from "../dropdownBtn/btnDropdown"
 import Button from "@material-ui/core/Button";
 import Spinner from '../Spinner/spinner'
 import ExportToExcel from '../exportFile/exportExcel'
+import axios from "axios";
 
 let filter_list = []
 let pgActive = false
@@ -41,6 +42,7 @@ class DataNavBar extends React.Component {
                 init_data:[],
                 game_data: [],
                 slate_data:[],
+                nba_slate_data:[],
                 slate_players_data:[],
                 inputActive: false,
                 loader:false,
@@ -203,13 +205,13 @@ class DataNavBar extends React.Component {
         })
     }
 
-    slate_teams(data,slate_data){
+    slate_teams(data,slate){
         this.setState({
             players_data:data,
             temp_filter_player:data
             }, () => {
             var game_data_array = []
-            for(let key of slate_data) {
+            for(let key of slate) {
                 var temp_array = []
                 console.log(this.state.players_data)
                 temp_array = this.state.players_data.filter((item) => item.Team.includes(key) || item.Opponent.includes(key))
@@ -385,6 +387,20 @@ class DataNavBar extends React.Component {
             console.log(err);
         })
 
+        var headers_nfl = {
+            'Content-Type': 'application/json'
+        }
+        const request_nfl = axios.get('https://njiwq0y920.execute-api.us-east-2.amazonaws.com/get-nba-slate',{
+            headers: headers_nfl
+        }).then((res) => {
+            this.setState({
+                nba_slate_data:res.data.body
+            })
+            console.log(res.data.body)
+        }).catch((err) => {
+            console.log(err);
+        })
+
     }
 
 
@@ -497,6 +513,20 @@ class DataNavBar extends React.Component {
         }).then((res) => {
             this.setState({
                 slate_data:res.data.body
+            })
+            console.log(res.data.body)
+        }).catch((err) => {
+            console.log(err);
+        })
+
+        var headers_nfl = {
+            'Content-Type': 'application/json'
+        }
+        const request_nfl = axios.get('https://njiwq0y920.execute-api.us-east-2.amazonaws.com/get-nba-slate',{
+            headers: headers_nfl
+        }).then((res) => {
+            this.setState({
+                nba_slate_data:res.data.body
             })
             console.log(res.data.body)
         }).catch((err) => {
@@ -1423,6 +1453,7 @@ class DataNavBar extends React.Component {
                                     slate_teams = { this.slate_teams }
                                     salary = {this.state.salary}
                                     slate_data = {this.state.slate_data}
+                                    nba_slate_data={ this.state.nba_slate_data }
                                     nfl_players_data = {this.state.slate_players_data}
                                 />
                             </div>
