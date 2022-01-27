@@ -6,7 +6,7 @@ import EnhancedTableHead from "../home/dataTable";
 import TextField from "@material-ui/core/TextField";
 import API from '../../networking/api'
 import Loader from "../../loader/loader"
-import { toast } from 'react-toastify';
+import {toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import CustomizedMenus from "../dropdownBtn/btnDropdown"
 import Button from "@material-ui/core/Button";
@@ -30,53 +30,52 @@ let kActive = false
 let dstActive = false
 
 
-
-
 class DataNavBar extends React.Component {
     api = new API()
+
     constructor(props) {
         super(props);
         this.state =
             {
-                players_data:[],
-                init_data:[],
+                players_data: [],
+                init_data: [],
                 game_data: [],
-                slate_data:[],
-                nba_slate_data:[],
-                slate_players_data:[],
+                slate_data: [],
+                nba_slate_data: [],
+                slate_players_data: [],
                 inputActive: false,
-                loader:false,
-                spinner:false,
-                simulationSpinner:false,
-                saveBtnSpinner:false,
-                pgActive:false,
-                temp_filter_player:null,
-                filter_key:null,
+                loader: false,
+                spinner: false,
+                simulationSpinner: false,
+                saveBtnSpinner: false,
+                pgActive: false,
+                temp_filter_player: null,
+                filter_key: null,
                 filter: "",
                 salary: 'dk',
-                update_data:true,
+                update_data: true,
                 search_player_data: [],
-                allBtn:true,
-                allClearBtn:false,
-                pgBtn:true,
-                sgBtn:true,
-                sfBtn:true,
-                pfBtn:true,
-                cBtn:true,
-                nflAction:false,
-                qbBtn:false,
-                rbBtn:false,
-                wrBtn:false,
-                teBtn:false,
-                kBtn:false,
-                dstBtn:false,
-                saveData:false,
-                is_nbaNfl:'NBA',
-                saveBtnActive:false,
-                simulationBtn:false,
+                allBtn: true,
+                allClearBtn: false,
+                pgBtn: true,
+                sgBtn: true,
+                sfBtn: true,
+                pfBtn: true,
+                cBtn: true,
+                nflAction: false,
+                qbBtn: false,
+                rbBtn: false,
+                wrBtn: false,
+                teBtn: false,
+                kBtn: false,
+                dstBtn: false,
+                saveData: false,
+                is_nbaNfl: 'NBA',
+                saveBtnActive: false,
+                simulationBtn: false,
                 excelDataList: [],
                 setData: new Set(),
-                count:0
+                count: 0
             }
         this.child = React.createRef();
         // this.setupCustomTable()
@@ -100,16 +99,18 @@ class DataNavBar extends React.Component {
         this.setupCustomTable = this.setupCustomTable.bind(this)
         this.slate_teams = this.slate_teams.bind(this)
     }
+
     componentDidMount() {
-        this.getCustomDfsData({user:{id:'Master'}, sportView:"NBA"});
+        this.getCustomDfsData({user: {id: 'Master'}, sportView: "NBA"});
         this.setupCustomTable()
     }
+
     componentDidUpdate(prevProps) {
 
         if (this.props.triggerChildFunc !== prevProps.triggerChildFunc) {
-            this.setState({saveBtnActive:false, simulationBtn:false})
+            this.setState({saveBtnActive: false, simulationBtn: false})
             this.onParentTrigger(this.props.triggerChildFunc[0]);
-            if(this.props.triggerChildFunc[0].sportView === 'NFL'){
+            if (this.props.triggerChildFunc[0].sportView === 'NFL') {
                 qbActive = true
                 rbActive = true
                 wrActive = true
@@ -117,45 +118,47 @@ class DataNavBar extends React.Component {
                 kActive = true
                 dstActive = true
                 this.setState({temp_filter_player: []})
-                this.setState({nflAction: true,
-                    pgBtn:false,
-                    qbBtn:true,
-                    rbBtn:true,
-                    wrBtn:true,
-                    teBtn:true,
-                    kBtn:true,
-                    dstBtn:true,
-                    sgBtn:false,
-                    sfBtn:false,
-                    pfBtn:false,
-                    cBtn:false,
-                    allBtn:true,
-                    allClearBtn:false,
-                    inputActive:false
+                this.setState({
+                    nflAction: true,
+                    pgBtn: false,
+                    qbBtn: true,
+                    rbBtn: true,
+                    wrBtn: true,
+                    teBtn: true,
+                    kBtn: true,
+                    dstBtn: true,
+                    sgBtn: false,
+                    sfBtn: false,
+                    pfBtn: false,
+                    cBtn: false,
+                    allBtn: true,
+                    allClearBtn: false,
+                    inputActive: false
                 })
             }
-            if(this.props.triggerChildFunc[0].sportView === 'NBA'){
+            if (this.props.triggerChildFunc[0].sportView === 'NBA') {
                 pgActive = true
                 sgActive = true
                 sfActive = true
                 pfActive = true
                 cActive = true
                 this.setState({temp_filter_player: []})
-                this.setState({nflAction: false,
-                    pgBtn:true,
-                    qbBtn:false,
-                    sgBtn:true,
-                    sfBtn:true,
-                    pfBtn:true,
-                    cBtn:true,
-                    rbBtn:false,
-                    wrBtn:false,
-                    teBtn:false,
-                    kBtn:false,
-                    dstBtn:false,
-                    allBtn:true,
-                    allClearBtn:false,
-                    inputActive:false
+                this.setState({
+                    nflAction: false,
+                    pgBtn: true,
+                    qbBtn: false,
+                    sgBtn: true,
+                    sfBtn: true,
+                    pfBtn: true,
+                    cBtn: true,
+                    rbBtn: false,
+                    wrBtn: false,
+                    teBtn: false,
+                    kBtn: false,
+                    dstBtn: false,
+                    allBtn: true,
+                    allClearBtn: false,
+                    inputActive: false
                 })
             }
             this.dkSalary()
@@ -173,14 +176,15 @@ class DataNavBar extends React.Component {
         }
     }
 
-    getSetData(data){
-
+    getSetData(data) {
+        console.log(data)
         this.setState({
-            setData:data
+            setData: data
         }, () => {
             var game_data_array = []
+            console.log(this.state.setData)
             console.log("get set data", this.state.temp_filter_player)
-            for(let key of data) {
+            for (let key of data) {
                 var temp_array = []
                 temp_array = this.state.temp_filter_player.filter((item) => item.Team.includes(key) || item.Opponent.includes(key))
                 temp_array.forEach((item) => {
@@ -193,27 +197,33 @@ class DataNavBar extends React.Component {
 
             var uniqueSet = new Set(jsonObject);
             var uniqueArray = Array.from(uniqueSet).map(JSON.parse);
+            console.log(uniqueArray)
             this.setState({
-                init_data:uniqueArray
-            },()=>{
+                init_data: uniqueArray
+            }, () => {
                 console.log(this.state.init_data)
-                if(this.state.is_nbaNfl==="NBA")
-                { this.setState({ players_data : this.filterObj(filter_list)}) }
-                else
-                { this.setState({ players_data :this.nflFilterObj(nflFilter_list) }) }
+                if (this.state.is_nbaNfl === "NBA") {
+                    this.setState({players_data: this.filterObj(filter_list)}, () => {
+                        console.log("get Set NBA players data", this.state.players_data)
+                    })
+                } else {
+                    this.setState({players_data: this.nflFilterObj(nflFilter_list)}, () => {
+                        console.log("get Set NFL players data", this.state.players_data)
+                    })
+                }
             })
         })
     }
 
-    slate_teams(data,slate){
+    slate_teams(data, slate) {
         this.setState({
-            players_data:data,
-            temp_filter_player:data
-            }, () => {
+            players_data: data,
+            temp_filter_player: data
+        }, () => {
             var game_data_array = []
-            for(let key of slate) {
+            for (let key of slate) {
                 var temp_array = []
-                console.log(this.state.players_data)
+                console.log("slate teams players data", this.state.players_data)
                 temp_array = this.state.players_data.filter((item) => item.Team.includes(key) || item.Opponent.includes(key))
                 temp_array.forEach((item) => {
                     game_data_array.push(item)
@@ -229,43 +239,49 @@ class DataNavBar extends React.Component {
 
             console.log(uniqueArray);
             this.setState({
-                init_data:uniqueArray
-            },()=>{
+                init_data: uniqueArray
+            }, () => {
                 console.log(this.state.init_data)
-                if(this.state.is_nbaNfl==="NBA")
-                { this.setState({ players_data : this.filterObj(filter_list)}) }
-                else
-                {
+                if (this.state.is_nbaNfl === "NBA") {
+                    this.setState({players_data: this.filterObj(filter_list)})
+                } else {
                     console.log(nflFilter_list)
-                    this.setState({ players_data :this.nflFilterObj(nflFilter_list) }) }
+                    this.setState({players_data: this.nflFilterObj(nflFilter_list)})
+                }
             })
         })
     }
 
-    setupCustomTable = () =>{
+    setupCustomTable = () => {
         // setup custom table
         let payload = {
-            data:{user:{id:localStorage.getItem('username')},sportView:"NBA"}
+            data: {user: {id: localStorage.getItem('username')}, sportView: "NBA"}
         }
         let url = '/Prod/setup-custom-tables'
         this.api.GetApi(url, payload)
             .then((res) => {
                 // let response_data = JSON.parse(res.request.response)
-                if (res.status === 200 ) {
+                if (res.status === 200) {
 
-                    let fetch_payload={"user": {"id": localStorage.getItem('username')}, "sportView": this.state.is_nbaNfl}
+                    let fetch_payload = {
+                        "user": {"id": localStorage.getItem('username')},
+                        "sportView": this.state.is_nbaNfl
+                    }
                     let data_url = '/Prod/fetch-game-data'
                     this.api.GetApi(data_url, fetch_payload)
                         .then((res) => {
-                            if (res.status === 200 ) {
+                            if (res.status === 200) {
                                 let fetch_live_stats = '/Prod/fetch-live-stats'
-                                let fetch_live_payload={"user": {"id": localStorage.getItem('username')}, "sportView": this.state.is_nbaNfl}
+                                let fetch_live_payload = {
+                                    "user": {"id": localStorage.getItem('username')},
+                                    "sportView": this.state.is_nbaNfl
+                                }
                                 this.api.GetApi(fetch_live_stats, fetch_live_payload)
                                     .then((res) => {
-                                        if (res.status === 200 ) {
+                                        if (res.status === 200) {
                                         } else if (res.request.status === 401) {
                                             this.props.history.push('/signin')
-                                            this.setState({loader:false})
+                                            this.setState({loader: false})
                                         } else {
                                             console.log(res)
                                         }
@@ -275,7 +291,7 @@ class DataNavBar extends React.Component {
                                     })
                             } else if (res.request.status === 401) {
                                 this.props.history.push('/signin')
-                                this.setState({loader:false})
+                                this.setState({loader: false})
                             } else {
                                 console.log(res)
                             }
@@ -285,7 +301,7 @@ class DataNavBar extends React.Component {
                         })
                 } else if (res.request.status === 401) {
                     this.props.history.push('/signin')
-                    this.setState({loader:false})
+                    this.setState({loader: false})
                 } else {
                     console.log(res)
                 }
@@ -295,42 +311,65 @@ class DataNavBar extends React.Component {
             })
     }
 
-    getPlayerState = (data) =>{
-        this.setState({update_data:true})
+
+    getPlayerState = (data) => {
+        // this.setState({update_data:true})
         let payload = {
-            data:data
+            data: data
         }
         // player stats api calling
         let url = '/Prod/get-player-stats'
         this.api.GetApi(url, payload)
             .then((res) => {
-                this.setState({loader:false})
+                this.setState({loader: false})
                 let response_data = JSON.parse(res.request.response)
-                if (res.status === 200 ) {
-                    if(data.sportView === "NBA"){
-                        if (response_data.body.length === 0 ){
-                            this.setState({loader:false , players_data:this.state.temp_filter_player
-                                , init_data:this.state.temp_filter_player, slate_players_data:this.state.temp_filter_player})
-                        }
-                        else{
-                            this.setState({players_data: response_data.body , init_data:response_data.body, slate_players_data:response_data.body})
-                            this.setState({loader:false})
+                if (res.status === 200) {
+                    if (data.sportView === "NBA") {
+                        if (response_data.body.length === 0) {
+                            this.setState({
+                                loader: false,
+                                players_data: this.state.temp_filter_player,
+                                init_data: this.state.temp_filter_player,
+                                slate_players_data: this.state.temp_filter_player
+                            }, () => {
+                                console.log('Get Players Data NBA', this.state.players_data)
+                            })
+                        } else {
+                            this.setState({
+                                players_data: response_data.body, init_data: response_data.body,
+                                slate_players_data: response_data.body, temp_filter_player: response_data.body
+                            }, () => {
+                                console.log('Get Players Data NBA', this.state.players_data)
+                            })
+                            this.setState({loader: false})
                         }
 
                     }
-                    if(data.sportView === "NFL"){
-                        if (response_data.body.length !== 0){
-                            this.setState({ init_data:response_data.body ,temp_filter_player:response_data.body, slate_players_data:response_data.body})
+                    if (data.sportView === "NFL") {
+                        if (response_data.body.length !== 0) {
+                            this.setState({
+                                players_data: response_data.body,
+                                init_data: response_data.body,
+                                temp_filter_player: response_data.body,
+                                slate_players_data: response_data.body
+                            }, () => {
+                                console.log('Get Players Data NFL', this.state.players_data)
+                            })
+                        } else {
+                            this.setState({
+                                players_data: this.state.temp_filter_player,
+                                init_data: this.state.temp_filter_player,
+                                slate_players_data: this.state.temp_filter_player
+                            }, () => {
+                                console.log('Get Players Data NFL', this.state.players_data)
+                            })
                         }
-                        else{
-                            this.setState({players_data:this.state.temp_filter_player, init_data:this.state.temp_filter_player, slate_players_data:this.state.temp_filter_player})
-                        }
-                        this.setState({loader:false})
+                        this.setState({loader: false})
                     }
                     this.allSelectFilter()
                 } else if (res.request.status === 401) {
                     this.props.history.push('/signin')
-                    this.setState({loader:false})
+                    this.setState({loader: false})
                 } else {
                     console.log(res)
                 }
@@ -339,30 +378,29 @@ class DataNavBar extends React.Component {
                 console.log(error);
             })
 
-        let game_url= '/Prod/get-game-data'
+        let game_url = '/Prod/get-game-data'
         this.api.GetApi(game_url, payload)
             .then((res) => {
                 let response_data = JSON.parse(res.request.response)
-                if (res.status === 200 ) {
-                    if(data.sportView === "NBA"){
-                        if(response_data.body.length > 0){
+                if (res.status === 200) {
+                    if (data.sportView === "NBA") {
+                        if (response_data.body.length > 0) {
                             this.setState({game_data: response_data.body})
-                            this.setState({loader:false})
-                        }
-                        else{
+                            this.setState({loader: false})
+                        } else {
                             // this.setState({game_data: response_data.body})
-                            this.setState({loader:false})
+                            this.setState({loader: false})
                         }
 
                     }
-                    if(data.sportView === "NFL"){
+                    if (data.sportView === "NFL") {
                         this.setState({game_data: response_data.body})
-                        this.setState({loader:false})
+                        this.setState({loader: false})
                     }
 
                 } else if (res.request.status === 401) {
                     this.props.history.push('/signin')
-                    this.setState({loader:false})
+                    this.setState({loader: false})
                 } else {
                     console.log(res)
                 }
@@ -376,11 +414,11 @@ class DataNavBar extends React.Component {
         var headers = {
             'Content-Type': 'application/json'
         }
-        const request = axios.get('https://igj6lh1hv0.execute-api.us-east-2.amazonaws.com/get-slate',{
+        const request = axios.get('https://igj6lh1hv0.execute-api.us-east-2.amazonaws.com/get-slate', {
             headers: headers
         }).then((res) => {
             this.setState({
-                slate_data:res.data.body
+                slate_data: res.data.body
             })
             console.log(res.data.body)
         }).catch((err) => {
@@ -390,11 +428,11 @@ class DataNavBar extends React.Component {
         var headers_nfl = {
             'Content-Type': 'application/json'
         }
-        const request_nfl = axios.get('https://njiwq0y920.execute-api.us-east-2.amazonaws.com/get-nba-slate',{
+        const request_nfl = axios.get('https://njiwq0y920.execute-api.us-east-2.amazonaws.com/get-nba-slate', {
             headers: headers_nfl
         }).then((res) => {
             this.setState({
-                nba_slate_data:res.data.body
+                nba_slate_data: res.data.body
             })
             console.log(res.data.body)
         }).catch((err) => {
@@ -404,69 +442,81 @@ class DataNavBar extends React.Component {
     }
 
 
-    myData(){
+    myData() {
         this.dkSalary()
         toast("⭐ Populating fields...");
-        if(this.state.count >0){
+        if (this.state.count > 0) {
             this.setState({
-                saveBtnActive:true,
-                simulationBtn:true,
+                saveBtnActive: true,
+                simulationBtn: true,
             })
         }
         this.setState({
-            inputActive:true,
-            saveBtnActive:true,
-            simulationBtn:false,
-            loader:true
+            inputActive: true,
+            saveBtnActive: true,
+            simulationBtn: false,
+            loader: true
         })
         this.getPlayerState({"user": {"id": localStorage.getItem('username')}, "sportView": this.state.is_nbaNfl})
 
     }
 
-    customDfs(){
+    customDfs() {
         toast("⭐ Populating fields...");
         this.setState({
-            inputActive:false,
-            saveBtnActive:false,
-            simulationBtn:false,
-            loader:true
+            inputActive: false,
+            saveBtnActive: false,
+            simulationBtn: false,
+            loader: true
         })
-            this.getPlayerState( {"user": {"id": "Master"}, "sportView": this.state.is_nbaNfl})
+        this.getPlayerState({"user": {"id": "Master"}, "sportView": this.state.is_nbaNfl})
 
     }
 
-    SaveData = () =>{
-        this.setState({saveData:true, spinner: true, count:this.state.count + 1})
+    SaveData = () => {
+        this.setState({saveData: true, spinner: true, count: this.state.count + 1})
         //toast.success("⭐ ...",{closeOnClick: true,
-       //     autoClose:3000});
+        //     autoClose:3000});
     }
 
     //api calling
-    getCustomDfsData(data){
-        this.setState({loader:true})
-        this.setState({update_data:true})
+    getCustomDfsData(data) {
+        this.setState({loader: true})
+        this.setState({update_data: true})
         let payload = {
-            data:data
+            data: data
         }
         // player stats api calling
         let url = '/Prod/get-player-stats'
         this.api.GetApi(url, payload)
             .then((res) => {
                 let response_data = JSON.parse(res.request.response)
-                if (res.status === 200 ) {
-                    if(data.sportView === "NBA"){
-                        this.setState({players_data: response_data.body , init_data:response_data.body , slate_players_data: response_data.body})
-                        this.setState({ temp_filter_player:response_data.body})
+                if (res.status === 200) {
+                    if (data.sportView === "NBA") {
+                        this.setState({
+                            players_data: response_data.body,
+                            init_data: response_data.body,
+                            slate_players_data: response_data.body,
+                            temp_filter_player: response_data.body
+                        }, () => {
+                            console.log('Get Players Data NBA', this.state.players_data)
+                        })
                     }
-                    if(data.sportView === "NFL"){
-                        this.setState({init_data:response_data.body, players_data: response_data.body, slate_players_data: response_data.body})
-                        this.setState({ temp_filter_player:response_data.body})
+                    if (data.sportView === "NFL") {
+                        this.setState({
+                            init_data: response_data.body,
+                            players_data: response_data.body,
+                            slate_players_data: response_data.body,
+                            temp_filter_player: response_data.body
+                        }, () => {
+                            console.log('Get Players Data NFL', this.state.players_data)
+                        })
                     }
-                    this.setState({loader:false})
+                    this.setState({loader: false})
                     this.allSelectFilter()
                 } else if (res.request.status === 401) {
                     this.props.history.push('/signin')
-                    this.setState({loader:false})
+                    this.setState({loader: false})
                 } else {
                     console.log(res)
                 }
@@ -477,23 +527,23 @@ class DataNavBar extends React.Component {
 
 
 //    game data api calling
-        let game_url= '/Prod/get-game-data'
+        let game_url = '/Prod/get-game-data'
         this.api.GetApi(game_url, payload)
             .then((res) => {
                 let response_data = JSON.parse(res.request.response)
-                if (res.status === 200 ) {
-                    if(data.sportView === "NBA"){
+                if (res.status === 200) {
+                    if (data.sportView === "NBA") {
                         this.setState({game_data: response_data.body})
-                
+
                     }
-                    if(data.sportView === "NFL"){
+                    if (data.sportView === "NFL") {
                         this.setState({game_data: response_data.body})
-                       
+
                     }
 
                 } else if (res.request.status === 401) {
                     this.props.history.push('/signin')
-                    this.setState({loader:false})
+                    this.setState({loader: false})
                 } else {
                     console.log(res)
                 }
@@ -508,11 +558,11 @@ class DataNavBar extends React.Component {
         var headers = {
             'Content-Type': 'application/json'
         }
-        const request = axios.get('https://igj6lh1hv0.execute-api.us-east-2.amazonaws.com/get-slate',{
+        const request = axios.get('https://igj6lh1hv0.execute-api.us-east-2.amazonaws.com/get-slate', {
             headers: headers
         }).then((res) => {
             this.setState({
-                slate_data:res.data.body
+                slate_data: res.data.body
             })
             console.log(res.data.body)
         }).catch((err) => {
@@ -522,11 +572,11 @@ class DataNavBar extends React.Component {
         var headers_nfl = {
             'Content-Type': 'application/json'
         }
-        const request_nfl = axios.get('https://njiwq0y920.execute-api.us-east-2.amazonaws.com/get-nba-slate',{
+        const request_nfl = axios.get('https://njiwq0y920.execute-api.us-east-2.amazonaws.com/get-nba-slate', {
             headers: headers_nfl
         }).then((res) => {
             this.setState({
-                nba_slate_data:res.data.body
+                nba_slate_data: res.data.body
             })
             console.log(res.data.body)
         }).catch((err) => {
@@ -534,11 +584,13 @@ class DataNavBar extends React.Component {
         })
     }
 
-    removeArray(arrOriginal, elementToRemove){
-        return arrOriginal.filter(function(el){return el !== elementToRemove});
+    removeArray(arrOriginal, elementToRemove) {
+        return arrOriginal.filter(function (el) {
+            return el !== elementToRemove
+        });
     }
 
-    filterObj(keyList){
+    filterObj(keyList) {
         sessionStorage.setItem('pageReset', "true0")
         let newArray
         let pgArray
@@ -546,49 +598,52 @@ class DataNavBar extends React.Component {
         let sfArray
         let pfArray
         let cArray
-        let player_obj= {
-                'players':this.state.init_data
-            }
+        let player_obj = {
+            'players': this.state.init_data
+        }
 
-        if(this.state.salary === 'dk'){
+        if (this.state.salary === 'dk') {
             newArray = []
             pgArray = []
             sgArray = []
             sfArray = []
             pfArray = []
             cArray = []
-
-            for(let i = 0; i<keyList.length; i++){
-                if(keyList[i] === 'pg'){
-                    pgArray = (player_obj.players.filter(function (el){
+            for (let i = 0; i < keyList.length; i++) {
+                if (keyList[i] === 'pg') {
+                    pgArray = (player_obj.players.filter(function (el) {
                         return el.DraftKingsPosition === 'PG' || el.DraftKingsPosition === 'pg' || el.DraftKingsPosition.includes('PG') || el.DraftKingsPosition.includes('pg');
                     }));
-                } if(keyList[i] === 'sg'){
-                    sgArray = (player_obj.players.filter(function (el){
+                }
+                if (keyList[i] === 'sg') {
+                    sgArray = (player_obj.players.filter(function (el) {
                         return el.DraftKingsPosition === 'SG' || el.DraftKingsPosition === 'sg' || el.DraftKingsPosition.includes('SG') || el.DraftKingsPosition.includes('sg');
                     }));
-                } if(keyList[i] === 'sf'){
-                    sfArray = (player_obj.players.filter(function (el){
+                }
+                if (keyList[i] === 'sf') {
+                    sfArray = (player_obj.players.filter(function (el) {
                         return el.DraftKingsPosition === 'SF' || el.DraftKingsPosition === 'sf' || el.DraftKingsPosition.includes('SF') || el.DraftKingsPosition.includes('sf');
                     }));
-                } if(keyList[i] === 'pf'){
-                    pfArray = (player_obj.players.filter(function (el){
+                }
+                if (keyList[i] === 'pf') {
+                    pfArray = (player_obj.players.filter(function (el) {
                         return el.DraftKingsPosition === 'PF' || el.DraftKingsPosition === 'pf' || el.DraftKingsPosition.includes('PF') || el.DraftKingsPosition.includes('pf');
                     }));
-                } if(keyList[i] === 'c'){
-                    cArray = (player_obj.players.filter(function (el){
+                }
+                if (keyList[i] === 'c') {
+                    cArray = (player_obj.players.filter(function (el) {
                         return el.DraftKingsPosition === 'C' || el.DraftKingsPosition === 'c' || el.DraftKingsPosition.includes('C') || el.DraftKingsPosition.includes('c');
                     }));
                 }
             }
 
-            newArray = newArray.concat(pgArray, sgArray,sfArray, pfArray, cArray);
+            newArray = newArray.concat(pgArray, sgArray, sfArray, pfArray, cArray);
             newArray = new Set(newArray)
             newArray = Array.from(newArray)
 
             return newArray
         }
-        if(this.state.salary === 'fd') {
+        if (this.state.salary === 'fd') {
             newArray = []
             pgArray = []
             sgArray = []
@@ -596,32 +651,32 @@ class DataNavBar extends React.Component {
             pfArray = []
             cArray = []
 
-            for(let i = 0; i<keyList.length; i++){
+            for (let i = 0; i < keyList.length; i++) {
 
-                if(keyList[i] === 'pg'){
-                    pgArray = (player_obj.players.filter(function (el){
+                if (keyList[i] === 'pg') {
+                    pgArray = (player_obj.players.filter(function (el) {
                         return el.FanDuelPosition === 'PG' || el.FanDuelPosition === 'pg' || el.FanDuelPosition.includes('PG') || el.FanDuelPosition.includes('pg');
                     }));
-                }else if(keyList[i] === 'sg'){
-                    sgArray = (player_obj.players.filter(function (el){
+                } else if (keyList[i] === 'sg') {
+                    sgArray = (player_obj.players.filter(function (el) {
                         return el.FanDuelPosition === 'SG' || el.FanDuelPosition === 'sg' || el.FanDuelPosition.includes('SG') || el.FanDuelPosition.includes('sg');
                     }));
-                }else if(keyList[i] === 'sf'){
-                    sfArray = (player_obj.players.filter(function (el){
+                } else if (keyList[i] === 'sf') {
+                    sfArray = (player_obj.players.filter(function (el) {
                         return el.FanDuelPosition === 'SF' || el.FanDuelPosition === 'sf' || el.FanDuelPosition.includes('SF') || el.FanDuelPosition.includes('sf');
                     }));
-                }else if(keyList[i] === 'pf'){
-                    pfArray = (player_obj.players.filter(function (el){
+                } else if (keyList[i] === 'pf') {
+                    pfArray = (player_obj.players.filter(function (el) {
                         return el.FanDuelPosition === 'PF' || el.FanDuelPosition === 'pf' || el.FanDuelPosition.includes('PF') || el.FanDuelPosition.includes('pf');
                     }));
-                }else if(keyList[i] === 'c'){
-                    cArray = (player_obj.players.filter(function (el){
+                } else if (keyList[i] === 'c') {
+                    cArray = (player_obj.players.filter(function (el) {
                         return el.FanDuelPosition === 'C' || el.FanDuelPosition === 'c' || el.FanDuelPosition.includes('C') || el.FanDuelPosition.includes('c');
                     }));
                 }
             }
 
-            newArray = newArray.concat(pgArray, sgArray,sfArray, pfArray, cArray);
+            newArray = newArray.concat(pgArray, sgArray, sfArray, pfArray, cArray);
             newArray = new Set(newArray)
             newArray = Array.from(newArray)
             return newArray
@@ -629,7 +684,7 @@ class DataNavBar extends React.Component {
 
     }
 
-    nflFilterObj(keyList){
+    nflFilterObj(keyList) {
         sessionStorage.setItem('pageReset', "true0")
         let newArray
         let qbArray
@@ -639,11 +694,11 @@ class DataNavBar extends React.Component {
         let kArray
         let dstArray
         let player_obj
-        player_obj= {
-            'players':this.state.init_data
+        player_obj = {
+            'players': this.state.init_data
         }
 
-        if (this.state.salary === 'dk'){
+        if (this.state.salary === 'dk') {
             newArray = []
             qbArray = []
             rbArray = []
@@ -652,69 +707,63 @@ class DataNavBar extends React.Component {
             kArray = []
             dstArray = []
 
-            for(let i = 0; i<keyList.length; i++){
-                if(keyList[i] === 'qb'){
-                    qbArray = (player_obj.players.filter(function (el){
-                        if (el.Name !== undefined){
-                            try{
+            for (let i = 0; i < keyList.length; i++) {
+                if (keyList[i] === 'qb') {
+                    qbArray = (player_obj.players.filter(function (el) {
+                        if (el.Name !== undefined) {
+                            try {
                                 return el.DraftKingsPosition === 'QB' || el.DraftKingsPosition === 'qb' || el.DraftKingsPosition.includes('QB') || el.DraftKingsPosition.includes('qb');
-                            }
-                            catch (ex){
+                            } catch (ex) {
                                 console.log(ex)
                             }
                         }
                     }));
-                }else if(keyList[i] === 'rb'){
-                    rbArray = (player_obj.players.filter(function (el){
-                        if(el.Name !== undefined){
-                            try{
+                } else if (keyList[i] === 'rb') {
+                    rbArray = (player_obj.players.filter(function (el) {
+                        if (el.Name !== undefined) {
+                            try {
                                 return el.DraftKingsPosition === 'RB' || el.DraftKingsPosition === 'rb' || el.DraftKingsPosition.includes('RB') || el.DraftKingsPosition.includes('rb');
-                            }
-                            catch (ex){
+                            } catch (ex) {
                                 console.log(ex)
                             }
                         }
                     }));
-                }else if(keyList[i] === 'wr'){
-                    wrArray = (player_obj.players.filter(function (el){
-                        if(el.Name !== undefined){
-                            try{
+                } else if (keyList[i] === 'wr') {
+                    wrArray = (player_obj.players.filter(function (el) {
+                        if (el.Name !== undefined) {
+                            try {
                                 return el.DraftKingsPosition === 'WR' || el.DraftKingsPosition === 'wr' || el.DraftKingsPosition.includes('WR') || el.DraftKingsPosition.includes('wr');
-                            }
-                            catch (ex){
+                            } catch (ex) {
                                 console.log(ex)
                             }
                         }
                     }));
-                }else if(keyList[i] === 'te'){
-                    teArray = (player_obj.players.filter(function (el){
-                        if(el.Name !== undefined){
-                            try{
+                } else if (keyList[i] === 'te') {
+                    teArray = (player_obj.players.filter(function (el) {
+                        if (el.Name !== undefined) {
+                            try {
                                 return el.DraftKingsPosition === 'TE' || el.DraftKingsPosition === 'te' || el.DraftKingsPosition.includes('TE') || el.DraftKingsPosition.includes('te');
-                            }
-                            catch (ex){
+                            } catch (ex) {
                                 console.log(ex)
                             }
                         }
                     }));
-                }else if(keyList[i] === 'k'){
-                    kArray = (player_obj.players.filter(function (el){
-                        if(el.Name !== undefined){
-                            try{
+                } else if (keyList[i] === 'k') {
+                    kArray = (player_obj.players.filter(function (el) {
+                        if (el.Name !== undefined) {
+                            try {
                                 return el.DraftKingsPosition === 'K' || el.DraftKingsPosition === 'k' || el.DraftKingsPosition.includes('K') || el.DraftKingsPosition.includes('k');
-                            }
-                            catch (ex){
+                            } catch (ex) {
                                 console.log(ex)
                             }
                         }
                     }));
-                }else if(keyList[i] === 'dst'){
-                    dstArray = (player_obj.players.filter(function (el){
-                        if(el.Name !== undefined){
-                            try{
+                } else if (keyList[i] === 'dst') {
+                    dstArray = (player_obj.players.filter(function (el) {
+                        if (el.Name !== undefined) {
+                            try {
                                 return el.DraftKingsPosition === 'DST' || el.DraftKingsPosition === 'dst' || el.DraftKingsPosition.includes('DST') || el.DraftKingsPosition.includes('dst');
-                            }
-                            catch (ex){
+                            } catch (ex) {
                                 console.log(ex)
                             }
                         }
@@ -722,13 +771,13 @@ class DataNavBar extends React.Component {
                 }
             }
 
-            newArray = newArray.concat(qbArray, rbArray,wrArray, teArray, kArray, dstArray);
+            newArray = newArray.concat(qbArray, rbArray, wrArray, teArray, kArray, dstArray);
             newArray = new Set(newArray)
             newArray = Array.from(newArray)
 
             return newArray
         }
-        if(this.state.salary === 'fd'){
+        if (this.state.salary === 'fd') {
             newArray = []
             qbArray = []
             rbArray = []
@@ -736,70 +785,64 @@ class DataNavBar extends React.Component {
             teArray = []
             kArray = []
             dstArray = []
-            for(let i = 0; i<keyList.length; i++){
+            for (let i = 0; i < keyList.length; i++) {
 
-                if(keyList[i] === 'qb'){
-                    qbArray = (player_obj.players.filter(function (el){
-                        if(el.Name !== undefined){
-                            try{
+                if (keyList[i] === 'qb') {
+                    qbArray = (player_obj.players.filter(function (el) {
+                        if (el.Name !== undefined) {
+                            try {
                                 return el.FanDuelPosition === 'QB' || el.FanDuelPosition === 'qb' || el.FanDuelPosition.includes('QB') || el.FanDuelPosition.includes('qb');
-                            }
-                            catch (ex){
+                            } catch (ex) {
                                 console.log(ex)
                             }
                         }
                     }));
-                }else if(keyList[i] === 'rb'){
-                    rbArray = (player_obj.players.filter(function (el){
-                        if(el.Name !== undefined){
-                            try{
+                } else if (keyList[i] === 'rb') {
+                    rbArray = (player_obj.players.filter(function (el) {
+                        if (el.Name !== undefined) {
+                            try {
                                 return el.FanDuelPosition === 'RB' || el.FanDuelPosition === 'rb' || el.FanDuelPosition.includes('RB') || el.FanDuelPosition.includes('rb');
-                            }
-                            catch (ex){
+                            } catch (ex) {
                                 console.log(ex)
                             }
                         }
                     }));
-                }else if(keyList[i] === 'wr'){
-                    wrArray = (player_obj.players.filter(function (el){
-                        if(el.Name !== undefined){
-                            try{
+                } else if (keyList[i] === 'wr') {
+                    wrArray = (player_obj.players.filter(function (el) {
+                        if (el.Name !== undefined) {
+                            try {
                                 return el.FanDuelPosition === 'WR' || el.FanDuelPosition === 'wr' || el.FanDuelPosition.includes('WR') || el.FanDuelPosition.includes('wr');
-                            }
-                            catch (ex){
+                            } catch (ex) {
                                 console.log(ex)
                             }
                         }
                     }));
-                }else if(keyList[i] === 'te'){
-                    teArray = (player_obj.players.filter(function (el){
-                        if(el.Name !== undefined){
-                            try{
+                } else if (keyList[i] === 'te') {
+                    teArray = (player_obj.players.filter(function (el) {
+                        if (el.Name !== undefined) {
+                            try {
                                 return el.FanDuelPosition === 'TE' || el.FanDuelPosition === 'te' || el.FanDuelPosition.includes('TE') || el.FanDuelPosition.includes('te');
-                            }
-                            catch (ex){
+                            } catch (ex) {
                                 console.log(ex)
                             }
                         }
                     }));
-                }else if(keyList[i] === 'k'){
-                    kArray = (player_obj.players.filter(function (el){
-                        if(el.Name !== undefined){
-                            try{
+                } else if (keyList[i] === 'k') {
+                    kArray = (player_obj.players.filter(function (el) {
+                        if (el.Name !== undefined) {
+                            try {
                                 return el.FanDuelPosition === 'K' || el.FanDuelPosition === 'k' || el.FanDuelPosition.includes('K') || el.FanDuelPosition.includes('k');
-                            }
-                            catch(ex){
+                            } catch (ex) {
                                 console.log(ex)
                             }
                         }
                     }));
-                }else if(keyList[i] === 'dst'){
-                    dstArray = (player_obj.players.filter(function (el){
-                        if(el.Name !== undefined){
-                            try{
+                } else if (keyList[i] === 'dst') {
+                    dstArray = (player_obj.players.filter(function (el) {
+                        if (el.Name !== undefined) {
+                            try {
                                 return el.FanDuelPosition === 'DST' || el.FanDuelPosition === 'dst' || el.FanDuelPosition.includes('DST') || el.FanDuelPosition.includes('dst');
-                            }
-                            catch(ex){
+                            } catch (ex) {
                                 console.log(ex)
                             }
                         }
@@ -807,7 +850,7 @@ class DataNavBar extends React.Component {
                 }
             }
 
-            newArray = newArray.concat(qbArray, rbArray,wrArray, teArray, kArray, dstArray);
+            newArray = newArray.concat(qbArray, rbArray, wrArray, teArray, kArray, dstArray);
 
             newArray = new Set(newArray)
             newArray = Array.from(newArray)
@@ -815,445 +858,453 @@ class DataNavBar extends React.Component {
         }
 
     }
-    pgFilters(){
-        if(pgActive){
-            filter_list=this.removeArray(filter_list, 'pg');
-        }
-        else {
+
+    pgFilters() {
+        console.log(this.state.setData)
+        if (pgActive) {
+            filter_list = this.removeArray(filter_list, 'pg');
+        } else {
             filter_list.push('pg')
         }
         pgActive = !pgActive
         let filter_data = this.filterObj(filter_list)
-        if(filter_data.length > 0){
-            this.setState({ players_data:filter_data ,search_player_data:filter_data})
-        }
-        else{
-            this.setState({ players_data:[] ,search_player_data:[]})
+        if (filter_data.length > 0) {
+            this.setState({players_data: filter_data, search_player_data: filter_data}, () => {
+                console.log("pgFilter Players_data", this.state.players_data)
+            })
+        } else {
+            this.setState({players_data: [], search_player_data: []}, () => {
+                console.log("pgFilter Players_data", this.state.players_data)
+            })
         }
         this.setState({
-            allBtn:false,
-            allClearBtn:false,
-            pgBtn:!this.state.pgBtn,
+            allBtn: false,
+            allClearBtn: false,
+            pgBtn: !this.state.pgBtn,
         })
-        if(filter_list.length === 5){
+        if (filter_list.length === 5) {
             this.setState({
-                allBtn:true
+                allBtn: true
             })
         }
 
     }
 
-    qbFilters = () =>{
-        if(qbActive){
-            nflFilter_list=this.removeArray(nflFilter_list, 'qb');
-        }
-        else {
+    qbFilters = () => {
+        if (qbActive) {
+            nflFilter_list = this.removeArray(nflFilter_list, 'qb');
+        } else {
             nflFilter_list.push('qb')
         }
         qbActive = !qbActive
         let filter_data = this.nflFilterObj(nflFilter_list)
-        if(filter_data.length > 0){
-            this.setState({ players_data:filter_data ,search_player_data:filter_data})
-        }
-        else{
-            this.setState({ players_data:[] ,search_player_data:[]})
+        if (filter_data.length > 0) {
+            this.setState({players_data: filter_data, search_player_data: filter_data})
+        } else {
+            this.setState({players_data: [], search_player_data: []})
         }
         this.setState({
-            allBtn:false,
-            allClearBtn:false,
-            qbBtn:!this.state.qbBtn,
+            allBtn: false,
+            allClearBtn: false,
+            qbBtn: !this.state.qbBtn,
         })
-        if(nflFilter_list.length === 6){
+        if (nflFilter_list.length === 6) {
             this.setState({
-                allBtn:true
+                allBtn: true
             })
         }
     }
 
-    rbFilters = () =>{
-        if(rbActive){
-            nflFilter_list=this.removeArray(nflFilter_list, 'rb');
-        }
-        else {
+    rbFilters = () => {
+        if (rbActive) {
+            nflFilter_list = this.removeArray(nflFilter_list, 'rb');
+        } else {
             nflFilter_list.push('rb')
         }
         rbActive = !rbActive
         let filter_data = this.nflFilterObj(nflFilter_list)
-        if(filter_data.length > 0){
-            this.setState({ players_data:filter_data ,search_player_data:filter_data})
-        }
-        else{
-            this.setState({ players_data:[] ,search_player_data:[]})
+        if (filter_data.length > 0) {
+            this.setState({players_data: filter_data, search_player_data: filter_data})
+        } else {
+            this.setState({players_data: [], search_player_data: []})
         }
         this.setState({
-            allBtn:false,
-            allClearBtn:false,
-            rbBtn:!this.state.rbBtn,
+            allBtn: false,
+            allClearBtn: false,
+            rbBtn: !this.state.rbBtn,
         })
-        if(nflFilter_list.length === 6){
+        if (nflFilter_list.length === 6) {
             this.setState({
-                allBtn:true
+                allBtn: true
             })
         }
     }
 
-    wrFilters = () =>{
-        if(wrActive){
-            nflFilter_list=this.removeArray(nflFilter_list, 'wr');
-        }
-        else {
+    wrFilters = () => {
+        if (wrActive) {
+            nflFilter_list = this.removeArray(nflFilter_list, 'wr');
+        } else {
             nflFilter_list.push('wr')
         }
         wrActive = !wrActive
         let filter_data = this.nflFilterObj(nflFilter_list)
-        if(filter_data.length > 0){
-            this.setState({ players_data:filter_data ,search_player_data:filter_data})
-        }
-        else{
-            this.setState({ players_data:[] ,search_player_data:[]})
+        if (filter_data.length > 0) {
+            this.setState({players_data: filter_data, search_player_data: filter_data})
+        } else {
+            this.setState({players_data: [], search_player_data: []})
         }
         this.setState({
-            allBtn:false,
-            allClearBtn:false,
-            wrBtn:!this.state.wrBtn,
+            allBtn: false,
+            allClearBtn: false,
+            wrBtn: !this.state.wrBtn,
         })
-        if(nflFilter_list.length === 6){
+        if (nflFilter_list.length === 6) {
             this.setState({
-                allBtn:true
+                allBtn: true
             })
         }
     }
 
-    teFilters = () =>{
-        if(teActive){
-            nflFilter_list=this.removeArray(nflFilter_list, 'te');
-        }
-        else {
+    teFilters = () => {
+        if (teActive) {
+            nflFilter_list = this.removeArray(nflFilter_list, 'te');
+        } else {
             nflFilter_list.push('te')
         }
         teActive = !teActive
         let filter_data = this.nflFilterObj(nflFilter_list)
-        if(filter_data.length > 0){
-            this.setState({ players_data:filter_data ,search_player_data:filter_data})
-        }
-        else{
-            this.setState({ players_data:[] ,search_player_data:[]})
+        if (filter_data.length > 0) {
+            this.setState({players_data: filter_data, search_player_data: filter_data})
+        } else {
+            this.setState({players_data: [], search_player_data: []})
         }
         this.setState({
-            allBtn:false,
-            allClearBtn:false,
-            teBtn:!this.state.teBtn,
+            allBtn: false,
+            allClearBtn: false,
+            teBtn: !this.state.teBtn,
         })
-        if(nflFilter_list.length === 6){
+        if (nflFilter_list.length === 6) {
             this.setState({
-                allBtn:true
+                allBtn: true
             })
         }
     }
 
-    kFilters = () =>{
-        if(kActive){
-            nflFilter_list=this.removeArray(nflFilter_list, 'k');
-        }
-       else {
+    kFilters = () => {
+        if (kActive) {
+            nflFilter_list = this.removeArray(nflFilter_list, 'k');
+        } else {
             nflFilter_list.push('k')
         }
         kActive = !kActive
         let filter_data = this.nflFilterObj(nflFilter_list)
-        if(filter_data.length > 0){
-            this.setState({ players_data:filter_data ,search_player_data:filter_data})
-        }
-        else{
-            this.setState({ players_data:[] ,search_player_data:[]})
+        if (filter_data.length > 0) {
+            this.setState({players_data: filter_data, search_player_data: filter_data})
+        } else {
+            this.setState({players_data: [], search_player_data: []})
         }
         this.setState({
-            allBtn:false,
-            allClearBtn:false,
-            kBtn:!this.state.kBtn,
+            allBtn: false,
+            allClearBtn: false,
+            kBtn: !this.state.kBtn,
         })
-        if(nflFilter_list.length === 6){
+        if (nflFilter_list.length === 6) {
             this.setState({
-                allBtn:true
+                allBtn: true
             })
         }
     }
 
-    dstFilters = () =>{
-        if(dstActive){
-            nflFilter_list=this.removeArray(nflFilter_list, 'dst');
-        }
-        else {
+    dstFilters = () => {
+        if (dstActive) {
+            nflFilter_list = this.removeArray(nflFilter_list, 'dst');
+        } else {
             nflFilter_list.push('dst')
         }
         dstActive = !dstActive
         let filter_data = this.nflFilterObj(nflFilter_list)
-        if(filter_data.length > 0){
-            this.setState({ players_data:filter_data ,search_player_data:filter_data})
-        }
-        else{
-            this.setState({ players_data:[] ,search_player_data:[]})
+        if (filter_data.length > 0) {
+            this.setState({players_data: filter_data, search_player_data: filter_data})
+        } else {
+            this.setState({players_data: [], search_player_data: []})
         }
         this.setState({
-            allBtn:false,
-            allClearBtn:false,
-            dstBtn:!this.state.dstBtn,
+            allBtn: false,
+            allClearBtn: false,
+            dstBtn: !this.state.dstBtn,
         })
-        if(nflFilter_list.length === 6){
+        if (nflFilter_list.length === 6) {
             this.setState({
-                allBtn:true
+                allBtn: true
             })
         }
     }
 
-    sgFilters(){
-        if(sgActive){
-            filter_list=this.removeArray(filter_list, 'sg');
-        }
-        else {
+    sgFilters() {
+        if (sgActive) {
+            filter_list = this.removeArray(filter_list, 'sg');
+        } else {
             filter_list.push('sg')
         }
         sgActive = !sgActive
         let filter_data = this.filterObj(filter_list)
-        if(filter_data.length > 0){
-            this.setState({ players_data:filter_data ,search_player_data:filter_data})
-        }
-        else{
-            this.setState({ players_data:[] ,search_player_data:[]})
+        if (filter_data.length > 0) {
+            this.setState({players_data: filter_data, search_player_data: filter_data})
+        } else {
+            this.setState({players_data: [], search_player_data: []})
         }
         this.setState({
-            allBtn:false,
-            allClearBtn:false,
-            sgBtn:!this.state.sgBtn,
+            allBtn: false,
+            allClearBtn: false,
+            sgBtn: !this.state.sgBtn,
         })
-        if(filter_list.length === 5){
+        if (filter_list.length === 5) {
             this.setState({
-                allBtn:true
+                allBtn: true
             })
         }
     }
 
-    sfFilters(){
-        if(sfActive){
-            filter_list=this.removeArray(filter_list, 'sf');
-        }
-        else {
+    sfFilters() {
+        if (sfActive) {
+            filter_list = this.removeArray(filter_list, 'sf');
+        } else {
             filter_list.push('sf')
         }
         sfActive = !sfActive
         let filter_data = this.filterObj(filter_list)
-        if(filter_data.length > 0){
-            this.setState({ players_data:filter_data ,search_player_data:filter_data})
-        }
-        else{
-            this.setState({ players_data:[] ,search_player_data:[]})
+        if (filter_data.length > 0) {
+            this.setState({players_data: filter_data, search_player_data: filter_data})
+        } else {
+            this.setState({players_data: [], search_player_data: []})
         }
         this.setState({
-            allBtn:false,
-            allClearBtn:false,
-            sfBtn:!this.state.sfBtn,
+            allBtn: false,
+            allClearBtn: false,
+            sfBtn: !this.state.sfBtn,
         })
-        if(filter_list.length === 5){
+        if (filter_list.length === 5) {
             this.setState({
-                allBtn:true
+                allBtn: true
             })
         }
     }
 
-    pfFilters(){
-        if(pfActive){
-            filter_list=this.removeArray(filter_list, 'pf');
-        }
-        else {
+    pfFilters() {
+        if (pfActive) {
+            filter_list = this.removeArray(filter_list, 'pf');
+        } else {
             filter_list.push('pf')
         }
         pfActive = !pfActive
         let filter_data = this.filterObj(filter_list)
-        if(filter_data.length > 0){
-            this.setState({ players_data:filter_data ,search_player_data:filter_data})
-        }
-        else{
-            this.setState({ players_data:[] ,search_player_data:[]})
+        if (filter_data.length > 0) {
+            this.setState({players_data: filter_data, search_player_data: filter_data})
+        } else {
+            this.setState({players_data: [], search_player_data: []})
         }
         this.setState({
-            allBtn:false,
-            allClearBtn:false,
-            pfBtn:!this.state.pfBtn,
+            allBtn: false,
+            allClearBtn: false,
+            pfBtn: !this.state.pfBtn,
         })
-        if(filter_list.length === 5){
+        if (filter_list.length === 5) {
             this.setState({
-                allBtn:true
+                allBtn: true
             })
         }
 
     }
 
-    cFilters(){
-        if(cActive){
-            filter_list=this.removeArray(filter_list, 'c');
-        }
-       else {
+    cFilters() {
+        if (cActive) {
+            filter_list = this.removeArray(filter_list, 'c');
+        } else {
             filter_list.push('c')
         }
         cActive = !cActive
         let filter_data = this.filterObj(filter_list)
-        if(filter_data.length > 0){
-            this.setState({ players_data:filter_data ,search_player_data:filter_data})
-        }
-        else{
-            this.setState({ players_data:[] ,search_player_data:[]})
+        if (filter_data.length > 0) {
+            this.setState({players_data: filter_data, search_player_data: filter_data})
+        } else {
+            this.setState({players_data: [], search_player_data: []})
         }
         this.setState({
-            allBtn:false,
-            allClearBtn:false,
-            cBtn:!this.state.cBtn,
+            allBtn: false,
+            allClearBtn: false,
+            cBtn: !this.state.cBtn,
         })
-        if(filter_list.length === 5){
+        if (filter_list.length === 5) {
             this.setState({
-                allBtn:true
+                allBtn: true
             })
         }
     }
 
-    allSelectFilter(){
+    allSelectFilter() {
         sessionStorage.setItem('pageReset', "true0")
-        if(this.state.nflAction){
+        if (this.state.nflAction) {
             nflFilter_list = ['qb', 'rb', 'wr', 'te', 'k', 'dst']
-            qbActive=true
-            rbActive=true
-            wrActive=true
-            teActive=true
-            kActive=true
-            dstActive=true
+            qbActive = true
+            rbActive = true
+            wrActive = true
+            teActive = true
+            kActive = true
+            dstActive = true
             this.setState({
                 players_data: this.state.init_data,
-                search_player_data:this.state.init_data,
-                allBtn:true,
-                allClearBtn:false,
-                qbBtn:true,
-                rbBtn:true,
-                wrBtn:true,
-                teBtn:true,
-                kBtn:true,
-                dstBtn:true,
-                qbActive:true,
-                rbActive:true,
-                wrActive:true,
-                teActive:true,
-                kActive:true,
-                dstActive:true
+                search_player_data: this.state.init_data,
+                allBtn: true,
+                allClearBtn: false,
+                qbBtn: true,
+                rbBtn: true,
+                wrBtn: true,
+                teBtn: true,
+                kBtn: true,
+                dstBtn: true,
+                qbActive: true,
+                rbActive: true,
+                wrActive: true,
+                teActive: true,
+                kActive: true,
+                dstActive: true
+            }, () => {
+                console.log("All Select Filters Players_data", this.state.players_data)
             })
-        }
-        else{
+        } else {
             filter_list = ['pg', 'sg', 'sf', 'pf', 'c']
-            pgActive=true
-            sgActive=true
-            sfActive=true
-            pfActive=true
-            cActive=true
+            pgActive = true
+            sgActive = true
+            sfActive = true
+            pfActive = true
+            cActive = true
             this.setState({
                 players_data: this.state.init_data,
-                search_player_data:this.state.init_data,
-                allBtn:true,
-                allClearBtn:false,
-                pgBtn:true,
-                sgBtn:true,
-                sfBtn:true,
-                pfBtn:true,
-                cBtn:true,
-                pgActive:true,
-                sgActive:true,
-                sfActive:true,
-                pfActive:true,
-                cActive:true
+                search_player_data: this.state.init_data,
+                allBtn: true,
+                allClearBtn: false,
+                pgBtn: true,
+                sgBtn: true,
+                sfBtn: true,
+                pfBtn: true,
+                cBtn: true,
+                pgActive: true,
+                sgActive: true,
+                sfActive: true,
+                pfActive: true,
+                cActive: true
+            }, () => {
+                console.log("All Select Filters Players_data", this.state.players_data)
             })
         }
     }
 
-    allClearFilter(){
-        if(this.state.nflAction){
-            qbActive=false
-            rbActive=false
-            wrActive=false
-            teActive=false
-            kActive=false
-            dstActive=false
+    allClearFilter() {
+        if (this.state.nflAction) {
+            qbActive = false
+            rbActive = false
+            wrActive = false
+            teActive = false
+            kActive = false
+            dstActive = false
             nflFilter_list = []
             this.setState({
                 players_data: [],
-                search_player_data:[],
-                allBtn:false,
-                allClearBtn:true,
-                pgBtn:false,
-                sgBtn:false,
-                sfBtn:false,
-                pfBtn:false,
-                cBtn:false,
-                qbBtn:false,
-                rbBtn:false,
-                wrBtn:false,
-                teBtn:false,
-                kBtn:false,
-                dstBtn:false,})
-        }
-        else{
-            pgActive=false
-            sgActive=false
-            sfActive=false
-            pfActive=false
-            cActive=false
+                search_player_data: [],
+                allBtn: false,
+                allClearBtn: true,
+                pgBtn: false,
+                sgBtn: false,
+                sfBtn: false,
+                pfBtn: false,
+                cBtn: false,
+                qbBtn: false,
+                rbBtn: false,
+                wrBtn: false,
+                teBtn: false,
+                kBtn: false,
+                dstBtn: false,
+            }, () => {
+                console.log("All Clear Filter Players_data", this.state.players_data)
+                console.log(this.state.setData)
+            })
+        } else {
+            pgActive = false
+            sgActive = false
+            sfActive = false
+            pfActive = false
+            cActive = false
             filter_list = []
             this.setState({
                 players_data: [],
-                search_player_data:[],
-                allBtn:false,
-                allClearBtn:true,
-                pgBtn:false,
-                sgBtn:false,
-                sfBtn:false,
-                pfBtn:false,
-                cBtn:false,
-                qbBtn:false,
-                rbBtn:false,
-                wrBtn:false,
-                teBtn:false,
-                kBtn:false,
-                dstBtn:false,})
+                search_player_data: [],
+                allBtn: false,
+                allClearBtn: true,
+                pgBtn: false,
+                sgBtn: false,
+                sfBtn: false,
+                pfBtn: false,
+                cBtn: false,
+                qbBtn: false,
+                rbBtn: false,
+                wrBtn: false,
+                teBtn: false,
+                kBtn: false,
+                dstBtn: false,
+            }, () => {
+                console.log("All Clear Filter Players_data", this.state.players_data)
+                console.log(this.state.setData)
+            })
         }
     }
 
-    resetData(){
-        toast("⭐ Populating fields...",{closeOnClick: true});
+    resetData() {
+        toast("⭐ Populating fields...", {closeOnClick: true});
         let data;
-        data= {user:{id:'Master'},
-            sportView:this.state.is_nbaNfl}
-        this.setState({update_data:true})
+        data = {
+            user: {id: 'Master'},
+            sportView: this.state.is_nbaNfl
+        }
+        this.setState({update_data: true})
 
         let payload = {
-            data:data
+            data: data
         }
         // player stats api calling
         let url = '/Prod/get-player-stats'
         this.api.GetApi(url, payload)
             .then((res) => {
                 let response_data = JSON.parse(res.request.response)
-                if (res.status === 200 ) {
-                    if(data.sportView === "NBA"){
-                        this.setState({players_data: response_data.body , init_data:response_data.body, slate_players_data:response_data.body })
-                        this.setState({ temp_filter_player:response_data.body})
-                        this.setState({loader:false})
+                if (res.status === 200) {
+                    if (data.sportView === "NBA") {
+                        this.setState({
+                            players_data: response_data.body,
+                            init_data: response_data.body,
+                            slate_players_data: response_data.body,
+                            temp_filter_player: response_data.body,
+                            loader: false
+                        }, () => {
+                            console.log('reset data NBA', this.state.players_data)
+                        })
                         this.allClearFilter()
                         this.allSelectFilter()
                     }
-                    if(data.sportView === "NFL"){
-                        this.setState({init_data:response_data.body, temp_filter_player:response_data.body, slate_players_data:response_data.body})
-                        this.setState({players_data: response_data.body})
-                        this.setState({loader:false})
+                    if (data.sportView === "NFL") {
+                        this.setState({
+                            init_data: response_data.body,
+                            temp_filter_player: response_data.body,
+                            slate_players_data: response_data.body,
+                            players_data: response_data.body,
+                            loader: false
+                        }, () => {
+                            console.log('reset data NFL', this.state.players_data)
+                        })
                         this.allClearFilter()
                         this.allSelectFilter()
                     }
                 } else if (res.request.status === 401) {
                     this.props.history.push('/signin')
-                    this.setState({loader:false})
+                    this.setState({loader: false})
                 } else {
                     console.log(res)
                 }
@@ -1264,165 +1315,279 @@ class DataNavBar extends React.Component {
         // this.allSelectFilter()
     }
 
-    handleChange (event) {
+    handleChange(event) {
         sessionStorage.setItem('pageReset', "true0")
         let searching_data = this.state.players_data
+
         function filterByValue(searching_data, term) {
             term = term.toLowerCase()
-            let ans = searching_data.filter(function(v,i) {
-                if((v.Name || v.Team) === undefined){
+            let ans = searching_data.filter(function (v, i) {
+                if ((v.Name || v.Team) === undefined) {
                     return false
-                }
-                else if (v.Name.toLowerCase().indexOf(term) >= 0) {
+                } else if (v.Name.toLowerCase().indexOf(term) >= 0) {
                     return true;
-                }
-                else
-                {
+                } else {
                     return v.Team.toLowerCase().indexOf(term) >= 0;
                 }
             });
             return ans
         }
+
         let search_filter = filterByValue(searching_data, event.target.value);
-        if(event.target.value.length>0)
-            this.setState({players_data:search_filter})
+        if (event.target.value.length > 0)
+            this.setState({players_data: search_filter})
         else
-            this.setState({players_data:this.state.search_player_data})
+            this.setState({players_data: this.state.search_player_data})
     }
 
     dkSalary = event => {
-        this.setState({salary:'dk'})
+        this.setState({salary: 'dk'})
     }
 
     fdSalary = event => {
-        this.setState({salary:'fd'})
+        this.setState({salary: 'fd'})
     }
 
-    handlePlayerStats = (playerStats) =>{
+    handlePlayerStats = (playerStats) => {
         this.setState({saveBtnSpinner: true})
         let payload = {
-                data:{playerStats: playerStats, user: {id: localStorage.getItem('username')}, sportView: this.state.is_nbaNfl}
+            data: {
+                playerStats: playerStats,
+                user: {id: localStorage.getItem('username')},
+                sportView: this.state.is_nbaNfl
             }
-            // player stats api calling
-            let url = '/Prod/save-player-stats'
-            this.api.PostApi(payload, url)
-                .then((res) => {
-                    if (res.status === 200 ) {
-                        toast.success("⭐ Data Saved Successfully...");
-                        this.setState({
-                            inputActive:true,
-                            saveBtnActive:true,
-                            saveBtnSpinner:false
-                        })
-                        // this.getPlayerState({"user": {"id": localStorage.getItem('username')}, "sportView": this.state.is_nbaNfl})
-                    } else if (res.request.status === 401) {
-                        this.props.history.push('/')
-                        this.setState({loader:false,spinner: false, saveBtnSpinner:false})
-                    } else {
-                        this.setState({loader:false,spinner: false, saveBtnSpinner:false})
-                        console.log(res)
-                    }
-                })
-                .catch((error) => {
-                    this.setState({loader:false,spinner: false, saveBtnSpinner:false})
-                    console.log(error);
-                })
-        this.setState({saveData:false})
+        }
+        // player stats api calling
+        let url = '/Prod/save-player-stats'
+        this.api.PostApi(payload, url)
+            .then((res) => {
+                if (res.status === 200) {
+                    toast.success("⭐ Data Saved Successfully...");
+                    this.setState({
+                        inputActive: true,
+                        saveBtnActive: true,
+                        saveBtnSpinner: false
+                    })
+                    // this.getPlayerState({"user": {"id": localStorage.getItem('username')}, "sportView": this.state.is_nbaNfl})
+                } else if (res.request.status === 401) {
+                    this.props.history.push('/')
+                    this.setState({loader: false, spinner: false, saveBtnSpinner: false})
+                } else {
+                    this.setState({loader: false, spinner: false, saveBtnSpinner: false})
+                    console.log(res)
+                }
+            })
+            .catch((error) => {
+                this.setState({loader: false, spinner: false, saveBtnSpinner: false})
+                console.log(error);
+            })
+        this.setState({saveData: false})
         this.setState({spinner: false})
     }
 
-    handleSimulations = () =>{
+    handleSimulations = () => {
         this.setState({
-            count:0
+            count: 0
         })
         toast.success("⭐ Simulation Started...");
         this.setState({simulationSpinner: true})
 
-            let payload = {
-                User: localStorage.getItem('username')
-            }
-            let url
-        if(this.state.is_nbaNfl === 'NFL') {
-            url = '/Prod/run-simulation-nfl'
+        let payload = {
+            User: localStorage.getItem('username')
         }
-        else{
+        let url
+        if (this.state.is_nbaNfl === 'NFL') {
+            url = '/Prod/run-simulation-nfl'
+        } else {
             url = '/Prod/run-simulation'
         }
         this.api.PostApi(payload, url)
             .then((res) => {
-                //let response_data = JSON.parse(res.request.response)
                 if (res.status === 200) {
                     this.setState({
-                        inputActive:true,
-                        saveBtnActive:true
+                        inputActive: true,
+                        saveBtnActive: true
                     })
-                    this.setState({simulationSpinner: false},()=>{toast("Populating Fields")})
-                } else if (res.request.status === 401) {
-                    this.props.history.push('/signin')
-                    this.setState({loader: false, simulationSpinner: false})
-                } else {
-                    this.setState({simulationSpinner: false, loader: false})
-                    console.log(res)
+                    // this.getPlayerState({
+                    //     "user": {"id": localStorage.getItem('username')},
+                    //     "sportView": this.state.is_nbaNfl
+                    // })
+                    var data = {
+                        "user": {"id": localStorage.getItem('username')},
+                        "sportView": this.state.is_nbaNfl
+                    }
+                    payload = {
+                        data
+                    }
+                    let url = '/Prod/get-player-stats'
+                    this.api.GetApi(url, payload)
+                        .then((res) => {
+                            this.setState({loader: false})
+                            let response_data = JSON.parse(res.request.response)
+                            if (res.status === 200) {
+                                if (data.sportView === "NBA") {
+                                    if (response_data.body.length === 0) {
+                                        this.setState({
+                                            loader: false,
+                                            players_data: this.state.temp_filter_player,
+                                            init_data: this.state.temp_filter_player,
+                                            slate_players_data: this.state.temp_filter_player
+                                        }, () => {
+                                            console.log('Get Players Data NBA', this.state.players_data)
+                                        })
+                                    } else {
+                                        this.setState({
+                                            players_data: response_data.body,
+                                            init_data: response_data.body,
+                                            slate_players_data: response_data.body,
+                                            temp_filter_player: response_data.body
+                                        }, () => {
+                                            console.log('Set Data Length', this.state.setData.length)
+                                            if (this.state.setData.size > 0) {
+                                                    this.getSetData(this.state.setData)
+                                                }
+                                            else {
+                                                if (this.state.is_nbaNfl === "NBA") {
+                                                    this.setState({players_data: this.filterObj(filter_list)}, () => {
+                                                        console.log("NBA Simulation players data", this.state.players_data)
+                                                    })
+                                                } else {
+                                                    this.setState({players_data: this.nflFilterObj(nflFilter_list)}, () => {
+                                                        console.log("NBA Simulation players data", this.state.players_data)
+                                                    })
+                                                }
+                                            }
+                                        })
+                                        this.setState({loader: false})
+                                    }
+
+                                }
+                                if (data.sportView === "NFL") {
+                                    if (response_data.body.length !== 0) {
+                                        this.setState({
+                                            players_data: response_data.body,
+                                            init_data: response_data.body,
+                                            temp_filter_player: response_data.body,
+                                            slate_players_data: response_data.body
+                                        }, () => {
+                                            console.log(this.state.setData.length)
+                                            if (this.state.setData.size > 0) {
+                                                    this.getSetData(this.state.setData)
+                                                }
+                                            else {
+                                                if (this.state.is_nbaNfl === "NBA") {
+                                                    this.setState({players_data: this.filterObj(filter_list)}, () => {
+                                                        console.log("NBA Simulation players data", this.state.players_data)
+                                                    })
+                                                } else {
+                                                    this.setState({players_data: this.nflFilterObj(nflFilter_list)}, () => {
+                                                        console.log("NBA Simulation players data", this.state.players_data)
+                                                    })
+                                                }
+                                            }
+                                        })
+                                    } else {
+                                        this.setState({
+                                            players_data: this.state.temp_filter_player,
+                                            init_data: this.state.temp_filter_player,
+                                            slate_players_data: this.state.temp_filter_player
+                                        }, () => {
+                                            console.log('Get Players Data NFL', this.state.players_data)
+                                        })
+                                    }
+                                    this.setState({loader: false})
+                                }
+                                // this.allSelectFilter()
+                            } else if (res.request.status === 401) {
+                                this.props.history.push('/signin')
+                                this.setState({loader: false})
+                            } else {
+                                console.log(res)
+                            }
+                        })
+                        .catch((error) => {
+                            console.log(error);
+                        })
+
+                    // if (this.state.setData.length > 0) {
+                    //     this.getSetData(this.state.setData)
+                    // }
+                    // else {
+                    //     if (this.state.is_nbaNfl === "NBA") {
+                    //         this.setState({players_data: this.filterObj(filter_list)}, () => {
+                    //             console.log("NBA Simulation players data", this.state.players_data)
+                    //         })
+                    //     } else {
+                    //         this.setState({players_data: this.nflFilterObj(nflFilter_list)}, () => {
+                    //             console.log("NBA Simulation players data", this.state.players_data)
+                    //         })
+                    //     }
+                    // }
+                    this.setState({simulationSpinner: false}, () => {
+                        toast("Populating Fields")
+                    })
                 }
-            }).then(()=>{this.getPlayerState({"user": {"id": localStorage.getItem('username')}, "sportView": this.state.is_nbaNfl})})
-            .catch((error) => {
-                this.setState({simulationSpinner: false, loader: false})
-                console.log(error);
-            })
+            }).catch()
+
+        // .then(()=>{
+        // this.getPlayerState({"user": {"id": localStorage.getItem('username')}, "sportView": this.state.is_nbaNfl})
+        // console.log(this.state.setData)
+        // console.log(filter_list)
+
         //setTimeout(() => { toast("⭐ Populating fields..."); }, 3000);
     }
 
-    handleSaveGameData = (props) =>{
+    handleSaveGameData = (props) => {
         console.log(props)
         this.setState({spinner: true})
         let payload = {
-            data:{playerStats: props, user: {id: localStorage.getItem('username')}, sportView: this.state.is_nbaNfl}
+            data: {playerStats: props, user: {id: localStorage.getItem('username')}, sportView: this.state.is_nbaNfl}
         }
         // player stats api calling
         let url = '/Prod/save-game-data'
         this.api.PostApi(payload, url)
             .then((res) => {
                 //let response_data = JSON.parse(res.request.response)
-                if (res.status === 200 ) {
+                if (res.status === 200) {
                     this.setState({
-                        simulationBtn:true,
-                        spinner:false
+                        simulationBtn: true,
+                        spinner: false
                     })
-                }
-                else if (res.request.status === 401) {
+                } else if (res.request.status === 401) {
                     this.props.history.push('/signin')
-                    this.setState({loader:false,spinner: false})
+                    this.setState({loader: false, spinner: false})
                 } else {
-                    this.setState({loader:false,spinner: false})
+                    this.setState({loader: false, spinner: false})
                     console.log(res)
                 }
             })
             .catch((error) => {
-                this.setState({loader:false,spinner: false})
+                this.setState({loader: false, spinner: false})
                 console.log(error);
             })
-        this.setState({saveData:false,spinner: false})
+        this.setState({saveData: false, spinner: false})
         toast.success("⭐ Apply to All Teams...");
 
     }
 
     render() {
-        if(this.state.loader){
+        if (this.state.loader) {
             return <Loader/>
-        }
-        else {
+        } else {
             return (
                 <>
                     <div className="container-fluid">
                         <div className="group-buttons">
                             <div className="common-button">
                                 <div className="btn-group ">
-                                    <label className={this.state.inputActive ? "btn btn-primary ad-group-btn":"btn btn-primary active ad-group-btn"}>
+                                    <label
+                                        className={this.state.inputActive ? "btn btn-primary ad-group-btn" : "btn btn-primary active ad-group-btn"}>
                                         <input type="radio" name="options" autoComplete="off" defaultChecked
                                                onClick={this.customDfs}/>
                                         <span className="btn-text">CustomDFS Data</span>
                                     </label>
-                                    <label className={this.state.inputActive ? "btn btn-primary active ad-group-btn" : "btn btn-primary ad-group-btn"}>
+                                    <label
+                                        className={this.state.inputActive ? "btn btn-primary active ad-group-btn" : "btn btn-primary ad-group-btn"}>
                                         <input type="radio" name="options" autoComplete="off" onClick={this.myData}/>
                                         <span className="btn-text">My Data</span>
                                     </label>
@@ -1431,13 +1596,16 @@ class DataNavBar extends React.Component {
                             <div className="common-button">
                                 <div className="btn-group btn-group-toggle" data-toggle="buttons">
                                     <label className="btn btn-primary active ad-group-btn">
-                                        <input type="radio" name="options" autoComplete="off" checked onClick={this.dkSalary}/>
-                                        <span className="btn-img"> <img src={btn_img2} className="btn-img-logo" alt="Image2"/></span>
+                                        <input type="radio" name="options" autoComplete="off" checked
+                                               onClick={this.dkSalary}/>
+                                        <span className="btn-img"> <img src={btn_img2} className="btn-img-logo"
+                                                                        alt="Image2"/></span>
                                         <span className="btn-text"> DK</span>
                                     </label>
                                     <label className="btn btn-primary ad-group-btn">
                                         <input type="radio" name="options" autoComplete="off" onClick={this.fdSalary}/>
-                                        <span className="btn-img"> <img src={btn_img1} className="btn-img-logo" alt="Image1"/></span>
+                                        <span className="btn-img"> <img src={btn_img1} className="btn-img-logo"
+                                                                        alt="Image1"/></span>
                                         <span className="btn-text"> FD</span>
                                     </label>
                                 </div>
@@ -1449,20 +1617,26 @@ class DataNavBar extends React.Component {
                                     inputActive={this.state.inputActive}
                                     onSaveGameData={this.handleSaveGameData}
                                     is_nbaNfl={this.state.is_nbaNfl}
-                                    setData = {this.getSetData}
-                                    slate_teams = { this.slate_teams }
-                                    salary = {this.state.salary}
-                                    slate_data = {this.state.slate_data}
-                                    nba_slate_data={ this.state.nba_slate_data }
-                                    nfl_players_data = {this.state.slate_players_data}
+                                    setData={this.getSetData}
+                                    slate_teams={this.slate_teams}
+                                    salary={this.state.salary}
+                                    slate_data={this.state.slate_data}
+                                    nba_slate_data={this.state.nba_slate_data}
+                                    nfl_players_data={this.state.slate_players_data}
                                 />
                             </div>
                             <div className="common-button ">
-                                <div className="btn-group" >
-                                    <label className={`${this.state.allBtn ? 'btn btn-primary active ad-group-btn' : 'btn btn-primary ad-group-btn'}`} onClick={()=>{this.allSelectFilter('nfl')}}>
+                                <div className="btn-group">
+                                    <label
+                                        className={`${this.state.allBtn ? 'btn btn-primary active ad-group-btn' : 'btn btn-primary ad-group-btn'}`}
+                                        onClick={() => {
+                                            this.allSelectFilter('nfl')
+                                        }}>
                                         <span className="btn-text"> All</span>
                                     </label>
-                                    <label className={`${this.state.allClearBtn ? 'btn btn-primary active ad-group-btn' : 'btn btn-primary ad-group-btn'}`} onClick={this.allClearFilter}>
+                                    <label
+                                        className={`${this.state.allClearBtn ? 'btn btn-primary active ad-group-btn' : 'btn btn-primary ad-group-btn'}`}
+                                        onClick={this.allClearFilter}>
                                         <span className="btn-text"> Clear</span>
                                     </label>
                                     {this.state.nflAction ?
@@ -1500,23 +1674,31 @@ class DataNavBar extends React.Component {
                                         </>
                                         :
                                         <>
-                                        <label
-                                            className={`${this.state.pgBtn ? 'btn btn-primary active ad-group-btn' : 'btn btn-primary ad-group-btn'}`}
-                                            onClick={this.pgFilters}>
-                                            <span className="btn-text"> pg</span>
-                                        </label>
-                                        <label className={`${this.state.sgBtn ? 'btn btn-primary active ad-group-btn' : 'btn btn-primary ad-group-btn'}`} onClick={this.sgFilters}>
-                                        <span className="btn-text"> sg</span>
-                                        </label>
-                                        <label className={`${this.state.sfBtn ? 'btn btn-primary active ad-group-btn' : 'btn btn-primary ad-group-btn'}`} onClick={this.sfFilters}>
-                                        <span className="btn-text" > sf</span>
-                                        </label>
-                                        <label className={`${this.state.pfBtn ? 'btn btn-primary active ad-group-btn' : 'btn btn-primary ad-group-btn'}`} onClick={this.pfFilters}>
-                                        <span className="btn-text"> pf</span>
-                                        </label>
-                                        <label className={`${this.state.cBtn ? 'btn btn-primary active ad-group-btn' : 'btn btn-primary ad-group-btn'}`} onClick={this.cFilters}>
-                                        <span className="btn-text"> c</span>
-                                        </label>
+                                            <label
+                                                className={`${this.state.pgBtn ? 'btn btn-primary active ad-group-btn' : 'btn btn-primary ad-group-btn'}`}
+                                                onClick={this.pgFilters}>
+                                                <span className="btn-text"> pg</span>
+                                            </label>
+                                            <label
+                                                className={`${this.state.sgBtn ? 'btn btn-primary active ad-group-btn' : 'btn btn-primary ad-group-btn'}`}
+                                                onClick={this.sgFilters}>
+                                                <span className="btn-text"> sg</span>
+                                            </label>
+                                            <label
+                                                className={`${this.state.sfBtn ? 'btn btn-primary active ad-group-btn' : 'btn btn-primary ad-group-btn'}`}
+                                                onClick={this.sfFilters}>
+                                                <span className="btn-text"> sf</span>
+                                            </label>
+                                            <label
+                                                className={`${this.state.pfBtn ? 'btn btn-primary active ad-group-btn' : 'btn btn-primary ad-group-btn'}`}
+                                                onClick={this.pfFilters}>
+                                                <span className="btn-text"> pf</span>
+                                            </label>
+                                            <label
+                                                className={`${this.state.cBtn ? 'btn btn-primary active ad-group-btn' : 'btn btn-primary ad-group-btn'}`}
+                                                onClick={this.cFilters}>
+                                                <span className="btn-text"> c</span>
+                                            </label>
                                         </>
                                     }
                                 </div>
@@ -1550,16 +1732,16 @@ class DataNavBar extends React.Component {
                                         <Spinner/>
                                     </Button>
                                     :
-                                <Button
-                                    variant="contained"
-                                    color="primary"
-                                    className="btn btn-primary active ad-group-btn simulationSpinner"
-                                    onClick={this.SaveData}
-                                    disabled={!this.state.saveBtnActive}
-                                >
-                                    Save
-                                </Button>
-                                    }
+                                    <Button
+                                        variant="contained"
+                                        color="primary"
+                                        className="btn btn-primary active ad-group-btn simulationSpinner"
+                                        onClick={this.SaveData}
+                                        disabled={!this.state.saveBtnActive}
+                                    >
+                                        Save
+                                    </Button>
+                                }
                             </div>
                             <div className="common-button">
                                 {this.state.simulationSpinner ?
@@ -1602,4 +1784,5 @@ class DataNavBar extends React.Component {
         }
     }
 }
+
 export default DataNavBar

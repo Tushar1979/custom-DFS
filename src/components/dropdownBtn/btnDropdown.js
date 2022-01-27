@@ -71,11 +71,15 @@ export default function CustomizedMenus(props) {
         }
     };
     useEffect(() => {
-        setAllGameData(props.nfl_game_data)
-        setUpdateGameData(props.nfl_game_data)
-        allGameData.sort(function (a, b) {
+        setAllGameData(props.nfl_game_data.sort(function (a, b) {
             return new Date(a.DateTime) - new Date(b.DateTime);
-        });
+        }))
+        setUpdateGameData(props.nfl_game_data.sort(function (a, b) {
+            return new Date(a.DateTime) - new Date(b.DateTime);
+        }))
+        // allGameData.sort(function (a, b) {
+        //     return new Date(a.DateTime) - new Date(b.DateTime);
+        // });
     }, [])
     useEffect(() => {
         for (let i = 0; i < props.nfl_game_data.length; i++) {
@@ -290,28 +294,64 @@ export default function CustomizedMenus(props) {
         if(props.is_nbaNfl === 'NBA'){
             if (props.salary === 'dk') {
                 set.clear()
-                setAllGameData(props.nba_slate_data['DK'][e.target.value]['Games'])
-                for (var x = 0; x < props.nba_slate_data['DK'][e.target.value]['Games'].length; x++) {
-                    set.add(props.nba_slate_data['DK'][e.target.value]['Games'][x].AwayTeam)
-                    set.add(props.nba_slate_data['DK'][e.target.value]['Games'][x].HomeTeam)
+                setAllGameData(props.nba_slate_data['DK'][e.target.value]['Games'].sort(function (a, b) {
+                    return new Date(a.DateTime) - new Date(b.DateTime);
+                }))
+                // allGameData.sort(function (a, b) {
+                //     return new Date(a.DateTime) - new Date(b.DateTime);
+                // });
+                for (var y = 0; y < props.nba_slate_data['DK'][e.target.value]['Games'].length; y++) {
+                    set.add(props.nba_slate_data['DK'][e.target.value]['Games'][y].AwayTeam)
+                    set.add(props.nba_slate_data['DK'][e.target.value]['Games'][y].HomeTeam)
                 }
                 console.log(set)
-                var obj1 = props.nfl_players_data
-                var obj2 = props.nba_slate_data['DK'][e.target.value]['Players']
-                var new_arr = []
-                for (var i = 0; i < obj1.length; i++) {
-                    for (var j = 0; j < obj2.length; j++) {
-                        // console.log(obj1[i]['Id'], obj2[j]['id'])
-                        if (obj1[i]['Id'] === obj2[j]['id']) {
-                            obj1[i]['DraftKingsSalary'] = obj2[j]['salary']
-                            obj1[i]['DraftKingsPosition'] = obj2[j]['position']
-                            obj1[i]['Contest_Id'] = obj2[j]['contest_id']
-                            obj1[i]['Roster_slot'] = obj2[j]['roster_slot']
-                            new_arr.push(obj1[i])
+                var obj11 = props.nfl_players_data
+                var obj22 = props.nba_slate_data['DK'][e.target.value]['Players']
+                console.log(obj22)
+                var new_arr1 = []
+                for (var i = 0; i < obj11.length; i++) {
+                    for (var j = 0; j < obj22.length; j++) {
+                        if (obj11[i]['Id'] === obj22[j]['id']) {
+                            obj11[i]['DraftKingsSalary'] = obj22[j]['salary']
+                            obj11[i]['DraftKingsPosition'] = obj22[j]['position']
+                            obj11[i]['Contest_Id'] = obj22[j]['contest_id']
+                            obj11[i]['Roster_slot'] = obj22[j]['roster_slot']
+                            new_arr1.push(obj11[i])
                         }
                     }
                 }
                 console.log(set)
+                console.log(new_arr1)
+                props.slate_teams(new_arr1, set)
+                // props.setData(set)
+            }
+            else if (props.salary === 'fd') {
+                set.clear()
+                for (let i = 0; i < props.nba_slate_data['FD'][e.target.value]['Games'].length; i++) {
+                    set.add(props.nba_slate_data['FD'][e.target.value]['Games'][i].AwayTeam)
+                    set.add(props.nba_slate_data['FD'][e.target.value]['Games'][i].HomeTeam)
+                }
+                setAllGameData(props.nba_slate_data['FD'][e.target.value]['Games'].sort(function (a, b) {
+                    return new Date(a.DateTime) - new Date(b.DateTime);
+            }))
+            //     allGameData.sort(function (a, b) {
+            //         return new Date(a.DateTime) - new Date(b.DateTime);
+            // });
+                var obj1 = props.nfl_players_data
+                var obj2 = props.nba_slate_data['FD'][e.target.value]['Players']
+                var new_arr = []
+                for (var i = 0; i < obj1.length; i++) {
+                    for (var j = 0; j < obj2.length; j++) {
+                        if (obj1[i].Id === obj2[j].id) {
+                            obj1[i].FanDuelSalary = obj2[j].salary
+                            obj1[i].FanDuelPosition = obj2[j].position
+                            obj1[i].Contest_Id = obj2[j].contest_id
+                            obj1[i].Roster_slot = obj2[j].roster_slot
+                            new_arr.push(obj1[i])
+                        }
+                    }
+                }
+
                 props.slate_teams(new_arr, set)
                 // props.setData(set)
             }
@@ -319,7 +359,12 @@ export default function CustomizedMenus(props) {
         else if(props.is_nbaNfl === 'NFL'){
             if (props.salary === 'dk') {
                 set.clear()
-                setAllGameData(props.slate_data['DK'][e.target.value]['Games'])
+                setAllGameData(props.slate_data['DK'][e.target.value]['Games'].sort(function (a, b) {
+                    return new Date(a.DateTime) - new Date(b.DateTime);
+                }))
+                // allGameData.sort(function (a, b) {
+                //     return new Date(a.DateTime) - new Date(b.DateTime);
+                // });
                 for (var x = 0; x < props.slate_data['DK'][e.target.value]['Games'].length; x++) {
                     set.add(props.slate_data['DK'][e.target.value]['Games'][x].AwayTeam)
                     set.add(props.slate_data['DK'][e.target.value]['Games'][x].HomeTeam)
@@ -339,7 +384,6 @@ export default function CustomizedMenus(props) {
                         }
                     }
                 }
-                console.log(set)
                 props.slate_teams(new_arr, set)
                 // props.setData(set)
             }
@@ -349,7 +393,12 @@ export default function CustomizedMenus(props) {
                     set.add(props.slate_data['FD'][e.target.value]['Games'][i].AwayTeam)
                     set.add(props.slate_data['FD'][e.target.value]['Games'][i].HomeTeam)
                 }
-                setAllGameData(props.slate_data['FD'][e.target.value]['Games'])
+                setAllGameData(props.slate_data['FD'][e.target.value]['Games'].sort(function (a, b) {
+                    return new Date(a.DateTime) - new Date(b.DateTime);
+                }))
+            //     allGameData.sort(function (a, b) {
+            //         return new Date(a.DateTime) - new Date(b.DateTime);
+            // });
                 var obj1 = props.nfl_players_data
                 var obj2 = props.slate_data['FD'][e.target.value]['Players']
                 var new_arr = []
@@ -364,6 +413,7 @@ export default function CustomizedMenus(props) {
                         }
                     }
                 }
+
                 props.slate_teams(new_arr, set)
                 // props.setData(set)
             }
