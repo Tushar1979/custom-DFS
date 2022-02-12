@@ -28,11 +28,15 @@ export default function ExportToExcel ({ fileName, dataOf, salaryType,excelData 
         "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8";
     const fileExtension = ".xlsx";
     const exportToCSV = (apiData, fileName, dataOf, salaryType) => {
-        console.log(apiData)
-        console.log(salaryType)
-        console.log(dataOf)
-        if(dataOf === 'NFL'){
-            listData = [['QB', 'RB', 'RB', 'WR', 'WR', 'WR', 'TE', 'FLEX', 'DST']]
+
+        // if(dataOf === 'NFL' ){
+        //     listData = [['QB', 'RB', 'RB', 'WR', 'WR', 'WR', 'TE', 'FLEX', 'DST']]
+        // }
+        if(dataOf === 'NFL' && salaryType === 'dk'){
+            listData = [['CPT', 'FLEX', 'FLEX', 'FLEX', 'FLEX', 'FLEX']]
+        }
+        if(dataOf === 'NFL' && salaryType === 'fd'){
+            listData = [['MVP', 'FLEX', 'FLEX', 'FLEX', 'FLEX']]
         }
         if(dataOf === 'NBA' && salaryType === 'dk'){
             listData = [['PG', 'SG', 'SF', 'PF', 'C', 'G', 'F', 'UTIL']]
@@ -58,6 +62,8 @@ export default function ExportToExcel ({ fileName, dataOf, salaryType,excelData 
         FileSaver.saveAs(data, fileName + fileExtension);
     };
     return (
-        <button className="btn btn-primary active ad-group-btn" onClick={(e) => exportToCSV(apiData, fileName, dataOf, salaryType)}>Export</button>
+        <button className="btn btn-primary active ad-group-btn"
+                style={{position: "relative", top: "25%", left: "10%"}}
+                onClick={(e) => exportToCSV(apiData, fileName, dataOf, salaryType)}>Export</button>
     );
 };

@@ -670,11 +670,22 @@ export default function EnhancedTable(props) {
         })
             .then(res => {
                 console.log(res.data.Usage);
-                console.log(res.data.Lineups)
+                console.log(res.data.Lineups);
                 setOptimizerData(res.data.Lineups);
+                var data_players = res.data.Usage;
+                // var sorted = {}
+                    Object.keys(data_players).sort(function (a, b) {
+                        return data_players[b].percentage - data_players[a].percentage;
+                    }).forEach(function (key) {
+                        // sorted[key] = data_players;
+                    });
 
-                setPlayers(res.data.Usage)
-                setTempPlayers(res.data.Usage)
+
+                // console.log(sorted)
+                setPlayers(data_players)
+                // setPlayers(sorted)
+                setTempPlayers(data_players)
+                // setTempPlayers(sorted)
                 setSpinner(false)
             })
             .catch(err => console.log(err));
@@ -1002,79 +1013,173 @@ export default function EnhancedTable(props) {
                                         }}>C</TableCell>
                                     </>
                                 :
-                                <>
-                                    <TableCell colSpan={"2"} style={{
-                                        color: "white",
-                                        fontSize: "14px",
-                                        fontWeight: "bold",
-                                        textAlign: "center",
-                                        borderRight: "1px solid white",
-                                        padding: "15px"
-                                    }}>QB</TableCell>
-                                    <TableCell colSpan={"2"} style={{
-                                        color: "white",
-                                        fontSize: "14px",
-                                        fontWeight: "bold",
-                                        textAlign: "center",
-                                        borderRight: "1px solid white",
-                                        padding: "15px"
-                                    }}>RB</TableCell>
-                                    <TableCell colSpan={"2"} style={{
-                                        color: "white",
-                                        fontSize: "14px",
-                                        fontWeight: "bold",
-                                        textAlign: "center",
-                                        borderRight: "1px solid white",
-                                        padding: "15px"
-                                    }}>RB</TableCell>
-                                    <TableCell colSpan={"2"} style={{
-                                        color: "white",
-                                        fontSize: "14px",
-                                        fontWeight: "bold",
-                                        textAlign: "center",
-                                        borderRight: "1px solid white",
-                                        padding: "15px"
-                                    }}>WR</TableCell>
-                                    <TableCell colSpan={"2"} style={{
-                                        color: "white",
-                                        fontSize: "14px",
-                                        fontWeight: "bold",
-                                        textAlign: "center",
-                                        borderRight: "1px solid white",
-                                        padding: "15px"
-                                    }}>WR</TableCell>
-                                    <TableCell colSpan={"2"} style={{
-                                        color: "white",
-                                        fontSize: "14px",
-                                        fontWeight: "bold",
-                                        textAlign: "center",
-                                        borderRight: "1px solid white",
-                                        padding: "15px"
-                                    }}>WR</TableCell>
-                                    <TableCell colSpan={"2"} style={{
-                                        color: "white",
-                                        fontSize: "14px",
-                                        fontWeight: "bold",
-                                        textAlign: "center",
-                                        borderRight: "1px solid white",
-                                        padding: "15px"
-                                    }}>TE</TableCell>
-                                    <TableCell colSpan={"2"} style={{
-                                        color: "white",
-                                        fontSize: "14px",
-                                        fontWeight: "bold",
-                                        textAlign: "center",
-                                        borderRight: "1px solid white",
-                                        padding: "15px"
-                                    }}>FLEX</TableCell>
-                                    <TableCell colSpan={"2"} style={{
-                                        color: "white",
-                                        fontSize: "14px",
-                                        fontWeight: "bold",
-                                        textAlign: "center",
-                                        padding: "15px"
-                                    }}>DST</TableCell>
-                                </>
+                                props.salary === 'dk' ?
+                                    <>
+                                        {/*Old Changes for All the matches*/}
+                                        {/*<TableCell colSpan={"2"} style={{*/}
+                                        {/*    color: "white",*/}
+                                        {/*    fontSize: "14px",*/}
+                                        {/*    fontWeight: "bold",*/}
+                                        {/*    textAlign: "center",*/}
+                                        {/*    borderRight: "1px solid white",*/}
+                                        {/*    padding: "15px"*/}
+                                        {/*}}>QB</TableCell>*/}
+                                        {/*<TableCell colSpan={"2"} style={{*/}
+                                        {/*    color: "white",*/}
+                                        {/*    fontSize: "14px",*/}
+                                        {/*    fontWeight: "bold",*/}
+                                        {/*    textAlign: "center",*/}
+                                        {/*    borderRight: "1px solid white",*/}
+                                        {/*    padding: "15px"*/}
+                                        {/*}}>RB</TableCell>*/}
+                                        {/*<TableCell colSpan={"2"} style={{*/}
+                                        {/*    color: "white",*/}
+                                        {/*    fontSize: "14px",*/}
+                                        {/*    fontWeight: "bold",*/}
+                                        {/*    textAlign: "center",*/}
+                                        {/*    borderRight: "1px solid white",*/}
+                                        {/*    padding: "15px"*/}
+                                        {/*}}>RB</TableCell>*/}
+                                        {/*<TableCell colSpan={"2"} style={{*/}
+                                        {/*    color: "white",*/}
+                                        {/*    fontSize: "14px",*/}
+                                        {/*    fontWeight: "bold",*/}
+                                        {/*    textAlign: "center",*/}
+                                        {/*    borderRight: "1px solid white",*/}
+                                        {/*    padding: "15px"*/}
+                                        {/*}}>WR</TableCell>*/}
+                                        {/*<TableCell colSpan={"2"} style={{*/}
+                                        {/*    color: "white",*/}
+                                        {/*    fontSize: "14px",*/}
+                                        {/*    fontWeight: "bold",*/}
+                                        {/*    textAlign: "center",*/}
+                                        {/*    borderRight: "1px solid white",*/}
+                                        {/*    padding: "15px"*/}
+                                        {/*}}>WR</TableCell>*/}
+                                        {/*<TableCell colSpan={"2"} style={{*/}
+                                        {/*    color: "white",*/}
+                                        {/*    fontSize: "14px",*/}
+                                        {/*    fontWeight: "bold",*/}
+                                        {/*    textAlign: "center",*/}
+                                        {/*    borderRight: "1px solid white",*/}
+                                        {/*    padding: "15px"*/}
+                                        {/*}}>WR</TableCell>*/}
+                                        {/*<TableCell colSpan={"2"} style={{*/}
+                                        {/*    color: "white",*/}
+                                        {/*    fontSize: "14px",*/}
+                                        {/*    fontWeight: "bold",*/}
+                                        {/*    textAlign: "center",*/}
+                                        {/*    borderRight: "1px solid white",*/}
+                                        {/*    padding: "15px"*/}
+                                        {/*}}>TE</TableCell>*/}
+                                        {/*<TableCell colSpan={"2"} style={{*/}
+                                        {/*    color: "white",*/}
+                                        {/*    fontSize: "14px",*/}
+                                        {/*    fontWeight: "bold",*/}
+                                        {/*    textAlign: "center",*/}
+                                        {/*    borderRight: "1px solid white",*/}
+                                        {/*    padding: "15px"*/}
+                                        {/*}}>FLEX</TableCell>*/}
+                                        {/*<TableCell colSpan={"2"} style={{*/}
+                                        {/*    color: "white",*/}
+                                        {/*    fontSize: "14px",*/}
+                                        {/*    fontWeight: "bold",*/}
+                                        {/*    textAlign: "center",*/}
+                                        {/*    padding: "15px"*/}
+                                        {/*}}>DST</TableCell>*/}
+                                        <TableCell colSpan={"2"} style={{
+                                            color: "white",
+                                            fontSize: "14px",
+                                            fontWeight: "bold",
+                                            textAlign: "center",
+                                            borderRight: "1px solid white",
+                                            padding: "15px"
+                                        }}>CPT</TableCell>
+                                        <TableCell colSpan={"2"} style={{
+                                            color: "white",
+                                            fontSize: "14px",
+                                            fontWeight: "bold",
+                                            textAlign: "center",
+                                            borderRight: "1px solid white",
+                                            padding: "15px"
+                                        }}>FLEX</TableCell>
+                                        <TableCell colSpan={"2"} style={{
+                                            color: "white",
+                                            fontSize: "14px",
+                                            fontWeight: "bold",
+                                            textAlign: "center",
+                                            borderRight: "1px solid white",
+                                            padding: "15px"
+                                        }}>FLEX</TableCell>
+                                        <TableCell colSpan={"2"} style={{
+                                            color: "white",
+                                            fontSize: "14px",
+                                            fontWeight: "bold",
+                                            textAlign: "center",
+                                            borderRight: "1px solid white",
+                                            padding: "15px"
+                                        }}>FLEX</TableCell>
+                                        <TableCell colSpan={"2"} style={{
+                                            color: "white",
+                                            fontSize: "14px",
+                                            fontWeight: "bold",
+                                            textAlign: "center",
+                                            borderRight: "1px solid white",
+                                            padding: "15px"
+                                        }}>FLEX</TableCell>
+                                        <TableCell colSpan={"2"} style={{
+                                            color: "white",
+                                            fontSize: "14px",
+                                            fontWeight: "bold",
+                                            textAlign: "center",
+                                            borderRight: "1px solid white",
+                                            padding: "15px"
+                                        }}>FLEX</TableCell>
+
+                                    </> :
+                                    <>
+                                        <TableCell colSpan={"2"} style={{
+                                            color: "white",
+                                            fontSize: "14px",
+                                            fontWeight: "bold",
+                                            textAlign: "center",
+                                            borderRight: "1px solid white",
+                                            padding: "15px"
+                                        }}>MVP</TableCell>
+                                        <TableCell colSpan={"2"} style={{
+                                            color: "white",
+                                            fontSize: "14px",
+                                            fontWeight: "bold",
+                                            textAlign: "center",
+                                            borderRight: "1px solid white",
+                                            padding: "15px"
+                                        }}>FLEX</TableCell>
+                                        <TableCell colSpan={"2"} style={{
+                                            color: "white",
+                                            fontSize: "14px",
+                                            fontWeight: "bold",
+                                            textAlign: "center",
+                                            borderRight: "1px solid white",
+                                            padding: "15px"
+                                        }}>FLEX</TableCell>
+                                        <TableCell colSpan={"2"} style={{
+                                            color: "white",
+                                            fontSize: "14px",
+                                            fontWeight: "bold",
+                                            textAlign: "center",
+                                            borderRight: "1px solid white",
+                                            padding: "15px"
+                                        }}>FLEX</TableCell>
+                                        <TableCell colSpan={"2"} style={{
+                                            color: "white",
+                                            fontSize: "14px",
+                                            fontWeight: "bold",
+                                            textAlign: "center",
+                                            borderRight: "1px solid white",
+                                            padding: "15px"
+                                        }}>FLEX</TableCell>
+
+                                    </>
                             }
                         </TableRow>
                     </TableHead>
@@ -1185,19 +1290,21 @@ export default function EnhancedTable(props) {
 
                     <Item style={{"boxShadow": "none"}}>
 
-                        <div style={{position: "relative"}} className="optimizer">
+                        <div style={{position: "relative", top: "5%"}} className="optimizer">
                             {spinner === true ?
                                 <>
 
                                     <Button
                                         variant="contained"
                                         className="btn active ad-group-btn button-optimizer"
-                                        fullWidth style={{fontSize:"18px", backgroundColor:"red", color:"white"}}
+                                        fullWidth style={{fontSize: "18px", backgroundColor: "red", color: "white"}}
                                     >
                                         <Spinner/>
-                                        </Button>
+                                    </Button>
                                 </> : <>
-                                    <Button fullWidth style={{fontSize:"18px", backgroundColor:"red", color:"white"}} variant="contained" color="danger" className="btn active ad-group-btn button-optimizer"
+                                    <Button fullWidth style={{fontSize: "18px", backgroundColor: "red", color: "white"}}
+                                            variant="contained" color="danger"
+                                            className="btn active ad-group-btn button-optimizer"
                                             onClick={optimizer}
                                     >
                                         <span>OPTIMIZER </span></Button>
@@ -1210,7 +1317,7 @@ export default function EnhancedTable(props) {
                     <div className="inputbold">
                         <TextField id="outlined-search" label="Lineups"
                                    onChange={getData}
-                                   variant="outlined"/>
+                                   variant="outlined" style={{paddingBottom: "3%"}} />
                     </div>
                     {/*</Item>*/}
                 </Grid>
@@ -1218,11 +1325,12 @@ export default function EnhancedTable(props) {
                 <Grid xs={3} style={{"boxShadow": "none"}}>
                     {/*<Item style={{"boxShadow":"none"}}>*/}
                     <FormControl>
-                        <InputLabel id="demo-simple-select-label" sx={{marginTop: -1}}> Choose Value </InputLabel>
+                        <InputLabel id="demo-simple-select-label" style={{marginLeft: "4%", fontSize: "100%"}}> Choose
+                            Value </InputLabel>
                         <Select
                             labelId="demo-simple-select-label"
                             id="demo-simple-select"
-                            style={{width: 273, padding: '0px', border: "1px solid black"}}
+                            style={{width: "22vw", padding: '0px', border: "1px solid black"}}
                             onChange={getChoose}
                         >
                             {/*{DK_keys.map((el) => (*/}
@@ -1242,11 +1350,11 @@ export default function EnhancedTable(props) {
                 </Grid>
                 <Grid xs={2}>
                     <ExportToExcel
-                                    fileName={'OptimizerExport'}
-                                    dataOf={props.is_nbaNfl}
-                                    salaryType={props.salary}
-                                    excelData={optimizerData}
-                                />
+                        fileName={'OptimizerExport'}
+                        dataOf={props.is_nbaNfl}
+                        salaryType={props.salary}
+                        excelData={optimizerData}
+                    />
                 </Grid>
             </Grid>
 
