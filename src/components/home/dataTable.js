@@ -674,17 +674,32 @@ export default function EnhancedTable(props) {
                 setOptimizerData(res.data.Lineups);
                 var data_players = res.data.Usage;
                 // var sorted = {}
-                    Object.keys(data_players).sort(function (a, b) {
-                        return data_players[b].percentage - data_players[a].percentage;
-                    }).forEach(function (key) {
-                        // sorted[key] = data_players;
-                    });
+                // data_players.forEach(data_player => {
+                //     data_player.sort(function (a,b){
+                //         return a.percentage - b.percentage;
+                //     })
+                //     console.log(data_player)
+                // })
+                var new_data_players = Object.values(data_players)
+                var done = false;
+                  while (!done) {
+                    done = true;
+                    for (var i = 1; i < new_data_players.length; i += 1) {
+                      if (new_data_players[i - 1].percentage > new_data_players[i].percentage) {
+                        done = false;
+                        var tmp = new_data_players[i - 1];
+                        new_data_players[i - 1] = new_data_players[i];
+                        new_data_players[i] = tmp;
+                      }
+                    }
+                  }
 
-
+                console.log(new_data_players.reverse());
+                  console.log(data_players);
                 // console.log(sorted)
-                setPlayers(data_players)
+                setPlayers(new_data_players.reverse())
                 // setPlayers(sorted)
-                setTempPlayers(data_players)
+                setTempPlayers(new_data_players.reverse())
                 // setTempPlayers(sorted)
                 setSpinner(false)
             })
@@ -695,7 +710,7 @@ export default function EnhancedTable(props) {
         return (
             <Card sx={{
                 width: "auto",
-                marginTop: "4.5%",
+                marginTop: "7%",
                 float: "left",
                 marginLeft: "1%",
                 position: "absolute",
@@ -841,7 +856,8 @@ export default function EnhancedTable(props) {
                 <Table style={{
                     border: "1px solid black",
                     overflow: "auto",
-                    display: "block",
+                    // display: "block",
+                    minWidth: '1240px',
                     whiteSpace: "nowrap",
                     tableLayout: "fixed"
                 }}>
@@ -1314,10 +1330,14 @@ export default function EnhancedTable(props) {
                 </Grid>
                 <Grid xs={2} style={{"boxShadow": "none"}}>
                     {/*<Item>*/}
-                    <div className="inputbold">
+                    <div className="inputbold" style={{
+                        position: "relative",
+                        top: "22%"}}>
+
                         <TextField id="outlined-search" label="Lineups"
                                    onChange={getData}
-                                   variant="outlined" style={{paddingBottom: "3%"}} />
+                                   variant="outlined" size="small"
+                        />
                     </div>
                     {/*</Item>*/}
                 </Grid>
@@ -1363,7 +1383,7 @@ export default function EnhancedTable(props) {
                     <>
                         {/*<Container style={{width:"100%"}}>*/}
                         {optimizerData.length > 0 ?
-                            <button style={{marginBottom: "1%", marginLeft: "1%", marginTop: "1%"}}
+                            <button style={{marginBottom: "1%", marginTop: "1%"}}
                                     className="button-playerData"
                                     aria-haspopup="true" onClick={playersUsed}>
                                 <span>PLAYERS DATA</span></button> : null}

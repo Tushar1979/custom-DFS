@@ -1706,7 +1706,8 @@ class DataNavBar extends React.Component {
 
                             <div className="common-button">
                                 <TextField id="outlined-search" label="Search Player" className="search_input"
-                                           type="search" variant="outlined" onChange={this.handleChange}/>
+                                           type="search" variant="outlined" onChange={this.handleChange}
+                                style={{bottom:"0%"}}/>
                             </div>
                             <div className="common-button">
                                 <ExportToExcel

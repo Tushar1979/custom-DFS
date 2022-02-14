@@ -107,9 +107,12 @@
     border-color: #123C6C;
 }
 .search_input .MuiOutlinedInput-input{
-    padding: 11.5px 14px;
-    min-width: 90px;
-    max-width: 110px;
+    /*padding: 11.5px 14px;*/
+    /*min-width: 90px;*/
+    /*max-width: 110px;*/
+    padding-bottom: 2%;
+    width: 100px;
+    padding-left: 15px;
 }
 
 .toasterStyle .Toastify__toast--default{

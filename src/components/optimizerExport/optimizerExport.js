@@ -63,7 +63,7 @@ export default function ExportToExcel ({ fileName, dataOf, salaryType,excelData 
     };
     return (
         <button className="btn btn-primary active ad-group-btn"
-                style={{position: "relative", top: "25%", left: "10%"}}
+                style={{position: "relative", top: "4%", left: "10%"}}
                 onClick={(e) => exportToCSV(apiData, fileName, dataOf, salaryType)}>Export</button>
     );
 };
