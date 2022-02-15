@@ -33,7 +33,7 @@
 .data_table tbody>tr>td{
     text-transform: uppercase;
     padding: 10px 0px;
-    text-align: center !important;
+    /*text-align: center !important;*/
     font-size: 12px;
 }
 
