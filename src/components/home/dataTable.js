@@ -157,8 +157,10 @@ const useStyles = makeStyles((theme) => ({
 
 
 export default function EnhancedTable(props) {
-    var [nflFilter_list, setnflFilter_list] = React.useState(['qb', 'rb', 'wr', 'te', 'k', 'dst'])
+    var [nflFilter_list, setnflFilter_list] = React.useState(['cpt', 'flex', 'qb', 'rb', 'wr', 'te', 'k', 'dst'])
     var [nbaFilter_list, setnbaFilter_list] = React.useState(['pg', 'sg', 'sf', 'pf', 'c'])
+    var [cptActive, setcptActive] = React.useState(true)
+    var [flexActive, setflexActive] = React.useState(true)
     var [qbActive, setqbActive] = React.useState(true)
     var [rbActive, setrbActive] = React.useState(true)
     var [wrActive, setwrActive] = React.useState(true)
@@ -205,6 +207,8 @@ export default function EnhancedTable(props) {
     const [cBtn, setcBtn] = React.useState(true)
 
 
+    const [cptBtn, setcptBtn] = React.useState(true)
+    const [flexBtn, setflexBtn] = React.useState(true)
     const [qbBtn, setqbBtn] = React.useState(true)
     const [rbBtn, setrbBtn] = React.useState(true)
     const [wrBtn, setwrBtn] = React.useState(true)
@@ -322,6 +326,8 @@ export default function EnhancedTable(props) {
     const nflFilterObj = (keyList) => {
         // sessionStorage.setItem('pageReset', "true0")
         let newArray
+        let cptArray
+        let flexArray
         let qbArray
         let rbArray
         let wrArray
@@ -331,6 +337,8 @@ export default function EnhancedTable(props) {
         let player_obj
         player_obj = tempPlayers
         newArray = {}
+        cptArray = {}
+        flexArray = {}
         qbArray = {}
         rbArray = {}
         wrArray = {}
@@ -339,7 +347,28 @@ export default function EnhancedTable(props) {
         dstArray = {}
 
         for (let i = 0; i < keyList.length; i++) {
-            if (keyList[i] === 'qb') {
+            if (keyList[i] === 'cpt') {
+                Object.keys(player_obj).map((item) => {
+                    if (player_obj[item].data.roster_slot === 'CPT') {
+                        cptArray[item] = player_obj[item]
+                        console.log(item)
+                        console.log(cptArray)
+                    }
+                    ;
+                })
+                console.log(player_obj)
+
+            } else if (keyList[i] === 'flex') {
+                Object.keys(player_obj).map((item) => {
+                    if (player_obj[item].data.roster_slot === 'FLEX') {
+                        flexArray[item] = player_obj[item]
+                        console.log(item)
+                        console.log(flexArray)
+                    }
+                    ;
+                })
+                console.log(player_obj)
+            } else if (keyList[i] === 'qb') {
                 Object.keys(player_obj).map((item) => {
                         if (player_obj[item].data.position === 'QB') {
                             qbArray[item] = player_obj[item]
@@ -387,7 +416,7 @@ export default function EnhancedTable(props) {
                 })
             }
         }
-        newArray = {...qbArray, ...rbArray, ...wrArray, ...teArray, ...kArray, ...dstArray}
+        newArray = {...cptArray, ...flexArray, ...qbArray, ...rbArray, ...wrArray, ...teArray, ...kArray, ...dstArray}
         return newArray
 
     }
@@ -404,7 +433,9 @@ export default function EnhancedTable(props) {
     const allSelectFilter = () => {
         // sessionStorage.setItem('pageReset', "true0")
         if (props.is_nbaNfl === 'NFL') {
-            setnflFilter_list(['qb', 'rb', 'wr', 'te', 'k', 'dst'])
+            setnflFilter_list(['cpt', 'flex', 'qb', 'rb', 'wr', 'te', 'k', 'dst'])
+            setcptActive(true)
+            setflexActive(true)
             setqbActive(true)
             setrbActive(true)
             setwrActive(true)
@@ -414,6 +445,8 @@ export default function EnhancedTable(props) {
             setPlayers(tempPlayers)
             setallBtn(true)
             setclearBtn(false)
+            setcptBtn(true)
+            setflexBtn(true)
             setqbBtn(true)
             setrbBtn(true)
             setwrBtn(true)
@@ -439,6 +472,8 @@ export default function EnhancedTable(props) {
     }
     const allClearFilter = () => {
         if (props.is_nbaNfl === 'NFL') {
+            setcptActive(false)
+            setflexActive(false)
             setqbActive(false)
             // qbActive = false
             setrbActive(false)
@@ -451,6 +486,8 @@ export default function EnhancedTable(props) {
             setPlayers({})
             setallBtn(false)
             setclearBtn(true)
+            setcptBtn(false)
+            setflexBtn(false)
             setqbBtn(false)
             setrbBtn(false)
             setwrBtn(false)
@@ -545,6 +582,41 @@ export default function EnhancedTable(props) {
         setcActive(!cActive)
     }
 
+    const cptFilters = () => {
+        if (cptActive === true) {
+            setnflFilter_list(removeArray(nflFilter_list, 'cpt'))
+        } else {
+            let new_arr = [...nflFilter_list]
+            new_arr.push('cpt')
+            setnflFilter_list(new_arr)
+        }
+        setallBtn(false)
+        setclearBtn(false)
+        setcptBtn(!cptBtn)
+        setcptActive(!cptActive)
+        if (nflFilter_list.length === 6) {
+            setallBtn(true)
+
+        }
+    }
+
+    const flexFilters = () => {
+        if (flexActive === true) {
+            setnflFilter_list(removeArray(nflFilter_list, 'flex'))
+        } else {
+            let new_arr = [...nflFilter_list]
+            new_arr.push('flex')
+            setnflFilter_list(new_arr)
+        }
+        setallBtn(false)
+        setclearBtn(false)
+        setflexBtn(!flexBtn)
+        setflexActive(!flexActive)
+        if (nflFilter_list.length === 6) {
+            setallBtn(true)
+
+        }
+    }
 
     const qbFilters = () => {
         if (qbActive === true) {
@@ -559,6 +631,7 @@ export default function EnhancedTable(props) {
         setqbBtn(!qbBtn)
         setqbActive(!qbActive)
     }
+
 
     const rbFilters = () => {
         if (rbActive === true) {
@@ -612,7 +685,7 @@ export default function EnhancedTable(props) {
     }
 
     const kFilters = () => {
-        if (teActive === true) {
+        if (kActive === true) {
             setnflFilter_list(removeArray(nflFilter_list, 'k'))
         } else {
             let new_arr = [...nflFilter_list]
@@ -621,8 +694,8 @@ export default function EnhancedTable(props) {
         }
         setallBtn(false)
         setclearBtn(false)
-        setkBtn(!kBtn)
-        setkActive(!kActive)
+        setkBtn(false)
+        setkActive(false)
         if (nflFilter_list.length === 6) {
             setallBtn(true)
         }
@@ -639,11 +712,54 @@ export default function EnhancedTable(props) {
         setallBtn(false)
         setclearBtn(false)
         setdstBtn(!dstBtn)
-        setkActive(!dstActive)
+        setdstActive(!dstActive)
         if (nflFilter_list.length === 6) {
             setallBtn(true)
         }
     }
+    // const cptData = () => {
+    //      setallBtn(false)
+    //     setclearBtn(false)
+    //     setcptBtn(!cptBtn)
+    //     setcptActive(!cptActive)
+    //     if (nflFilter_list.length === 6) {
+    //         setallBtn(true)
+    //
+    //     var data = {
+    //         'site': site,
+    //         'sport': sport,
+    //         'slate': slate,
+    //         'user': localStorage.getItem('username'),
+    //         'lineups': lineups
+    //     }
+    //     console.log(site)
+    //     console.log(sport)
+    //     console.log(slate)
+    //     console.log("started")
+    //     axios.post('https://o55cs4x9vi.execute-api.us-east-2.amazonaws.com/optimizer', {
+    //         'site': site.toUpperCase(),
+    //         'sport': sport,
+    //         'slate': slate,
+    //         // 'user': String(localStorage.getItem('username')),
+    //         'user': "Master",
+    //         'lineups': parseInt(lineups),
+    //         "parameter": choose
+    //     })
+    //         .then(res => {
+    //             console.log(res.data.Usage);
+    //             console.log(res.data.Lineups);
+    //             console.log(res.data.players);
+    //
+    //
+    //
+    //             // // console.log(sorted)
+    //             // setPlayers(new_data_players.reverse())
+    //             // // setPlayers(sorted)
+    //             // setTempPlayers(new_data_players.reverse())
+    //             // // setTempPlayers(sorted)
+    //
+    //         })
+    //         .catch(err => console.log(err));
 
     const optimizer = () => {
         setSpinner(true)
@@ -671,6 +787,10 @@ export default function EnhancedTable(props) {
             .then(res => {
                 console.log(res.data.Usage);
                 console.log(res.data.Lineups);
+                // console.log(res.data.Lineups);
+                (res.data.Lineups).map((player) => {
+                    console.log(player["Players"]);
+                })
                 setOptimizerData(res.data.Lineups);
                 var data_players = res.data.Usage;
                 // var sorted = {}
@@ -682,20 +802,20 @@ export default function EnhancedTable(props) {
                 // })
                 var new_data_players = Object.values(data_players)
                 var done = false;
-                  while (!done) {
+                while (!done) {
                     done = true;
                     for (var i = 1; i < new_data_players.length; i += 1) {
-                      if (new_data_players[i - 1].percentage > new_data_players[i].percentage) {
-                        done = false;
-                        var tmp = new_data_players[i - 1];
-                        new_data_players[i - 1] = new_data_players[i];
-                        new_data_players[i] = tmp;
-                      }
+                        if (new_data_players[i - 1].percentage > new_data_players[i].percentage) {
+                            done = false;
+                            var tmp = new_data_players[i - 1];
+                            new_data_players[i - 1] = new_data_players[i];
+                            new_data_players[i] = tmp;
+                        }
                     }
-                  }
+                }
 
                 console.log(new_data_players.reverse());
-                  console.log(data_players);
+                console.log(data_players);
                 // console.log(sorted)
                 setPlayers(new_data_players.reverse())
                 // setPlayers(sorted)
@@ -709,7 +829,7 @@ export default function EnhancedTable(props) {
     const PlayersComp = () => {
         return (
             <Card sx={{
-                width: "auto",
+                maxWidth: "100%",
                 marginTop: "7%",
                 float: "left",
                 marginLeft: "1%",
@@ -719,16 +839,16 @@ export default function EnhancedTable(props) {
             }}>
                 <CardContent style={{width: "100%"}}>
 
-                    <Card style={{overflow: "auto"}}>
+                    <Card style={{}}>
                         <Table>
-                            <TableHead style={{display: "fixed"}}>
+                            <TableHead style={{}}>
                                 <TableRow>
                                     <TableCell align={"center"} style={{backgroundColor: "darkblue", color: "white"}}>
                                         {Object.keys(tempPlayers).length} Players Used | {lineups} Lineups
                                     </TableCell>
                                 </TableRow>
                                 {props.is_nbaNfl === 'NBA' ? <>
-                                    <TableRow style={{display: "inline-flex", float: "left"}}>
+                                    <TableRow style={{ display: "inline-flex", float: "left"}}>
                                         <TableCell
                                             className={`${allBtn ? 'btn btn-primary active ad-group-btn' : 'btn btn-primary ad-group-btn'}`}
                                             onClick={allSelectFilter}>
@@ -766,7 +886,11 @@ export default function EnhancedTable(props) {
                                         </TableCell>
                                     </TableRow>
                                 </> : <>
-                                    <TableRow style={{display: "inline-flex", float: "left"}}>
+                                    <TableRow style={{display: 'flex',
+                                        float: 'left',
+                                        flexWrap: 'nowrap',
+                                        overflowX: 'scroll',
+                                        width: '383px'}}>
                                         <TableCell
                                             className={`${allBtn ? 'btn btn-primary active ad-group-btn' : 'btn btn-primary ad-group-btn'}`}
                                             onClick={allSelectFilter}>
@@ -776,6 +900,16 @@ export default function EnhancedTable(props) {
                                             className={`${clearBtn ? 'btn btn-primary active ad-group-btn' : 'btn btn-primary ad-group-btn'}`}
                                             onClick={allClearFilter}>
                                             <span className="btn-text"> CLEAR</span>
+                                        </TableCell>
+                                        <TableCell
+                                            className={`${cptBtn ? 'btn btn-primary active ad-group-btn' : 'btn btn-primary ad-group-btn'}`}
+                                            onClick={cptFilters}>
+                                            <span className="btn-text"> cpt</span>
+                                        </TableCell>
+                                        <TableCell
+                                            className={`${flexBtn ? 'btn btn-primary active ad-group-btn' : 'btn btn-primary ad-group-btn'}`}
+                                            onClick={flexFilters}>
+                                            <span className="btn-text"> flex</span>
                                         </TableCell>
                                         <TableCell
                                             className={`${qbBtn ? 'btn btn-primary active ad-group-btn' : 'btn btn-primary ad-group-btn'}`}
@@ -812,7 +946,7 @@ export default function EnhancedTable(props) {
 
                             </TableHead>
                         </Table>
-                        <div style={{overflow: 'auto', height: '45vh'}}>
+                        <div style={{overflow: 'auto', height: '300px'}}>
                             <Table>
                                 <TableBody style={{borderRadius: "10px", position: "relative"}}>
                                     {Object.keys(players).map((item, index) => (
@@ -852,14 +986,14 @@ export default function EnhancedTable(props) {
     const RenderCard = () => {
 
         return (
-            <>
+            <div className="table-responsive">
                 <Table style={{
                     border: "1px solid black",
                     overflow: "auto",
                     // display: "block",
                     minWidth: '1240px',
-                    whiteSpace: "nowrap",
-                    tableLayout: "fixed"
+                    whiteSpace: "nowrap"
+                    // tableLayout: "fixed"
                 }}>
                     <TableHead>
                         <TableRow style={{backgroundColor: "darkblue", width: "100%"}}>
@@ -1292,7 +1426,7 @@ export default function EnhancedTable(props) {
                         })
                     }
                 </Table>
-            </>
+            </div>
         )
 
     }
@@ -1332,7 +1466,8 @@ export default function EnhancedTable(props) {
                     {/*<Item>*/}
                     <div className="inputbold" style={{
                         position: "relative",
-                        top: "22%"}}>
+                        top: "22%"
+                    }}>
 
                         <TextField id="outlined-search" label="Lineups"
                                    onChange={getData}
