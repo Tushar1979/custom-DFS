@@ -157,10 +157,11 @@ const useStyles = makeStyles((theme) => ({
 
 
 export default function EnhancedTable(props) {
-    var [nflFilter_list, setnflFilter_list] = React.useState(['cpt', 'flex', 'qb', 'rb', 'wr', 'te', 'k', 'dst'])
+    var [nflFilter_list, setnflFilter_list] = React.useState(['cpt', 'flex', 'mvp', 'qb', 'rb', 'wr', 'te', 'k', 'dst'])
     var [nbaFilter_list, setnbaFilter_list] = React.useState(['pg', 'sg', 'sf', 'pf', 'c'])
     var [cptActive, setcptActive] = React.useState(true)
     var [flexActive, setflexActive] = React.useState(true)
+    var [mvpActive, setmvpActive] = React.useState(true)
     var [qbActive, setqbActive] = React.useState(true)
     var [rbActive, setrbActive] = React.useState(true)
     var [wrActive, setwrActive] = React.useState(true)
@@ -209,6 +210,7 @@ export default function EnhancedTable(props) {
 
     const [cptBtn, setcptBtn] = React.useState(true)
     const [flexBtn, setflexBtn] = React.useState(true)
+    const [mvpBtn, setmvpBtn] = React.useState(true)
     const [qbBtn, setqbBtn] = React.useState(true)
     const [rbBtn, setrbBtn] = React.useState(true)
     const [wrBtn, setwrBtn] = React.useState(true)
@@ -328,6 +330,7 @@ export default function EnhancedTable(props) {
         let newArray
         let cptArray
         let flexArray
+        let mvpArray
         let qbArray
         let rbArray
         let wrArray
@@ -339,6 +342,7 @@ export default function EnhancedTable(props) {
         newArray = {}
         cptArray = {}
         flexArray = {}
+        mvpArray = {}
         qbArray = {}
         rbArray = {}
         wrArray = {}
@@ -368,6 +372,18 @@ export default function EnhancedTable(props) {
                     ;
                 })
                 console.log(player_obj)
+
+            } else if (keyList[i] === 'mvp') {
+                Object.keys(player_obj).map((item) => {
+                    if (player_obj[item].data.roster_slot === 'MVP') {
+                        mvpArray[item] = player_obj[item]
+                        console.log(item)
+                        console.log(mvpArray)
+                    }
+                    ;
+                })
+                console.log(player_obj)
+
             } else if (keyList[i] === 'qb') {
                 Object.keys(player_obj).map((item) => {
                         if (player_obj[item].data.position === 'QB') {
@@ -416,7 +432,7 @@ export default function EnhancedTable(props) {
                 })
             }
         }
-        newArray = {...cptArray, ...flexArray, ...qbArray, ...rbArray, ...wrArray, ...teArray, ...kArray, ...dstArray}
+        newArray = {...cptArray, ...flexArray, ...mvpArray, ...qbArray, ...rbArray, ...wrArray, ...teArray, ...kArray, ...dstArray}
         return newArray
 
     }
@@ -433,9 +449,10 @@ export default function EnhancedTable(props) {
     const allSelectFilter = () => {
         // sessionStorage.setItem('pageReset', "true0")
         if (props.is_nbaNfl === 'NFL') {
-            setnflFilter_list(['cpt', 'flex', 'qb', 'rb', 'wr', 'te', 'k', 'dst'])
+            setnflFilter_list(['cpt', 'flex', 'mvp', 'qb', 'rb', 'wr', 'te', 'k', 'dst'])
             setcptActive(true)
             setflexActive(true)
+            setmvpActive(true)
             setqbActive(true)
             setrbActive(true)
             setwrActive(true)
@@ -447,6 +464,7 @@ export default function EnhancedTable(props) {
             setclearBtn(false)
             setcptBtn(true)
             setflexBtn(true)
+            setmvpBtn(true)
             setqbBtn(true)
             setrbBtn(true)
             setwrBtn(true)
@@ -474,6 +492,7 @@ export default function EnhancedTable(props) {
         if (props.is_nbaNfl === 'NFL') {
             setcptActive(false)
             setflexActive(false)
+            setmvpActive(false)
             setqbActive(false)
             // qbActive = false
             setrbActive(false)
@@ -488,6 +507,7 @@ export default function EnhancedTable(props) {
             setclearBtn(true)
             setcptBtn(false)
             setflexBtn(false)
+            setmvpBtn(false)
             setqbBtn(false)
             setrbBtn(false)
             setwrBtn(false)
@@ -612,6 +632,23 @@ export default function EnhancedTable(props) {
         setclearBtn(false)
         setflexBtn(!flexBtn)
         setflexActive(!flexActive)
+        if (nflFilter_list.length === 6) {
+            setallBtn(true)
+
+        }
+    }
+    const mvpFilters = () => {
+        if (mvpActive === true) {
+            setnflFilter_list(removeArray(nflFilter_list, 'mvp'))
+        } else {
+            let new_arr = [...nflFilter_list]
+            new_arr.push('mvp')
+            setnflFilter_list(new_arr)
+        }
+        setallBtn(false)
+        setclearBtn(false)
+        setmvpBtn(!mvpBtn)
+        setmvpActive(!mvpActive)
         if (nflFilter_list.length === 6) {
             setallBtn(true)
 
@@ -847,102 +884,166 @@ export default function EnhancedTable(props) {
                                         {Object.keys(tempPlayers).length} Players Used | {lineups} Lineups
                                     </TableCell>
                                 </TableRow>
-                                {props.is_nbaNfl === 'NBA' ? <>
-                                    <TableRow style={{ display: "inline-flex", float: "left"}}>
-                                        <TableCell
-                                            className={`${allBtn ? 'btn btn-primary active ad-group-btn' : 'btn btn-primary ad-group-btn'}`}
-                                            onClick={allSelectFilter}>
-                                            <span className="btn-text"> ALL</span>
-                                        </TableCell>
-                                        <TableCell
-                                            className={`${clearBtn ? 'btn btn-primary active ad-group-btn' : 'btn btn-primary ad-group-btn'}`}
-                                            onClick={allClearFilter}>
-                                            <span className="btn-text"> CLEAR</span>
-                                        </TableCell>
-                                        <TableCell
-                                            className={`${pgBtn ? 'btn btn-primary active ad-group-btn' : 'btn btn-primary ad-group-btn'}`}
-                                            onClick={pgFilters}>
-                                            <span className="btn-text"> PG</span>
-                                        </TableCell>
-                                        <TableCell
-                                            className={`${sgBtn ? 'btn btn-primary active ad-group-btn' : 'btn btn-primary ad-group-btn'}`}
-                                            onClick={sgFilters}>
-                                            <span className="btn-text"> SG</span>
-                                        </TableCell>
-                                        <TableCell
-                                            className={`${sfBtn ? 'btn btn-primary active ad-group-btn' : 'btn btn-primary ad-group-btn'}`}
-                                            onClick={sfFilters}>
-                                            <span className="btn-text"> SF</span>
-                                        </TableCell>
-                                        <TableCell
-                                            className={`${pfBtn ? 'btn btn-primary active ad-group-btn' : 'btn btn-primary ad-group-btn'}`}
-                                            onClick={pfFilters}>
-                                            <span className="btn-text"> PF</span>
-                                        </TableCell>
-                                        <TableCell
-                                            className={`${cBtn ? 'btn btn-primary active ad-group-btn' : 'btn btn-primary ad-group-btn'}`}
-                                            onClick={cFilters}>
-                                            <span className="btn-text"> C</span>
-                                        </TableCell>
-                                    </TableRow>
-                                </> : <>
-                                    <TableRow style={{display: 'flex',
-                                        float: 'left',
-                                        flexWrap: 'nowrap',
-                                        overflowX: 'scroll',
-                                        width: '383px'}}>
-                                        <TableCell
-                                            className={`${allBtn ? 'btn btn-primary active ad-group-btn' : 'btn btn-primary ad-group-btn'}`}
-                                            onClick={allSelectFilter}>
-                                            <span className="btn-text"> ALL</span>
-                                        </TableCell>
-                                        <TableCell
-                                            className={`${clearBtn ? 'btn btn-primary active ad-group-btn' : 'btn btn-primary ad-group-btn'}`}
-                                            onClick={allClearFilter}>
-                                            <span className="btn-text"> CLEAR</span>
-                                        </TableCell>
-                                        <TableCell
-                                            className={`${cptBtn ? 'btn btn-primary active ad-group-btn' : 'btn btn-primary ad-group-btn'}`}
-                                            onClick={cptFilters}>
-                                            <span className="btn-text"> cpt</span>
-                                        </TableCell>
-                                        <TableCell
-                                            className={`${flexBtn ? 'btn btn-primary active ad-group-btn' : 'btn btn-primary ad-group-btn'}`}
-                                            onClick={flexFilters}>
-                                            <span className="btn-text"> flex</span>
-                                        </TableCell>
-                                        <TableCell
-                                            className={`${qbBtn ? 'btn btn-primary active ad-group-btn' : 'btn btn-primary ad-group-btn'}`}
-                                            onClick={qbFilters}>
-                                            <span className="btn-text"> qb</span>
-                                        </TableCell>
-                                        <TableCell
-                                            className={`${rbBtn ? 'btn btn-primary active ad-group-btn' : 'btn btn-primary ad-group-btn'}`}
-                                            onClick={rbFilters}>
-                                            <span className="btn-text"> rb</span>
-                                        </TableCell>
-                                        <TableCell
-                                            className={`${wrBtn ? 'btn btn-primary active ad-group-btn' : 'btn btn-primary ad-group-btn'}`}
-                                            onClick={wrFilters}>
-                                            <span className="btn-text"> wr</span>
-                                        </TableCell>
-                                        <TableCell
-                                            className={`${teBtn ? 'btn btn-primary active ad-group-btn' : 'btn btn-primary ad-group-btn'}`}
-                                            onClick={teFilters}>
-                                            <span className="btn-text"> te</span>
-                                        </TableCell>
-                                        <TableCell
-                                            className={`${kBtn ? 'btn btn-primary active ad-group-btn' : 'btn btn-primary ad-group-btn'}`}
-                                            onClick={kFilters}>
-                                            <span className="btn-text"> k</span>
-                                        </TableCell>
-                                        <TableCell
-                                            className={`${dstBtn ? 'btn btn-primary active ad-group-btn' : 'btn btn-primary ad-group-btn'}`}
-                                            onClick={dstFilters}>
-                                            <span className="btn-text"> dst</span>
-                                        </TableCell>
-                                    </TableRow>
-                                </>}
+                                {props.is_nbaNfl === 'NBA' && props.salary === 'dk' ?(
+                                        <TableRow style={{display: "inline-flex", float: "left"}}>
+                                                <TableCell
+                                                    className={`${allBtn ? 'btn btn-primary active ad-group-btn' : 'btn btn-primary ad-group-btn'}`}
+                                                    onClick={allSelectFilter}>
+                                                    <span className="btn-text"> ALL</span>
+                                                </TableCell>
+                                                <TableCell
+                                                    className={`${clearBtn ? 'btn btn-primary active ad-group-btn' : 'btn btn-primary ad-group-btn'}`}
+                                                    onClick={allClearFilter}>
+                                                    <span className="btn-text"> CLEAR</span>
+                                                </TableCell>
+                                                <TableCell
+                                                    className={`${pgBtn ? 'btn btn-primary active ad-group-btn' : 'btn btn-primary ad-group-btn'}`}
+                                                    onClick={pgFilters}>
+                                                    <span className="btn-text"> PG</span>
+                                                </TableCell>
+                                                <TableCell
+                                                    className={`${sgBtn ? 'btn btn-primary active ad-group-btn' : 'btn btn-primary ad-group-btn'}`}
+                                                    onClick={sgFilters}>
+                                                    <span className="btn-text"> SG</span>
+                                                </TableCell>
+                                                <TableCell
+                                                    className={`${sfBtn ? 'btn btn-primary active ad-group-btn' : 'btn btn-primary ad-group-btn'}`}
+                                                    onClick={sfFilters}>
+                                                    <span className="btn-text"> SF</span>
+                                                </TableCell>
+                                                <TableCell
+                                                    className={`${pfBtn ? 'btn btn-primary active ad-group-btn' : 'btn btn-primary ad-group-btn'}`}
+                                                    onClick={pfFilters}>
+                                                    <span className="btn-text"> PF</span>
+                                                </TableCell>
+                                                <TableCell
+                                                    className={`${cBtn ? 'btn btn-primary active ad-group-btn' : 'btn btn-primary ad-group-btn'}`}
+                                                    onClick={cFilters}>
+                                                    <span className="btn-text"> C</span>
+                                                </TableCell>
+                                            </TableRow>
+                                        )
+                                        :
+                                        props.salary === 'dk' ?
+                                           (
+                                                <TableRow style={{
+                                                    display: 'flex',
+                                                    float: 'left',
+                                                    flexWrap: 'nowrap',
+                                                    overflowX: 'scroll',
+                                                    width: '383px'
+                                                }}>
+                                                    <TableCell
+                                                        className={`${allBtn ? 'btn btn-primary active ad-group-btn' : 'btn btn-primary ad-group-btn'}`}
+                                                        onClick={allSelectFilter}>
+                                                        <span className="btn-text"> ALL</span>
+                                                    </TableCell>
+                                                    <TableCell
+                                                        className={`${clearBtn ? 'btn btn-primary active ad-group-btn' : 'btn btn-primary ad-group-btn'}`}
+                                                        onClick={allClearFilter}>
+                                                        <span className="btn-text"> CLEAR</span>
+                                                    </TableCell>
+                                                    <TableCell
+                                                        className={`${cptBtn ? 'btn btn-primary active ad-group-btn' : 'btn btn-primary ad-group-btn'}`}
+                                                        onClick={cptFilters}>
+                                                        <span className="btn-text"> cpt</span>
+                                                    </TableCell>
+                                                    <TableCell
+                                                        className={`${flexBtn ? 'btn btn-primary active ad-group-btn' : 'btn btn-primary ad-group-btn'}`}
+                                                        onClick={flexFilters}>
+                                                        <span className="btn-text"> flex</span>
+                                                    </TableCell>
+                                                    <TableCell
+                                                        className={`${qbBtn ? 'btn btn-primary active ad-group-btn' : 'btn btn-primary ad-group-btn'}`}
+                                                        onClick={qbFilters}>
+                                                        <span className="btn-text"> qb</span>
+                                                    </TableCell>
+                                                    <TableCell
+                                                        className={`${rbBtn ? 'btn btn-primary active ad-group-btn' : 'btn btn-primary ad-group-btn'}`}
+                                                        onClick={rbFilters}>
+                                                        <span className="btn-text"> rb</span>
+                                                    </TableCell>
+                                                    <TableCell
+                                                        className={`${wrBtn ? 'btn btn-primary active ad-group-btn' : 'btn btn-primary ad-group-btn'}`}
+                                                        onClick={wrFilters}>
+                                                        <span className="btn-text"> wr</span>
+                                                    </TableCell>
+                                                    <TableCell
+                                                        className={`${teBtn ? 'btn btn-primary active ad-group-btn' : 'btn btn-primary ad-group-btn'}`}
+                                                        onClick={teFilters}>
+                                                        <span className="btn-text"> te</span>
+                                                    </TableCell>
+                                                    <TableCell
+                                                        className={`${kBtn ? 'btn btn-primary active ad-group-btn' : 'btn btn-primary ad-group-btn'}`}
+                                                        onClick={kFilters}>
+                                                        <span className="btn-text"> k</span>
+                                                    </TableCell>
+                                                    <TableCell
+                                                        className={`${dstBtn ? 'btn btn-primary active ad-group-btn' : 'btn btn-primary ad-group-btn'}`}
+                                                        onClick={dstFilters}>
+                                                        <span className="btn-text"> dst</span>
+                                                    </TableCell>
+                                                </TableRow>
+                                           ): (
+                                                <TableRow style={{
+                                                    display: 'flex',
+                                                    float: 'left',
+                                                    flexWrap: 'nowrap',
+                                                    overflowX: 'scroll',
+                                                    width: '383px'
+                                                }}>
+                                                    <TableCell
+                                                        className={`${allBtn ? 'btn btn-primary active ad-group-btn' : 'btn btn-primary ad-group-btn'}`}
+                                                        onClick={allSelectFilter}>
+                                                        <span className="btn-text"> ALL</span>
+                                                    </TableCell>
+                                                    <TableCell
+                                                        className={`${clearBtn ? 'btn btn-primary active ad-group-btn' : 'btn btn-primary ad-group-btn'}`}
+                                                        onClick={allClearFilter}>
+                                                        <span className="btn-text"> CLEAR</span>
+                                                    </TableCell>
+                                                    <TableCell
+                                                        className={`${flexBtn ? 'btn btn-primary active ad-group-btn' : 'btn btn-primary ad-group-btn'}`}
+                                                        onClick={flexFilters}>
+                                                        <span className="btn-text"> flex</span>
+                                                    </TableCell>
+                                                    <TableCell
+                                                        className={`${mvpBtn ? 'btn btn-primary active ad-group-btn' : 'btn btn-primary ad-group-btn'}`}
+                                                        onClick={mvpFilters}>
+                                                        <span className="btn-text"> mvp</span>
+                                                    </TableCell>
+                                                    <TableCell
+                                                        className={`${qbBtn ? 'btn btn-primary active ad-group-btn' : 'btn btn-primary ad-group-btn'}`}
+                                                        onClick={qbFilters}>
+                                                        <span className="btn-text"> qb</span>
+                                                    </TableCell>
+                                                    <TableCell
+                                                        className={`${rbBtn ? 'btn btn-primary active ad-group-btn' : 'btn btn-primary ad-group-btn'}`}
+                                                        onClick={rbFilters}>
+                                                        <span className="btn-text"> rb</span>
+                                                    </TableCell>
+                                                    <TableCell
+                                                        className={`${wrBtn ? 'btn btn-primary active ad-group-btn' : 'btn btn-primary ad-group-btn'}`}
+                                                        onClick={wrFilters}>
+                                                        <span className="btn-text"> wr</span>
+                                                    </TableCell>
+                                                    <TableCell
+                                                        className={`${teBtn ? 'btn btn-primary active ad-group-btn' : 'btn btn-primary ad-group-btn'}`}
+                                                        onClick={teFilters}>
+                                                        <span className="btn-text"> te</span>
+                                                    </TableCell>
+                                                    <TableCell
+                                                        className={`${kBtn ? 'btn btn-primary active ad-group-btn' : 'btn btn-primary ad-group-btn'}`}
+                                                        onClick={kFilters}>
+                                                        <span className="btn-text"> k</span>
+                                                    </TableCell>
+                                                    <TableCell
+                                                        className={`${dstBtn ? 'btn btn-primary active ad-group-btn' : 'btn btn-primary ad-group-btn'}`}
+                                                        onClick={dstFilters}>
+                                                        <span className="btn-text"> dst</span>
+                                                    </TableCell>
+                                                </TableRow>
+                                            )}
 
                             </TableHead>
                         </Table>
@@ -958,9 +1059,9 @@ export default function EnhancedTable(props) {
                                             >
                                                 <TableCell align="left"
                                                            style={{color: "white"}}>
-                                                <span
-                                                    className={props.is_nbaNfl === 'NFL' ? `${"NFL" + players[item]['data']['team_id']} nfl` : `${"NBA" + players[item]['data']['team_id']} nba`}></span>
-                                                    {players[item]['data']['name']}({players[item]['count']}){parseInt(players[item]['percentage'] * 100)}%
+                                    <span
+                                        className={props.is_nbaNfl === 'NFL' ? `${"NFL" + players[item]['data']['team_id']} nfl` : `${"NBA" + players[item]['data']['team_id']} nba`}></span>
+                                                    {players[item]['data']['name']}{" "}({players[item]['count']}){" "}{parseInt(players[item]['percentage'] * 100)}%
                                                 </TableCell>
                                             </TableRow>
                                         )
@@ -1447,12 +1548,21 @@ export default function EnhancedTable(props) {
                                     <Button
                                         variant="contained"
                                         className="btn active ad-group-btn button-optimizer"
-                                        fullWidth style={{fontSize: "18px", backgroundColor: "red", color: "white"}}
+                                        fullWidth style={{
+                                        fontSize: "18px",
+                                        backgroundColor: "red",
+                                        color: "white"
+                                    }}
                                     >
                                         <Spinner/>
                                     </Button>
                                 </> : <>
-                                    <Button fullWidth style={{fontSize: "18px", backgroundColor: "red", color: "white"}}
+                                    <Button fullWidth
+                                            style={{
+                                                fontSize: "18px",
+                                                backgroundColor: "red",
+                                                color: "white"
+                                            }}
                                             variant="contained" color="danger"
                                             className="btn active ad-group-btn button-optimizer"
                                             onClick={optimizer}
@@ -1480,7 +1590,8 @@ export default function EnhancedTable(props) {
                 <Grid xs={3} style={{"boxShadow": "none"}}>
                     {/*<Item style={{"boxShadow":"none"}}>*/}
                     <FormControl>
-                        <InputLabel id="demo-simple-select-label" style={{marginLeft: "4%", fontSize: "100%"}}> Choose
+                        <InputLabel id="demo-simple-select-label"
+                                    style={{marginLeft: "4%", fontSize: "100%"}}> Choose
                             Value </InputLabel>
                         <Select
                             labelId="demo-simple-select-label"
@@ -1692,7 +1803,7 @@ export default function EnhancedTable(props) {
         }
     }
 
-    //  NFL data updating
+    // NFL data updating
 
     const handleChangeCompletion = (e) => {
         let rowId = e.target.id
@@ -2228,11 +2339,13 @@ export default function EnhancedTable(props) {
                                                     key={row.name}
                                                     selected={isItemSelected}
                                                 >
-                                                    <TableCell id={labelId} scope="row" padding="none"
-                                                               className={classes.border} style={{
-                                                        "text-align-last": "left",
-                                                        "padding-left": "25px"
-                                                    }}>
+                                                    <TableCell id={labelId} scope="row"
+                                                               padding="none"
+                                                               className={classes.border}
+                                                               style={{
+                                                                   "text-align-last": "left",
+                                                                   "padding-left": "25px"
+                                                               }}>
 
                                                         {row.name}
                                                     </TableCell>
@@ -2243,17 +2356,23 @@ export default function EnhancedTable(props) {
                                                                    className={classes.border}>{row.fdPos}</TableCell>
                                                     }
 
-                                                    <TableCell align="center" className={classes.border}>
+                                                    <TableCell align="center"
+                                                               className={classes.border}>
                                                         {nft_header ?
-                                                            <div className={`${"NFL" + row.nflTeamId} nfl`}></div> :
-                                                            <div className={`${"NBA" + row.teamId}`}></div>
+                                                            <div
+                                                                className={`${"NFL" + row.nflTeamId} nfl`}></div> :
+                                                            <div
+                                                                className={`${"NBA" + row.teamId}`}></div>
                                                         }
                                                         {row.team}
                                                     </TableCell>
-                                                    <TableCell align="center" className={classes.border}>
+                                                    <TableCell align="center"
+                                                               className={classes.border}>
                                                         {nft_header ?
-                                                            <div className={`${"NFL" + row.oopId} nfl`}></div> :
-                                                            <div className={`${"NBA" + row.oopId}`}></div>
+                                                            <div
+                                                                className={`${"NFL" + row.oopId} nfl`}></div> :
+                                                            <div
+                                                                className={`${"NBA" + row.oopId}`}></div>
                                                         }
                                                         {row.oop} </TableCell>
                                                     {props.salary === 'dk' ?
@@ -2459,30 +2578,42 @@ export default function EnhancedTable(props) {
                                                                     </TableCell>
                                                                 </> :
                                                                 <>
-                                                                    <TableCell className={classes.border}
-                                                                               align="center">{row.completion} </TableCell>
-                                                                    <TableCell className={classes.border}
-                                                                               align="center">{row.passingattempts}</TableCell>
-                                                                    <TableCell className={classes.border}
-                                                                               align="center">{row.passingyards}</TableCell>
-                                                                    <TableCell className={classes.border}
-                                                                               align="center">{row.passingtouchdowns}</TableCell>
-                                                                    <TableCell className={classes.border}
-                                                                               align="center">{row.rushingattempts}</TableCell>
-                                                                    <TableCell className={classes.border}
-                                                                               align="center">{row.rushingyards}</TableCell>
-                                                                    <TableCell className={classes.border}
-                                                                               align="center">{row.rushingtouchdowns}</TableCell>
-                                                                    <TableCell className={classes.border}
-                                                                               align="center">{row.receptions}</TableCell>
-                                                                    <TableCell className={classes.border}
-                                                                               align="center">{row.receivingyards}</TableCell>
-                                                                    <TableCell className={classes.border}
-                                                                               align="center">{row.receivingtouchdowns}</TableCell>
-                                                                    <TableCell className={classes.border}
-                                                                               align="center">{row.fieldgoalsmade}</TableCell>
-                                                                    <TableCell className={classes.border}
-                                                                               align="center">{row.fieldgoalsattempted}</TableCell>
+                                                                    <TableCell
+                                                                        className={classes.border}
+                                                                        align="center">{row.completion} </TableCell>
+                                                                    <TableCell
+                                                                        className={classes.border}
+                                                                        align="center">{row.passingattempts}</TableCell>
+                                                                    <TableCell
+                                                                        className={classes.border}
+                                                                        align="center">{row.passingyards}</TableCell>
+                                                                    <TableCell
+                                                                        className={classes.border}
+                                                                        align="center">{row.passingtouchdowns}</TableCell>
+                                                                    <TableCell
+                                                                        className={classes.border}
+                                                                        align="center">{row.rushingattempts}</TableCell>
+                                                                    <TableCell
+                                                                        className={classes.border}
+                                                                        align="center">{row.rushingyards}</TableCell>
+                                                                    <TableCell
+                                                                        className={classes.border}
+                                                                        align="center">{row.rushingtouchdowns}</TableCell>
+                                                                    <TableCell
+                                                                        className={classes.border}
+                                                                        align="center">{row.receptions}</TableCell>
+                                                                    <TableCell
+                                                                        className={classes.border}
+                                                                        align="center">{row.receivingyards}</TableCell>
+                                                                    <TableCell
+                                                                        className={classes.border}
+                                                                        align="center">{row.receivingtouchdowns}</TableCell>
+                                                                    <TableCell
+                                                                        className={classes.border}
+                                                                        align="center">{row.fieldgoalsmade}</TableCell>
+                                                                    <TableCell
+                                                                        className={classes.border}
+                                                                        align="center">{row.fieldgoalsattempted}</TableCell>
                                                                 </>
                                                         )
 
@@ -2609,8 +2740,9 @@ export default function EnhancedTable(props) {
                                                                                className={classes.border}>{row.assists} </TableCell>
                                                                     <TableCell align="center"
                                                                                className={classes.border}>{row.steals} </TableCell>
-                                                                    <TableCell className={classes.border}
-                                                                               align="center">{row.blockedShots} </TableCell>
+                                                                    <TableCell
+                                                                        className={classes.border}
+                                                                        align="center">{row.blockedShots} </TableCell>
                                                                     <TableCell align="center"
                                                                                className={classes.border}>{row.to}</TableCell>
                                                                 </>
